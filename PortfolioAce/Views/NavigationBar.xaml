@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="PortfolioAce.Views.NavigationBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PortfolioAce.Views"
+             xmlns:nav="clr-namespace:PortfolioAce.Navigation"
+             mc:Ignorable="d" d:DesignWidth="800" Height="18">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="Home" Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Home}" />
+                <MenuItem Header="Settings">
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icon_settings.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Exit">
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icon_close.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Funds">
+                <MenuItem Header="Create a New Fund...">
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icon_add_fund.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="View Funds">
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icon_view_fund.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Tools">
+                <MenuItem Header="View Security Prices">
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icon_view_prices.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="View FX Rates">
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icon_view_fx.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Import Trades...">
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icon_import_trades.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Help">
+                <MenuItem Header="About" Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.About}" />
+            </MenuItem>
+        </Menu>
+    </DockPanel>
+</UserControl>
