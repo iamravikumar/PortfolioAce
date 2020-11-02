@@ -32,6 +32,7 @@ namespace PortfolioAce
 
             services.AddSingleton<IPortfolioAceViewModelAbstractFactory, PortfolioAceViewModelAbstractFactory>();
 
+            // Add viewmodels here
             services.AddSingleton<HomeViewModel>();
             services.AddSingleton<AboutViewModel>();
 
