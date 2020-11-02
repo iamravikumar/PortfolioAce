@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.Models;
 using PortfolioAce.ViewModels;
+using PortfolioAce.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,8 +25,11 @@ namespace PortfolioAce.Navigation
             }
         }
 
-        public ICommand UpdateCurrentViewModelCommand => new UpdateCurrentViewModelCommand(this);
+        public ICommand UpdateCurrentViewModelCommand { get; set; }
 
-
+        public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory)
+        {
+            UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
+        }
     }
 }

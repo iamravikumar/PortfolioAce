@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.ViewModels;
+using PortfolioAce.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -10,14 +11,15 @@ namespace PortfolioAce.Navigation
 {
     class UpdateCurrentViewModelCommand:ICommand
     {
-        public event EventHandler CanExecutedChanged;
         public event EventHandler CanExecuteChanged;
 
-        private INavigator _navigator;
+        private readonly INavigator _navigator;
+        private readonly IPortfolioAceViewModelAbstractFactory _viewModelFactory;
 
-        public UpdateCurrentViewModelCommand(INavigator navigator)
+        public UpdateCurrentViewModelCommand(INavigator navigator, IPortfolioAceViewModelAbstractFactory viewModelFactory)
         {
             _navigator = navigator;
+            _viewModelFactory = viewModelFactory;
         }
 
         public bool CanExecute(object parameter)
@@ -30,17 +32,7 @@ namespace PortfolioAce.Navigation
             if(parameter is ViewType)
             {
                 ViewType viewType = (ViewType)parameter;
-                switch (viewType)
-                {
-                    case ViewType.Home:
-                        _navigator.CurrentViewModel = new HomeViewModel();
-                        break;
-                    case ViewType.About:
-                        _navigator.CurrentViewModel = new AboutViewModel();
-                        break;
-                    default:
-                        break;
-                }
+                _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel(viewType);
             }
         }
     }

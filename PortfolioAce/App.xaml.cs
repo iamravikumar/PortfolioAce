@@ -1,4 +1,7 @@
-﻿using PortfolioAce.ViewModels;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PortfolioAce.Navigation;
+using PortfolioAce.ViewModels;
+using PortfolioAce.ViewModels.Factories;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -6,6 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+
 
 namespace PortfolioAce
 {
@@ -16,10 +20,23 @@ namespace PortfolioAce
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            Window window = new MainWindow();
-            window.DataContext = new MainViewModel();
+            IServiceProvider serviceProvider = CreateServiceProvider();
+            Window window =  serviceProvider.GetRequiredService<MainWindow>();
             window.Show();
             base.OnStartup(e);
+        }
+
+        private IServiceProvider CreateServiceProvider()
+        {
+            IServiceCollection services = new ServiceCollection();
+
+            services.AddSingleton<IPortfolioAceViewModelAbstractFactory, PortfolioAceViewModelAbstractFactory>();
+            services.AddScoped<INavigator, Navigator>();
+            services.AddScoped<MainViewModel>();
+
+            services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
+
+            return services.BuildServiceProvider();
         }
     }
 }
