@@ -38,14 +38,21 @@ namespace PortfolioAce.Navigation
             ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
             ShowAboutCommand = new ActionCommand(ShowAboutWindow);
             ShowImportTradesCommand = new ActionCommand(ShowImportTradesWindow);
+            CloseApplicationCommand = new ActionCommand(CloseApplication);
         }
 
+        public ICommand CloseApplicationCommand { get; }
         public ICommand UpdateCurrentViewModelCommand { get; set; }
         public ICommand ShowSettingsCommand { get; }
         public ICommand ShowNewFundCommand { get; }
         public ICommand ShowAboutCommand { get; }
         public ICommand ShowImportTradesCommand { get; }
 
+
+        public void CloseApplication()
+        {
+            Application.Current.MainWindow.Close();
+        }
         public void ShowImportTradesWindow()
         {
             Window view = new ImportTradesWindow();

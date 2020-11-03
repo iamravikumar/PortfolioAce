@@ -16,9 +16,9 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="Exit">
+                <MenuItem Header="Exit" Command="{Binding CloseApplicationCommand}">
                     <MenuItem.Icon>
-                        <Image Source="/PortfolioAce;component/Resources\icon_close.png"/>
+                        <Image Source="/PortfolioAce;component/Resources\icon_exit.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
