@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace PortfolioAce.Views
 {
     /// <summary>
-    /// Interaction logic for AboutView.xaml
+    /// Interaction logic for SystemFXRatesView.xaml
     /// </summary>
-    public partial class AboutView : UserControl
+    public partial class SystemFXRatesView : UserControl
     {
-        public AboutView()
+        public SystemFXRatesView()
         {
             InitializeComponent();
         }

@@ -9,14 +9,14 @@ namespace PortfolioAce.ViewModels.Factories
     {
 
         private readonly CreateViewModel<HomeViewModel> _createHomeViewModel;
-        private readonly CreateViewModel<AboutViewModel> _createAboutViewModel;
+
 
         public PortfolioAceViewModelAbstractFactory(
-            CreateViewModel<HomeViewModel> createHomeViewModel,
-            CreateViewModel<AboutViewModel> createAboutViewModel)
+            CreateViewModel<HomeViewModel> createHomeViewModel
+)
         {
             _createHomeViewModel = createHomeViewModel;
-            _createAboutViewModel = createAboutViewModel;
+
         }
 
         public ViewModelBase CreateViewModel(ViewType viewType)
@@ -26,8 +26,7 @@ namespace PortfolioAce.ViewModels.Factories
                 case ViewType.Home:
                     return _createHomeViewModel();
                     
-                case ViewType.About:
-                    return _createAboutViewModel();
+
                    
                 default:
                     throw new ArgumentException("The ViewType does not have a ViewModel", "viewType");

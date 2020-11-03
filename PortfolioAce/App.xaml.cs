@@ -34,17 +34,13 @@ namespace PortfolioAce
 
             // Add viewmodels here
             services.AddSingleton<HomeViewModel>();
-            services.AddSingleton<AboutViewModel>();
 
             services.AddSingleton<CreateViewModel<HomeViewModel>>(services =>
             {
                 return () => services.GetRequiredService<HomeViewModel>();
             });
 
-            services.AddSingleton<CreateViewModel<AboutViewModel>>(services =>
-            {
-                return () => services.GetRequiredService<AboutViewModel>();
-            });
+
             
             services.AddScoped<INavigator, Navigator>();
             services.AddScoped<MainViewModel>();

@@ -8,8 +8,8 @@ namespace PortfolioAce.Navigation
 {
     public enum ViewType
     {
-        Home,
-        About
+        Home
+        
     }
     public interface INavigator
     {
@@ -19,5 +19,6 @@ namespace PortfolioAce.Navigation
         void ShowSettingsWindow();
         void ShowNewFundWindow();
         void ShowAboutWindow();
+        void ShowImportTradesWindow();
     }
 }

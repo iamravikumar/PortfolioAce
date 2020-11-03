@@ -12,9 +12,6 @@
         <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
             <views:HomeView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodels:AboutViewModel}">
-            <views:AboutView/>
-        </DataTemplate>
     </Window.Resources>
     <Grid>
         <DockPanel>
