@@ -10,7 +10,7 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="Home" Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Home}" />
-                <MenuItem Header="Settings">
+                <MenuItem Header="Settings" Command="{Binding ShowSettingsCommand}">
                     <MenuItem.Icon>
                         <Image Source="/PortfolioAce;component/Resources\icon_settings.png"/>
                     </MenuItem.Icon>
@@ -23,7 +23,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Funds">
-                <MenuItem Header="Create a New Fund...">
+                <MenuItem Header="Create a New Fund..."  Command="{Binding ShowNewFundCommand}">
                     <MenuItem.Icon>
                         <Image Source="/PortfolioAce;component/Resources\icon_add_fund.png"/>
                     </MenuItem.Icon>
@@ -53,7 +53,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Header="About" Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.About}" />
+                <MenuItem Header="About" Command="{Binding ShowAboutCommand}" />
             </MenuItem>
         </Menu>
     </DockPanel>

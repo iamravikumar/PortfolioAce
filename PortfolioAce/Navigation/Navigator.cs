@@ -1,10 +1,14 @@
 ﻿using PortfolioAce.Models;
 using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;
+using PortfolioAce.ViewModels.Windows;
+using PortfolioAce.Views;
+using PortfolioAce.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Navigation
@@ -25,11 +29,49 @@ namespace PortfolioAce.Navigation
             }
         }
 
-        public ICommand UpdateCurrentViewModelCommand { get; set; }
 
         public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory)
         {
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
+            ShowSettingsCommand = new ActionCommand(ShowSettingsWindow);
+            ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
+            ShowAboutCommand = new ActionCommand(ShowAboutWindow);
+        }
+
+        public ICommand UpdateCurrentViewModelCommand { get; set; }
+        public ICommand ShowSettingsCommand { get; }
+        public ICommand ShowNewFundCommand { get; }
+        public ICommand ShowAboutCommand { get; }
+
+
+        public void ShowSettingsWindow()
+        {
+            Window view = new SettingsWindow();
+            ViewModelBase viewModel = new SettingsViewModel();
+            view.DataContext = viewModel;
+            view.Owner = Application.Current.MainWindow;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            view.ShowDialog();
+        }
+
+        public void ShowNewFundWindow()
+        {
+            Window view = new AddFundWindow();
+            ViewModelBase viewModel = new AddFundWindowViewModel();
+            view.DataContext = viewModel;
+            view.Owner = Application.Current.MainWindow;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            view.ShowDialog();
+        }
+
+        public void ShowAboutWindow()
+        {
+            Window view = new AboutWindow();
+            ViewModelBase viewModel = new AboutWindowViewModel();
+            view.DataContext = viewModel;
+            view.Owner = Application.Current.MainWindow;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            view.ShowDialog();
         }
     }
 }

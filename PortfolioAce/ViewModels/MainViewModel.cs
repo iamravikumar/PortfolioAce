@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels
 {
@@ -13,6 +14,9 @@ namespace PortfolioAce.ViewModels
         {
             Navigator = navigator;
             Navigator.UpdateCurrentViewModelCommand.Execute(ViewType.Home);
+
         }
+
+
     }
 }
