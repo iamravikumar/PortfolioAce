@@ -28,19 +28,19 @@
                         <Image Source="/PortfolioAce;component/Resources\icon_add_fund.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="View Funds">
+                <MenuItem Header="View Funds"  Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.FundsView}">
                     <MenuItem.Icon>
                         <Image Source="/PortfolioAce;component/Resources\icon_view_fund.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Tools">
-                <MenuItem Header="View Security Prices">
+                <MenuItem Header="View Security Prices"  Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.SysSecurityPrices}">
                     <MenuItem.Icon>
                         <Image Source="/PortfolioAce;component/Resources\icon_view_prices.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="View FX Rates">
+                <MenuItem Header="View FX Rates"  Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.SysFXRates}">
                     <MenuItem.Icon>
                         <Image Source="/PortfolioAce;component/Resources\icon_view_fx.png"/>
                     </MenuItem.Icon>

@@ -59,7 +59,7 @@ namespace PortfolioAce.Navigation
         public void ShowSettingsWindow()
         {
             Window view = new SettingsWindow();
-            ViewModelBase viewModel = new SettingsViewModel();
+            ViewModelBase viewModel = new SettingsWindowViewModel();
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;

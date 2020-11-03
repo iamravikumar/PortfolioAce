@@ -12,6 +12,15 @@
         <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
             <views:HomeView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:AllFundsViewModel}">
+            <views:AllFundsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:SystemFXRatesViewModel}">
+            <views:SystemFXRatesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:SystemSecurityPricesViewModel}">
+            <views:SystemSecurityPricesView/>
+        </DataTemplate>
     </Window.Resources>
     <Grid>
         <DockPanel>

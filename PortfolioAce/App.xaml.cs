@@ -34,14 +34,30 @@ namespace PortfolioAce
 
             // Add viewmodels here
             services.AddSingleton<HomeViewModel>();
+            services.AddSingleton<AllFundsViewModel>();
+            services.AddSingleton<SystemFXRatesViewModel>();
+            services.AddSingleton<SystemSecurityPricesViewModel>();
 
+            // We register the viewmodels to be created in our dependency injection container
             services.AddSingleton<CreateViewModel<HomeViewModel>>(services =>
             {
                 return () => services.GetRequiredService<HomeViewModel>();
             });
+            services.AddSingleton<CreateViewModel<AllFundsViewModel>>(services =>
+            {
+                return () => services.GetRequiredService<AllFundsViewModel>();
+            });
+            services.AddSingleton<CreateViewModel<SystemFXRatesViewModel>>(services =>
+            {
+                return () => services.GetRequiredService<SystemFXRatesViewModel>();
+            });
+            services.AddSingleton<CreateViewModel<SystemSecurityPricesViewModel>>(services =>
+            {
+                return () => services.GetRequiredService<SystemSecurityPricesViewModel>();
+            });
 
 
-            
+
             services.AddScoped<INavigator, Navigator>();
             services.AddScoped<MainViewModel>();
 

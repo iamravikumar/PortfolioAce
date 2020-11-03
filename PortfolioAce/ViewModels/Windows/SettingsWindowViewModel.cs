@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PortfolioAce.ViewModels.Windows
 {
-    class SettingsWindowViewModel:ViewModelBase
+    public class SettingsWindowViewModel:ViewModelBase
     {
     }
 }

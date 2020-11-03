@@ -8,7 +8,10 @@ namespace PortfolioAce.Navigation
 {
     public enum ViewType
     {
-        Home
+        Home,
+        FundsView,
+        SysFXRates,
+        SysSecurityPrices
         
     }
     public interface INavigator
