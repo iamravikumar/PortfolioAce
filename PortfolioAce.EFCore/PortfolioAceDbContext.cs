@@ -14,15 +14,16 @@ namespace PortfolioAce.EFCore
         public DbSet<CashTrade> CashTrades { get; set; }
         public DbSet<CashAccount> CashAccounts { get; set; }
         public DbSet<Security> Securities { get; set; }
+
+        public PortfolioAceDbContext(DbContextOptions options) : base(options)
+        { 
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Security>().HasNoKey();
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder builder)
-        {
-            builder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;DataBase=PortfolioAceDB;Trusted_Connection=True");
-            base.OnConfiguring(builder);
-        }
+
 
     }
 }
