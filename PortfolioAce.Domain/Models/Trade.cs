@@ -8,7 +8,7 @@ namespace PortfolioAce.Domain.Models
 {
     public class Trade
     {
-        // dividends are accounted by
+        // dividends are accounted by setting the trade amount with 0 quantity and price
         [Key]
         public int TradeId { get; set; }
         [Required]
@@ -21,7 +21,7 @@ namespace PortfolioAce.Domain.Models
         public decimal Price { get; set; }
 
         [Required]
-        public decimal TradeAmount { get; set; }
+        public decimal TradeAmount { get; set; } // this should be autocalculated in wpf when created and edit
         
         [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
@@ -32,6 +32,7 @@ namespace PortfolioAce.Domain.Models
         public DateTime SettleDate { get; set; }
 
         [Required]
+        [StringLength(3, MinimumLength = 3)]
         public string Currency { get; set; }
         public decimal Commission{ get; set; }
 

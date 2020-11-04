@@ -9,9 +9,14 @@ namespace PortfolioAce.Domain.Models
     {
         [Required]
         public string Symbol { get; set; }
+
+        [Required]
+        public string SecurityName { get; set; }
+
         [Required]
         public string Type { get; set; }
         [Required]
+        [StringLength(3, MinimumLength = 3)]
         public string Currency { get; set; }
         public string ISIN { get; set; }
 

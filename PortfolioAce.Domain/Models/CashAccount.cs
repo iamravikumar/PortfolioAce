@@ -23,6 +23,7 @@ namespace PortfolioAce.Domain.Models
         public DateTime TransactionDate { get; set; }
 
         [Required]
+        [StringLength(3, MinimumLength = 3)]
         public string Currency { get; set; }
 
         [ForeignKey("Fund")]

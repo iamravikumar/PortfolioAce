@@ -15,6 +15,7 @@ namespace PortfolioAce.Domain.Models
         [Required]
         public string Symbol { get; set; }
         [Required]
+        [StringLength(3, MinimumLength = 3)]
         public string BaseCurrency { get; set; }
         [Required, Column(TypeName = "decimal(6,4)"), Range(0, 1, ErrorMessage = "Management Fee percentage is expressed with values between 0 and 1.")]
         public decimal ManagementFee { get; set; }
