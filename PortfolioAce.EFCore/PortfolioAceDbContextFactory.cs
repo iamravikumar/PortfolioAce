@@ -6,7 +6,8 @@ using System.Text;
 
 namespace PortfolioAce.EFCore
 {
-    class PortfolioAceDbContextFactory: IDesignTimeDbContextFactory<PortfolioAceDbContext>
+    // allows us to use multiple db context
+    public class PortfolioAceDbContextFactory: IDesignTimeDbContextFactory<PortfolioAceDbContext>
     {
         public PortfolioAceDbContext CreateDbContext(string[] args)
         {
