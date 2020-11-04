@@ -14,6 +14,8 @@
     <None Remove="Resources\icon_view_fund.png" />
     <None Remove="Resources\icon_view_fx.png" />
     <None Remove="Resources\icon_view_prices.png" />
+    <None Remove="Resources\portfolioace logo.png" />
+    <None Remove="Resources\portfolioace_logo_icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,6 +42,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\icon_view_prices.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\portfolioace logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\portfolioace_logo_icon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
