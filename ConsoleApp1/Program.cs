@@ -2,6 +2,7 @@
 using PortfolioAce.EFCore;
 using PortfolioAce.EFCore.Repository;
 using System;
+using System.Linq;
 using System.Reflection.Metadata;
 
 namespace ConsoleApp1
@@ -16,7 +17,7 @@ namespace ConsoleApp1
             /*
             repo.Create(new Fund 
             {
-                FundName="Pace",
+                FundName="Pace1",
                 Symbol="PA",
                 BaseCurrency="GBP",
                 ManagementFee=0.2m,
@@ -24,6 +25,8 @@ namespace ConsoleApp1
                 NAVFrequency="Monthly"
             }).Wait();
             */
+            var y = repo.GetAllFunds();
+            var z = repo.GetFund("PacMan");
             var x = repo.GetById(2).Result;
             /*
             x.FundName = "PacMan";
