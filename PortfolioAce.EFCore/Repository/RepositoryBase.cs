@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,14 @@ namespace PortfolioAce.EFCore.Repository
 
         public async Task<T> Create(T entity)
         {
-            throw new NotImplementedException();
+            using (PortfolioAceDbContext context = _db.CreateDbContext())
+            {
+                EntityEntry<T> res = await context.Set<T>().AddAsync(entity);
+                await context.SaveChangesAsync();
+
+                return res.Entity;
+
+            }
         }
 
         public async Task<T> Delete(T entity)

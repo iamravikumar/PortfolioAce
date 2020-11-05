@@ -9,7 +9,7 @@ namespace PortfolioAce.EFCore
     // allows us to use multiple db context
     public class PortfolioAceDbContextFactory: IDesignTimeDbContextFactory<PortfolioAceDbContext>
     {
-        public PortfolioAceDbContext CreateDbContext(string[] args)
+        public PortfolioAceDbContext CreateDbContext(string[] args=null)
         {
             var options = new DbContextOptionsBuilder<PortfolioAceDbContext>();
             options.UseSqlite("Data Source=PortfolioAce.db");
