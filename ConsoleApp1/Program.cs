@@ -13,6 +13,7 @@ namespace ConsoleApp1
             // Check the file in this location
             // C:\Users\Owner\Documents\PortfolioAce\PortfolioAce\ConsoleApp1\bin\Debug\netcoreapp3.1
             IFundRepository repo = new FundRepository(new PortfolioAceDbContextFactory());
+            /*
             repo.Create(new Fund 
             {
                 FundName="Pace",
@@ -22,6 +23,16 @@ namespace ConsoleApp1
                 PerformanceFee=0.2m,
                 NAVFrequency="Monthly"
             }).Wait();
+            */
+            var x = repo.GetById(2).Result;
+            /*
+            x.FundName = "PacMan";
+            repo.Update(x);
+            */
+            /*
+            repo.Delete(1);
+            */
+            Console.WriteLine(x);
         }
     }
 }

@@ -10,10 +10,9 @@ namespace PortfolioAce.EFCore.Repository
 {
     public interface IRepositoryBase<T>
     {
-        Task<IEnumerable<T>> GetAll();
-        Task<IEnumerable<T>> GetByCondition(Expression<Func<T, bool>> expression);
+        Task<T> GetById(int id);
         Task<T> Create(T entity);
         Task<T> Update(T entity);
-        Task<T> Delete(T entity);
+        Task<T> Delete(int id);
     }
 }

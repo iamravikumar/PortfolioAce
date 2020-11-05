@@ -26,28 +26,45 @@ namespace PortfolioAce.EFCore.Repository
                 await context.SaveChangesAsync();
 
                 return res.Entity;
+            }
+        }
+
+        public async Task<T> Delete(int id)
+        {
+            using (PortfolioAceDbContext context = _db.CreateDbContext())
+            {
+                T entity = await context.Set<T>().FindAsync(id);
+                if (entity == null)
+                {
+                    return entity;
+                }
+                context.Set<T>().Remove(entity);
+                await context.SaveChangesAsync();
+
+                return entity;
 
             }
         }
 
-        public async Task<T> Delete(T entity)
+        public async Task<T> GetById(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<T>> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IEnumerable<T>> GetByCondition(Expression<Func<T, bool>> expression)
-        {
-            throw new NotImplementedException();
+            using (PortfolioAceDbContext context = _db.CreateDbContext())
+            {
+                return await context.Set<T>().FindAsync(id);
+            }   
         }
 
         public async Task<T> Update(T entity)
         {
-            throw new NotImplementedException();
+            using (PortfolioAceDbContext context = _db.CreateDbContext())
+            {
+                context.Set<T>().Update(entity);
+
+                await context.SaveChangesAsync();
+
+                return entity;
+
+            }
         }
     }
 }
