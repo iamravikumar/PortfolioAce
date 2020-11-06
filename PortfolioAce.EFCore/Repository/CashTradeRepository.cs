@@ -23,7 +23,8 @@ namespace PortfolioAce.EFCore.Repository
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 EntityEntry<CashTrade> res = await context.CashTrades.AddAsync(cashTrade);
-                CashAccount transaction = TransactionMapper( cashTrade, new CashAccount());
+                await context.SaveChangesAsync();
+                CashAccount transaction = TransactionMapper(res.Entity, new CashAccount());
                 await context.CashAccounts.AddAsync(transaction);
                 await context.SaveChangesAsync();
 

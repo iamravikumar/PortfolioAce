@@ -17,7 +17,7 @@ namespace ConsoleApp1
             /*
             repo.CreateFund(new Fund 
             {
-                FundName="Pace1",
+                FundName="Pace",
                 Symbol="PA",
                 BaseCurrency="GBP",
                 ManagementFee=0.2m,
@@ -25,7 +25,7 @@ namespace ConsoleApp1
                 NAVFrequency="Monthly"
             }).Wait();
             */
-            var y = repo.GetAllFunds();
+            //var y = repo.GetAllFunds();
             var x = repo.GetFund("PA");
             /*
             x.FundName = "PacMan";
@@ -35,6 +35,20 @@ namespace ConsoleApp1
             repo.DeleteFund(1);
             */
             Console.WriteLine(x);
+            /*
+            ICashTradeRepository Crepo = new CashTradeRepository(new PortfolioAceDbContextFactory());
+            Crepo.CreateCashTrade(new CashTrade
+            {
+                Type = "Income",
+                Amount = 35000m,
+                TradeDate = new DateTime(2020, 10, 3),
+                SettleDate = new DateTime(2020, 10, 3),
+                Comment = "General Tax",
+                Currency = "EUR",
+                FundId = 1,
+            }).Wait();
+            */
+            
         }
     }
 }
