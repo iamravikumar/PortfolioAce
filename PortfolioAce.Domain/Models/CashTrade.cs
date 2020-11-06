@@ -13,7 +13,7 @@ namespace PortfolioAce.Domain.Models
         [Required]
         public string Type { get; set; } // expense/income
         [Required]
-        public decimal Amount { get; set; }
+        public decimal Amount { get; set; } // This has to be positive regardless of if its an expense or income.
 
         [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]

@@ -39,8 +39,8 @@ namespace ConsoleApp1
             ICashTradeRepository Crepo = new CashTradeRepository(new PortfolioAceDbContextFactory());
             Crepo.CreateCashTrade(new CashTrade
             {
-                Type = "Income",
-                Amount = 35000m,
+                Type = "Expense",
+                Amount = 15000m,
                 TradeDate = new DateTime(2020, 10, 3),
                 SettleDate = new DateTime(2020, 10, 3),
                 Comment = "General Tax",
@@ -48,6 +48,7 @@ namespace ConsoleApp1
                 FundId = 1,
             }).Wait();
             */
+            
             
         }
     }

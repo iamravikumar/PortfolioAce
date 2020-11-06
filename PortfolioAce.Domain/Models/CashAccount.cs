@@ -16,7 +16,7 @@ namespace PortfolioAce.Domain.Models
         [Required]
         public string TransactionType { get; set; } // expense/income/Trade
         [Required]
-        public decimal TransactionAmount { get; set; } // keep this positive.
+        public decimal TransactionAmount { get; set; } 
 
         [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]

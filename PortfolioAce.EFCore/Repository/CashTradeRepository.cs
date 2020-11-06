@@ -87,7 +87,9 @@ namespace PortfolioAce.EFCore.Repository
             
             transaction.CashTradeId = cashTrade.CashTradeId;
             transaction.TransactionType = cashTrade.Type;
-            transaction.TransactionAmount = cashTrade.Amount;
+            decimal amount = cashTrade.Amount;
+
+            transaction.TransactionAmount = (cashTrade.Type == "Expense")?-amount:amount;
             transaction.TransactionDate = cashTrade.SettleDate;
             transaction.Currency = cashTrade.Currency;
             transaction.FundId = cashTrade.FundId;
