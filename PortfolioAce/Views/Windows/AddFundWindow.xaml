@@ -5,8 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Windows"
         mc:Ignorable="d"
-        Title="Create a New Fund" Height="240" Width="320">
+        ResizeMode="NoResize"
+        Title="Create a New Fund" Height="255" Width="350">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="1">Fund Name:</Label>
+        <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,2"/>
+        <Label Grid.Row="2">Fund Symbol:</Label>
+        <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+        <Label Grid.Row="3">Base Currency:</Label>
+        <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+        <Label Grid.Row="4">Management Fee:</Label>
+        <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+        <Label Grid.Row="5">Performance Fee:</Label>
+        <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+        <Label Grid.Row="6">NAV Frequency:</Label>
+        <ComboBox Grid.Row="6" Grid.Column="1">
+            <ComboBoxItem IsSelected="True">Daily</ComboBoxItem>
+            <ComboBoxItem>Monthly</ComboBoxItem>
+        </ComboBox>
+        <Label Grid.Row="7">Launch Date:</Label>
+        <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+        <Button Grid.Row="8" Grid.Column="1">Create Fund</Button>
     </Grid>
 </Window>
