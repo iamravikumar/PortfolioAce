@@ -7,6 +7,45 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="All Funds" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="357*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="86*"/>
+            <RowDefinition Height="117*"/>
+            <RowDefinition Height="247*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Fund Static Details, Latest Performance" />
+        <Border BorderBrush="Silver" BorderThickness="1" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"/>
+        <DockPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="2">
+            <TextBlock DockPanel.Dock="Top" Text="Fund Positions" />
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <Button Margin="1,0,3,0">Add Trade</Button>
+                <Button Margin="0,0,3,0">Add Cash Trade</Button>
+                <Button Margin="0,0,3,0">View All Transactions</Button>
+                <Button Margin="0,0,3,0">View Cash Ledger</Button>
+            </StackPanel>
+            <DataGrid DockPanel.Dock="Bottom" Name="dgSimple" VerticalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" />
+                    <DataGridTextColumn Header="Symbol"/>
+                    <DataGridTextColumn Header="Quantity"/>
+                    <DataGridTextColumn Header="Average Cost"/>
+                    <DataGridTextColumn Header="Profit/Loss"/>
+                    <DataGridTextColumn Header="Ccy"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+        <Border BorderBrush="Silver" BorderThickness="1" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"/>
+        <ListBox Name="lbFundList" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,2">
+                        <TextBlock Text="{Binding FundSymbol}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

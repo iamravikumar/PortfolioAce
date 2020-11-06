@@ -23,14 +23,15 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Funds">
-                <MenuItem Header="Create a New Fund..."  Command="{Binding ShowNewFundCommand}">
-                    <MenuItem.Icon>
-                        <Image Source="/PortfolioAce;component/Resources\icon_add_fund.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
                 <MenuItem Header="View Funds"  Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.FundsView}">
                     <MenuItem.Icon>
                         <Image Source="/PortfolioAce;component/Resources\icon_view_fund.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Create a New Fund..."  Command="{Binding ShowNewFundCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icon_add_fund.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
