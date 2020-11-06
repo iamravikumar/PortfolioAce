@@ -11,6 +11,8 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            // GOING FORWARD THE FUND REQUIRES A LAUNCH DATE
+
             // Check the file in this location
             // C:\Users\Owner\Documents\PortfolioAce\PortfolioAce\ConsoleApp1\bin\Debug\netcoreapp3.1
             IFundRepository repo = new FundRepository(new PortfolioAceDbContextFactory());
