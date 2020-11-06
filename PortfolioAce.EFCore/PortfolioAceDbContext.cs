@@ -19,10 +19,7 @@ namespace PortfolioAce.EFCore
         { 
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Security>().HasNoKey();
-        }
+        // I can use on model creating to seed data
 
 
     }

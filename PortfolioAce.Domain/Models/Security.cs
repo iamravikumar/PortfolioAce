@@ -7,6 +7,8 @@ namespace PortfolioAce.Domain.Models
 {
     public class Security
     {
+        [Key]
+        public int SecurityId { get; set; }
         [Required]
         public string Symbol { get; set; }
 

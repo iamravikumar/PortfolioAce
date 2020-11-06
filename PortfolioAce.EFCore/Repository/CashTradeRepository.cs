@@ -55,7 +55,7 @@ namespace PortfolioAce.EFCore.Repository
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.CashTrades.Where(c => c.FundId == fundId).ToList();
+                return context.CashTrades.Where(c => c.FundId == fundId).OrderBy(c=>c.TradeDate).ToList();
             }
         }
 
@@ -95,8 +95,6 @@ namespace PortfolioAce.EFCore.Repository
             transaction.FundId = cashTrade.FundId;
             transaction.Comment = cashTrade.Comment;
             return transaction;
-
-            
         }
     }
 }

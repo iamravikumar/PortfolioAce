@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PortfolioAce.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,31 +22,108 @@ namespace PortfolioAce.EFCore.Repository
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
+                // check security database to see if security exists. if not it must be created first
+
+                // trade amount in trades table should be negative for purchase and positive for sales.
                 EntityEntry<Trade> res = await context.Trades.AddAsync(trade);
                 await context.SaveChangesAsync();
-
+                CashAccount transaction = TransactionMapper(res.Entity, new CashAccount());
+                await context.CashAccounts.AddAsync(transaction);
+                await context.SaveChangesAsync();
+                
                 return res.Entity;
             }
         }
 
         public async Task<Trade> DeleteTrade(int id)
         {
-            throw new NotImplementedException();
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                Trade trade = await context.Trades.FindAsync(id);
+                if (trade == null)
+                {
+                    return trade;
+                }
+                context.Trades.Remove(trade);
+                //TODO: raise a warning if there is no transaction to remove. Big issue if this is the case.
+                CashAccount transaction = await context.CashAccounts.Where(c => c.TradeId == id).FirstAsync();
+                context.CashAccounts.Remove(transaction);
+                await context.SaveChangesAsync();
+
+                return trade;
+            }
         }
 
         public List<Trade> GetAllFundTrades(int fundId)
         {
-            throw new NotImplementedException();
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Trades.Where(c => c.FundId == fundId).OrderBy(c=>c.TradeDate).ToList();
+            }
         }
 
-        public async Task<Trade> GetCashTradeById(int id)
+        public async Task<Trade> GetTradeById(int id)
         {
-            throw new NotImplementedException();
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return await context.Trades.FindAsync(id);
+            }
+        }
+
+        public List<Trade> GetTradesBySymbol(string symbol, int fundId)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Trades
+                    .Where(t => t.FundId == fundId && t.Symbol == symbol)
+                    .OrderBy(t => t.TradeDate)
+                    .ToList();
+            }
+        }
+
+        public bool SecurityExists(string symbol)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return (context.Securities.Where(s => s.Symbol == symbol).FirstOrDefault() != null);
+            }
         }
 
         public async Task<Trade> UpdateTrade(Trade trade)
         {
-            throw new NotImplementedException();
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                context.Trades.Update(trade);
+                CashAccount transaction = await context.CashAccounts.Where(c => c.TradeId == trade.TradeId).FirstAsync();
+                CashAccount newTransaction = TransactionMapper(trade, transaction);
+                context.CashAccounts.Update(newTransaction);
+                await context.SaveChangesAsync();
+
+                return trade;
+            }
+        }
+
+        private CashAccount TransactionMapper(Trade trade, CashAccount transaction)
+        {
+            // maps trade information to a transaction in the database for the cashaccount.
+
+            transaction.TradeId = trade.TradeId;
+            transaction.TransactionType = trade.TradeType;// trade or corp action
+            transaction.TransactionAmount = trade.TradeAmount;
+            transaction.TransactionDate = trade.SettleDate;
+            transaction.Currency = trade.Currency;
+            transaction.FundId = trade.FundId;
+            string comment;
+            if (trade.TradeType=="Corp Action")
+            {
+                comment = $"Corporate Action for {trade.Symbol}";
+            }
+            else
+            {
+                comment = (trade.TradeAmount <= 0) ? $"BUY {trade.Symbol}" : $"SELL {trade.Symbol}";
+            }
+            transaction.Comment = comment;
+            return transaction;
         }
     }
 }
