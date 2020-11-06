@@ -23,7 +23,10 @@ namespace PortfolioAce.Domain.Models
         public decimal PerformanceFee { get; set; }
         [Required]
         public string NAVFrequency { get; set; }
-
+        [Required]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime LaunchDate { get; set; }
+        // I need a record of subscriptions and redemptions
         public virtual ICollection<Trade> Trades {get;set;}
         public virtual ICollection<CashAccount> CashAccounts { get; set; }
 
