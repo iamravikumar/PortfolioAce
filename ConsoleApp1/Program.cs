@@ -15,7 +15,7 @@ namespace ConsoleApp1
             // C:\Users\Owner\Documents\PortfolioAce\PortfolioAce\ConsoleApp1\bin\Debug\netcoreapp3.1
             IFundRepository repo = new FundRepository(new PortfolioAceDbContextFactory());
             /*
-            repo.Create(new Fund 
+            repo.CreateFund(new Fund 
             {
                 FundName="Pace1",
                 Symbol="PA",
@@ -26,14 +26,13 @@ namespace ConsoleApp1
             }).Wait();
             */
             var y = repo.GetAllFunds();
-            var z = repo.GetFund("PacMan");
-            var x = repo.GetById(2).Result;
+            var x = repo.GetFund("PA");
             /*
             x.FundName = "PacMan";
-            repo.Update(x);
+            repo.UpdateFund(x);
             */
             /*
-            repo.Delete(1);
+            repo.DeleteFund(1);
             */
             Console.WriteLine(x);
         }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PortfolioAce.Domain.Models
 {
-    // This account should be uneditable directly.
+    // There should be no repo for this it is strictly a reference class. It is only updated via the CashTrades and Trades
     // Its crud operations are based on the CashTrade and Trade amounts.
     public class CashAccount
     {
@@ -16,7 +16,7 @@ namespace PortfolioAce.Domain.Models
         [Required]
         public string TransactionType { get; set; } // expense/income/Trade
         [Required]
-        public decimal TransactionAmount { get; set; }
+        public decimal TransactionAmount { get; set; } // keep this positive.
 
         [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
@@ -25,6 +25,9 @@ namespace PortfolioAce.Domain.Models
         [Required]
         [StringLength(3, MinimumLength = 3)]
         public string Currency { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        public string Comment { get; set; }
 
         [ForeignKey("Fund")]
         public int FundId { get; set; }

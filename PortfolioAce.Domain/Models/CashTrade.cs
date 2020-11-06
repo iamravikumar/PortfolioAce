@@ -23,6 +23,9 @@ namespace PortfolioAce.Domain.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime SettleDate { get; set; }
 
+        [DataType(DataType.MultilineText)]
+        public string Comment { get; set; }
+
         [Required]
         [StringLength(3, MinimumLength = 3)]
         public string Currency { get; set; }

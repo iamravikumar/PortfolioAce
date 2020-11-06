@@ -18,7 +18,7 @@ namespace PortfolioAce.EFCore.Repository
             this._contextFactory = contextFactory;
         }
 
-        public async Task<Fund> Create(Fund fund)
+        public async Task<Fund> CreateFund(Fund fund)
         {
             using(PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -29,11 +29,11 @@ namespace PortfolioAce.EFCore.Repository
             }
         }
 
-        public async Task<Fund> Delete(int id)
+        public async Task<Fund> DeleteFund(int id)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                Fund fund = await context.Set<Fund>().FindAsync(id);
+                Fund fund = await context.Funds.FindAsync(id);
                 if (fund == null)
                 {
                     return fund;
@@ -72,6 +72,8 @@ namespace PortfolioAce.EFCore.Repository
                             .Include(f => f.CashAccounts)
                             .Include(f => f.Trades)
                             .FirstOrDefault();
+
+                // the group by code etc can be used for when i actually need it.
                 /*
                 return context.Funds.Where(f=>f.Symbol==fundSymbol)
                     .Include(f => f.CashAccounts.GroupBy(c => c.Currency)
@@ -85,19 +87,12 @@ namespace PortfolioAce.EFCore.Repository
             }
         }
 
-        public async Task<Fund> GetById(int id)
-        {
-            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
-            {
-                return await context.Set<Fund>().FindAsync(id);
-            }
-        }
 
-        public async Task<Fund> Update(Fund fund)
+        public async Task<Fund> UpdateFund(Fund fund)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                context.Set<Fund>().Update(fund);
+                context.Funds.Update(fund);
 
                 await context.SaveChangesAsync();
 
