@@ -26,23 +26,32 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="1">Fund Name:</Label>
-            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,2"/>
+            <TextBox Text="{Binding FundName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,2"/>
             <Label Grid.Row="2">Fund Symbol:</Label>
-            <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+            <TextBox Text="{Binding FundSymbol, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="3">Base Currency:</Label>
-            <TextBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+            <ComboBox Name="cmbCurrency" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundCurrency, UpdateSourceTrigger=PropertyChanged}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding }"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
             <Label Grid.Row="4">Management Fee:</Label>
-            <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+            <TextBox Text="{Binding FundManFee, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="5">Performance Fee:</Label>
-            <TextBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+            <TextBox Text="{Binding FundPerfFee, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="6">NAV Frequency:</Label>
-            <ComboBox Grid.Row="6" Grid.Column="1" Margin="0,0,0,2">
-                <ComboBoxItem IsSelected="True">Daily</ComboBoxItem>
-                <ComboBoxItem>Monthly</ComboBoxItem>
+            <ComboBox Name="cmbNavFreq" Grid.Row="6" Grid.Column="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundNavFreq, UpdateSourceTrigger=PropertyChanged}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding }"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
             </ComboBox>
             <Label Grid.Row="7">Launch Date:</Label>
-            <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Button Grid.Row="8" Grid.Column="1" Margin="0,10,0,0">Create Fund</Button>
+            <DatePicker Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=FundLaunch, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Command="{Binding AddFundCommand}" Grid.Row="8" Grid.Column="1" Margin="0,10,0,0">Create Fund</Button>
         </Grid>
     </Border>
 </Window>

@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using PortfolioAce.EFCore;
+using PortfolioAce.EFCore.Repository;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;
@@ -30,7 +33,20 @@ namespace PortfolioAce
         {
             IServiceCollection services = new ServiceCollection();
 
+            string connectionString = "Data Source=PortfolioAce.db";
+            services.AddDbContext<PortfolioAceDbContext>(db => db.UseSqlite(connectionString));
+            services.AddSingleton<PortfolioAceDbContextFactory>(new PortfolioAceDbContextFactory());
+
+
             services.AddSingleton<IPortfolioAceViewModelAbstractFactory, PortfolioAceViewModelAbstractFactory>();
+            services.AddSingleton<PortfolioAceDbContextFactory>();
+            
+            // Add repositories here
+            services.AddSingleton<IFundRepository, FundRepository>();
+            services.AddSingleton<ICashTradeRepository, CashTradeRepository>();
+            services.AddSingleton<ITradeRepository, TradeRepository>();
+            services.AddSingleton<IAdminRepository, AdminRepository>();
+
 
             // Add viewmodels here
             services.AddSingleton<HomeViewModel>();

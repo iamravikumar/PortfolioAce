@@ -25,6 +25,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PortfolioAce.Domain\PortfolioAce.Domain.csproj" />
+    <ProjectReference Include="..\PortfolioAce.EFCore\PortfolioAce.EFCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\icon_add_fund.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -73,6 +78,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="PortfolioAce.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

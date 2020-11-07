@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Models;
+﻿using PortfolioAce.EFCore.Repository;
+using PortfolioAce.Models;
 using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;
 using PortfolioAce.ViewModels.Windows;
@@ -29,11 +30,12 @@ namespace PortfolioAce.Navigation
                 OnPropertyChanged(nameof(CurrentViewModel));
             }
         }
+        private IFundRepository _fundRepo;
 
-
-        public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory)
+        public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IFundRepository fundRepo)
         {
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
+            _fundRepo = fundRepo;
             ShowSettingsCommand = new ActionCommand(ShowSettingsWindow);
             ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
             ShowAboutCommand = new ActionCommand(ShowAboutWindow);
@@ -76,7 +78,7 @@ namespace PortfolioAce.Navigation
         public void ShowNewFundWindow()
         {
             Window view = new AddFundWindow();
-            ViewModelBase viewModel = new AddFundWindowViewModel();
+            ViewModelBase viewModel = new AddFundWindowViewModel(_fundRepo);
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;

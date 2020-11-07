@@ -1,5 +1,7 @@
-﻿using System;
+﻿using PortfolioAce.HelperObjects;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +22,10 @@ namespace PortfolioAce.Views.Windows
         public AddFundWindow()
         {
             InitializeComponent();
+            List<string> currencies = Enum.GetNames(typeof(Currencies)).ToList();
+            List<string> navfrequencies = Enum.GetNames(typeof(NavFrequency)).ToList();
+            cmbNavFreq.ItemsSource = navfrequencies;
+            cmbCurrency.ItemsSource = currencies;
         }
     }
 }
