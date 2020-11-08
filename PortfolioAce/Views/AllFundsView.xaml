@@ -55,6 +55,9 @@
                     <Grid Margin="0,2">
                         <TextBlock Text="{Binding }">
                             <TextBlock.InputBindings>
+                                <MouseBinding MouseAction="LeftDoubleClick" 
+                                              Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.SelectFundCommand }"
+                                              CommandParameter="{Binding }"/>
                                 <!-- HERE IS WHERE I WILL PUT THE COMMAND BINDINGs-->
                                 <!--https://stackoverflow.com/a/33516980/12148778-->
                             </TextBlock.InputBindings>
