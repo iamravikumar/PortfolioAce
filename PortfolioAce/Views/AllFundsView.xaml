@@ -49,11 +49,16 @@
             </DataGrid>
         </DockPanel>
         <Border BorderBrush="Silver" BorderThickness="1" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"/>
-        <ListBox Name="lbFundList" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" HorizontalContentAlignment="Stretch">
+        <ListBox Name="lbFundList" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=lbFunds}" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
-                        <TextBlock Text="{Binding FundSymbol}"/>
+                        <TextBlock Text="{Binding }">
+                            <TextBlock.InputBindings>
+                                <!-- HERE IS WHERE I WILL PUT THE COMMAND BINDINGs-->
+                                <!--https://stackoverflow.com/a/33516980/12148778-->
+                            </TextBlock.InputBindings>
+                        </TextBlock>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

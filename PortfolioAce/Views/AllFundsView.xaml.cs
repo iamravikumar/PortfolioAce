@@ -21,11 +21,13 @@ namespace PortfolioAce.Views
         public AllFundsView()
         {
             InitializeComponent();
+            /*
             List<DummyFundModel> funds = new List<DummyFundModel>();
             funds.Add(new DummyFundModel() { FundName = "Test Fund 1", FundSymbol = "TSTF1" });
             funds.Add(new DummyFundModel() { FundName = "Test Fund 2", FundSymbol = "TSTF2" });
             funds.Add(new DummyFundModel() { FundName = "Test Fund 3", FundSymbol = "TSTF3" });
             lbFundList.ItemsSource = funds;
+            */
         }
         
     }

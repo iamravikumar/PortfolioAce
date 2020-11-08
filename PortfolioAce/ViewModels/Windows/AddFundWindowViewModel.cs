@@ -13,6 +13,7 @@ namespace PortfolioAce.ViewModels.Windows
         {
             AddFundCommand = new AddFundCommand(this, fundRepo);
         }
+
         private string _fundName;
         public string FundName
         {
