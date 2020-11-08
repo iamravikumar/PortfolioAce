@@ -29,7 +29,7 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return _lbFunds.Select(f => f.FundName).ToList();
+                return _lbFunds.Select(f => f.Symbol).ToList();
             }
             set
             {
@@ -43,11 +43,11 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return _currentFund.FundName;
+                return (_currentFund != null)?_currentFund.FundName:null;
             }
             set
             {
-                _currentFund = _lbFunds.Where(f => f.FundName==value).FirstOrDefault();
+                _currentFund = _lbFunds.Where(f => f.Symbol==value).FirstOrDefault();
                 OnPropertyChanged(nameof(CurrentFund));
             }
         }

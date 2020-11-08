@@ -12,6 +12,7 @@ namespace PortfolioAce.ViewModels.Windows
         public AddFundWindowViewModel(IFundRepository fundRepo)
         {
             AddFundCommand = new AddFundCommand(this, fundRepo);
+            _fundLaunch = DateTime.Today;
         }
 
         private string _fundName;

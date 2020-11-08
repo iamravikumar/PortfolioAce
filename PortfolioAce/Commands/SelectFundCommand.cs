@@ -12,7 +12,7 @@ namespace PortfolioAce.Commands
         private AllFundsViewModel _allFundsWindowVM;
         public SelectFundCommand(AllFundsViewModel allFundsViewModel)
         {
-            allFundsViewModel = _allFundsWindowVM;
+            _allFundsWindowVM = allFundsViewModel;
         }
 
         public bool CanExecute(object parameter)
@@ -22,7 +22,9 @@ namespace PortfolioAce.Commands
 
         public void Execute(object parameter)
         {
+
             Console.WriteLine(parameter);
+            _allFundsWindowVM.CurrentFund = (string)parameter;
         }
     }
 }

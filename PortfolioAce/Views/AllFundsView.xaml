@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="1" Grid.Row="0" Margin="2">
             <StackPanel DockPanel.Dock="Left">
-                <TextBlock><Bold>Fund Name:</Bold> Test Fund 1</TextBlock>
+                <TextBlock Text="{Binding Path=CurrentFund, StringFormat='Fund Name: {0}'}"></TextBlock>
                 <TextBlock><Bold>NAV as of 04/01/2021:</Bold> 50,000,000 GBP</TextBlock>
                 <TextBlock><Bold>NAV per share as of 04/01/2021:</Bold> 105.97</TextBlock>
                 <TextBlock><Bold>ITD Performance:</Bold> 10.7314%</TextBlock>
@@ -30,7 +30,7 @@
         </DockPanel>
         <Border BorderBrush="Silver" BorderThickness="1" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"/>
         <DockPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="2">
-            <TextBlock DockPanel.Dock="Top" Margin="0,0,0,5"><Bold>Current Positions for Test Fund 1</Bold></TextBlock>
+            <TextBlock DockPanel.Dock="Top" Margin="0,0,0,5" Text="{Binding Path=CurrentFund, StringFormat='Current Positions for {0}'}"></TextBlock>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <Button Margin="1,0,3,0">Add Trade</Button>
                 <Button Margin="0,0,3,0">Add Cash Trade</Button>
