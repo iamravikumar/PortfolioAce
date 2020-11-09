@@ -28,5 +28,11 @@ namespace PortfolioAce.HelperObjects
         {
             "Income", "Expense"
         };
+
+        public static readonly string[] IssueTypes = new string[]
+        {
+            "Subscription", "Redemption"
+        };
+
     }
 }

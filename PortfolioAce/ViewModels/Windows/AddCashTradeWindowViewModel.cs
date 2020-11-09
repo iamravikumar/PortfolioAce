@@ -16,6 +16,7 @@ namespace PortfolioAce.ViewModels.Windows
             _fundId = fundId;
             _tradeDate = DateTime.Today;
             _settleDate = DateTime.Today;
+            
         }
 
         public int FundId

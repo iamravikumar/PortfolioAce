@@ -14,7 +14,7 @@ namespace PortfolioAce.Domain.Models
         [Key]
         public int TransactionId { get; set; }
         [Required]
-        public string TransactionType { get; set; } // expense/income/Trade/corp action
+        public string TransactionType { get; set; } // expense/income/Trade/corp action/sub/red
         [Required]
         public decimal TransactionAmount { get; set; } 
 
