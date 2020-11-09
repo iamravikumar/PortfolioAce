@@ -13,6 +13,7 @@ namespace PortfolioAce.ViewModels.Windows
         {
             AddFundCommand = new AddFundCommand(this, fundRepo);
             _fundLaunch = DateTime.Today;
+            // to set decimal points i might need to use a converter
         }
 
         private string _fundName;

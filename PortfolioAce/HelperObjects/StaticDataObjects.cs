@@ -5,23 +5,23 @@ using System.Text;
 namespace PortfolioAce.HelperObjects
 {
 
-    public enum Currencies
+    public static class StaticDataObjects
     {
-        EUR,
-        GBP,
-        USD,
-        JPY,
-        CHF,
-        CAD,
-        AUD,
-        NZD,
-        BTC
-    }
-    public enum NavFrequency
-    {
-        Daily,
-        Monthly
-    }
+        // MAYBE use Enums for all of these instead. 
+        public static readonly string[] Currencies = new string[]
+        {
+            "GBP", "EUR", "USD", "JPY", "CHF", "CAD",
+            "AUD", "NZD", "BTC"
+        };
 
+        public static readonly string[] NavFrequency = new string[]
+        {
+            "Daily", "Monthly"
+        };
 
+        public static readonly string[] SecurityTradeTypes = new string[]
+        {
+            "Security Trade", "Corporate Action"
+        };
+    }
 }

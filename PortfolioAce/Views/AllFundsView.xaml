@@ -32,7 +32,7 @@
         <DockPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="2">
             <TextBlock DockPanel.Dock="Top" Margin="0,0,0,5" Text="{Binding Path=CurrentFund, StringFormat='Current Positions for {0}'}"></TextBlock>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <Button Margin="1,0,3,0">Add Trade</Button>
+                <Button Margin="1,0,3,0" Command="{Binding ShowNewTradeCommand}">Add Trade</Button>
                 <Button Margin="0,0,3,0">Add Cash Trade</Button>
                 <Button Margin="0,0,3,0">View All Transactions</Button>
                 <Button Margin="0,0,3,0">View Cash Ledger</Button>

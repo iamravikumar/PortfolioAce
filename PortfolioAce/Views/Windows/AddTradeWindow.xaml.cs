@@ -15,14 +15,14 @@ using System.Windows.Shapes;
 namespace PortfolioAce.Views.Windows
 {
     /// <summary>
-    /// Interaction logic for AddFundWindow.xaml
+    /// Interaction logic for AddTradeWindow.xaml
     /// </summary>
-    public partial class AddFundWindow : Window
+    public partial class AddTradeWindow : Window
     {
-        public AddFundWindow()
+        public AddTradeWindow()
         {
             InitializeComponent();
-            cmbNavFreq.ItemsSource = StaticDataObjects.NavFrequency;
+            cmbTradeType.ItemsSource = StaticDataObjects.SecurityTradeTypes;
             cmbCurrency.ItemsSource = StaticDataObjects.Currencies;
         }
     }
