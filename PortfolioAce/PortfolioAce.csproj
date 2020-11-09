@@ -15,7 +15,7 @@
     <None Remove="Resources\icon_view_fx.png" />
     <None Remove="Resources\icon_view_prices.png" />
     <None Remove="Resources\portfolioace logo.png" />
-    <None Remove="Resources\portfolioace logo2.png" />
+    <None Remove="Resources\portfolioace_logo2_hd.png" />
     <None Remove="Resources\portfolioace_logo2_icon.ico" />
     <None Remove="Resources\portfolioace_logo_icon.ico" />
   </ItemGroup>
@@ -54,7 +54,7 @@
     <Resource Include="Resources\portfolioace logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\portfolioace logo2.png">
+    <Resource Include="Resources\portfolioace_logo2_hd.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\portfolioace_logo2_icon.ico">

@@ -93,9 +93,9 @@ namespace PortfolioAce.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] portfolioace_logo2 {
+        internal static byte[] portfolioace_logo2_hd {
             get {
-                object obj = ResourceManager.GetObject("portfolioace_logo2", resourceCulture);
+                object obj = ResourceManager.GetObject("portfolioace_logo2_hd", resourceCulture);
                 return ((byte[])(obj));
             }
         }

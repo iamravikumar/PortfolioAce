@@ -124,8 +124,8 @@
   <data name="portfolioace_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\portfolioace logo.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="portfolioace_logo2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\portfolioace logo2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="portfolioace_logo2_hd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\portfolioace_logo2_hd.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="portfolioace_logo2_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\portfolioace_logo2_icon.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
