@@ -52,7 +52,8 @@ namespace PortfolioAce
             services.AddSingleton<HomeViewModel>();
             services.AddSingleton<AllFundsViewModel>(services=> new AllFundsViewModel(
                 services.GetRequiredService<IFundRepository>(), 
-                services.GetRequiredService<ITradeRepository>())); // this is how i can pass in my repositories
+                services.GetRequiredService<ITradeRepository>(),
+                 services.GetRequiredService<ICashTradeRepository>())); // this is how i can pass in my repositories
             services.AddSingleton<SystemFXRatesViewModel>();
             services.AddSingleton<SystemSecurityPricesViewModel>();
 

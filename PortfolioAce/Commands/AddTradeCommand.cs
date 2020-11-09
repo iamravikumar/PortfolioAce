@@ -15,8 +15,6 @@ namespace PortfolioAce.Commands
 
         private AddTradeWindowViewModel _addTradeWindowVM;
         private ITradeRepository _tradeRepo;
-        private int _fundId;
-
 
         public AddTradeCommand(AddTradeWindowViewModel addTradeWindowVM,
             ITradeRepository tradeRepo)

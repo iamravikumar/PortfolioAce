@@ -17,18 +17,25 @@ namespace PortfolioAce.ViewModels
     {
         private IFundRepository _fundRepo;
         private ITradeRepository _tradeRepo;
-        public AllFundsViewModel(IFundRepository fundRepo, ITradeRepository tradeRepo)
+        private ICashTradeRepository _cashRepo;
+
+        public AllFundsViewModel(IFundRepository fundRepo, 
+            ITradeRepository tradeRepo, ICashTradeRepository cashRepo)
         {
             _tradeRepo = tradeRepo;
             _fundRepo = fundRepo;
+            _cashRepo = cashRepo;
             _lbFunds = fundRepo.GetAllFunds().ToList();
             _currentFund = (_lbFunds.Count!=0) ? _lbFunds[0] : null;
             SelectFundCommand = new SelectFundCommand(this);
+            // I can make these commands reusable
             ShowNewTradeCommand = new ActionCommand(ShowNewTradeWindow);
+            ShowNewCashTradeCommand = new ActionCommand(ShowNewCashTradeWindow);
         }
 
         public ICommand SelectFundCommand { get; set; }
         public ICommand ShowNewTradeCommand { get; set; }
+        public ICommand ShowNewCashTradeCommand { get; set; }
 
         // List box click should have a command and that command changes the fields displayed on the right of the allfundsview.
         private List<Fund> _lbFunds;
@@ -65,6 +72,18 @@ namespace PortfolioAce.ViewModels
             int fundId = _currentFund.FundId;
             Window view = new AddTradeWindow();
             ViewModelBase viewModel = new AddTradeWindowViewModel(_tradeRepo, fundId);
+            view.DataContext = viewModel;
+            view.Owner = Application.Current.MainWindow;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            view.ShowDialog();
+        }
+
+        public void ShowNewCashTradeWindow()
+        {
+            // if no id available then raise error;
+            int fundId = _currentFund.FundId;
+            Window view = new AddCashTradeWindow();
+            ViewModelBase viewModel = new AddCashTradeWindowViewModel(_cashRepo, fundId);
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;

@@ -33,7 +33,7 @@
             <TextBlock DockPanel.Dock="Top" Margin="0,0,0,5" Text="{Binding Path=CurrentFund, StringFormat='Current Positions for {0}'}"></TextBlock>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <Button Margin="1,0,3,0" Command="{Binding ShowNewTradeCommand}">Add Trade</Button>
-                <Button Margin="0,0,3,0">Add Cash Trade</Button>
+                <Button Margin="0,0,3,0" Command="{Binding ShowNewCashTradeCommand}">Add Cash Trade</Button>
                 <Button Margin="0,0,3,0">View All Transactions</Button>
                 <Button Margin="0,0,3,0">View Cash Ledger</Button>
             </StackPanel>
@@ -58,7 +58,7 @@
                                 <MouseBinding MouseAction="LeftDoubleClick" 
                                               Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.SelectFundCommand }"
                                               CommandParameter="{Binding }"/>
-                                <!-- HERE IS WHERE I WILL PUT THE COMMAND BINDINGs-->
+                                <!-- Link for guidance on how to link listbox-->
                                 <!--https://stackoverflow.com/a/33516980/12148778-->
                             </TextBlock.InputBindings>
                         </TextBlock>

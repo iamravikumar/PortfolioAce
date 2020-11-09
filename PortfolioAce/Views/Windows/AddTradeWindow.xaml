@@ -56,7 +56,7 @@
             <DatePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=TradeDate, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Grid.Row="9">Settle Date:</Label>
             <DatePicker Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=SettleDate, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Command="{Binding AddTradeCommand}" Grid.Row="10" Grid.Column="1" Margin="0,10,0,0">Create Fund</Button>
+            <Button Command="{Binding AddTradeCommand}" Grid.Row="10" Grid.Column="1" Margin="0,10,0,0">Add Trade</Button>
         </Grid>
     </Border>
 

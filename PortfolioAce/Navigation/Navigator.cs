@@ -36,6 +36,8 @@ namespace PortfolioAce.Navigation
         {
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
             _fundRepo = fundRepo;
+
+            // I can make these commands reusable
             ShowSettingsCommand = new ActionCommand(ShowSettingsWindow);
             ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
             ShowAboutCommand = new ActionCommand(ShowAboutWindow);

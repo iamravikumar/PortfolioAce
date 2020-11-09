@@ -11,7 +11,7 @@ namespace PortfolioAce.Domain.Models
         [Key]
         public int CashTradeId { get; set; }
         [Required]
-        public string Type { get; set; } // expense/income
+        public string CashType { get; set; } // expense/income
         [Required]
         public decimal Amount { get; set; } // This has to be positive regardless of if its an expense or income.
 
