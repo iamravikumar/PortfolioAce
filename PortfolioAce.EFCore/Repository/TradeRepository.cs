@@ -22,6 +22,8 @@ namespace PortfolioAce.EFCore.Repository
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
+                // I will need to refactor soon. This repo is fine but the VM should use a service layer then call this logic...
+                // the service layer will contain the logic and validations as it relies on different repos.
                 // check security database to see if security exists. if not it must be created first
 
                 // trade amount in trades table should be negative for purchase and positive for sales.
