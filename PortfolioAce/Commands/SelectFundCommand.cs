@@ -1,4 +1,5 @@
-﻿using PortfolioAce.ViewModels;
+﻿using PortfolioAce.EFCore.Repository;
+using PortfolioAce.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,9 +11,11 @@ namespace PortfolioAce.Commands
     {
         public event EventHandler CanExecuteChanged;
         private AllFundsViewModel _allFundsWindowVM;
-        public SelectFundCommand(AllFundsViewModel allFundsViewModel)
+        private IFundRepository _fundRepo;
+        public SelectFundCommand(AllFundsViewModel allFundsViewModel, IFundRepository fundRepo)
         {
             _allFundsWindowVM = allFundsViewModel;
+            _fundRepo = fundRepo;
         }
 
         public bool CanExecute(object parameter)
@@ -22,9 +25,8 @@ namespace PortfolioAce.Commands
 
         public void Execute(object parameter)
         {
-
-            Console.WriteLine(parameter);
-            _allFundsWindowVM.CurrentFund = (string)parameter;
+            string fundSymbol = (string)parameter;
+            _allFundsWindowVM.CurrentFund = _fundRepo.GetFund(fundSymbol);
         }
     }
 }

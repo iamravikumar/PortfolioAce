@@ -29,11 +29,14 @@ namespace PortfolioAce.ViewModels
             _tradeRepo = tradeRepo;
             _fundRepo = fundRepo;
             _cashRepo = cashRepo;
-            _lbFunds = fundRepo.GetAllFunds().ToList();
+            //_lbFunds = fundRepo.GetAllFunds().ToList();
             _portfolioService = portfolioService;
-            _currentFund = (_lbFunds.Count!=0) ? _lbFunds[0] : null;
+
+            List<Fund> allFunds = fundRepo.GetAllFunds();
+            _lbFunds = allFunds.Select(f => f.Symbol).ToList();
+            _currentFund = (_lbFunds.Count!=0) ? _fundRepo.GetFund(_lbFunds[0]) : null;
             
-            SelectFundCommand = new SelectFundCommand(this);
+            SelectFundCommand = new SelectFundCommand(this, fundRepo);
 
             // I can make these commands reusable 
             ShowNewTradeCommand = new ActionCommand(ShowNewTradeWindow);
@@ -45,30 +48,32 @@ namespace PortfolioAce.ViewModels
         public ICommand ShowNewCashTradeCommand { get; set; }
 
         // List box click should have a command and that command changes the fields displayed on the right of the allfundsview.
-        private List<Fund> _lbFunds;
+        private List<string> _lbFunds;
         public List<string> lbFunds
         {
             get
             {
-                return _lbFunds.Select(f => f.Symbol).ToList();
+                return _lbFunds;
             }
             set
             {
-                _lbFunds = _fundRepo.GetAllFunds().ToList();
+                List<Fund> allFunds = _fundRepo.GetAllFunds();
+                _lbFunds = allFunds.Select(f => f.Symbol).ToList();
                 OnPropertyChanged(nameof(lbFunds));
             }
         }
 
         private Fund _currentFund;
-        public string CurrentFund
+        public Fund CurrentFund
         {
             get
             {
-                return (_currentFund != null)?_currentFund.FundName:null;
+                return (_currentFund != null)?_currentFund:null;
             }
             set
             {
-                _currentFund = _lbFunds.Where(f => f.Symbol==value).FirstOrDefault();
+                _currentFund = value;
+                //_currentFund = _lbFunds.Where(f => f.Symbol==value).FirstOrDefault();
                 OnPropertyChanged(nameof(CurrentFund));
                 OnPropertyChanged(nameof(dgFundPositions));
             }
