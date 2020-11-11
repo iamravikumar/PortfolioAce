@@ -42,52 +42,54 @@ namespace PortfolioAce.Domain.DataObjects
                 }
             }
 
+            decimal quantityRef = transaction.Quantity; // a reference to the transaction quantity so it doesn't get manipulated
+
             if (transaction.TradeType == "Corporate Action")
             {
-                NetQuantity += transaction.Quantity;
+                NetQuantity += quantityRef;
                 RealisedPnL += transaction.TradeAmount;
                 return;
             }
-            OpenLots lot = new OpenLots(transaction.TradeDate, transaction.Quantity, transaction.Price);
+            OpenLots lot = new OpenLots(transaction.TradeDate, quantityRef, transaction.Price);
 
             // make sure a transaction cannot equal zero in my models
             // position has no trades
-            // used to be (transaction.Quantity * NetQuantity == 0) but if the net quantity is zero then this will always be true
+            // used to be (quantityRef * NetQuantity == 0) but if the net quantity is zero then this will always be true
             // and i need to ignore trades where the transaction.quantity is zero;
             if (NetQuantity == 0)
             {
-                this.IsLong = (transaction.Quantity >= 0);
+                this.IsLong = (quantityRef >= 0);
             }
 
             //trades in diff direction to position
-            else if (transaction.Quantity * NetQuantity < 0)
+            else if (quantityRef * NetQuantity < 0)
             {
-                while (openLots.Count > 0 && transaction.Quantity != 0)
+                while (openLots.Count > 0 && quantityRef != 0)
                 {
                     decimal pnl;
                     int multiplier = (this.IsLong) ? 1 : -1; // this is important because it allows me to calculate pnl taking direction into account.
-                    if (Math.Abs(transaction.Quantity) >= Math.Abs(openLots.Peek().quantity))
+                    if (Math.Abs(quantityRef) >= Math.Abs(openLots.Peek().quantity))
                     {
                         pnl = openLots.Peek().quantity * (transaction.Price - openLots.Peek().price) * multiplier;
-                        // decimal pnl = (transaction.Quantity * transaction.Price) - (openLots.Peek().GetTradeValue())
-                        transaction.Quantity += openLots.Peek().quantity;
+                        // decimal pnl = (quantityRef * transaction.Price) - (openLots.Peek().GetTradeValue())
+                        quantityRef += openLots.Peek().quantity;
                         openLots.Dequeue();
                     }
                     else
                     {
-                        pnl = transaction.Quantity * (openLots.Peek().price - transaction.Price) * multiplier;
-                        openLots.Peek().quantity += transaction.Quantity;
-                        transaction.Quantity = 0;
+                        pnl = quantityRef * (openLots.Peek().price - transaction.Price) * multiplier;
+                        openLots.Peek().quantity += quantityRef;
+                        quantityRef = 0;
                     }
                     RealisedPnL += pnl;
                 }
-                if (transaction.Quantity != 0)
+                if (quantityRef != 0)
                 {
-                    lot.quantity = transaction.Quantity;
+                    lot.quantity = quantityRef;
                 }
 
             }
-            if (transaction.Quantity != 0)
+            if (quantityRef != 0)
             {
                 openLots.Enqueue(lot);
             }
