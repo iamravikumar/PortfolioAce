@@ -109,10 +109,14 @@ namespace PortfolioAce.ViewModels
             // if no id available then raise error;
             int fundId = _currentFund.FundId;
             Window view = new AddTradeWindow();
-            ViewModelBase viewModel = new AddTradeWindowViewModel(_tradeRepo, fundId);
+            ViewModelWindowBase viewModel = new AddTradeWindowViewModel(_tradeRepo, fundId);
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (viewModel.CloseAction == null)
+            {
+                viewModel.CloseAction = new Action(() => view.Close());
+            }
             view.ShowDialog();
         }
 
@@ -121,10 +125,14 @@ namespace PortfolioAce.ViewModels
             // if no id available then raise error;
             int fundId = _currentFund.FundId;
             Window view = new AddCashTradeWindow();
-            ViewModelBase viewModel = new AddCashTradeWindowViewModel(_cashRepo, fundId);
+            ViewModelWindowBase viewModel = new AddCashTradeWindowViewModel(_cashRepo, fundId);
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (viewModel.CloseAction == null)
+            {
+                viewModel.CloseAction = new Action(() => view.Close());
+            }
             view.ShowDialog();
         }
     }

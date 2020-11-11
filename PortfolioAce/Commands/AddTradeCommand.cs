@@ -46,6 +46,7 @@ namespace PortfolioAce.Commands
                     FundId = _addTradeWindowVM.FundId
                 };
                 await _tradeRepo.CreateTrade(newTrade);
+                _addTradeWindowVM.CloseAction();
             }
             catch(Exception e)
             {

@@ -7,7 +7,8 @@ using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Windows
 {
-    public class AddFundWindowViewModel:ViewModelBase
+
+    public class AddFundWindowViewModel:ViewModelWindowBase
     {
         public AddFundWindowViewModel(IFundRepository fundRepo)
         {

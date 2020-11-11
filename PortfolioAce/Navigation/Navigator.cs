@@ -70,7 +70,7 @@ namespace PortfolioAce.Navigation
         public void ShowSettingsWindow()
         {
             Window view = new SettingsWindow();
-            ViewModelBase viewModel = new SettingsWindowViewModel();
+            ViewModelWindowBase viewModel = new SettingsWindowViewModel();
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -80,10 +80,15 @@ namespace PortfolioAce.Navigation
         public void ShowNewFundWindow()
         {
             Window view = new AddFundWindow();
-            ViewModelBase viewModel = new AddFundWindowViewModel(_fundRepo);
+            ViewModelWindowBase viewModel = new AddFundWindowViewModel(_fundRepo);
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (viewModel.CloseAction == null)
+            {
+                viewModel.CloseAction = new Action(() => view.Close());
+            }
+            
             view.ShowDialog();
         }
 

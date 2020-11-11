@@ -41,6 +41,7 @@ namespace PortfolioAce.Commands
                     LaunchDate = _addFundWindowVM.FundLaunch.Date
                 };
                 await _fundRepo.CreateFund(newFund);
+                _addFundWindowVM.CloseAction();
             }
             catch(Exception e)
             {
