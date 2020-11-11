@@ -16,7 +16,7 @@ namespace PortfolioAce.Domain.Models
         public string SecurityName { get; set; }
 
         [Required]
-        public string Type { get; set; }
+        public string Type { get; set; } // rename this to asset class
         [Required]
         [StringLength(3, MinimumLength = 3)]
         public string Currency { get; set; }

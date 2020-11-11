@@ -8,6 +8,8 @@ namespace PortfolioAce.Domain.Models
 {
     // There should be no repo for this it is strictly a reference class. It is only updated via the CashTrades and Trades
     // Its crud operations are based on the CashTrade and Trade amounts.
+
+    // I might need to refactor the name.. Maybe call it CashLegder?
     public class CashAccount
     {
         // This account is also known as the cash ledger
