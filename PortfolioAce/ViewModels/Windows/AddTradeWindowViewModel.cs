@@ -105,7 +105,8 @@ namespace PortfolioAce.ViewModels.Windows
                 // more logic to be put in place once i create converters
                 if(TradeType != "Corporate Action")
                 {
-                    _tradeAmount = Math.Round((Quantity * Price)-Commission, 2);
+                    int multiplier = (Quantity <= 0) ? -1 : 1;
+                    _tradeAmount = Math.Round(((Quantity * Price)-Commission)*multiplier, 2);
                 }
                 else
                 {

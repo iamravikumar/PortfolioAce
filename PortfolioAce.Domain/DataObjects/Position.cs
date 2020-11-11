@@ -8,10 +8,10 @@ namespace PortfolioAce.Domain.DataObjects
 {
     public class Position
     {
-        public readonly string symbol;
+        public string symbol { get; } // removed readonly since it doesnt work with wpf binding
         public decimal AverageCost { get; set; }
         public decimal NetQuantity { get; set; }
-        private decimal RealisedPnL { get; set; }
+        public decimal RealisedPnL { get; set; }
         private bool IsLong { get; set; }
 
         protected List<PositionSnapshot> positionBreakdown;
@@ -36,7 +36,7 @@ namespace PortfolioAce.Domain.DataObjects
             // raise an error if the if this transaction occurs earlier than the most recent transaction.
             if (positionBreakdown.Count > 0)
             {
-                if(positionBreakdown[positionBreakdown.Count-1].date < transaction.TradeDate)
+                if(positionBreakdown[positionBreakdown.Count-1].date > transaction.TradeDate)
                 {
                     throw new InvalidOperationException("A trade must take place after the most recent trade.");
                 }

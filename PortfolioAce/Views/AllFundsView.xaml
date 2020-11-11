@@ -37,13 +37,13 @@
                 <Button Margin="0,0,3,0">View All Transactions</Button>
                 <Button Margin="0,0,3,0">View Cash Ledger</Button>
             </StackPanel>
-            <DataGrid DockPanel.Dock="Bottom" Name="dgSimple" VerticalScrollBarVisibility="Auto">
+            <DataGrid DockPanel.Dock="Bottom" Name="dgPositions" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" />
-                    <DataGridTextColumn Header="Symbol"/>
-                    <DataGridTextColumn Header="Quantity"/>
-                    <DataGridTextColumn Header="Average Cost"/>
-                    <DataGridTextColumn Header="Profit/Loss"/>
+                    <DataGridTextColumn Header="Name"  />
+                    <DataGridTextColumn Header="Symbol" Binding="{Binding symbol}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Quantity" Binding="{Binding NetQuantity}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Average Cost" Binding="{Binding AverageCost}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Realised Profit/Loss" Binding="{Binding RealisedPnL}" IsReadOnly="True"/>
                     <DataGridTextColumn Header="Ccy"/>
                 </DataGrid.Columns>
             </DataGrid>

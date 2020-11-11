@@ -26,7 +26,7 @@ namespace PortfolioAce.Domain.DataObjects
 
     public class CashAccountBalance
     {
-        public string name;
+        public string name; // currency name? different accounts? i.e USD EXPENSE a/c etc
         public decimal balance;
         public CashAccountBalance(string name, decimal balance)
         {

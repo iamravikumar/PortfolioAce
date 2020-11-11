@@ -1,4 +1,6 @@
 ﻿using PortfolioAce.Commands;
+using PortfolioAce.Domain.BusinessServices;
+using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Repository;
 using PortfolioAce.Navigation;
@@ -18,17 +20,22 @@ namespace PortfolioAce.ViewModels
         private IFundRepository _fundRepo;
         private ITradeRepository _tradeRepo;
         private ICashTradeRepository _cashRepo;
+        private IPortfolioService _portfolioService;
 
         public AllFundsViewModel(IFundRepository fundRepo, 
-            ITradeRepository tradeRepo, ICashTradeRepository cashRepo)
+            ITradeRepository tradeRepo, ICashTradeRepository cashRepo,
+            IPortfolioService portfolioService)
         {
             _tradeRepo = tradeRepo;
             _fundRepo = fundRepo;
             _cashRepo = cashRepo;
             _lbFunds = fundRepo.GetAllFunds().ToList();
+            _portfolioService = portfolioService;
             _currentFund = (_lbFunds.Count!=0) ? _lbFunds[0] : null;
+            
             SelectFundCommand = new SelectFundCommand(this);
-            // I can make these commands reusable
+
+            // I can make these commands reusable 
             ShowNewTradeCommand = new ActionCommand(ShowNewTradeWindow);
             ShowNewCashTradeCommand = new ActionCommand(ShowNewCashTradeWindow);
         }
@@ -63,8 +70,39 @@ namespace PortfolioAce.ViewModels
             {
                 _currentFund = _lbFunds.Where(f => f.Symbol==value).FirstOrDefault();
                 OnPropertyChanged(nameof(CurrentFund));
+                OnPropertyChanged(nameof(dgFundPositions));
             }
         }
+
+        private List<CashAccountBalance> _dgFundCashHoldings;
+        public List<CashAccountBalance> dgFundCashHoldings
+        {
+            get
+            {
+                return _dgFundCashHoldings;
+            }
+            set
+            {
+                CashHoldings holdings = _portfolioService.GetAllCashBalances(_currentFund); 
+                _dgFundCashHoldings = holdings.GetCashBalances();
+                OnPropertyChanged(nameof(dgFundCashHoldings));
+            }
+        }
+
+        private List<Position> _dgFundPositions;
+        public List<Position> dgFundPositions
+        {
+            get
+            {
+                return _portfolioService.GetAllPositions(_currentFund);
+            }
+            set
+            {
+                _dgFundPositions = _portfolioService.GetAllPositions(_currentFund);
+                OnPropertyChanged(nameof(dgFundPositions));
+            }
+        }
+
 
         public void ShowNewTradeWindow()
         {
