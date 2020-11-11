@@ -122,7 +122,7 @@ namespace PortfolioAce.Domain.DataObjects
             this.NetQuantity = this.openLots.Sum(lots => lots.quantity);
             if (transaction.Quantity == 0 && this.openLots.Count > 0)
             {
-                this.AverageCost = this.openLots.Peek().price;
+                this.AverageCost = this.openLots.Peek().price; //i believe this might need refactoring for certain edgecases i.e. going from long to short.
             }
             else
             {
@@ -170,6 +170,7 @@ namespace PortfolioAce.Domain.DataObjects
 
         private void CheckDirection()
         {
+            // if we flip position pnl might need to be reset. except for inception to date...
             if (this.NetQuantity < 0 && this.IsLong)
             {
                 this.IsLong = false;
