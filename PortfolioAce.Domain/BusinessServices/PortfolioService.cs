@@ -12,7 +12,7 @@ namespace PortfolioAce.Domain.BusinessServices
     {
         public CashHoldings GetAllCashBalances(Fund fund)
         {
-            var x = fund.CashAccounts.ToList();
+            var x = fund.CashBooks.ToList();
             var y = x.GroupBy(ccy => ccy.Currency, (key, values)
                  => new CashAccountBalance(key, values.Sum(ccy => ccy.TransactionAmount))).ToList();
             CashHoldings cashHoldings = new CashHoldings();

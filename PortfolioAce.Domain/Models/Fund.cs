@@ -28,7 +28,7 @@ namespace PortfolioAce.Domain.Models
         public DateTime LaunchDate { get; set; }
         // I need a record of subscriptions and redemptions
         public virtual ICollection<Trade> Trades {get;set;}
-        public virtual ICollection<CashAccount> CashAccounts { get; set; }
+        public virtual ICollection<CashBook> CashBooks { get; set; }
 
     }
 }

@@ -73,7 +73,6 @@ namespace PortfolioAce.ViewModels
             set
             {
                 _currentFund = value;
-                //_currentFund = _lbFunds.Where(f => f.Symbol==value).FirstOrDefault();
                 OnPropertyChanged(nameof(CurrentFund));
                 OnPropertyChanged(nameof(dgFundPositions));
             }
@@ -84,7 +83,7 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return _dgFundCashHoldings;
+                return (_currentFund!=null)?_dgFundCashHoldings:null;
             }
             set
             {
@@ -99,7 +98,7 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return _portfolioService.GetAllPositions(_currentFund);
+                return (_currentFund!=null)?_portfolioService.GetAllPositions(_currentFund):null;
             }
             set
             {

@@ -24,8 +24,8 @@ namespace PortfolioAce.EFCore.Repository
             {
                 EntityEntry<CashTrade> res = await context.CashTrades.AddAsync(cashTrade);
                 await context.SaveChangesAsync();
-                CashAccount transaction = TransactionMapper(res.Entity, new CashAccount());
-                await context.CashAccounts.AddAsync(transaction);
+                CashBook transaction = TransactionMapper(res.Entity, new CashBook());
+                await context.CashBooks.AddAsync(transaction);
                 await context.SaveChangesAsync();
 
                 return res.Entity;
@@ -43,8 +43,8 @@ namespace PortfolioAce.EFCore.Repository
                 }
                 context.CashTrades.Remove(cashTrade);
                 //TODO: raise a warning if there is no transaction to remove. Big issue if this is the case.
-                CashAccount transaction = await context.CashAccounts.Where(c => c.CashTradeId == id).FirstAsync();
-                context.CashAccounts.Remove(transaction);
+                CashBook transaction = await context.CashBooks.Where(c => c.CashTradeId == id).FirstAsync();
+                context.CashBooks.Remove(transaction);
                 await context.SaveChangesAsync();
                 
                 return cashTrade;
@@ -72,16 +72,16 @@ namespace PortfolioAce.EFCore.Repository
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 context.CashTrades.Update(cashTrade);
-                CashAccount transaction = await context.CashAccounts.Where(c=>c.CashTradeId ==cashTrade.CashTradeId).FirstAsync();
-                CashAccount newTransaction = TransactionMapper(cashTrade, transaction);
-                context.CashAccounts.Update(newTransaction);
+                CashBook transaction = await context.CashBooks.Where(c=>c.CashTradeId ==cashTrade.CashTradeId).FirstAsync();
+                CashBook newTransaction = TransactionMapper(cashTrade, transaction);
+                context.CashBooks.Update(newTransaction);
                 await context.SaveChangesAsync();
 
                 return cashTrade;
             }
         }
 
-        private CashAccount TransactionMapper(CashTrade cashTrade, CashAccount transaction)
+        private CashBook TransactionMapper(CashTrade cashTrade, CashBook transaction)
         {
             // maps cash trade information to a transaction in the database.
             

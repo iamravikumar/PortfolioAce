@@ -58,7 +58,7 @@ namespace PortfolioAce.EFCore.Repository
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.Funds
-                    .Include(f => f.CashAccounts)
+                    .Include(f => f.CashBooks)
                     .Include(f => f.Trades)
                     .ToList();
             }
@@ -69,14 +69,14 @@ namespace PortfolioAce.EFCore.Repository
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.Funds.Where(f => f.Symbol == fundSymbol)
-                            .Include(f => f.CashAccounts)
+                            .Include(f => f.CashBooks)
                             .Include(f => f.Trades)
                             .FirstOrDefault();
 
                 // the group by code etc can be used for when i actually need it.
                 /*
                 return context.Funds.Where(f=>f.Symbol==fundSymbol)
-                    .Include(f => f.CashAccounts.GroupBy(c => c.Currency)
+                    .Include(f => f.CashBooks.GroupBy(c => c.Currency)
                                                 .Select(g => new {
                                                     g.Key,
                                                     ccyTotal = g.Sum(s => s.TransactionAmount)

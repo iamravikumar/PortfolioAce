@@ -74,6 +74,7 @@ namespace PortfolioAce.ViewModels.Windows
             {
                 _quantity = value;
                 OnPropertyChanged(nameof(Quantity));
+                OnPropertyChanged(nameof(TradeAmount));
             }
         }
 
@@ -88,7 +89,7 @@ namespace PortfolioAce.ViewModels.Windows
             {
                 _price= value;
                 OnPropertyChanged(nameof(Price));
-                OnPropertyChanged(nameof(TradeAmount)); //might fail for now if no quantity or commission set
+                OnPropertyChanged(nameof(TradeAmount)); 
             }
         }
 
@@ -98,17 +99,17 @@ namespace PortfolioAce.ViewModels.Windows
             
             get
             {
+                if (TradeType != "Corporate Action")
+                {
+                    int multiplier = -1;
+                    _tradeAmount = Math.Round((Quantity * Price * multiplier) - Commission, 2);
+                }
+
                 return _tradeAmount;
             }
             set
             {
-                // more logic to be put in place once i create converters
-                if(TradeType != "Corporate Action")
-                {
-                    int multiplier = (Quantity <= 0) ? -1 : 1;
-                    _tradeAmount = Math.Round(((Quantity * Price)-Commission)*multiplier, 2);
-                }
-                else
+                if(TradeType == "Corporate Action")
                 {
                     _tradeAmount = value;
                 }
@@ -141,7 +142,7 @@ namespace PortfolioAce.ViewModels.Windows
             {
                 _commission = value;
                 OnPropertyChanged(nameof(Commission));
-                OnPropertyChanged(nameof(TradeAmount)); //might fail for now if no quantity or price set
+                OnPropertyChanged(nameof(TradeAmount)); 
             }
         }
 

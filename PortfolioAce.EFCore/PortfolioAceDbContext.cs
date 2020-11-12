@@ -12,7 +12,7 @@ namespace PortfolioAce.EFCore
         public DbSet<Fund> Funds { get; set; }
         public DbSet<Trade> Trades { get; set; }
         public DbSet<CashTrade> CashTrades { get; set; }
-        public DbSet<CashAccount> CashAccounts { get; set; }
+        public DbSet<CashBook> CashBooks { get; set; }
         public DbSet<Security> Securities { get; set; }
 
         public PortfolioAceDbContext(DbContextOptions options) : base(options)
