@@ -26,12 +26,12 @@ namespace PortfolioAce.Domain.DataObjects
 
     public class CashAccountBalance
     {
-        public string name; // currency name? different accounts? i.e USD EXPENSE a/c etc
-        public decimal balance;
+        public string Name { get; set; } // currency name? different accounts? i.e USD EXPENSE a/c etc
+        public decimal Balance { get; set; }
         public CashAccountBalance(string name, decimal balance)
         {
-            this.name = name;
-            this.balance = balance;
+            this.Name = name;
+            this.Balance = balance;
         }
     }
 }

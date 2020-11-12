@@ -75,6 +75,9 @@ namespace PortfolioAce.ViewModels
                 _currentFund = value;
                 OnPropertyChanged(nameof(CurrentFund));
                 OnPropertyChanged(nameof(dgFundPositions));
+                OnPropertyChanged(nameof(dgFundCashHoldings));
+                OnPropertyChanged(nameof(dgFundTrades));
+
             }
         }
 
@@ -83,7 +86,15 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return (_currentFund!=null)?_dgFundCashHoldings:null;
+                if (_currentFund != null)
+                {
+                    CashHoldings holdings = _portfolioService.GetAllCashBalances(_currentFund);
+                    return holdings.GetCashBalances();
+                }
+                else
+                {
+                    return null;
+                }
             }
             set
             {
@@ -107,6 +118,19 @@ namespace PortfolioAce.ViewModels
             }
         }
 
+        private List<Trade> _dgFundTrades;
+        public List<Trade> dgFundTrades
+        {
+            get
+            {
+                return (_currentFund != null) ?_currentFund.Trades.OrderBy(t=>t.TradeDate).ToList() : null;
+            }
+            set
+            {
+                _dgFundTrades = _currentFund.Trades.OrderBy(t => t.TradeDate).ToList();
+                OnPropertyChanged(nameof(dgFundTrades));
+            }
+        }
 
         public void ShowNewTradeWindow()
         {

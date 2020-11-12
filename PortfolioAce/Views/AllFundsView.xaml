@@ -53,27 +53,27 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Cash Holdings">
-                    <DataGrid Name="dgCashHoldings" ColumnWidth="*" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                    <DataGrid Name="dgCashHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgFundCashHoldings}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Currency" Width="100"/>
-                            <DataGridTextColumn Header="Balance" Width="150"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Name}" Width="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Balance" Binding="{Binding Balance}" Width="150" IsReadOnly="True"/>
                             <DataGridTextColumn Header="As Of (Date)" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Trade History">
-                    <DataGrid Name="dgTradeHistory" ColumnWidth="*" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                    <DataGrid Name="dgTradeHistory" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTrades}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Type"  />
+                            <DataGridTextColumn Header="Type"  Binding="{Binding TradeType}"/>
                             <DataGridTextColumn Header="Name" />
-                            <DataGridTextColumn Header="Symbol" />
-                            <DataGridTextColumn Header="Quantity" />
-                            <DataGridTextColumn Header="Price"/>
-                            <DataGridTextColumn Header="Trade Amount"/>
-                            <DataGridTextColumn Header="Commission"/>
-                            <DataGridTextColumn Header="Trade Date"/>
-                            <DataGridTextColumn Header="Settle Date"/>
-                            <DataGridTextColumn Header="Currency" Width="*"/>
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}"/>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
+                            <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount}"/>
+                            <DataGridTextColumn Header="Commission" Binding="{Binding Commission}"/>
+                            <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate}"/>
+                            <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate}"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
