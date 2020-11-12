@@ -35,7 +35,7 @@ namespace PortfolioAce.Domain.Models
         public int FundId { get; set; }
         public Fund Fund { get; set; }
 
-        // need to include foriegn key for transfer agency
+        // need to include foriegn key for transfer agency the id..
 
         [ForeignKey("Trade")]
         public int? TradeId { get; set; }

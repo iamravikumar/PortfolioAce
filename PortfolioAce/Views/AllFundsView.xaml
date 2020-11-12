@@ -78,13 +78,13 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Cash Book">
-                    <DataGrid Name="dgCashBook" ColumnWidth="*" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                    <DataGrid Name="dgCashBook" ColumnWidth="*" ItemsSource="{Binding Path=dgFundCashBook}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Type"  />
-                            <DataGridTextColumn Header="Transaction Amount" />
-                            <DataGridTextColumn Header="Transaction Date" />
-                            <DataGridTextColumn Header="Comment" Width="*"/>
-                            <DataGridTextColumn Header="Currency" />
+                            <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" />
+                            <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TransactionAmount}" />
+                            <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TransactionDate}"/>
+                            <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Comment}"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

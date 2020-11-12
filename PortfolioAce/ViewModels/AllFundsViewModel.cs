@@ -77,6 +77,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundPositions));
                 OnPropertyChanged(nameof(dgFundCashHoldings));
                 OnPropertyChanged(nameof(dgFundTrades));
+                OnPropertyChanged(nameof(dgFundCashBook));
 
             }
         }
@@ -129,6 +130,20 @@ namespace PortfolioAce.ViewModels
             {
                 _dgFundTrades = _currentFund.Trades.OrderBy(t => t.TradeDate).ToList();
                 OnPropertyChanged(nameof(dgFundTrades));
+            }
+        }
+
+        private List<CashBook> _dgFundCashBook;
+        public List<CashBook> dgFundCashBook
+        {
+            get
+            {
+                return (_currentFund != null) ? _currentFund.CashBooks.OrderBy(t => t.TransactionDate).ToList() : null;
+            }
+            set
+            {
+                _dgFundCashBook = _currentFund.CashBooks.OrderBy(t => t.TransactionDate).ToList();
+                OnPropertyChanged(nameof(dgFundCashBook));
             }
         }
 
