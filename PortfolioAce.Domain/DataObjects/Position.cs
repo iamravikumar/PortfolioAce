@@ -48,6 +48,7 @@ namespace PortfolioAce.Domain.DataObjects
             {
                 NetQuantity += quantityRef;
                 RealisedPnL += transaction.TradeAmount;
+                // to breakdown before return
                 return;
             }
 

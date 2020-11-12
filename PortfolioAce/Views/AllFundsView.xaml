@@ -18,7 +18,12 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="1" Grid.Row="0" Margin="2">
             <StackPanel DockPanel.Dock="Left">
-                <TextBlock Text="{Binding Path=CurrentFund.FundName, StringFormat='Fund Name: {0}'}"></TextBlock>
+                <TextBlock>
+                    <TextBlock.Inlines>
+                        <Run FontWeight="Bold" Text="{Binding Path=CurrentFund.FundName}"/>
+                        <!--<Run FontWeight="Bold" Text="{Binding Path=CurrentFund.FundName, StringFormat='Fund Name: {0}'}" />-->
+                    </TextBlock.Inlines>
+                </TextBlock>
                 <TextBlock><Bold>NAV as of 04/01/2021:</Bold> 50,000,000 GBP</TextBlock>
                 <TextBlock><Bold>NAV per share as of 04/01/2021:</Bold> 105.97</TextBlock>
                 <TextBlock><Bold>ITD Performance:</Bold> 10.7314%</TextBlock>
@@ -30,23 +35,60 @@
         </DockPanel>
         <Border BorderBrush="Silver" BorderThickness="1" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"/>
         <DockPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="2">
-            <TextBlock DockPanel.Dock="Top" Margin="0,0,0,5" Text="{Binding Path=CurrentFund.FundName, StringFormat='Current Positions for {0}'}"></TextBlock>
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <Button Margin="1,0,3,0" Command="{Binding ShowNewTradeCommand}">Add Trade</Button>
                 <Button Margin="0,0,3,0" Command="{Binding ShowNewCashTradeCommand}">Add Cash Trade</Button>
-                <Button Margin="0,0,3,0">View All Transactions</Button>
-                <Button Margin="0,0,3,0">View Cash Ledger</Button>
             </StackPanel>
-            <DataGrid DockPanel.Dock="Bottom" Name="dgPositions" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name"  />
-                    <DataGridTextColumn Header="Symbol" Binding="{Binding symbol}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Quantity" Binding="{Binding NetQuantity}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Average Cost" Binding="{Binding AverageCost}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Realised Profit/Loss" Binding="{Binding RealisedPnL}" IsReadOnly="True"/>
-                    <DataGridTextColumn Header="Ccy"/>
-                </DataGrid.Columns>
-            </DataGrid>
+            <TabControl DockPanel.Dock="Bottom">
+                <TabItem Header="Positions">
+                    <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name"  />
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding symbol}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding NetQuantity}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Average Cost" Binding="{Binding AverageCost}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Realised Profit/Loss" Binding="{Binding RealisedPnL}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Currency" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Cash Holdings">
+                    <DataGrid Name="dgCashHoldings" ColumnWidth="*" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Currency" Width="100"/>
+                            <DataGridTextColumn Header="Balance" Width="150"/>
+                            <DataGridTextColumn Header="As Of (Date)" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Trade History">
+                    <DataGrid Name="dgTradeHistory" ColumnWidth="*" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Type"  />
+                            <DataGridTextColumn Header="Name" />
+                            <DataGridTextColumn Header="Symbol" />
+                            <DataGridTextColumn Header="Quantity" />
+                            <DataGridTextColumn Header="Price"/>
+                            <DataGridTextColumn Header="Trade Amount"/>
+                            <DataGridTextColumn Header="Commission"/>
+                            <DataGridTextColumn Header="Trade Date"/>
+                            <DataGridTextColumn Header="Settle Date"/>
+                            <DataGridTextColumn Header="Currency" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Cash Book">
+                    <DataGrid Name="dgCashBook" ColumnWidth="*" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Type"  />
+                            <DataGridTextColumn Header="Transaction Amount" />
+                            <DataGridTextColumn Header="Transaction Date" />
+                            <DataGridTextColumn Header="Comment" Width="*"/>
+                            <DataGridTextColumn Header="Currency" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
         </DockPanel>
         <Border BorderBrush="Silver" BorderThickness="1" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"/>
         <ListBox Name="lbFundList" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=lbFunds}" >

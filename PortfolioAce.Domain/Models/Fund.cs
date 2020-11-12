@@ -27,8 +27,9 @@ namespace PortfolioAce.Domain.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LaunchDate { get; set; }
         // I need a record of subscriptions and redemptions
-        public virtual ICollection<Trade> Trades {get;set;}
+        public virtual ICollection<Trade> Trades { get; set; }
         public virtual ICollection<CashBook> CashBooks { get; set; }
+        public virtual ICollection<TransferAgencyModel> TransferAgent {get;set;}
 
     }
 }
