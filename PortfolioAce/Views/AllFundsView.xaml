@@ -29,8 +29,8 @@
                 <TextBlock><Bold>ITD Performance:</Bold> 10.7314%</TextBlock>
             </StackPanel>
             <StackPanel DockPanel.Dock="Left" Margin="30,0,0,0">
-                <Button Margin="20,10,0,0" Width="210">View NAV Breakdown</Button>
-                <Button Margin="20,10,0,0" Width="210">View Subscriptions and Redemptions</Button>
+                <Button Margin="20,10,0,0" Width="210">Investor Manager...</Button>
+                <Button Margin="20,10,0,0" Width="210">NAV Breakdown</Button>
             </StackPanel>
         </DockPanel>
         <Border BorderBrush="Silver" BorderThickness="1" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"/>
@@ -85,6 +85,15 @@
                             <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TransactionDate}"/>
                             <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Comment}"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Subscriptions and Redemptions">
+                    <DataGrid Name="dgSubsAndReds" ColumnWidth="*"  VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Column A" />
+                            <DataGridTextColumn Header="Column B" />
+                            <DataGridTextColumn Header="Column C" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

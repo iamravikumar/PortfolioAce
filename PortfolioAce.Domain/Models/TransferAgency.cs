@@ -6,7 +6,7 @@ using System.Text;
 
 namespace PortfolioAce.Domain.Models
 {
-    public class TransferAgencyModel
+    public class TransferAgency
     {
         [Required]
         public int Id { get; set; }

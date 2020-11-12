@@ -35,7 +35,6 @@ namespace PortfolioAce.Domain.Models
         public int FundId { get; set; }
         public Fund Fund { get; set; }
 
-        // need to include foriegn key for transfer agency the id..
 
         [ForeignKey("Trade")]
         public int? TradeId { get; set; }
@@ -44,5 +43,9 @@ namespace PortfolioAce.Domain.Models
         [ForeignKey("CashTrade")]
         public int? CashTradeId { get; set; }
         public CashTrade CashTrade { get; set; }
+
+        [ForeignKey("TransferAgency")]
+        public int? TransferAgencyId { get; set; }
+        public TransferAgency TransferAgent { get; set; }
     }
 }
