@@ -11,7 +11,7 @@ namespace PortfolioAce.Domain.DataObjects
         public string symbol { get; } // removed readonly since it doesnt work with wpf binding
         public decimal AverageCost { get; set; }
         public decimal NetQuantity { get; set; }
-        public decimal RealisedPnL { get; set; }
+        public decimal RealisedPnL { get; set; } // think about how to incorporate commission here
         private bool IsLong { get; set; }
 
         protected List<PositionSnapshot> positionBreakdown;
@@ -50,6 +50,7 @@ namespace PortfolioAce.Domain.DataObjects
                 RealisedPnL += transaction.TradeAmount;
                 return;
             }
+
             OpenLots lot = new OpenLots(transaction.TradeDate, quantityRef, transaction.Price);
 
             // make sure a transaction cannot equal zero in my models
@@ -70,14 +71,13 @@ namespace PortfolioAce.Domain.DataObjects
                     int multiplier = (this.IsLong) ? 1 : -1; // this is important because it allows me to calculate pnl taking direction into account.
                     if (Math.Abs(quantityRef) >= Math.Abs(openLots.Peek().quantity))
                     {
-                        pnl = openLots.Peek().quantity * (transaction.Price - openLots.Peek().price) * multiplier;
-                        // decimal pnl = (quantityRef * transaction.Price) - (openLots.Peek().GetTradeValue())
+                        pnl = Math.Abs(openLots.Peek().quantity) * (transaction.Price - openLots.Peek().price) * multiplier;
                         quantityRef += openLots.Peek().quantity;
                         openLots.Dequeue();
                     }
                     else
                     {
-                        pnl = quantityRef * (openLots.Peek().price - transaction.Price) * multiplier;
+                        pnl = Math.Abs(quantityRef) * (transaction.Price - openLots.Peek().price ) * multiplier;
                         openLots.Peek().quantity += quantityRef;
                         quantityRef = 0;
                     }
