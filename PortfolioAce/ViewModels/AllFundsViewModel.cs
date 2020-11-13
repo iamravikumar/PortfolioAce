@@ -31,7 +31,6 @@ namespace PortfolioAce.ViewModels
             _fundRepo = fundRepo;
             _cashRepo = cashRepo;
             _investorRepo = investorRepo;
-            //_lbFunds = fundRepo.GetAllFunds().ToList();
             _portfolioService = portfolioService;
 
             List<Fund> allFunds = fundRepo.GetAllFunds();
@@ -82,7 +81,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashHoldings));
                 OnPropertyChanged(nameof(dgFundTrades));
                 OnPropertyChanged(nameof(dgFundCashBook));
-
+                OnPropertyChanged(nameof(dgFundTA));
             }
         }
 
@@ -148,6 +147,20 @@ namespace PortfolioAce.ViewModels
             {
                 _dgFundCashBook = _currentFund.CashBooks.OrderBy(t => t.TransactionDate).ToList();
                 OnPropertyChanged(nameof(dgFundCashBook));
+            }
+        }
+
+        private List<TransferAgency> _dgFundTA;
+        public List<TransferAgency> dgFundTA
+        {
+            get
+            {
+                return (_currentFund != null) ? _currentFund.TransferAgent.OrderBy(ta => ta.TransactionDate).ToList() : null;
+            }
+            set
+            {
+                _dgFundTA = _currentFund.TransferAgent.OrderBy(ta => ta.TransactionDate).ToList();
+                OnPropertyChanged(nameof(dgFundTA));
             }
         }
 

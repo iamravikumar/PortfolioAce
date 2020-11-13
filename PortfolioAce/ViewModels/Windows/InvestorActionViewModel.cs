@@ -72,12 +72,13 @@ namespace PortfolioAce.ViewModels.Windows
         {
             get
             {
+                // these should be absolute.
                 return _units;
             }
             set
             {
                 _units = value;
-                OnPropertyChanged(nameof(Units));
+                OnPropertyChanged(nameof(Units)); 
                 OnPropertyChanged(nameof(TradeAmount));
             }
         }
@@ -103,9 +104,8 @@ namespace PortfolioAce.ViewModels.Windows
 
             get
             {
-
-                int multiplier = -1;
-                _tradeAmount = Math.Round((Units * Price * multiplier) - Fee, 2);
+                // units should be absolute. multiplier should be based on sub/ red type.
+                _tradeAmount = Math.Round((Units * Price) - Fee, 2);
                 
 
                 return _tradeAmount;

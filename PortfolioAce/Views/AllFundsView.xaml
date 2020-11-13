@@ -41,28 +41,28 @@
             </StackPanel>
             <TabControl DockPanel.Dock="Bottom">
                 <TabItem Header="Positions">
-                    <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False">
+                    <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Name"  />
-                            <DataGridTextColumn Header="Symbol" Binding="{Binding symbol}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Quantity" Binding="{Binding NetQuantity}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Average Cost" Binding="{Binding AverageCost}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Realised Profit/Loss" Binding="{Binding RealisedPnL}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding symbol}" />
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding NetQuantity}" />
+                            <DataGridTextColumn Header="Average Cost" Binding="{Binding AverageCost}" />
+                            <DataGridTextColumn Header="Realised Profit/Loss" Binding="{Binding RealisedPnL}" />
                             <DataGridTextColumn Header="Currency" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Cash Holdings">
-                    <DataGrid Name="dgCashHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgFundCashHoldings}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                    <DataGrid Name="dgCashHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgFundCashHoldings}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding Name}" Width="100" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Balance" Binding="{Binding Balance}" Width="150" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Name}" Width="100" />
+                            <DataGridTextColumn Header="Balance" Binding="{Binding Balance}" Width="150" />
                             <DataGridTextColumn Header="As Of (Date)" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Trade History">
-                    <DataGrid Name="dgTradeHistory" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTrades}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                    <DataGrid Name="dgTradeHistory" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTrades}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type"  Binding="{Binding TradeType}"/>
                             <DataGridTextColumn Header="Name" />
@@ -78,7 +78,7 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Cash Book">
-                    <DataGrid Name="dgCashBook" ColumnWidth="*" ItemsSource="{Binding Path=dgFundCashBook}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                    <DataGrid Name="dgCashBook" ColumnWidth="*" ItemsSource="{Binding Path=dgFundCashBook}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" />
                             <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TransactionAmount}" />
@@ -89,11 +89,16 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Subscriptions and Redemptions">
-                    <DataGrid Name="dgSubsAndReds" ColumnWidth="*"  VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                    <DataGrid Name="dgSubsAndReds" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTA}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Column A" />
-                            <DataGridTextColumn Header="Column B" />
-                            <DataGridTextColumn Header="Column C" Width="*"/>
+                            <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
+                            <DataGridTextColumn Header="Units" Binding="{Binding Units}" />
+                            <DataGridTextColumn Header="NAV Price" Binding="{Binding NAVPrice}" />
+                            <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount}" />
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" />
+                            <DataGridTextColumn Header="Investor Name" Binding="{Binding InvestorName}" />
+                            <DataGridTextColumn Header="Action Date" Binding="{Binding TransactionDate}" />
+                            <DataGridTextColumn Header="Action Settle Date" Binding="{Binding TransactionSettleDate}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

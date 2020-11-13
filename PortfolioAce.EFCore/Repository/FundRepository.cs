@@ -60,6 +60,7 @@ namespace PortfolioAce.EFCore.Repository
                 return context.Funds
                     .Include(f => f.CashBooks)
                     .Include(f => f.Trades)
+                    .Include(f=> f.TransferAgent)
                     .ToList();
             }
         }
@@ -71,6 +72,7 @@ namespace PortfolioAce.EFCore.Repository
                 return context.Funds.Where(f => f.Symbol == fundSymbol)
                             .Include(f => f.CashBooks)
                             .Include(f => f.Trades)
+                            .Include(f=>f.TransferAgent)
                             .FirstOrDefault();
 
                 // the group by code etc can be used for when i actually need it.
