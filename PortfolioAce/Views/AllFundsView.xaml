@@ -29,7 +29,7 @@
                 <TextBlock><Bold>ITD Performance:</Bold> 10.7314%</TextBlock>
             </StackPanel>
             <StackPanel DockPanel.Dock="Left" Margin="30,0,0,0">
-                <Button Margin="20,10,0,0" Width="210">Investor Manager...</Button>
+                <Button Margin="20,10,0,0" Width="210" Command="{Binding ShowNewInvestorActionCommand}">Investor Manager...</Button>
                 <Button Margin="20,10,0,0" Width="210">NAV Breakdown</Button>
             </StackPanel>
         </DockPanel>

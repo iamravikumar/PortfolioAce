@@ -20,15 +20,17 @@ namespace PortfolioAce.ViewModels
         private IFundRepository _fundRepo;
         private ITradeRepository _tradeRepo;
         private ICashTradeRepository _cashRepo;
+        private ITransferAgencyRepository _investorRepo;
         private IPortfolioService _portfolioService;
 
-        public AllFundsViewModel(IFundRepository fundRepo, 
+        public AllFundsViewModel(IFundRepository fundRepo,
             ITradeRepository tradeRepo, ICashTradeRepository cashRepo,
-            IPortfolioService portfolioService)
+            IPortfolioService portfolioService, ITransferAgencyRepository investorRepo)
         {
             _tradeRepo = tradeRepo;
             _fundRepo = fundRepo;
             _cashRepo = cashRepo;
+            _investorRepo = investorRepo;
             //_lbFunds = fundRepo.GetAllFunds().ToList();
             _portfolioService = portfolioService;
 
@@ -41,11 +43,13 @@ namespace PortfolioAce.ViewModels
             // I can make these commands reusable 
             ShowNewTradeCommand = new ActionCommand(ShowNewTradeWindow);
             ShowNewCashTradeCommand = new ActionCommand(ShowNewCashTradeWindow);
+            ShowNewInvestorActionCommand = new ActionCommand(ShowInvestorActionWindow);
         }
 
         public ICommand SelectFundCommand { get; set; }
         public ICommand ShowNewTradeCommand { get; set; }
         public ICommand ShowNewCashTradeCommand { get; set; }
+        public ICommand ShowNewInvestorActionCommand { get; set; }
 
         // List box click should have a command and that command changes the fields displayed on the right of the allfundsview.
         private List<string> _lbFunds;
@@ -169,6 +173,22 @@ namespace PortfolioAce.ViewModels
             int fundId = _currentFund.FundId;
             Window view = new AddCashTradeWindow();
             ViewModelWindowBase viewModel = new AddCashTradeWindowViewModel(_cashRepo, fundId);
+            view.DataContext = viewModel;
+            view.Owner = Application.Current.MainWindow;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (viewModel.CloseAction == null)
+            {
+                viewModel.CloseAction = new Action(() => view.Close());
+            }
+            view.ShowDialog();
+        }
+
+        public void ShowInvestorActionWindow()
+        {
+            // if no id available then raise error;
+            int fundId = _currentFund.FundId;
+            Window view = new InvestorActionsWindow();
+            ViewModelWindowBase viewModel = new InvestorActionViewModel(_investorRepo, _currentFund);
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;

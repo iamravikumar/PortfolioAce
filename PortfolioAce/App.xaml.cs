@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using PortfolioAce.Domain.BusinessServices;
+using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore;
 using PortfolioAce.EFCore.Repository;
 using PortfolioAce.Navigation;
@@ -51,7 +52,7 @@ namespace PortfolioAce
             services.AddSingleton<ICashTradeRepository, CashTradeRepository>();
             services.AddSingleton<ITradeRepository, TradeRepository>();
             services.AddSingleton<IAdminRepository, AdminRepository>();
-
+            services.AddSingleton<ITransferAgencyRepository, TransferAgencyRepository>();
 
             // Add viewmodels here
             services.AddSingleton<HomeViewModel>();
@@ -59,7 +60,8 @@ namespace PortfolioAce
                 services.GetRequiredService<IFundRepository>(), 
                 services.GetRequiredService<ITradeRepository>(),
                  services.GetRequiredService<ICashTradeRepository>(),
-                 services.GetRequiredService<IPortfolioService>())); // this is how i can pass in my repositories
+                 services.GetRequiredService<IPortfolioService>(),
+                 services.GetRequiredService<ITransferAgencyRepository>())); // this is how i can pass in my repositories
             services.AddSingleton<SystemFXRatesViewModel>();
             services.AddSingleton<SystemSecurityPricesViewModel>();
 

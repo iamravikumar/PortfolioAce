@@ -8,8 +8,9 @@ namespace PortfolioAce.Domain.Models
 {
     public class TransferAgency
     {
+        // might need pending and approved
         [Required]
-        public int Id { get; set; }
+        public int TransferAgencyId { get; set; }
         
         [Required]
         public DateTime TransactionDate { get; set; } // must be on the funds launch date!!!
@@ -30,7 +31,7 @@ namespace PortfolioAce.Domain.Models
         public decimal NAVPrice { get; set; }
         
         [Required]
-        public decimal TradeAmount { get; set; }
+        public decimal TradeAmount { get; set; } // fees should be taken into account here.
 
         [Required]
         public string Currency { get; set; } // hardcoded to funds base currency... no support for share classes atm.

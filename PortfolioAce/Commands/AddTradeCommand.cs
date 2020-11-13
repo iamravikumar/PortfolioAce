@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    class AddTradeCommand : ICommand
+    public class AddTradeCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
