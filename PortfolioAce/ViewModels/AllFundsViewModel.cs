@@ -39,15 +39,14 @@ namespace PortfolioAce.ViewModels
             
             SelectFundCommand = new SelectFundCommand(this, fundRepo);
             
-            // I can make these commands reusable 
-            ShowNewTradeCommand = new ActionCommand(ShowNewTradeWindow);
-            ShowNewCashTradeCommand = new ActionCommand(ShowNewCashTradeWindow);
-            ShowNewInvestorActionCommand = new ActionCommand(ShowInvestorActionWindow);
-            /* Only allows me to open the window once. if i close it, it doesnt reopen
-            ShowNewInvestorActionCommand = new ActionCommand<InvestorActionsWindow, InvestorActionViewModel>(
-                ShowInvestorActionWindow, new InvestorActionsWindow(), new InvestorActionViewModel(investorRepo, _currentFund)
+            ShowNewTradeCommand = new ActionCommand<Type, Type, ITradeRepository>(
+                OpenModalWindow, typeof(AddTradeWindow), typeof(AddTradeWindowViewModel), _tradeRepo);
+            ShowNewCashTradeCommand = new ActionCommand<Type, Type, ICashTradeRepository>(
+                OpenModalWindow, typeof(AddCashTradeWindow), typeof(AddCashTradeWindowViewModel), _cashRepo);
+            ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyRepository>(
+                OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorRepo
                 );
-            */
+
         }
 
         public ICommand SelectFundCommand { get; set; }
@@ -170,45 +169,12 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public void ShowNewTradeWindow()
+        public void OpenModalWindow(Type a, Type b, object myRepo)
         {
-            // if no id available then raise error;
             int fundId = _currentFund.FundId;
-            Window view = new AddTradeWindow();
-            ViewModelWindowBase viewModel = new AddTradeWindowViewModel(_tradeRepo, fundId);
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (viewModel.CloseAction == null)
-            {
-                viewModel.CloseAction = new Action(() => view.Close());
-            }
-            view.ShowDialog();
-        }
-
-        public void ShowNewCashTradeWindow()
-        {
-            // if no id available then raise error;
-            int fundId = _currentFund.FundId;
-            Window view = new AddCashTradeWindow();
-            ViewModelWindowBase viewModel = new AddCashTradeWindowViewModel(_cashRepo, fundId);
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (viewModel.CloseAction == null)
-            {
-                viewModel.CloseAction = new Action(() => view.Close());
-            }
-            view.ShowDialog();
-        }
-
-
-        public void ShowInvestorActionWindow()
-        {
-            // if no id available then raise error;
-            int fundId = _currentFund.FundId;
-            Window view = new InvestorActionsWindow();
-            ViewModelWindowBase viewModel = new InvestorActionViewModel(_investorRepo, _currentFund);
+            Window view = (Window)Activator.CreateInstance(a);
+            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(b, myRepo, _currentFund);
+            
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;

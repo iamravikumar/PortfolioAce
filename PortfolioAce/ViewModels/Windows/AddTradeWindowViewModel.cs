@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Commands;
+using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Repository;
 using PortfolioAce.Navigation;
 using System;
@@ -10,12 +11,12 @@ namespace PortfolioAce.ViewModels.Windows
 {
     public class AddTradeWindowViewModel: ViewModelWindowBase
     {
-        private int _fundId;
+        private Fund _fund;
 
-        public AddTradeWindowViewModel(ITradeRepository tradeRepo, int fundId)
+        public AddTradeWindowViewModel(ITradeRepository tradeRepo, Fund fund)
         {
             AddTradeCommand = new AddTradeCommand(this, tradeRepo);
-            _fundId = fundId;
+            _fund = fund;
             _tradeDate = DateTime.Today;
             _settleDate = DateTime.Today;
         }
@@ -24,7 +25,7 @@ namespace PortfolioAce.ViewModels.Windows
         {
             get
             {
-                return _fundId;
+                return _fund.FundId;
             }
             private set
             {
