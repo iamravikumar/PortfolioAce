@@ -169,11 +169,11 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public void OpenModalWindow(Type a, Type b, object myRepo)
+        public void OpenModalWindow(Type windowType, Type viewModelType, object myRepo)
         {
             int fundId = _currentFund.FundId;
-            Window view = (Window)Activator.CreateInstance(a);
-            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(b, myRepo, _currentFund);
+            Window view = (Window)Activator.CreateInstance(windowType);
+            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myRepo, _currentFund);
             
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
