@@ -38,16 +38,22 @@ namespace PortfolioAce.ViewModels
             _currentFund = (_lbFunds.Count!=0) ? _fundRepo.GetFund(_lbFunds[0]) : null;
             
             SelectFundCommand = new SelectFundCommand(this, fundRepo);
-
+            
             // I can make these commands reusable 
             ShowNewTradeCommand = new ActionCommand(ShowNewTradeWindow);
             ShowNewCashTradeCommand = new ActionCommand(ShowNewCashTradeWindow);
             ShowNewInvestorActionCommand = new ActionCommand(ShowInvestorActionWindow);
+            /* Only allows me to open the window once. if i close it, it doesnt reopen
+            ShowNewInvestorActionCommand = new ActionCommand<InvestorActionsWindow, InvestorActionViewModel>(
+                ShowInvestorActionWindow, new InvestorActionsWindow(), new InvestorActionViewModel(investorRepo, _currentFund)
+                );
+            */
         }
 
         public ICommand SelectFundCommand { get; set; }
         public ICommand ShowNewTradeCommand { get; set; }
         public ICommand ShowNewCashTradeCommand { get; set; }
+        
         public ICommand ShowNewInvestorActionCommand { get; set; }
 
         // List box click should have a command and that command changes the fields displayed on the right of the allfundsview.
@@ -195,6 +201,7 @@ namespace PortfolioAce.ViewModels
             }
             view.ShowDialog();
         }
+
 
         public void ShowInvestorActionWindow()
         {
