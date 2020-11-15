@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PortfolioAce.EFCore.Repository
+namespace PortfolioAce.EFCore.Services
 {
     public interface ITradeRepository
     {

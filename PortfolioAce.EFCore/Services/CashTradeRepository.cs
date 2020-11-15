@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace PortfolioAce.EFCore.Repository
+namespace PortfolioAce.EFCore.Services
 {
     public class CashTradeRepository : ICashTradeRepository
     {

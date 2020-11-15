@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PortfolioAce.EFCore.Repository
+namespace PortfolioAce.EFCore.Services
 {
     public class FundRepository:IFundRepository
     {

@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore;
-using PortfolioAce.EFCore.Repository;
+using PortfolioAce.EFCore.Services;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;

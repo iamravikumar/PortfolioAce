@@ -2,7 +2,7 @@
 using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.Models;
-using PortfolioAce.EFCore.Repository;
+using PortfolioAce.EFCore.Services;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Windows;
 using PortfolioAce.Views.Windows;
