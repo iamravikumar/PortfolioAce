@@ -52,6 +52,9 @@
                         <Image Source="/PortfolioAce;component/Resources\icon_import_trades.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="Security Manager..." Command="{Binding ShowSecurityManagerCommand}">
+                    
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="_Help">
                 <MenuItem Header="About" Command="{Binding ShowAboutCommand}" />

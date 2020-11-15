@@ -40,6 +40,7 @@ namespace PortfolioAce.Navigation
             // I can make these commands reusable
             ShowSettingsCommand = new ActionCommand(ShowSettingsWindow);
             ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
+            ShowSecurityManagerCommand = new ActionCommand(ShowSecurityManagerWindow);
             ShowAboutCommand = new ActionCommand(ShowAboutWindow);
             ShowImportTradesCommand = new ActionCommand(ShowImportTradesWindow);
             CloseApplicationCommand = new ActionCommand(CloseApplication);
@@ -51,7 +52,7 @@ namespace PortfolioAce.Navigation
         public ICommand ShowNewFundCommand { get; }
         public ICommand ShowAboutCommand { get; }
         public ICommand ShowImportTradesCommand { get; }
-
+        public ICommand ShowSecurityManagerCommand { get; set; }
 
         public void CloseApplication()
         {
@@ -89,6 +90,16 @@ namespace PortfolioAce.Navigation
                 viewModel.CloseAction = new Action(() => view.Close());
             }
             
+            view.ShowDialog();
+        }
+
+        public void ShowSecurityManagerWindow()
+        {
+            Window view = new SecurityManagerWindow();
+            ViewModelBase viewModel = new SecurityManagerWindowViewModel();
+            view.DataContext = viewModel;
+            view.Owner = Application.Current.MainWindow;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             view.ShowDialog();
         }
 
