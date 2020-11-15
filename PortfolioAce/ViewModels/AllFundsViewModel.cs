@@ -46,7 +46,7 @@ namespace PortfolioAce.ViewModels
             ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyRepository>(
                 OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorRepo
                 );
-
+            PositionDetailCommand = new ActionCommand(ViewPositionDetails);
         }
 
         public ICommand SelectFundCommand { get; set; }
@@ -54,6 +54,28 @@ namespace PortfolioAce.ViewModels
         public ICommand ShowNewCashTradeCommand { get; set; }
         
         public ICommand ShowNewInvestorActionCommand { get; set; }
+
+        public ICommand PositionDetailCommand { get; set; }
+
+
+        private Position _dtPositionObject;
+        public Position dtPositionObject
+        {
+            // This object will open a window that will display the position information such as currency, direction, ITD realised pnl, open lots,
+            // positionbreakdown
+            get
+            {
+                return _dtPositionObject;
+            }
+            set
+            {
+                _dtPositionObject = value;
+                OnPropertyChanged(nameof(dtPositionObject));
+            }
+        }
+
+
+
 
         // List box click should have a command and that command changes the fields displayed on the right of the allfundsview.
         private List<string> _lbFunds;
@@ -183,6 +205,16 @@ namespace PortfolioAce.ViewModels
                 viewModel.CloseAction = new Action(() => view.Close());
             }
             view.ShowDialog();
+        }
+
+        public void OpenEditModalWindow()
+        {
+            Console.WriteLine(_dtPositionObject);
+        }
+
+        public void ViewPositionDetails()
+        {
+            MessageBox.Show($"Name: {_dtPositionObject.symbol} Quantity: {_dtPositionObject.NetQuantity} ");
         }
     }
 }

@@ -41,7 +41,7 @@
             </StackPanel>
             <TabControl DockPanel.Dock="Bottom">
                 <TabItem Header="Positions">
-                    <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding Path=dtPositionObject, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Name"  />
                             <DataGridTextColumn Header="Symbol" Binding="{Binding symbol}" />
@@ -50,6 +50,9 @@
                             <DataGridTextColumn Header="Realised Profit/Loss" Binding="{Binding RealisedPnL}" />
                             <DataGridTextColumn Header="Currency" Width="*"/>
                         </DataGrid.Columns>
+                        <DataGrid.InputBindings>
+                            <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding PositionDetailCommand}"/>
+                        </DataGrid.InputBindings>
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Cash Holdings">

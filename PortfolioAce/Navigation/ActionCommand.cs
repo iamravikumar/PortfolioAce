@@ -32,6 +32,35 @@ namespace PortfolioAce.Navigation
         }
     }
 
+    public class ActionCommand<T1> : ICommand
+    {
+        private readonly Action<T1> _execute;
+        private readonly Func<bool> _canExecute;
+        //private readonly Action<Window, ViewModelWindowBase> _executeParams = null;
+        private T1 arg1;
+
+        public ActionCommand(Action<T1> execute, T1 a) : this(execute, () => true)
+        {
+            arg1 = a;
+        }
+
+        public ActionCommand(Action<T1> execute, Func<bool> canExecute)
+        {
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+            _canExecute = canExecute;
+        }
+
+
+        public event EventHandler CanExecuteChanged;
+
+        public bool CanExecute(object parameter) => _canExecute.Invoke();
+
+        public void Execute(object parameter)
+        {
+            _execute.Invoke(arg1);
+        }
+    }
+
     public class ActionCommand<T1, T2, T3> : ICommand
     {
         private readonly Action<T1, T2, T3> _execute;
