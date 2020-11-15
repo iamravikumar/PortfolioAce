@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public class AdminRepository : IAdminRepository
+    public class AdminService : IAdminService
     {
         private readonly PortfolioAceDbContextFactory _contextFactory;
 
-        public AdminRepository(PortfolioAceDbContextFactory contextFactory)
+        public AdminService(PortfolioAceDbContextFactory contextFactory)
         {
             this._contextFactory = contextFactory;
         }

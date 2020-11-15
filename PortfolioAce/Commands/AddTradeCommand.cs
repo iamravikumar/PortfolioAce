@@ -14,13 +14,13 @@ namespace PortfolioAce.Commands
         public event EventHandler CanExecuteChanged;
 
         private AddTradeWindowViewModel _addTradeWindowVM;
-        private ITradeRepository _tradeRepo;
+        private ITradeService _tradeService;
 
         public AddTradeCommand(AddTradeWindowViewModel addTradeWindowVM,
-            ITradeRepository tradeRepo)
+            ITradeService tradeService)
         {
             _addTradeWindowVM = addTradeWindowVM;
-            _tradeRepo = tradeRepo;
+            _tradeService = tradeService;
         }
 
         public bool CanExecute(object parameter)
@@ -45,7 +45,7 @@ namespace PortfolioAce.Commands
                     Commission = _addTradeWindowVM.Commission,
                     FundId = _addTradeWindowVM.FundId
                 };
-                await _tradeRepo.CreateTrade(newTrade);
+                await _tradeService.CreateTrade(newTrade);
                 _addTradeWindowVM.CloseAction();
             }
             catch(Exception e)

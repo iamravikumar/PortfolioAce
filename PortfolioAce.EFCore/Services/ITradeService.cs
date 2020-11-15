@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public interface ITradeRepository
+    public interface ITradeService
     {
         Task<Trade> GetTradeById(int id);
         Task<Trade> CreateTrade(Trade trade);

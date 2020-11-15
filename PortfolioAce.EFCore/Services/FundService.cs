@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public class FundRepository:IFundRepository
+    public class FundService:IFundService
     {
         private readonly PortfolioAceDbContextFactory _contextFactory;
 
-        public FundRepository(PortfolioAceDbContextFactory contextFactory)
+        public FundService(PortfolioAceDbContextFactory contextFactory)
         {
             this._contextFactory = contextFactory;
         }

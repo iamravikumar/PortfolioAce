@@ -13,14 +13,14 @@ namespace PortfolioAce.Commands
     {
         public event EventHandler CanExecuteChanged;
         private AddCashTradeWindowViewModel _addCashTradeWindowVM;
-        private ICashTradeRepository _cashRepo;
+        private ICashTradeService _cashService;
         
         public AddCashTradeCommand(
             AddCashTradeWindowViewModel addCashTradeWindowVM,
-            ICashTradeRepository cashRepo)
+            ICashTradeService cashService)
         {
             _addCashTradeWindowVM = addCashTradeWindowVM;
-            _cashRepo = cashRepo;
+            _cashService = cashService;
         }
 
         public bool CanExecute(object parameter)
@@ -42,7 +42,7 @@ namespace PortfolioAce.Commands
                     Comment = _addCashTradeWindowVM.Notes,
                     FundId = _addCashTradeWindowVM.FundId
                 };
-                await _cashRepo.CreateCashTrade(newCashTrade);
+                await _cashService.CreateCashTrade(newCashTrade);
                 _addCashTradeWindowVM.CloseAction();
             }
             catch(Exception e)

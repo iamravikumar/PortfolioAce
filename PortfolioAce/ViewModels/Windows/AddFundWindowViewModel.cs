@@ -10,9 +10,9 @@ namespace PortfolioAce.ViewModels.Windows
 
     public class AddFundWindowViewModel:ViewModelWindowBase
     {
-        public AddFundWindowViewModel(IFundRepository fundRepo)
+        public AddFundWindowViewModel(IFundService fundService)
         {
-            AddFundCommand = new AddFundCommand(this, fundRepo);
+            AddFundCommand = new AddFundCommand(this, fundService);
             _fundLaunch = DateTime.Today;
             // to set decimal points i might need to use a converter
         }

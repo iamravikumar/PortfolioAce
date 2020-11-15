@@ -48,20 +48,20 @@ namespace PortfolioAce
 
 
             // Add repositories here
-            services.AddSingleton<IFundRepository, FundRepository>();
-            services.AddSingleton<ICashTradeRepository, CashTradeRepository>();
-            services.AddSingleton<ITradeRepository, TradeRepository>();
-            services.AddSingleton<IAdminRepository, AdminRepository>();
-            services.AddSingleton<ITransferAgencyRepository, TransferAgencyRepository>();
+            services.AddSingleton<IFundService, FundService>();
+            services.AddSingleton<ICashTradeService, CashTradeService>();
+            services.AddSingleton<ITradeService, TradeService>();
+            services.AddSingleton<IAdminService, AdminService>();
+            services.AddSingleton<ITransferAgencyService, TransferAgencyService>();
 
             // Add viewmodels here
             services.AddSingleton<HomeViewModel>();
             services.AddSingleton<AllFundsViewModel>(services=> new AllFundsViewModel(
-                services.GetRequiredService<IFundRepository>(), 
-                services.GetRequiredService<ITradeRepository>(),
-                 services.GetRequiredService<ICashTradeRepository>(),
+                services.GetRequiredService<IFundService>(), 
+                services.GetRequiredService<ITradeService>(),
+                 services.GetRequiredService<ICashTradeService>(),
                  services.GetRequiredService<IPortfolioService>(),
-                 services.GetRequiredService<ITransferAgencyRepository>())); // this is how i can pass in my repositories
+                 services.GetRequiredService<ITransferAgencyService>())); // this is how i can pass in my repositories
             services.AddSingleton<SystemFXRatesViewModel>();
             services.AddSingleton<SystemSecurityPricesViewModel>();
 

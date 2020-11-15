@@ -17,34 +17,34 @@ namespace PortfolioAce.ViewModels
 {
     public class AllFundsViewModel:ViewModelBase
     {
-        private IFundRepository _fundRepo;
-        private ITradeRepository _tradeRepo;
-        private ICashTradeRepository _cashRepo;
-        private ITransferAgencyRepository _investorRepo;
+        private IFundService _fundService;
+        private ITradeService _tradeService;
+        private ICashTradeService _cashService;
+        private ITransferAgencyService _investorService;
         private IPortfolioService _portfolioService;
 
-        public AllFundsViewModel(IFundRepository fundRepo,
-            ITradeRepository tradeRepo, ICashTradeRepository cashRepo,
-            IPortfolioService portfolioService, ITransferAgencyRepository investorRepo)
+        public AllFundsViewModel(IFundService fundService,
+            ITradeService tradeService, ICashTradeService cashService,
+            IPortfolioService portfolioService, ITransferAgencyService investorService)
         {
-            _tradeRepo = tradeRepo;
-            _fundRepo = fundRepo;
-            _cashRepo = cashRepo;
-            _investorRepo = investorRepo;
+            _tradeService = tradeService;
+            _fundService = fundService;
+            _cashService = cashService;
+            _investorService = investorService;
             _portfolioService = portfolioService;
 
-            List<Fund> allFunds = fundRepo.GetAllFunds();
+            List<Fund> allFunds = fundService.GetAllFunds();
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
-            _currentFund = (_lbFunds.Count!=0) ? _fundRepo.GetFund(_lbFunds[0]) : null;
+            _currentFund = (_lbFunds.Count!=0) ? _fundService.GetFund(_lbFunds[0]) : null;
             
-            SelectFundCommand = new SelectFundCommand(this, fundRepo);
+            SelectFundCommand = new SelectFundCommand(this, fundService);
             
-            ShowNewTradeCommand = new ActionCommand<Type, Type, ITradeRepository>(
-                OpenModalWindow, typeof(AddTradeWindow), typeof(AddTradeWindowViewModel), _tradeRepo);
-            ShowNewCashTradeCommand = new ActionCommand<Type, Type, ICashTradeRepository>(
-                OpenModalWindow, typeof(AddCashTradeWindow), typeof(AddCashTradeWindowViewModel), _cashRepo);
-            ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyRepository>(
-                OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorRepo
+            ShowNewTradeCommand = new ActionCommand<Type, Type, ITradeService>(
+                OpenModalWindow, typeof(AddTradeWindow), typeof(AddTradeWindowViewModel), _tradeService);
+            ShowNewCashTradeCommand = new ActionCommand<Type, Type, ICashTradeService>(
+                OpenModalWindow, typeof(AddCashTradeWindow), typeof(AddCashTradeWindowViewModel), _cashService);
+            ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyService>(
+                OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorService
                 );
             PositionDetailCommand = new ActionCommand(ViewPositionDetails);
         }
@@ -87,7 +87,7 @@ namespace PortfolioAce.ViewModels
             }
             set
             {
-                List<Fund> allFunds = _fundRepo.GetAllFunds();
+                List<Fund> allFunds = _fundService.GetAllFunds();
                 _lbFunds = allFunds.Select(f => f.Symbol).ToList();
                 OnPropertyChanged(nameof(lbFunds));
             }
@@ -191,11 +191,11 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public void OpenModalWindow(Type windowType, Type viewModelType, object myRepo)
+        public void OpenModalWindow(Type windowType, Type viewModelType, object myService)
         {
             int fundId = _currentFund.FundId;
             Window view = (Window)Activator.CreateInstance(windowType);
-            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myRepo, _currentFund);
+            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, _currentFund);
             
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;

@@ -11,17 +11,17 @@ namespace PortfolioAce.ViewModels.Windows
 
     public class InvestorActionViewModel : ViewModelWindowBase
     {
-        private ITransferAgencyRepository investorRepo;
+        private ITransferAgencyService investorService;
         private Fund _fund;
 
-        public InvestorActionViewModel(ITransferAgencyRepository investorRepo, Fund fund)
+        public InvestorActionViewModel(ITransferAgencyService investorService, Fund fund)
         {
-            this.investorRepo = investorRepo;
+            this.investorService = investorService;
             this._fund = fund;
             _tradeDate = DateTime.Today;
             _settleDate = DateTime.Today;
             //currency should be the funds base currency
-            AddInvestorActionCommand = new AddInvestorActionCommand(this, investorRepo);
+            AddInvestorActionCommand = new AddInvestorActionCommand(this, investorService);
         }
 
         public int FundId

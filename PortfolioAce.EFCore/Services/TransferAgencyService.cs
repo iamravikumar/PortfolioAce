@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public class TransferAgencyRepository : ITransferAgencyRepository
+    public class TransferAgencyService : ITransferAgencyService
     {
 
         private readonly PortfolioAceDbContextFactory _contextFactory;
 
-        public TransferAgencyRepository(PortfolioAceDbContextFactory contextFactory)
+        public TransferAgencyService(PortfolioAceDbContextFactory contextFactory)
         {
             this._contextFactory = contextFactory;
         }

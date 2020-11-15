@@ -13,9 +13,9 @@ namespace PortfolioAce.ViewModels.Windows
     {
         private Fund _fund;
 
-        public AddTradeWindowViewModel(ITradeRepository tradeRepo, Fund fund)
+        public AddTradeWindowViewModel(ITradeService tradeService, Fund fund)
         {
-            AddTradeCommand = new AddTradeCommand(this, tradeRepo);
+            AddTradeCommand = new AddTradeCommand(this, tradeService);
             _fund = fund;
             _tradeDate = DateTime.Today;
             _settleDate = DateTime.Today;

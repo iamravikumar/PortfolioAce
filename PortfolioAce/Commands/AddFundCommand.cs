@@ -13,12 +13,12 @@ namespace PortfolioAce.Commands
     {
         public event EventHandler CanExecuteChanged;
         private AddFundWindowViewModel _addFundWindowVM;
-        private IFundRepository _fundRepo;
+        private IFundService _fundService;
 
-        public AddFundCommand(AddFundWindowViewModel addFundWindowVM, IFundRepository fundRepo)
+        public AddFundCommand(AddFundWindowViewModel addFundWindowVM, IFundService fundService)
         {
             _addFundWindowVM = addFundWindowVM;
-            _fundRepo = fundRepo;
+            _fundService = fundService;
         }
 
         public bool CanExecute(object parameter)
@@ -40,7 +40,7 @@ namespace PortfolioAce.Commands
                     NAVFrequency = _addFundWindowVM.FundNavFreq,
                     LaunchDate = _addFundWindowVM.FundLaunch.Date
                 };
-                await _fundRepo.CreateFund(newFund);
+                await _fundService.CreateFund(newFund);
                 _addFundWindowVM.CloseAction();
             }
             catch(Exception e)

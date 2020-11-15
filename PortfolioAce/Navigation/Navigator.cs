@@ -30,12 +30,12 @@ namespace PortfolioAce.Navigation
                 OnPropertyChanged(nameof(CurrentViewModel));
             }
         }
-        private IFundRepository _fundRepo;
+        private IFundService _fundService;
 
-        public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IFundRepository fundRepo)
+        public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IFundService fundService)
         {
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
-            _fundRepo = fundRepo;
+            _fundService = fundService;
 
             // I can make these commands reusable
             ShowSettingsCommand = new ActionCommand(ShowSettingsWindow);
@@ -80,7 +80,7 @@ namespace PortfolioAce.Navigation
         public void ShowNewFundWindow()
         {
             Window view = new AddFundWindow();
-            ViewModelWindowBase viewModel = new AddFundWindowViewModel(_fundRepo);
+            ViewModelWindowBase viewModel = new AddFundWindowViewModel(_fundService);
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;

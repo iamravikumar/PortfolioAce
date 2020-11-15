@@ -14,13 +14,13 @@ namespace PortfolioAce.Commands
         public event EventHandler CanExecuteChanged;
 
         private InvestorActionViewModel _investorActionVM;
-        private ITransferAgencyRepository _investorRepo;
+        private ITransferAgencyService _investorService;
 
         public AddInvestorActionCommand(InvestorActionViewModel investorActionVM, 
-            ITransferAgencyRepository investorRepo)
+            ITransferAgencyService investorService)
         {
             _investorActionVM = investorActionVM;
-            _investorRepo = investorRepo;
+            _investorService = investorService;
         }
 
         public bool CanExecute(object parameter)
@@ -47,7 +47,7 @@ namespace PortfolioAce.Commands
                 };
 
                 // why cant i use await here? might be redundant once i refactor everything.
-                await _investorRepo.CreateInvestorAction(newInvestorAction);
+                await _investorService.CreateInvestorAction(newInvestorAction);
                 _investorActionVM.CloseAction();
             }
             catch(Exception e)

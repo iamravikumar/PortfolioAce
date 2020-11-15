@@ -11,11 +11,11 @@ namespace PortfolioAce.Commands
     {
         public event EventHandler CanExecuteChanged;
         private AllFundsViewModel _allFundsWindowVM;
-        private IFundRepository _fundRepo;
-        public SelectFundCommand(AllFundsViewModel allFundsViewModel, IFundRepository fundRepo)
+        private IFundService _fundService;
+        public SelectFundCommand(AllFundsViewModel allFundsViewModel, IFundService fundService)
         {
             _allFundsWindowVM = allFundsViewModel;
-            _fundRepo = fundRepo;
+            _fundService = fundService;
         }
 
         public bool CanExecute(object parameter)
@@ -26,7 +26,7 @@ namespace PortfolioAce.Commands
         public void Execute(object parameter)
         {
             string fundSymbol = (string)parameter;
-            _allFundsWindowVM.CurrentFund = _fundRepo.GetFund(fundSymbol);
+            _allFundsWindowVM.CurrentFund = _fundService.GetFund(fundSymbol);
         }
     }
 }

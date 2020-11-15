@@ -10,11 +10,11 @@ using System.Transactions;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public class CashTradeRepository : ICashTradeRepository
+    public class CashTradeService : ICashTradeService
     {
         private readonly PortfolioAceDbContextFactory _contextFactory;
 
-        public CashTradeRepository(PortfolioAceDbContextFactory contextFactory)
+        public CashTradeService(PortfolioAceDbContextFactory contextFactory)
         {
             this._contextFactory = contextFactory;
         }
