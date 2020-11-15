@@ -33,12 +33,14 @@ namespace PortfolioAce.Navigation
             }
         }
         private IFundService _fundService;
+        private IAdminService _adminService;
 
-        public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IFundService fundService)
+        public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IFundService fundService,
+            IAdminService adminService)
         {
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
             _fundService = fundService;
-
+            _adminService = adminService;
             // I can make these commands reusable
             ShowSettingsCommand = new ActionCommand(ShowSettingsWindow);
             ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
@@ -98,7 +100,7 @@ namespace PortfolioAce.Navigation
         public void ShowSecurityManagerWindow()
         {
             Window view = new SecurityManagerWindow();
-            ViewModelBase viewModel = new SecurityManagerWindowViewModel();
+            ViewModelBase viewModel = new SecurityManagerWindowViewModel(_adminService);
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
