@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PortfolioAce.HelperObjects;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -10,16 +11,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PortfolioAce.Views.Windows
+namespace PortfolioAce.Views.Modals
 {
     /// <summary>
-    /// Interaction logic for SecurityManagerWindow.xaml
+    /// Interaction logic for InvestorActionsWindow.xaml
     /// </summary>
-    public partial class SecurityManagerWindow : Window
+    public partial class InvestorActionsWindow : Window
     {
-        public SecurityManagerWindow()
+        public InvestorActionsWindow()
         {
             InitializeComponent();
+            cmbType.ItemsSource = StaticDataObjects.IssueTypes;
         }
     }
 }
