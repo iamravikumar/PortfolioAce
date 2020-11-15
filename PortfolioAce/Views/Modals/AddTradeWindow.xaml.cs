@@ -12,17 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PortfolioAce.Views.Windows
+namespace PortfolioAce.Views.Modals
 {
     /// <summary>
-    /// Interaction logic for AddFundWindow.xaml
+    /// Interaction logic for AddTradeWindow.xaml
     /// </summary>
-    public partial class AddFundWindow : Window
+    public partial class AddTradeWindow : Window
     {
-        public AddFundWindow()
+        public AddTradeWindow()
         {
             InitializeComponent();
-            cmbNavFreq.ItemsSource = StaticDataObjects.NavFrequency;
+            cmbTradeType.ItemsSource = StaticDataObjects.SecurityTradeTypes;
             cmbCurrency.ItemsSource = StaticDataObjects.Currencies;
         }
     }

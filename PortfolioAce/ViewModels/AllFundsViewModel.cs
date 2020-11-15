@@ -5,6 +5,7 @@ using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Windows;
+using PortfolioAce.Views.Modals;
 using PortfolioAce.Views.Windows;
 using System;
 using System.Collections.Generic;

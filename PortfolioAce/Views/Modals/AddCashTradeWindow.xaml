@@ -1,9 +1,9 @@
-﻿<Window x:Class="PortfolioAce.Views.Windows.AddCashTradeWindow"
+﻿<Window x:Class="PortfolioAce.Views.Modals.AddCashTradeWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PortfolioAce.Views.Windows"
+        xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         mc:Ignorable="d"
         Title="Add a new Cash Trade" Height="300" Width="410">
     <Border Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3" Margin="3">

@@ -1,6 +1,7 @@
 ﻿using PortfolioAce.HelperObjects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,17 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PortfolioAce.Views.Windows
+namespace PortfolioAce.Views.Modals
 {
     /// <summary>
-    /// Interaction logic for AddCashTradeWindow.xaml
+    /// Interaction logic for AddFundWindow.xaml
     /// </summary>
-    public partial class AddCashTradeWindow : Window
+    public partial class AddFundWindow : Window
     {
-        public AddCashTradeWindow()
+        public AddFundWindow()
         {
             InitializeComponent();
-            cmbCashType.ItemsSource = StaticDataObjects.CashTradeTypes;
+            cmbNavFreq.ItemsSource = StaticDataObjects.NavFrequency;
             cmbCurrency.ItemsSource = StaticDataObjects.Currencies;
         }
     }

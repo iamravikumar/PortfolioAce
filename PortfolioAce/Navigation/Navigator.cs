@@ -4,6 +4,7 @@ using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;
 using PortfolioAce.ViewModels.Windows;
 using PortfolioAce.Views;
+using PortfolioAce.Views.Modals;
 using PortfolioAce.Views.Windows;
 using System;
 using System.Collections.Generic;
