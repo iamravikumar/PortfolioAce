@@ -2,6 +2,7 @@
 using PortfolioAce.Models;
 using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;
+using PortfolioAce.ViewModels.Modals;
 using PortfolioAce.ViewModels.Windows;
 using PortfolioAce.Views;
 using PortfolioAce.Views.Modals;

@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.ViewModels.Modals;
 using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections.Generic;

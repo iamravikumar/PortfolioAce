@@ -2,12 +2,13 @@
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.Navigation;
+using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 
-namespace PortfolioAce.ViewModels.Windows
+namespace PortfolioAce.ViewModels.Modals
 {
     public class AddTradeWindowViewModel: ViewModelWindowBase
     {

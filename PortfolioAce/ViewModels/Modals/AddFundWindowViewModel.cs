@@ -1,11 +1,12 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 
-namespace PortfolioAce.ViewModels.Windows
+namespace PortfolioAce.ViewModels.Modals
 {
 
     public class AddFundWindowViewModel:ViewModelWindowBase

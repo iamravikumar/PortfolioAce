@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PortfolioAce.ViewModels.Windows
+namespace PortfolioAce.ViewModels.Modals
 {
     class SecurityManagerWindowViewModel:ViewModelBase
     {
