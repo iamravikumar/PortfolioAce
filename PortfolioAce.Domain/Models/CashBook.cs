@@ -12,7 +12,6 @@ namespace PortfolioAce.Domain.Models
     // I might need to refactor the name.. Maybe call it CashBook instead on CashAccount?
     public class CashBook
     {
-        
         [Key]
         public int TransactionId { get; set; }
         [Required]

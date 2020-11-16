@@ -35,6 +35,14 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public List<Security> GetAllSecurities()
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Securities.OrderBy(s=>s.SecurityName).ToList();
+            }
+        }
+
         public void UpdateSecurityInfo(Security security)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())

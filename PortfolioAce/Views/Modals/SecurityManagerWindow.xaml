@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         mc:Ignorable="d"
-        Title="Security Manager" Height="370" Width="440">
+        Title="Security Manager" Height="370" Width="470">
     <Border Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3" Margin="3">
         <TabControl>
             <TabItem Header="New Security Setup">
@@ -53,6 +53,15 @@
             </TabItem>
             <TabItem Header="All Securities">
                 <!-- A Datagrid with all securities that are NOT readonly. So they can be edited -->
+                <DataGrid Name="dgAllSecurities" ColumnWidth="*" ItemsSource="{Binding Path=dgSecurities}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Asset Class"  Binding="{Binding Type}"/>
+                        <DataGridTextColumn Header="Security Name" Binding="{Binding SecurityName}"/>
+                        <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}"/>
+                        <DataGridTextColumn Header="Currency" Binding="{Binding Currency}"/>
+                        <DataGridTextColumn Header="ISIN" Binding="{Binding ISIN}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
         </TabControl>
     </Border>

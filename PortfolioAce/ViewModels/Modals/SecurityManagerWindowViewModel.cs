@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Commands;
+using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
 using System;
 using System.Collections.Generic;
@@ -84,6 +85,20 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _ISIN = value;
                 OnPropertyChanged(nameof(ISIN));
+            }
+        }
+
+        private List<Security> _dgSecurities;
+        public List<Security> dgSecurities
+        {
+            get
+            {
+                return _adminService.GetAllSecurities();
+            }
+            set
+            {
+                _dgSecurities = _adminService.GetAllSecurities();
+                OnPropertyChanged(nameof(dgSecurities));
             }
         }
 
