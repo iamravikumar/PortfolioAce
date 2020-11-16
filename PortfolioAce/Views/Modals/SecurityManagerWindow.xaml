@@ -27,7 +27,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="1">Asset Class:</Label>
-                    <ComboBox Name="cmbAssetClass" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="">
+                    <ComboBox Name="cmbAssetClass" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=AssetClass, UpdateSourceTrigger=PropertyChanged}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding }"/>
@@ -35,11 +35,11 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <Label Grid.Row="2">Security Name:</Label>
-                    <TextBox Text="" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+                    <TextBox Text="{Binding SecurityName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
                     <Label Grid.Row="3">Security Symbol:</Label>
-                    <TextBox Text="" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+                    <TextBox Text="{Binding SecuritySymbol, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
                     <Label Grid.Row="4">Currency:</Label>
-                    <ComboBox Name="cmbCurrency" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="">
+                    <ComboBox Name="cmbCurrency" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=Currency, UpdateSourceTrigger=PropertyChanged}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding }"/>
@@ -47,8 +47,8 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <Label Grid.Row="5">ISIN:</Label>
-                    <TextBox Text="" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-                    <Button Command="" Grid.Row="6" Grid.Column="1" Margin="0,10,0,0">Add Security</Button>
+                    <TextBox Text="{Binding ISIN, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+                    <Button Command="{Binding AddSecurityCommand}" Grid.Row="6" Grid.Column="1" Margin="0,10,0,0">Add Security</Button>
                 </Grid>
             </TabItem>
             <TabItem Header="All Securities">

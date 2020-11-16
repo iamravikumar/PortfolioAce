@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PortfolioAce.HelperObjects;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -20,6 +21,8 @@ namespace PortfolioAce.Views.Modals
         public SecurityManagerWindow()
         {
             InitializeComponent();
+            cmbAssetClass.ItemsSource = StaticDataObjects.SecurityAssetClass;
+            cmbCurrency.ItemsSource = StaticDataObjects.Currencies;
         }
     }
 }

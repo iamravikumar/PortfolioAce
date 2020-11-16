@@ -36,7 +36,7 @@ namespace PortfolioAce.HelperObjects
 
         public static readonly string[] SecurityAssetClass = new string[]
         {
-            "Equity", "CryptoCurrency", "Cash", "FX"
+            "Equity", "CryptoCurrency", "FX"
         };
 
     }

@@ -10,6 +10,7 @@ namespace PortfolioAce.EFCore.Services
     {
         // Admin responsibilities. such as adding static security information
         // and prices. 
+        // make these tasks
         void AddSecurityInfo(Security security);
         void UpdateSecurityInfo(Security security);
         void DeleteSecurityInfo(string symbol);
