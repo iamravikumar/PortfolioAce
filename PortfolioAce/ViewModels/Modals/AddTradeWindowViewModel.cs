@@ -13,10 +13,11 @@ namespace PortfolioAce.ViewModels.Modals
     public class AddTradeWindowViewModel: ViewModelWindowBase
     {
         private Fund _fund;
-
+        private ITradeService _tradeService;
         public AddTradeWindowViewModel(ITradeService tradeService, Fund fund)
         {
             AddTradeCommand = new AddTradeCommand(this, tradeService);
+            _tradeService = tradeService;
             _fund = fund;
             _tradeDate = DateTime.Today;
             _settleDate = DateTime.Today;
@@ -62,6 +63,7 @@ namespace PortfolioAce.ViewModels.Modals
                 // and if it exists prefill the currency field
                 // if not raise exception
                 OnPropertyChanged(nameof(Symbol));
+                OnPropertyChanged(nameof(TradeCurrency));
             }
         }
 
@@ -119,17 +121,25 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        private string _tradeCurrency;
+        //private string _tradeCurrency;
         public string TradeCurrency
         {
             get
             {
-                return _tradeCurrency;
+                //this should be based on the security symbol
+                if (Symbol == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    var res = _tradeService.GetSecurityInfo(Symbol);
+                    return (res != null) ? res.Currency : null;
+                }
             }
-            set
+            private set
             {
-                _tradeCurrency = value;
-                OnPropertyChanged(nameof(TradeCurrency));
+
             }
         }
 

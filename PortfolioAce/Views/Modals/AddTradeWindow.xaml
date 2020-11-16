@@ -43,13 +43,7 @@
             <Label Grid.Row="5">Trade Amount:</Label>
             <TextBox Text="{Binding TradeAmount, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="6">Currency:</Label>
-            <ComboBox Name="cmbCurrency" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=TradeCurrency, UpdateSourceTrigger=PropertyChanged}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding }"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+            <Label Content="{Binding TradeCurrency}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="7">Commission:</Label>
             <TextBox Text="{Binding Commission, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="8">Trade Date:</Label>

@@ -23,7 +23,6 @@ namespace PortfolioAce.Views.Modals
         {
             InitializeComponent();
             cmbTradeType.ItemsSource = StaticDataObjects.SecurityTradeTypes;
-            cmbCurrency.ItemsSource = StaticDataObjects.Currencies;
         }
     }
 }

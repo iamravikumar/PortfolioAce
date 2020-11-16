@@ -48,7 +48,7 @@
                             <DataGridTextColumn Header="Quantity" Binding="{Binding NetQuantity}" />
                             <DataGridTextColumn Header="Average Cost" Binding="{Binding AverageCost}" />
                             <DataGridTextColumn Header="Realised Profit/Loss" Binding="{Binding RealisedPnL}" />
-                            <DataGridTextColumn Header="Currency" Width="*"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding security.Currency}" Width="*"/>
                         </DataGrid.Columns>
                         <DataGrid.InputBindings>
                             <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding PositionDetailCommand}"/>
@@ -68,8 +68,8 @@
                     <DataGrid Name="dgTradeHistory" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTrades}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type"  Binding="{Binding TradeType}"/>
-                            <DataGridTextColumn Header="Name" />
-                            <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Security.SecurityName}" />
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding Security.Symbol}"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
                             <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
                             <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount}"/>
