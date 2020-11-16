@@ -8,7 +8,7 @@ namespace PortfolioAce.Domain.DataObjects
 {
     public class Position
     {
-        public string symbol { get; } // removed readonly since it doesnt work with wpf binding
+        public Security security { get; } // removed readonly since it doesnt work with wpf binding
         public decimal AverageCost { get; set; }
         public decimal NetQuantity { get; set; }
         public decimal RealisedPnL { get; set; } // think about how to incorporate commission here
@@ -17,9 +17,9 @@ namespace PortfolioAce.Domain.DataObjects
         protected List<PositionSnapshot> positionBreakdown;
         private Queue<OpenLots> openLots;
 
-        public Position(string symbol)
+        public Position(Security security)
         {
-            this.symbol = symbol;
+            this.security = security;
             this.AverageCost = 0;
             this.NetQuantity = 0;
             this.RealisedPnL = 0;
@@ -29,10 +29,12 @@ namespace PortfolioAce.Domain.DataObjects
 
         public void AddTransaction(Trade transaction)
         {
-            if (transaction.Symbol != this.symbol)
+            
+            if (transaction.Security.SecurityName != this.security.SecurityName || transaction.Security.Currency != this.security.Currency)
             {
                 throw new InvalidOperationException("The transaction ticker does not match the ticker of this position");
             }
+            
             // raise an error if the if this transaction occurs earlier than the most recent transaction.
             if (positionBreakdown.Count > 0)
             {

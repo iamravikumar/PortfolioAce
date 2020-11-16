@@ -7,7 +7,6 @@ namespace PortfolioAce.Domain.Models
 {
     public class Security
     {
-
         // Maybe add a sector class to this?
         [Key]
         public int SecurityId { get; set; }

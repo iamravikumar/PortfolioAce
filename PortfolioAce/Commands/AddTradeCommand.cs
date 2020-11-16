@@ -33,10 +33,11 @@ namespace PortfolioAce.Commands
         {
             try
             {
+                Security security = _tradeService.GetSecurityInfo(_addTradeWindowVM.Symbol);
                 Trade newTrade = new Trade
                 {
                     TradeType = _addTradeWindowVM.TradeType,
-                    Symbol = _addTradeWindowVM.Symbol,
+                    SecurityId = security.SecurityId,
                     Quantity = _addTradeWindowVM.Quantity,
                     Price = _addTradeWindowVM.Price,
                     TradeAmount = _addTradeWindowVM.TradeAmount,

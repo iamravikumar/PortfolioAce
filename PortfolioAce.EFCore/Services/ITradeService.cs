@@ -12,6 +12,7 @@ namespace PortfolioAce.EFCore.Services
         Task<Trade> CreateTrade(Trade trade);
         Task<Trade> UpdateTrade(Trade trade);
         Task<Trade> DeleteTrade(int id);
+        Security GetSecurityInfo(string symbol);
         bool SecurityExists(string symbol);
         List<Trade> GetTradesBySymbol(string Symbol, int fundId);
         List<Trade> GetAllFundTrades(int fundId);

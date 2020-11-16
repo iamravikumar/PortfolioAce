@@ -216,7 +216,7 @@ namespace PortfolioAce.ViewModels
 
         public void ViewPositionDetails()
         {
-            MessageBox.Show($"Name: {_dtPositionObject.symbol} Quantity: {_dtPositionObject.NetQuantity} ");
+            MessageBox.Show($"Name: {_dtPositionObject.security.Symbol} Quantity: {_dtPositionObject.NetQuantity} ");
         }
     }
 }

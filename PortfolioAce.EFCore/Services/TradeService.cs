@@ -64,6 +64,14 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public Security GetSecurityInfo(string symbol)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Securities.Where(s=> s.Symbol == symbol).FirstOrDefault();
+            }
+        }
+
         public async Task<Trade> GetTradeById(int id)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
@@ -77,7 +85,7 @@ namespace PortfolioAce.EFCore.Services
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.Trades
-                    .Where(t => t.FundId == fundId && t.Symbol == symbol)
+                    .Where(t => t.FundId == fundId && t.Security.Symbol == symbol)
                     .OrderBy(t => t.TradeDate)
                     .ToList();
             }
@@ -118,11 +126,11 @@ namespace PortfolioAce.EFCore.Services
             string comment;
             if (trade.TradeType=="Corp Action")
             {
-                comment = $"Corporate Action for {trade.Symbol}";
+                comment = $"Corporate Action for {trade.Security}";
             }
             else
             {
-                comment = (trade.TradeAmount <= 0) ? $"BUY {trade.Symbol}" : $"SELL {trade.Symbol}";
+                comment = (trade.TradeAmount <= 0) ? $"BUY {trade.Security}" : $"SELL {trade.Security}";
             }
             transaction.Comment = comment;
             return transaction;

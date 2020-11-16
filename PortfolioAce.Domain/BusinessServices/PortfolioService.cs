@@ -25,25 +25,26 @@ namespace PortfolioAce.Domain.BusinessServices
 
         public List<Position> GetAllPositions(Fund fund)
         {
+            
             List<Trade> allTrades = fund.Trades.OrderBy(t => t.TradeDate).ToList();// this orders the trades by trade date.
-            Dictionary<string, List<Trade>> tradeDict = new Dictionary<string, List<Trade>>();
+            Dictionary<Security, List<Trade>> tradeDict = new Dictionary<Security, List<Trade>>();
 
             foreach (Trade t in allTrades)
             {
-                string name = t.Symbol;
-                if (!tradeDict.ContainsKey(name))
+                Security security = t.Security;
+                if (!tradeDict.ContainsKey(security))
                 {
-                    tradeDict[name] = new List<Trade> { t };
+                    tradeDict[security] = new List<Trade> { t };
                 }
                 else
                 {
-                    tradeDict[name].Add(t);
+                    tradeDict[security].Add(t);
                 }
             }
 
             List<Position> result = new List<Position>();
 
-            foreach (KeyValuePair<string, List<Trade>> Kvp in tradeDict)
+            foreach (KeyValuePair<Security, List<Trade>> Kvp in tradeDict)
             {
                 Position pos = new Position(Kvp.Key);
                 foreach (Trade t in Kvp.Value)
@@ -53,6 +54,7 @@ namespace PortfolioAce.Domain.BusinessServices
                 result.Add(pos);
             }
             return result;
+            
         }
     }
 }

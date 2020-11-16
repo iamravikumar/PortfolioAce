@@ -13,8 +13,7 @@ namespace PortfolioAce.Domain.Models
         public int TradeId { get; set; }
         [Required]
         public string TradeType { get; set; } //trade corporate action
-        [Required]
-        public string Symbol { get; set; }
+
         [Required]
         public decimal Quantity { get; set; }
         [Required, Column(TypeName = "decimal(18,4)"), Range(0, long.MaxValue, ErrorMessage = "Prices can not be negative numbers.")]
@@ -39,5 +38,9 @@ namespace PortfolioAce.Domain.Models
         [ForeignKey("Fund")]
         public int FundId { get; set; }
         public Fund Fund { get; set; }
+
+        [ForeignKey("Security")]
+        public int SecurityId { get; set; }
+        public virtual Security Security { get; set; }
     }
 }

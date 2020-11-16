@@ -43,8 +43,8 @@
                 <TabItem Header="Positions">
                     <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding Path=dtPositionObject, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name"  />
-                            <DataGridTextColumn Header="Symbol" Binding="{Binding symbol}" />
+                            <DataGridTextColumn Header="Name" Binding="{Binding security.SecurityName}"  />
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding security.Symbol}" />
                             <DataGridTextColumn Header="Quantity" Binding="{Binding NetQuantity}" />
                             <DataGridTextColumn Header="Average Cost" Binding="{Binding AverageCost}" />
                             <DataGridTextColumn Header="Realised Profit/Loss" Binding="{Binding RealisedPnL}" />
