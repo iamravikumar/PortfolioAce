@@ -4,13 +4,16 @@ using PortfolioAce.EFCore.Services;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Windows;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
-    public class AddTradeWindowViewModel: ViewModelWindowBase
+    public class AddTradeWindowViewModel: ViewModelWindowBase, INotifyDataErrorInfo
     {
         private Fund _fund;
         private ITradeService _tradeService;
@@ -92,6 +95,12 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _price= value;
+                ClearErrors(nameof(Price));
+                if(_price < 0)
+                {
+                    AddError(nameof(Price), "The price cannot be a negative number");
+                }
+
                 OnPropertyChanged(nameof(Price));
                 OnPropertyChanged(nameof(TradeAmount)); 
             }
@@ -169,10 +178,12 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _tradeDate = value;
                 OnPropertyChanged(nameof(TradeDate));
+                // include on property changed for settle date here if trade date< settle date.
             }
         }
 
         private DateTime _settleDate;
+
         public DateTime SettleDate
         {
             get
@@ -181,13 +192,46 @@ namespace PortfolioAce.ViewModels.Modals
             }
             set
             {
+                // if settledate less than trade date then trade date = settle date
                 _settleDate = value;
                 OnPropertyChanged(nameof(SettleDate));
             }
         }
 
-
-
         public ICommand AddTradeCommand { get; set; }
+
+
+        private readonly Dictionary<string, List<string>> _propertyErrors = new Dictionary<string, List<string>>();
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        public bool HasErrors => _propertyErrors.Any();
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return _propertyErrors.GetValueOrDefault(propertyName, null);
+        }
+
+        public void AddError(string propertyName, string errorMessage)
+        {
+            if (!_propertyErrors.ContainsKey(propertyName))
+            {
+                _propertyErrors[propertyName] = new List<string>();
+            }
+            _propertyErrors[propertyName].Add(errorMessage);
+
+        }
+
+        public void ClearErrors(string propertyName)
+        {
+            if (_propertyErrors.Remove(propertyName))
+            {
+                OnErrorsChanged(propertyName);
+            }
+        }
+
+        private void OnErrorsChanged(string propertyName)
+        {
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+        }
     }
 }

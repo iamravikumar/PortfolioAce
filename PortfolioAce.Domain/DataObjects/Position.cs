@@ -8,7 +8,7 @@ namespace PortfolioAce.Domain.DataObjects
 {
     public class Position
     {
-        public Security security { get; } // removed readonly since it doesnt work with wpf binding
+        public Security security { get; } 
         public decimal AverageCost { get; set; }
         public decimal NetQuantity { get; set; }
         public decimal RealisedPnL { get; set; } // think about how to incorporate commission here

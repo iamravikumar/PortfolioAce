@@ -8,8 +8,44 @@
         Title="Create a New Trade" Height="340" Width="410">
     <Border Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3" Margin="3">
         <Grid Margin="1">
+            <Grid.Resources>
+                <!-- HERE i can set properties for all similar objects in the grid i.e. textboxes-->
+                <Style TargetType="TextBox">
+                    <Setter Property="Margin" Value="2" />
+                    <Setter Property="Padding" Value="2" />
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Validation.ErrorTemplate">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <AdornedElementPlaceholder/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TextBox">
+                                <StackPanel>
+                                    <Border Padding="{TemplateBinding Padding}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="3">
+                                        <ScrollViewer x:Name="PART_ContentHost" />
+                                    </Border>
+                                    <ItemsControl ItemsSource="{TemplateBinding Validation.Errors}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Foreground="Red" Text="{Binding ErrorContent}" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>                                        
+                                    </ItemsControl>
+                                </StackPanel>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition />
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -39,7 +75,7 @@
             <Label Grid.Row="3">Quantity:</Label>
             <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="4">Price:</Label>
-            <TextBox Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+            <TextBox Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"></TextBox>
             <Label Grid.Row="5">Trade Amount:</Label>
             <TextBox Text="{Binding TradeAmount, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="6">Currency:</Label>
