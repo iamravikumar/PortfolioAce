@@ -45,11 +45,11 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public bool FundExists(string fundSymbol, string fundName)
+        public bool FundExists(string fundSymbol)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return (context.Funds.FirstOrDefault(f => f.FundName == fundName || f.Symbol == fundSymbol) != null);
+                return (context.Funds.FirstOrDefault(f => f.Symbol == fundSymbol) != null);
             }
         }
 

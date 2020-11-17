@@ -1,21 +1,27 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.Models;
 using PortfolioAce.ViewModels.Windows;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
-    public class AddCashTradeWindowViewModel: ViewModelWindowBase
+    public class AddCashTradeWindowViewModel: ViewModelWindowBase, INotifyDataErrorInfo
     {
         private Fund _fund;
+        private readonly ValidationErrors _validationErrors;
         public AddCashTradeWindowViewModel(ICashTradeService cashService, Fund fund)
         {
             AddCashTradeCommand = new AddCashTradeCommand(this, cashService);
             _fund = fund;
+            _validationErrors = new ValidationErrors();
+            _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             _tradeDate = DateTime.Today;
             _settleDate = DateTime.Today;
             
@@ -56,6 +62,11 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _cashAmount = value;
+                _validationErrors.ClearErrors(nameof(CashAmount));
+                if (_cashAmount < 0)
+                {
+                    _validationErrors.AddError(nameof(CashAmount), "The cash amount cannot be a negative number");
+                }
                 OnPropertyChanged(nameof(CashAmount));
             }
         }
@@ -85,7 +96,18 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _tradeDate = value;
+                _validationErrors.ClearErrors(nameof(TradeDate));
+                if (_tradeDate < _fund.LaunchDate)
+                {
+                    // validation not showing at the moment because it is bound to TextBox at the moment
+                    _validationErrors.AddError(nameof(TradeDate), "You cannot book trades before the funds launch date.");
+                }
+                if (_settleDate < _tradeDate)
+                {
+                    _settleDate = _tradeDate;
+                }
                 OnPropertyChanged(nameof(TradeDate));
+                OnPropertyChanged(nameof(SettleDate));
             }
         }
 
@@ -99,6 +121,12 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _settleDate = value;
+                _validationErrors.ClearErrors(nameof(SettleDate));
+                if (_settleDate < _tradeDate)
+                {
+                    // validation not showing at the moment because it is bound to TextBox at the moment
+                    _validationErrors.AddError(nameof(SettleDate), "The SettleDate cannot take place before the trade date");
+                }
                 OnPropertyChanged(nameof(SettleDate));
             }
         }
@@ -118,5 +146,22 @@ namespace PortfolioAce.ViewModels.Modals
         }
 
         public ICommand AddCashTradeCommand { get; set; }
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        public bool CanCreate => !HasErrors;
+
+        public bool HasErrors => _validationErrors.HasErrors;
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return _validationErrors.GetErrors(propertyName);
+        }
+
+        private void ChangedErrorsEvents(object sender, DataErrorsChangedEventArgs e)
+        {
+            ErrorsChanged?.Invoke(this, e);
+            OnPropertyChanged(nameof(CanCreate));
+        }
     }
 }

@@ -15,6 +15,8 @@ namespace PortfolioAce.EFCore.Services
         void UpdateSecurityInfo(Security security);
         void DeleteSecurityInfo(string symbol);
 
+        bool SecurityExists(string symbol);
+
         void UpdateSecurityPrices (string symbol);
         List<Security> GetAllSecurities();
     }

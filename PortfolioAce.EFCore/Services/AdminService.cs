@@ -43,6 +43,14 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public bool SecurityExists(string symbol)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return (context.Securities.FirstOrDefault(s=>s.Symbol == symbol) != null);
+            }
+        }
+
         public void UpdateSecurityInfo(Security security)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())

@@ -1,20 +1,29 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.Models;
 using PortfolioAce.ViewModels.Windows;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
 
-    public class AddFundWindowViewModel:ViewModelWindowBase
+    public class AddFundWindowViewModel:ViewModelWindowBase, INotifyDataErrorInfo
     {
+        private IFundService _fundService;
+        private readonly ValidationErrors _validationErrors;
+
         public AddFundWindowViewModel(IFundService fundService)
         {
             AddFundCommand = new AddFundCommand(this, fundService);
+            _fundService = fundService;
             _fundLaunch = DateTime.Today;
+            _validationErrors = new ValidationErrors();
+            _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             // to set decimal points i might need to use a converter
         }
 
@@ -42,6 +51,11 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _fundSymbol = value;
+                _validationErrors.ClearErrors(nameof(FundSymbol));
+                if (_fundService.FundExists(_fundSymbol))
+                {
+                    _validationErrors.AddError(nameof(FundSymbol), $"The Symbol '{_fundSymbol}' already exists");
+                }
                 OnPropertyChanged(nameof(FundSymbol));
             }
         }
@@ -70,6 +84,11 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _fundManFee = value;
+                _validationErrors.ClearErrors(nameof(FundManFee));
+                if (_fundManFee < 0 || _fundManFee > 1)
+                {
+                    _validationErrors.AddError(nameof(FundManFee), "The management fee must be between 0% to 100%");
+                }
                 OnPropertyChanged(nameof(FundManFee));
             }
         }
@@ -84,6 +103,11 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _fundPerfFee = value;
+                _validationErrors.ClearErrors(nameof(FundPerfFee));
+                if(_fundPerfFee<0 || _fundPerfFee > 1)
+                {
+                    _validationErrors.AddError(nameof(FundPerfFee), "The performance fee must be between 0% to 100%");
+                }
                 OnPropertyChanged(nameof(FundPerfFee));
             }
         }
@@ -117,6 +141,23 @@ namespace PortfolioAce.ViewModels.Modals
         }
 
         public ICommand AddFundCommand { get; set; }
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        public bool CanCreate => !HasErrors;
+
+        public bool HasErrors => _validationErrors.HasErrors;
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return _validationErrors.GetErrors(propertyName);
+        }
+
+        private void ChangedErrorsEvents(object sender, DataErrorsChangedEventArgs e)
+        {
+            ErrorsChanged?.Invoke(this, e);
+            OnPropertyChanged(nameof(CanCreate));
+        }
 
     }
 }

@@ -11,7 +11,7 @@ namespace PortfolioAce.EFCore.Services
         Task<Fund> CreateFund(Fund fund);
         Task<Fund> UpdateFund(Fund fund);
         Task<Fund> DeleteFund(int id);
-        bool FundExists(string fundSymbol, string fundName);
+        bool FundExists(string fundSymbol);
         List<Fund> GetAllFunds();
         Fund GetFund(string fundSymbol);
     }

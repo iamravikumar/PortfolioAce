@@ -227,14 +227,11 @@ namespace PortfolioAce.ViewModels.Modals
                     // validation not showing at the moment because it is bound to TextBox at the moment
                     _validationErrors.AddError(nameof(SettleDate), "The SettleDate cannot take place before the trade date");
                 }
-                
-
                 OnPropertyChanged(nameof(SettleDate));
             }
         }
 
         public ICommand AddTradeCommand { get; set; }
-
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
