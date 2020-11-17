@@ -1,19 +1,23 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.Models;
 using PortfolioAce.ViewModels.Modals;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
 
-    public class InvestorActionViewModel : ViewModelWindowBase
+    public class InvestorActionViewModel : ViewModelWindowBase, INotifyDataErrorInfo
     {
         private ITransferAgencyService investorService;
         private Fund _fund;
+        private readonly ValidationErrors _validationErrors;
 
         public InvestorActionViewModel(ITransferAgencyService investorService, Fund fund)
         {
@@ -21,6 +25,9 @@ namespace PortfolioAce.ViewModels.Modals
             this._fund = fund;
             _tradeDate = DateTime.Today;
             _settleDate = DateTime.Today;
+
+            _validationErrors = new ValidationErrors();
+            _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             //currency should be the funds base currency
             AddInvestorActionCommand = new AddInvestorActionCommand(this, investorService);
         }
@@ -156,7 +163,19 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _tradeDate = value;
+                _validationErrors.ClearErrors(nameof(TradeDate));
+                if (_tradeDate < _fund.LaunchDate)
+                {
+                    // validation not showing at the moment because it is bound to TextBox at the moment
+                    _validationErrors.AddError(nameof(TradeDate), "You actions can't be booked before funds launch date.");
+                }
+                if (_settleDate < _tradeDate)
+                {
+                    _settleDate = _tradeDate;
+                }
                 OnPropertyChanged(nameof(TradeDate));
+                OnPropertyChanged(nameof(SettleDate));
+
             }
         }
 
@@ -170,10 +189,33 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _settleDate = value;
+                _validationErrors.ClearErrors(nameof(SettleDate));
+                if (_settleDate < _tradeDate)
+                {
+                    // validation not showing at the moment because it is bound to TextBox at the moment
+                    _validationErrors.AddError(nameof(SettleDate), "The SettleDate cannot take place before the Action date");
+                }
                 OnPropertyChanged(nameof(SettleDate));
             }
         }
 
         public ICommand AddInvestorActionCommand { get; set; }
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        public bool CanCreate => !HasErrors;
+
+        public bool HasErrors => _validationErrors.HasErrors;
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return _validationErrors.GetErrors(propertyName);
+        }
+
+        private void ChangedErrorsEvents(object sender, DataErrorsChangedEventArgs e)
+        {
+            ErrorsChanged?.Invoke(this, e);
+            OnPropertyChanged(nameof(CanCreate));
+        }
     }
 }
