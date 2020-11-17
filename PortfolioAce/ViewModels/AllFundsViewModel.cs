@@ -76,7 +76,7 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-
+        
 
 
         // List box click should have a command and that command changes the fields displayed on the right of the allfundsview.
@@ -113,6 +113,20 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundTA));
             }
         }
+
+        private bool _isInitialised;
+        public bool IsInitialised
+        {
+            get
+            {
+                return (_currentFund != null) ? _currentFund.IsInitialised : false;
+            }
+            private set
+            {
+
+            }
+        }
+
 
         private List<CashAccountBalance> _dgFundCashHoldings;
         public List<CashAccountBalance> dgFundCashHoldings
@@ -211,11 +225,13 @@ namespace PortfolioAce.ViewModels
 
         public void OpenEditModalWindow()
         {
+            // Not ready yet..
             Console.WriteLine(_dtPositionObject);
         }
 
         public void ViewPositionDetails()
         {
+            // This will be a window at some point..
             MessageBox.Show($"Name: {_dtPositionObject.security.Symbol} Quantity: {_dtPositionObject.NetQuantity} ");
         }
     }

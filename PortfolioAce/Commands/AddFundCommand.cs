@@ -39,8 +39,10 @@ namespace PortfolioAce.Commands
                     ManagementFee = _addFundWindowVM.FundManFee,
                     PerformanceFee = _addFundWindowVM.FundPerfFee,
                     NAVFrequency = _addFundWindowVM.FundNavFreq,
-                    LaunchDate = _addFundWindowVM.FundLaunch.Date
+                    LaunchDate = _addFundWindowVM.FundLaunch.Date,
+                    IsInitialised =false
                 };
+                // i've hardcoded IsInitialised for now. false is the default option.
                 await _fundService.CreateFund(newFund);
                 _addFundWindowVM.CloseAction();
             }
