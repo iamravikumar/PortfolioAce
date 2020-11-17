@@ -67,6 +67,11 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _symbol = value;
+                _validationErrors.ClearErrors(nameof(Symbol));
+                if (!_tradeService.SecurityExists(_symbol))
+                {
+                    _validationErrors.AddError(nameof(Symbol), $"The Security '{_symbol}' does not exist");
+                }
                 // I can check the Database for the value,
                 // and if it exists prefill the currency field
                 // if not raise exception
@@ -167,6 +172,11 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _commission = value;
+                _validationErrors.ClearErrors(nameof(Commission));
+                if (_commission < 0)
+                {
+                    _validationErrors.AddError(nameof(Commission), "The commission cannot be a negative number");
+                }
                 OnPropertyChanged(nameof(Commission));
                 OnPropertyChanged(nameof(TradeAmount)); 
             }
@@ -182,7 +192,19 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _tradeDate = value;
+                _validationErrors.ClearErrors(nameof(TradeDate));
+                if (_tradeDate < _fund.LaunchDate)
+                {
+                    // validation not showing at the moment because it is bound to TextBox at the moment
+                    _validationErrors.AddError(nameof(TradeDate), "You cannot trade before the funds launch date.");
+                }
+                if (_settleDate < _tradeDate)
+                {
+                    _settleDate = _tradeDate;
+                }
+                
                 OnPropertyChanged(nameof(TradeDate));
+                OnPropertyChanged(nameof(SettleDate));
                 // include on property changed for settle date here if trade date< settle date.
             }
         }
@@ -197,8 +219,16 @@ namespace PortfolioAce.ViewModels.Modals
             }
             set
             {
-                // if settledate less than trade date then trade date = settle date
+
                 _settleDate = value;
+                _validationErrors.ClearErrors(nameof(SettleDate));
+                if (_settleDate < _tradeDate)
+                {
+                    // validation not showing at the moment because it is bound to TextBox at the moment
+                    _validationErrors.AddError(nameof(SettleDate), "The SettleDate cannot take place before the trade date");
+                }
+                
+
                 OnPropertyChanged(nameof(SettleDate));
             }
         }

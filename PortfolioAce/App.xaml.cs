@@ -26,6 +26,8 @@ namespace PortfolioAce
         protected override void OnStartup(StartupEventArgs e)
         {
             IServiceProvider serviceProvider = CreateServiceProvider();
+            System.Windows.FrameworkCompatibilityPreferences.KeepTextBoxDisplaySynchronizedWithTextProperty = false; // allows me to put negatives in textbox
+
             Window window =  serviceProvider.GetRequiredService<MainWindow>();
             window.Show();
             base.OnStartup(e);
