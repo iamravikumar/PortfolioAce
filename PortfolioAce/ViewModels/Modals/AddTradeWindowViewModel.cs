@@ -1,6 +1,7 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.Models;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Windows;
 using System;
@@ -17,11 +18,15 @@ namespace PortfolioAce.ViewModels.Modals
     {
         private Fund _fund;
         private ITradeService _tradeService;
+
+        private readonly ValidationErrors _validationErrors;
         public AddTradeWindowViewModel(ITradeService tradeService, Fund fund)
         {
             AddTradeCommand = new AddTradeCommand(this, tradeService);
             _tradeService = tradeService;
             _fund = fund;
+            _validationErrors = new ValidationErrors();
+            _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             _tradeDate = DateTime.Today;
             _settleDate = DateTime.Today;
         }
@@ -95,10 +100,10 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _price= value;
-                ClearErrors(nameof(Price));
+                _validationErrors.ClearErrors(nameof(Price));
                 if(_price < 0)
                 {
-                    AddError(nameof(Price), "The price cannot be a negative number");
+                    _validationErrors.AddError(nameof(Price), "The price cannot be a negative number");
                 }
 
                 OnPropertyChanged(nameof(Price));
@@ -201,37 +206,21 @@ namespace PortfolioAce.ViewModels.Modals
         public ICommand AddTradeCommand { get; set; }
 
 
-        private readonly Dictionary<string, List<string>> _propertyErrors = new Dictionary<string, List<string>>();
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
-        public bool HasErrors => _propertyErrors.Any();
+        public bool CanCreate => !HasErrors;
+
+        public bool HasErrors => _validationErrors.HasErrors;
 
         public IEnumerable GetErrors(string propertyName)
         {
-            return _propertyErrors.GetValueOrDefault(propertyName, null);
+            return _validationErrors.GetErrors(propertyName);
         }
 
-        public void AddError(string propertyName, string errorMessage)
+        private void ChangedErrorsEvents(object sender, DataErrorsChangedEventArgs e)
         {
-            if (!_propertyErrors.ContainsKey(propertyName))
-            {
-                _propertyErrors[propertyName] = new List<string>();
-            }
-            _propertyErrors[propertyName].Add(errorMessage);
-
-        }
-
-        public void ClearErrors(string propertyName)
-        {
-            if (_propertyErrors.Remove(propertyName))
-            {
-                OnErrorsChanged(propertyName);
-            }
-        }
-
-        private void OnErrorsChanged(string propertyName)
-        {
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+            ErrorsChanged?.Invoke(this, e);
+            OnPropertyChanged(nameof(CanCreate));
         }
     }
 }
