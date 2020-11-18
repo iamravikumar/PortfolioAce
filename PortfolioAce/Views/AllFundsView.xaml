@@ -44,7 +44,7 @@
                 <Button Margin="0,0,3,0" Command="{Binding ShowNewCashTradeCommand}">Add Cash Trade</Button>
                 <Button Margin="0,0,3,0" Command="{Binding ShowFundInitialisationCommand}" IsEnabled="{Binding IsInitialised, Converter={StaticResource invertBoolConverter}}">Initialise Fund</Button>
             </StackPanel>
-            <TabControl DockPanel.Dock="Bottom">
+            <TabControl DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignTabControl}">
                 <TabItem Header="Positions">
                     <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding Path=dtPositionObject, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
@@ -96,7 +96,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                <TabItem Header="Subscriptions and Redemptions">
+                <TabItem Header="Issuance">
                     <DataGrid Name="dgSubsAndReds" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTA}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
