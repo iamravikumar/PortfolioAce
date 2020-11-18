@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PortfolioAce.Views"
              xmlns:nav="clr-namespace:PortfolioAce.Navigation"
-             mc:Ignorable="d" d:DesignWidth="800" Height="18">
+             mc:Ignorable="d" d:DesignWidth="800" Height="auto">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">

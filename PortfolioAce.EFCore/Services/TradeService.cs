@@ -126,11 +126,11 @@ namespace PortfolioAce.EFCore.Services
             string comment;
             if (trade.TradeType=="Corp Action")
             {
-                comment = $"Corporate Action for {trade.Security}";
+                comment = $"Corporate Action for {trade.Security.SecurityName}";
             }
             else
             {
-                comment = (trade.TradeAmount <= 0) ? $"BUY {trade.Security}" : $"SELL {trade.Security}";
+                comment = (trade.TradeAmount <= 0) ? $"BUY {trade.Security.SecurityName}" : $"SELL {trade.Security.SecurityName}";
             }
             transaction.Comment = comment;
             return transaction;

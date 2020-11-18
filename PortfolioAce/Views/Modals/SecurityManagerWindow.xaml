@@ -91,7 +91,7 @@
                 <!-- A Datagrid with all securities that are NOT readonly. So they can be edited -->
                 <DataGrid Name="dgAllSecurities" ColumnWidth="*" ItemsSource="{Binding Path=dgSecurities}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Asset Class"  Binding="{Binding Type}"/>
+                        <DataGridTextColumn Header="Asset Class"  Binding="{Binding AssetClass}"/>
                         <DataGridTextColumn Header="Security Name" Binding="{Binding SecurityName}"/>
                         <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}"/>
                         <DataGridTextColumn Header="Currency" Binding="{Binding Currency}"/>

@@ -115,6 +115,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundTrades));
                 OnPropertyChanged(nameof(dgFundCashBook));
                 OnPropertyChanged(nameof(dgFundTA));
+                OnPropertyChanged(nameof(IsInitialised));
             }
         }
 
