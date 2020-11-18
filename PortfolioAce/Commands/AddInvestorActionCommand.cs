@@ -44,7 +44,8 @@ namespace PortfolioAce.Commands
                     TradeAmount = _investorActionVM.TradeAmount,
                     Currency = _investorActionVM.Currency,
                     Fees = _investorActionVM.Fee,
-                    FundId = _investorActionVM.FundId
+                    FundId = _investorActionVM.FundId,
+                    IsNavFinal = _investorActionVM.isNavFinal
                 };
 
                 // why cant i use await here? might be redundant once i refactor everything.

@@ -25,7 +25,7 @@ namespace PortfolioAce.ViewModels.Modals
             this._fund = fund;
             _tradeDate = DateTime.Today;
             _settleDate = DateTime.Today;
-
+            _isNavFinal = false;
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             //currency should be the funds base currency
@@ -55,6 +55,20 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _TAType = value;
                 OnPropertyChanged(nameof(TAType));
+            }
+        }
+
+        public bool _isNavFinal;
+        public bool isNavFinal
+        {
+            get
+            {
+                return _isNavFinal;
+            }
+            set
+            {
+                _isNavFinal = value;
+                OnPropertyChanged(nameof(isNavFinal));
             }
         }
 

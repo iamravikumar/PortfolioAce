@@ -51,7 +51,8 @@ namespace PortfolioAce.Commands
                             FundId = updateFund.FundId,
                             Fees = 0,
                             Type = "Subscription",
-                            Units = seedInvestor.SeedAmount / _fundInitialiseVM.NavPrice
+                            Units = seedInvestor.SeedAmount / _fundInitialiseVM.NavPrice,
+                            IsNavFinal=true,
                         };
                         newInvestors.Add(newInvestor);
                     }

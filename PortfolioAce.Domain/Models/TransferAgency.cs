@@ -8,9 +8,11 @@ namespace PortfolioAce.Domain.Models
 {
     public class TransferAgency
     {
-        // might need pending and approved
         [Required]
         public int TransferAgencyId { get; set; }
+
+        [Required]
+        public bool IsNavFinal { get; set; } 
         
         [Required]
         public DateTime TransactionDate { get; set; } // must be on or after the funds launch date!!!
