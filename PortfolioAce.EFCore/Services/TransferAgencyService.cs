@@ -68,13 +68,14 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void InitialiseFundAction(Fund fund, List<TransferAgency> investors)
+        public void InitialiseFundAction(Fund fund, List<TransferAgency> investors, NAVPriceStore initialNav)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 // need to update fund to initialised, add TA to database, add cashbook to DB,
                 // Need to update the funds first NAV
                 context.Funds.Update(fund);
+                context.NavPriceData.Add(initialNav);
                 foreach (TransferAgency investor in investors)
                 {
                     var res = context.TransferAgent.Add(investor);

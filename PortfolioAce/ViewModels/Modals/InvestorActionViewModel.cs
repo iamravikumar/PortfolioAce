@@ -21,6 +21,7 @@ namespace PortfolioAce.ViewModels.Modals
 
         public InvestorActionViewModel(ITransferAgencyService investorService, Fund fund)
         {
+            // if _isNavFinal. disable the price and quantity box, which means amount is entered manually
             this.investorService = investorService;
             this._fund = fund;
             _tradeDate = DateTime.Today;

@@ -4,6 +4,7 @@ using PortfolioAce.HelperObjects;
 using PortfolioAce.ViewModels.Modals;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -61,7 +62,15 @@ namespace PortfolioAce.Commands
                         throw new ArgumentException("Investor must have a name and the seed amount must be greater than 0");
                     }
                 }
-                _investorService.InitialiseFundAction(updateFund, newInvestors);// takes in
+                NAVPriceStore initialNav = new NAVPriceStore
+                {
+                    FinalisedDate = updateFund.LaunchDate,
+                    NAVPrice = _fundInitialiseVM.NavPrice,
+                    FundId = updateFund.FundId,
+                    NetAssetValue=newInvestors.Sum(ni=>ni.TradeAmount), 
+                    SharesOutstanding=newInvestors.Sum(ni=>ni.Units) 
+                };
+                _investorService.InitialiseFundAction(updateFund, newInvestors, initialNav);// takes in
                 //await _investorService.CreateInvestorAction(newInvestorAction);
                 _fundInitialiseVM.CloseAction();
             }
