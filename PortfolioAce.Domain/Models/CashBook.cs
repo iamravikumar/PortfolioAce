@@ -7,9 +7,8 @@ using System.Text;
 namespace PortfolioAce.Domain.Models
 {
     // There should be no repo for this it is strictly a reference class. It is only updated via the CashTrades and Trades
-    // Its crud operations are based on the CashTrade and Trade amounts.
+    // Its crud operations are based on the CashTrade, InvestorActions and Trade amounts.
 
-    // I might need to refactor the name.. Maybe call it CashBook instead on CashAccount?
     public class CashBook
     {
         [Key]

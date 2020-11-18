@@ -27,7 +27,7 @@ namespace PortfolioAce.Domain.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LaunchDate { get; set; }
         [Required]
-        public bool IsInitialised { get; set; } // Defaults to False when Fund is first created...
+        public bool IsInitialised { get; set; } // Defaults to False when Fund is first created, set to true once fund is initialised..
 
         public virtual ICollection<Trade> Trades { get; set; }
         public virtual ICollection<CashBook> CashBooks { get; set; }

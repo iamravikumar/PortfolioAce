@@ -34,7 +34,7 @@ namespace PortfolioAce.Commands
             {
                 Security newSecurity = new Security
                 {
-                    Type = _SecurityManagerVM.AssetClass,
+                    AssetClass = _SecurityManagerVM.AssetClass,
                     Symbol = _SecurityManagerVM.SecuritySymbol,
                     Currency = _SecurityManagerVM.Currency,
                     SecurityName = _SecurityManagerVM.SecurityName,
