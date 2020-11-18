@@ -13,7 +13,7 @@ namespace PortfolioAce.Domain.Models
         public int TransferAgencyId { get; set; }
         
         [Required]
-        public DateTime TransactionDate { get; set; } // must be on the funds launch date!!!
+        public DateTime TransactionDate { get; set; } // must be on or after the funds launch date!!!
 
         [Required]
         public DateTime TransactionSettleDate { get; set; } // this is the subscription and redemption dates.

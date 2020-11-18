@@ -42,7 +42,7 @@
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <Button Margin="1,0,3,0" Command="{Binding ShowNewTradeCommand}">Add Trade</Button>
                 <Button Margin="0,0,3,0" Command="{Binding ShowNewCashTradeCommand}">Add Cash Trade</Button>
-                <Button Margin="0,0,3,0" Command="" IsEnabled="{Binding IsInitialised, Converter={StaticResource invertBoolConverter}}">Initialise Fund</Button>
+                <Button Margin="0,0,3,0" Command="{Binding ShowFundInitialisationCommand}" IsEnabled="{Binding IsInitialised, Converter={StaticResource invertBoolConverter}}">Initialise Fund</Button>
             </StackPanel>
             <TabControl DockPanel.Dock="Bottom">
                 <TabItem Header="Positions">

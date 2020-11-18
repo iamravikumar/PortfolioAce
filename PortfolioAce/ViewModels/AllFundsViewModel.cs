@@ -17,7 +17,7 @@ using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels
 {
-    public class AllFundsViewModel:ViewModelBase
+    public class AllFundsViewModel : ViewModelBase
     {
         private IFundService _fundService;
         private ITradeService _tradeService;
@@ -37,10 +37,10 @@ namespace PortfolioAce.ViewModels
 
             List<Fund> allFunds = fundService.GetAllFunds();
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
-            _currentFund = (_lbFunds.Count!=0) ? _fundService.GetFund(_lbFunds[0]) : null;
-            
+            _currentFund = (_lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
+
             SelectFundCommand = new SelectFundCommand(this, fundService);
-            
+
             ShowNewTradeCommand = new ActionCommand<Type, Type, ITradeService>(
                 OpenModalWindow, typeof(AddTradeWindow), typeof(AddTradeWindowViewModel), _tradeService);
             ShowNewCashTradeCommand = new ActionCommand<Type, Type, ICashTradeService>(
@@ -48,13 +48,17 @@ namespace PortfolioAce.ViewModels
             ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyService>(
                 OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorService
                 );
+            ShowFundInitialisationCommand = new ActionCommand<Type, Type, ITransferAgencyService>(
+                OpenModalWindow, typeof(FundInitialisationWindow), typeof(FundInitialisationWindowViewModel), _investorService
+                );
             PositionDetailCommand = new ActionCommand(ViewPositionDetails);
         }
 
         public ICommand SelectFundCommand { get; set; }
         public ICommand ShowNewTradeCommand { get; set; }
         public ICommand ShowNewCashTradeCommand { get; set; }
-        
+
+        public ICommand ShowFundInitialisationCommand { get; set; }
         public ICommand ShowNewInvestorActionCommand { get; set; }
 
         public ICommand PositionDetailCommand { get; set; }
