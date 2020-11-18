@@ -60,20 +60,24 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="1">[The name of the Fund]</Label>
+            <Label Grid.Row="1">
+                <Label.Content>
+                    <Run FontWeight="Bold" Text="{Binding Path=TargetFund.FundName}"/>
+                    <!--<Run FontWeight="Bold" Text="{Binding Path=CurrentFund.FundName, StringFormat='Fund Name: {0}'}" />-->
+                </Label.Content>
+            </Label>
             <Label Grid.Row="2">Currency:</Label>
-            <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2">[Fund Base Currency]</Label>
+            <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" Content="{Binding TargetFund.BaseCurrency}"></Label>
             <Label Grid.Row="3">Initial Fund Price</Label>
-            <TextBox Text="" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Label Grid.Row="4">Initial Fund NAV</Label>
-            <Label Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,2">[This is the sum of the initial fund values]</Label>
-            <DataGrid Name="dgSeedingInvestors" Grid.Row="6" Grid.ColumnSpan="3" CanUserDeleteRows="True" CanUserAddRows="True" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding Path=dgSeedingInvestors}">
+            <TextBox Text="{Binding NavPrice, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+            <Button Command="{Binding InitialiseFundCommand}" Grid.Row="4" Grid.Column="1" Margin="0,5,0,0">Initialise Fund</Button>
+            <Label Grid.Row="5" Grid.ColumnSpan="2">Add your initial investors below</Label>
+            <DataGrid Name="dgSeedingInvestors" Grid.Row="6" Grid.ColumnSpan="3" CanUserDeleteRows="True" CanUserAddRows="True" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding Path=dgSeedingInvestors, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Investor Name" Binding="{Binding InvestorName}" />
                     <DataGridTextColumn Header="Seeding Amount" Binding="{Binding SeedAmount}" />
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Command="{Binding ViewSeeds}" Grid.Row="5" Grid.Column="1" Margin="0,5,0,0">Initialise Fund</Button>
         </Grid>
     </Border>
 </Window>

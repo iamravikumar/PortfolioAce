@@ -1,5 +1,7 @@
-﻿using PortfolioAce.Domain.Models;
+﻿using PortfolioAce.Commands;
+using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.HelperObjects;
 using PortfolioAce.Models;
 using PortfolioAce.Navigation;
 using System;
@@ -7,7 +9,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
@@ -21,24 +25,49 @@ namespace PortfolioAce.ViewModels.Modals
 
         public FundInitialisationWindowViewModel(ITransferAgencyService investorService, Fund fund)
         {
-            // take in the fundservice too so i can unpdate the isinitialised property
             this.investorService = investorService;
             this._fund = fund;
 
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             dgSeedingInvestors = new ObservableCollection<SeedingInvestor>();
-            ViewSeeds = new ActionCommand(ViewPositionDetails);
+            InitialiseFundCommand = new InitialiseFundCommand(this, investorService);
+            _NavPrice = 1;
         }
-        public ICommand ViewSeeds { get; set; }
+        public ICommand InitialiseFundCommand { get; set; }
 
         public ObservableCollection<SeedingInvestor> dgSeedingInvestors { get; set; }
 
-        public void ViewPositionDetails()
+        public Fund TargetFund
         {
-            Console.WriteLine(dgSeedingInvestors);
+            get
+            {
+                return _fund;
+            }
+            private set
+            {
+            }
         }
 
+        private decimal _NavPrice;
+        public decimal NavPrice
+        {
+            get
+            {
+                return _NavPrice;
+            }
+            set
+            {
+                _NavPrice = value;
+                _validationErrors.ClearErrors(nameof(NavPrice));
+                if (_NavPrice < 1)
+                {
+                    _validationErrors.AddError(nameof(NavPrice), "The price cannot be less than 1");
+                }
+
+                OnPropertyChanged(nameof(NavPrice));
+            }
+        }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
@@ -55,21 +84,6 @@ namespace PortfolioAce.ViewModels.Modals
         {
             ErrorsChanged?.Invoke(this, e);
             OnPropertyChanged(nameof(CanCreate));
-        }
-    }
-
-    public class SeedingInvestor
-    {
-        public string InvestorName { get; set; }
-        public decimal SeedAmount { get; set; }
-        public SeedingInvestor(string InvestorName, decimal SeedAmount)
-        {
-            this.InvestorName = InvestorName;
-            this.SeedAmount = SeedAmount;
-        }
-        public SeedingInvestor()
-        {
-
         }
     }
 }

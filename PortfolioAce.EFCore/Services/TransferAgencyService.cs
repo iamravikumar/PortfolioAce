@@ -68,6 +68,25 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public void InitialiseFundAction(Fund fund, List<TransferAgency> investors)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                // need to update fund to initialised, add TA to database, add cashbook to DB,
+                // Need to update the funds first NAV
+                context.Funds.Update(fund);
+                foreach (TransferAgency investor in investors)
+                {
+                    var res = context.TransferAgent.Add(investor);
+                    context.SaveChanges();
+                    CashBook transaction = TransactionMapper(res.Entity, new CashBook());
+                    context.CashBooks.Add(transaction);
+
+                };
+                context.SaveChanges();
+            }
+        }
+
         public async Task<TransferAgency> UpdateInvestorAction(TransferAgency investorAction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
