@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:PortfolioAce.Views"
              xmlns:src="clr-namespace:PortfolioAce.Models"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="720" d:DesignWidth="1280">
     <UserControl.Resources>
         <src:InvertBoolConverter x:Key="invertBoolConverter"/>
     </UserControl.Resources>
@@ -41,7 +41,7 @@
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <Button Margin="1,0,3,0" Command="{Binding ShowNewTradeCommand}" Style="{DynamicResource MaterialDesignRaisedLightButton}">Add Trade</Button>
                 <Button Margin="0,0,3,0" Command="{Binding ShowNewCashTradeCommand}" Style="{DynamicResource MaterialDesignRaisedLightButton}">Add Cash Trade</Button>
-                <Button Margin="0,0,3,0" Command="{Binding ShowFundInitialisationCommand}" IsEnabled="{Binding IsInitialised, Converter={StaticResource invertBoolConverter}}">Initialise Fund</Button>
+                <Button Margin="0,0,3,0" Command="{Binding ShowFundInitialisationCommand}" Visibility="{Binding HideWidget}" IsEnabled="{Binding IsInitialised, Converter={StaticResource invertBoolConverter}}">Initialise Fund</Button>
             </StackPanel>
             <TabControl DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignTabControl}">
                 <TabItem Header="Positions">
@@ -122,7 +122,7 @@
             </TabControl>
         </DockPanel>
         <Border BorderBrush="Silver" BorderThickness="1" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"/>
-        <ListBox Name="lbFundList" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=lbFunds}" >
+        <ListBox Name="lbFundList" Background="GhostWhite" Grid.Row="0" Grid.Column="0" Grid.RowSpan="3" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=lbFunds}" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">

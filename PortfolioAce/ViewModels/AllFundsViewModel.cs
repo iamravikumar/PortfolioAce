@@ -116,10 +116,11 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashBook));
                 OnPropertyChanged(nameof(dgFundTA));
                 OnPropertyChanged(nameof(IsInitialised));
+                OnPropertyChanged(nameof(HideWidget));
             }
         }
 
-        private bool _isInitialised;
+        
         public bool IsInitialised
         {
             get
@@ -132,6 +133,17 @@ namespace PortfolioAce.ViewModels
             }
         }
 
+        public Visibility HideWidget
+        {
+            get
+            {
+                return (!IsInitialised)?Visibility.Visible: Visibility.Collapsed;
+            }
+            private set
+            {
+
+            }
+        }
 
         private List<CashAccountBalance> _dgFundCashHoldings;
         public List<CashAccountBalance> dgFundCashHoldings
