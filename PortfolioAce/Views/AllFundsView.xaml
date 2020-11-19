@@ -9,6 +9,7 @@
              d:DesignHeight="720" d:DesignWidth="1280">
     <UserControl.Resources>
         <src:InvertBoolConverter x:Key="invertBoolConverter"/>
+        <src:InvertVisibilityConverter x:Key="invertVisibilityConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -40,8 +41,8 @@
         <DockPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="2">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <Button Margin="1,0,3,0" Command="{Binding ShowNewTradeCommand}" Style="{DynamicResource MaterialDesignRaisedLightButton}">Add Trade</Button>
-                <Button Margin="0,0,3,0" Command="{Binding ShowNewCashTradeCommand}" Style="{DynamicResource MaterialDesignRaisedLightButton}">Add Cash Trade</Button>
-                <Button Margin="0,0,3,0" Command="{Binding ShowFundInitialisationCommand}" Visibility="{Binding HideWidget}" IsEnabled="{Binding IsInitialised, Converter={StaticResource invertBoolConverter}}">Initialise Fund</Button>
+                <Button Margin="0,0,3,0" Command="{Binding ShowNewCashTradeCommand}" Visibility="{Binding ShowWidget}" Style="{DynamicResource MaterialDesignRaisedLightButton}">Add Cash Trade</Button>
+                <Button Margin="0,0,3,0" Command="{Binding ShowFundInitialisationCommand}" Visibility="{Binding ShowWidget, Converter={StaticResource invertVisibilityConverter}}" IsEnabled="{Binding IsInitialised, Converter={StaticResource invertBoolConverter}}">Initialise Fund</Button>
             </StackPanel>
             <TabControl DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignTabControl}">
                 <TabItem Header="Positions">

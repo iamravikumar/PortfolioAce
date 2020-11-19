@@ -116,7 +116,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashBook));
                 OnPropertyChanged(nameof(dgFundTA));
                 OnPropertyChanged(nameof(IsInitialised));
-                OnPropertyChanged(nameof(HideWidget));
+                OnPropertyChanged(nameof(ShowWidget));
             }
         }
 
@@ -133,11 +133,11 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public Visibility HideWidget
+        public Visibility ShowWidget
         {
             get
             {
-                return (!IsInitialised)?Visibility.Visible: Visibility.Collapsed;
+                return (IsInitialised)?Visibility.Visible: Visibility.Collapsed;
             }
             private set
             {
