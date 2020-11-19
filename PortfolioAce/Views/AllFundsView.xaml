@@ -22,15 +22,14 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Column="1" Grid.Row="0" Margin="2">
             <StackPanel DockPanel.Dock="Left">
-                <TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}">
                     <TextBlock.Inlines>
                         <Run FontWeight="Bold" Text="{Binding Path=CurrentFund.FundName}"/>
-                        <!--<Run FontWeight="Bold" Text="{Binding Path=CurrentFund.FundName, StringFormat='Fund Name: {0}'}" />-->
                     </TextBlock.Inlines>
                 </TextBlock>
-                <TextBlock><Bold>NAV as of 04/01/2021:</Bold> 50,000,000 GBP</TextBlock>
-                <TextBlock><Bold>NAV per share as of 04/01/2021:</Bold> 105.97</TextBlock>
-                <TextBlock><Bold>ITD Performance:</Bold> 10.7314%</TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>NAV as of 04/01/2021:</Bold> 50,000,000 GBP</TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>NAV per share as of 04/01/2021:</Bold> 105.97</TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>ITD Performance:</Bold> 10.7314%</TextBlock>
             </StackPanel>
             <StackPanel DockPanel.Dock="Left" Margin="30,0,0,0">
                 <Button Margin="20,10,0,0" Width="210" Command="{Binding ShowNewInvestorActionCommand}">Investor Manager...</Button>
@@ -40,13 +39,15 @@
         <Border BorderBrush="Silver" BorderThickness="1" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"/>
         <DockPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="2">
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <Button Margin="1,0,3,0" Command="{Binding ShowNewTradeCommand}">Add Trade</Button>
-                <Button Margin="0,0,3,0" Command="{Binding ShowNewCashTradeCommand}">Add Cash Trade</Button>
+                <Button Margin="1,0,3,0" Command="{Binding ShowNewTradeCommand}" Style="{DynamicResource MaterialDesignRaisedLightButton}">Add Trade</Button>
+                <Button Margin="0,0,3,0" Command="{Binding ShowNewCashTradeCommand}" Style="{DynamicResource MaterialDesignRaisedLightButton}">Add Cash Trade</Button>
                 <Button Margin="0,0,3,0" Command="{Binding ShowFundInitialisationCommand}" IsEnabled="{Binding IsInitialised, Converter={StaticResource invertBoolConverter}}">Initialise Fund</Button>
             </StackPanel>
             <TabControl DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignTabControl}">
                 <TabItem Header="Positions">
-                    <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding Path=dtPositionObject, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" 
+                              RowBackground="GhostWhite" AlternatingRowBackground="White"
+                              ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding Path=dtPositionObject, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Name" Binding="{Binding security.SecurityName}"  />
                             <DataGridTextColumn Header="Symbol" Binding="{Binding security.Symbol}" />
@@ -61,7 +62,9 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Cash Holdings">
-                    <DataGrid Name="dgCashHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgFundCashHoldings}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid Name="dgCashHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgFundCashHoldings}" 
+                              RowBackground="GhostWhite" AlternatingRowBackground="White"
+                              VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Name}" Width="100" />
                             <DataGridTextColumn Header="Balance" Binding="{Binding Balance}" Width="150" />
@@ -70,7 +73,9 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Trade History">
-                    <DataGrid Name="dgTradeHistory" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTrades}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid Name="dgTradeHistory" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTrades}" 
+                              RowBackground="GhostWhite" AlternatingRowBackground="White"
+                              VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type"  Binding="{Binding TradeType}"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Security.SecurityName}" />
@@ -79,25 +84,29 @@
                             <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
                             <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount}"/>
                             <DataGridTextColumn Header="Commission" Binding="{Binding Commission}"/>
-                            <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate}"/>
-                            <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate}"/>
+                            <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate, StringFormat={}{0:d}}"/>
+                            <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate, StringFormat={}{0:d}}"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Cash Book">
-                    <DataGrid Name="dgCashBook" ColumnWidth="*" ItemsSource="{Binding Path=dgFundCashBook}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid Name="dgCashBook" ColumnWidth="*" ItemsSource="{Binding Path=dgFundCashBook}" 
+                              RowBackground="GhostWhite" AlternatingRowBackground="White"
+                              VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" />
                             <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TransactionAmount}" />
-                            <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TransactionDate}"/>
+                            <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TransactionDate, StringFormat={}{0:d}}"/>
                             <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Comment}"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Issuance">
-                    <DataGrid Name="dgSubsAndReds" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTA}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid Name="dgSubsAndReds" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTA}" 
+                              RowBackground="GhostWhite" AlternatingRowBackground="White"
+                              VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
                             <DataGridTextColumn Header="Units" Binding="{Binding Units}" />
@@ -105,8 +114,8 @@
                             <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount}" />
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" />
                             <DataGridTextColumn Header="Investor Name" Binding="{Binding InvestorName}" />
-                            <DataGridTextColumn Header="Action Date" Binding="{Binding TransactionDate}" />
-                            <DataGridTextColumn Header="Action Settle Date" Binding="{Binding TransactionSettleDate}" Width="*"/>
+                            <DataGridTextColumn Header="Action Date" Binding="{Binding TransactionDate, StringFormat={}{0:d}}" />
+                            <DataGridTextColumn Header="Action Settle Date" Binding="{Binding TransactionSettleDate, StringFormat={}{0:d}}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
@@ -117,7 +126,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,2">
-                        <TextBlock Text="{Binding }">
+                        <TextBlock Text="{Binding }" Style="{StaticResource MaterialDesignButtonTextBlock}">
                             <TextBlock.InputBindings>
                                 <MouseBinding MouseAction="LeftDoubleClick" 
                                               Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.SelectFundCommand }"
