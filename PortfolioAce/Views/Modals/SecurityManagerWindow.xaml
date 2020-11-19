@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Security Manager" Height="370" Width="470">
     <Border Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3" Margin="3">
-        <TabControl  Style="{StaticResource MaterialDesignTabControl}">
+        <TabControl  Style="{StaticResource MaterialDesignTabControl}" Background="LightGray">
             <TabItem Header="New Security Setup">
                 <Grid Margin="1">
                     <Grid.Resources>

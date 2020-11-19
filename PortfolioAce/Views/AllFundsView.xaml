@@ -49,7 +49,7 @@
                 <Button Margin="1,0,3,0" Command="{Binding ShowNewTradeCommand}" Style="{DynamicResource MaterialDesignRaisedLightButton}">Add Trade</Button>
                 <Button Margin="0,0,3,0" Command="{Binding ShowNewCashTradeCommand}" Style="{DynamicResource MaterialDesignRaisedLightButton}">Add Cash Trade</Button>
             </StackPanel>
-            <TabControl DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignTabControl}">
+            <TabControl DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignTabControl}" Background="LightGray" >
                 <TabItem Header="Positions">
                     <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" 
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
