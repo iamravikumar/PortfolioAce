@@ -9,55 +9,65 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="Home" Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Home}" />
+                <MenuItem Header="Home" Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Home}">
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icons8-home-24.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="Settings" Command="{Binding ShowSettingsCommand}">
                     <MenuItem.Icon>
-                        <Image Source="/PortfolioAce;component/Resources\icon_settings.png"/>
+                        <Image Source="/PortfolioAce;component/Resources\icons8-services-24.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Exit" Command="{Binding CloseApplicationCommand}">
                     <MenuItem.Icon>
-                        <Image Source="/PortfolioAce;component/Resources\icon_exit.png"/>
+                        <Image Source="/PortfolioAce;component/Resources\icons8-exit-24.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Funds">
                 <MenuItem Header="View Funds"  Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.FundsView}">
                     <MenuItem.Icon>
-                        <Image Source="/PortfolioAce;component/Resources\icon_view_fund.png"/>
+                        <Image Source="/PortfolioAce;component/Resources\icons8-all-funds-view-24.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Create a New Fund..."  Command="{Binding ShowNewFundCommand}">
                     <MenuItem.Icon>
-                        <Image Source="/PortfolioAce;component/Resources\icon_add_fund.png"/>
+                        <Image Source="/PortfolioAce;component/Resources\icons8-add-fund-24.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Tools">
                 <MenuItem Header="View Security Prices"  Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.SysSecurityPrices}">
                     <MenuItem.Icon>
-                        <Image Source="/PortfolioAce;component/Resources\icon_view_prices.png"/>
+                        <Image Source="/PortfolioAce;component/Resources\icons8-all-securities24.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="View FX Rates"  Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.SysFXRates}">
                     <MenuItem.Icon>
-                        <Image Source="/PortfolioAce;component/Resources\icon_view_fx.png"/>
+                        <Image Source="/PortfolioAce;component/Resources\icons8-fx-rates-24.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Import Trades..." Command="{Binding ShowImportTradesCommand}">
                     <MenuItem.Icon>
-                        <Image Source="/PortfolioAce;component/Resources\icon_import_trades.png"/>
+                        <Image Source="/PortfolioAce;component/Resources\icons8-import-csv-24.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="Security Manager..." Command="{Binding ShowSecurityManagerCommand}">
-                    
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icons8-device-manager-24.png"/>
+                    </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Help">
-                <MenuItem Header="About" Command="{Binding ShowAboutCommand}" />
+                <MenuItem Header="About" Command="{Binding ShowAboutCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icons8-about-24.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
     </DockPanel>

@@ -7,13 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\icon_add_fund.png" />
-    <None Remove="Resources\icon_exit.png" />
-    <None Remove="Resources\icon_import_trades.png" />
-    <None Remove="Resources\icon_settings.png" />
-    <None Remove="Resources\icon_view_fund.png" />
-    <None Remove="Resources\icon_view_fx.png" />
-    <None Remove="Resources\icon_view_prices.png" />
+    <None Remove="Resources\icons8-about-24.png" />
+    <None Remove="Resources\icons8-add-fund-24.png" />
+    <None Remove="Resources\icons8-all-funds-view-24.png" />
+    <None Remove="Resources\icons8-all-securities24.png" />
+    <None Remove="Resources\icons8-device-manager-24.png" />
+    <None Remove="Resources\icons8-exit-24.png" />
+    <None Remove="Resources\icons8-fx-rates-24.png" />
+    <None Remove="Resources\icons8-home-24.png" />
+    <None Remove="Resources\icons8-import-csv-24.png" />
+    <None Remove="Resources\icons8-services-24.png" />
     <None Remove="Resources\portfolioace logo.png" />
     <None Remove="Resources\portfolioace_logo2_hd.png" />
     <None Remove="Resources\portfolioace_logo2_icon.ico" />
@@ -32,25 +35,34 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\icon_add_fund.png">
+    <Resource Include="Resources\icons8-about-24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\icon_exit.png">
+    <Resource Include="Resources\icons8-add-fund-24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\icon_import_trades.png">
+    <Resource Include="Resources\icons8-all-funds-view-24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\icon_settings.png">
+    <Resource Include="Resources\icons8-all-securities24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\icon_view_fund.png">
+    <Resource Include="Resources\icons8-device-manager-24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\icon_view_fx.png">
+    <Resource Include="Resources\icons8-exit-24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\icon_view_prices.png">
+    <Resource Include="Resources\icons8-fx-rates-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-home-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-import-csv-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-services-24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\portfolioace logo.png">
