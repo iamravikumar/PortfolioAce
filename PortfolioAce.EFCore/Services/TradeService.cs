@@ -29,7 +29,8 @@ namespace PortfolioAce.EFCore.Services
                 // trade amount in trades table should be negative for purchase and positive for sales.
                 EntityEntry<Trade> res = await context.Trades.AddAsync(trade);
                 await context.SaveChangesAsync();
-                CashBook transaction = TransactionMapper(res.Entity, new CashBook());
+                Security security = context.Securities.Where(ts => ts.SecurityId==res.Entity.SecurityId).FirstOrDefault();
+                CashBook transaction = TransactionMapper(res.Entity, new CashBook(), security);
                 await context.CashBooks.AddAsync(transaction);
                 await context.SaveChangesAsync();
                 
@@ -105,7 +106,8 @@ namespace PortfolioAce.EFCore.Services
             {
                 context.Trades.Update(trade);
                 CashBook transaction = await context.CashBooks.Where(c => c.TradeId == trade.TradeId).FirstAsync();
-                CashBook newTransaction = TransactionMapper(trade, transaction);
+                Security security = context.Securities.Where(ts => ts.SecurityId == trade.SecurityId).FirstOrDefault();
+                CashBook newTransaction = TransactionMapper(trade, transaction, security);
                 context.CashBooks.Update(newTransaction);
                 await context.SaveChangesAsync();
 
@@ -113,7 +115,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        private CashBook TransactionMapper(Trade trade, CashBook transaction)
+        private CashBook TransactionMapper(Trade trade, CashBook transaction, Security security=null)
         {
             // maps trade information to a transaction in the database for the cashaccount.
 
@@ -126,11 +128,11 @@ namespace PortfolioAce.EFCore.Services
             string comment;
             if (trade.TradeType=="Corp Action")
             {
-                comment = $"Corporate Action for {trade.Security.SecurityName}";
+                comment = $"Corporate Action for {security.Symbol}";
             }
             else
             {
-                comment = (trade.TradeAmount <= 0) ? $"BUY {trade.Security.SecurityName}" : $"SELL {trade.Security.SecurityName}";
+                comment = (trade.TradeAmount <= 0) ? $"BUY {security.Symbol}" : $"SELL {security.Symbol}";
             }
             transaction.Comment = comment;
             return transaction;
