@@ -59,6 +59,7 @@ namespace PortfolioAce.EFCore.Services
             {
                 return context.Funds
                     .Include(f => f.CashBooks)
+                    .Include(f=> f.NavPrices)
                     .Include(f=> f.TransferAgent)
                     .Include(f => f.Trades).ThenInclude(s=>s.Security)
                     .ToList();
@@ -71,6 +72,7 @@ namespace PortfolioAce.EFCore.Services
             {
                 return context.Funds.Where(f => f.Symbol == fundSymbol)
                             .Include(f => f.CashBooks)
+                            .Include(f=> f.NavPrices)
                             .Include(f => f.TransferAgent)
                             .Include(f => f.Trades).ThenInclude(s => s.Security)
                             .FirstOrDefault();

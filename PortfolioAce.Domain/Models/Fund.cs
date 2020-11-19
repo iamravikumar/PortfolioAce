@@ -32,6 +32,7 @@ namespace PortfolioAce.Domain.Models
         public virtual ICollection<Trade> Trades { get; set; }
         public virtual ICollection<CashBook> CashBooks { get; set; }
         public virtual ICollection<TransferAgency> TransferAgent {get;set;}
+        public virtual ICollection<NAVPriceStore> NavPrices { get; set; }
 
     }
 }

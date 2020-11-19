@@ -109,6 +109,7 @@ namespace PortfolioAce.ViewModels
             set
             {
                 _currentFund = value;
+                // all variables pass through here so that they update the view
                 OnPropertyChanged(nameof(CurrentFund));
                 OnPropertyChanged(nameof(dgFundPositions));
                 OnPropertyChanged(nameof(dgFundCashHoldings));
@@ -116,6 +117,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashBook));
                 OnPropertyChanged(nameof(dgFundTA));
                 OnPropertyChanged(nameof(IsInitialised));
+                OnPropertyChanged(nameof(LatestNav));
                 OnPropertyChanged(nameof(ShowWidget));
             }
         }
@@ -132,6 +134,19 @@ namespace PortfolioAce.ViewModels
 
             }
         }
+
+        public NAVPriceStore LatestNav
+        {
+            get
+            {
+                return _currentFund.NavPrices.OrderByDescending(cf=>cf.FinalisedDate).FirstOrDefault();
+            }
+            private set
+            {
+
+            }
+        }
+
 
         public Visibility ShowWidget
         {

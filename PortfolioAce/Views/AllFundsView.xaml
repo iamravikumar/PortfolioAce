@@ -34,8 +34,20 @@
                         <Run FontWeight="Bold" Text="{Binding Path=CurrentFund.FundName}"/>
                     </TextBlock.Inlines>
                 </TextBlock>
-                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>NAV as of 04/01/2021:</Bold> 50,000,000 GBP</TextBlock>
-                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>NAV per share as of 04/01/2021:</Bold> 105.97</TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
+                        <Run FontWeight="Bold" Text="NAV as of "/>
+                        <Run FontWeight="Bold" Text="{Binding LatestNav.FinalisedDate, StringFormat={}{0:d}}"/>
+                        <Run FontWeight="Bold" Text=": "/>
+                        <Run Text="{Binding LatestNav.NetAssetValue}"/>
+                        <Run Text="{Binding CurrentFund.BaseCurrency}"/>
+                </TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
+                        <Run FontWeight="Bold" Text="NAV per share as of "/>
+                        <Run FontWeight="Bold" Text="{Binding LatestNav.FinalisedDate, StringFormat={}{0:d}}"/>
+                        <Run FontWeight="Bold" Text=": "/>
+                        <Run Text="{Binding LatestNav.NAVPrice}"/>
+                        <Run Text="{Binding CurrentFund.BaseCurrency}"/>
+                </TextBlock>
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>ITD Performance:</Bold> 10.7314%</TextBlock>
             </StackPanel>
             <StackPanel DockPanel.Dock="Left" Margin="30,0,0,0">
