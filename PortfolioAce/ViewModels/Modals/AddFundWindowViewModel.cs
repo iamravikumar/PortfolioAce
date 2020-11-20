@@ -21,7 +21,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             AddFundCommand = new AddFundCommand(this, fundService);
             _fundService = fundService;
-            _fundLaunch = DateTime.Today;
+            _fundLaunch = DateExtentions.InitialDate();
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             // to set decimal points i might need to use a converter
@@ -135,6 +135,10 @@ namespace PortfolioAce.ViewModels.Modals
             }
             set
             {
+                if (_fundLaunch.DayOfWeek == DayOfWeek.Saturday || _fundLaunch.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    _validationErrors.AddError(nameof(FundLaunch), "Your fund can't launch on a weekend");
+                }
                 _fundLaunch = value;
                 OnPropertyChanged(nameof(FundLaunch));
             }

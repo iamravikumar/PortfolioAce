@@ -27,8 +27,9 @@ namespace PortfolioAce.ViewModels.Modals
             _fund = fund;
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
-            _tradeDate = DateTime.Today;
-            _settleDate = DateTime.Today;
+            _tradeDate = DateExtentions.InitialDate();
+            _settleDate = DateExtentions.InitialDate();
+            
         }
 
         public int FundId
@@ -193,6 +194,10 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _tradeDate = value;
                 _validationErrors.ClearErrors(nameof(TradeDate));
+                if (_tradeDate.DayOfWeek == DayOfWeek.Saturday || _tradeDate.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    _validationErrors.AddError(nameof(TradeDate), "Your trades can't be booked on weekends");
+                }
                 if (_tradeDate < _fund.LaunchDate)
                 {
                     // validation not showing at the moment because it is bound to TextBox at the moment
@@ -222,6 +227,10 @@ namespace PortfolioAce.ViewModels.Modals
 
                 _settleDate = value;
                 _validationErrors.ClearErrors(nameof(SettleDate));
+                if (_settleDate.DayOfWeek == DayOfWeek.Saturday || _settleDate.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    _validationErrors.AddError(nameof(SettleDate), "Your trades can't settle on weekends");
+                }
                 if (_settleDate < _tradeDate)
                 {
                     // validation not showing at the moment because it is bound to TextBox at the moment

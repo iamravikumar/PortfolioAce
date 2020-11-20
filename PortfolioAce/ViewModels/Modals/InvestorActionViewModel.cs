@@ -24,12 +24,12 @@ namespace PortfolioAce.ViewModels.Modals
             // if _isNavFinal. disable the price and quantity box, which means amount is entered manually
             this.investorService = investorService;
             this._fund = fund;
-            _tradeDate = DateTime.Today;
-            _settleDate = DateTime.Today;
+            _tradeDate = DateExtentions.InitialDate();
+            _settleDate = DateExtentions.InitialDate();
             _isNavFinal = false;
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
-            //currency should be the funds base currency
+            // currency should be the funds base currency
             AddInvestorActionCommand = new AddInvestorActionCommand(this, investorService);
         }
 
@@ -179,10 +179,14 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _tradeDate = value;
                 _validationErrors.ClearErrors(nameof(TradeDate));
+                if(_tradeDate.DayOfWeek == DayOfWeek.Saturday || _tradeDate.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    _validationErrors.AddError(nameof(TradeDate), "Your actions can't be booked on weekends");
+                }
                 if (_tradeDate < _fund.LaunchDate)
                 {
                     // validation not showing at the moment because it is bound to TextBox at the moment
-                    _validationErrors.AddError(nameof(TradeDate), "You actions can't be booked before funds launch date.");
+                    _validationErrors.AddError(nameof(TradeDate), "Your actions can't be booked before funds launch date.");
                 }
                 if (_settleDate < _tradeDate)
                 {
@@ -205,6 +209,10 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _settleDate = value;
                 _validationErrors.ClearErrors(nameof(SettleDate));
+                if (_settleDate.DayOfWeek == DayOfWeek.Saturday || _settleDate.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    _validationErrors.AddError(nameof(SettleDate), "Your actions can't be booked on weekends");
+                }
                 if (_settleDate < _tradeDate)
                 {
                     // validation not showing at the moment because it is bound to TextBox at the moment
