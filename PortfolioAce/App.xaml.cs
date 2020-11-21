@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using PortfolioAce.DataCentre.APIConnections;
 using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.PriceServices;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;
@@ -45,16 +47,22 @@ namespace PortfolioAce
             services.AddSingleton<IPortfolioAceViewModelAbstractFactory, PortfolioAceViewModelAbstractFactory>();
             services.AddSingleton<PortfolioAceDbContextFactory>();
 
+            // Add API Services here
+            string apiKeyAV = "demo";
+            string apiKeyFMP = "demo";
+            services.AddSingleton<DataConnectionFactory>(new DataConnectionFactory(apiKeyAV, apiKeyFMP));
+
             // Add Business Services here
             services.AddSingleton<IPortfolioService, PortfolioService>();
 
 
-            // Add repositories here
+            // Add UoW Serices here
             services.AddSingleton<IFundService, FundService>();
             services.AddSingleton<ICashTradeService, CashTradeService>();
             services.AddSingleton<ITradeService, TradeService>();
             services.AddSingleton<IAdminService, AdminService>();
             services.AddSingleton<ITransferAgencyService, TransferAgencyService>();
+            services.AddSingleton<IPriceService, PriceService>();
 
             // Add viewmodels here
             services.AddSingleton<HomeViewModel>();
@@ -65,7 +73,8 @@ namespace PortfolioAce
                  services.GetRequiredService<IPortfolioService>(),
                  services.GetRequiredService<ITransferAgencyService>())); // this is how i can pass in my repositories
             services.AddSingleton<SystemFXRatesViewModel>();
-            services.AddSingleton<SystemSecurityPricesViewModel>();
+            services.AddSingleton<SystemSecurityPricesViewModel>(services=> new SystemSecurityPricesViewModel(
+                services.GetRequiredService<IPriceService>()));
 
             // We register the viewmodels to be created in our dependency injection container
             services.AddSingleton<CreateViewModel<HomeViewModel>>(services =>

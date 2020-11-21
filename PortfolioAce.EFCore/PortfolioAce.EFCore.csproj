@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PortfolioAce.DataCentre\PortfolioAce.DataCentre.csproj" />
     <ProjectReference Include="..\PortfolioAce.Domain\PortfolioAce.Domain.csproj" />
   </ItemGroup>
 

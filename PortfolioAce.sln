@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioAce.Domain", "Port
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioAce.EFCore", "PortfolioAce.EFCore\PortfolioAce.EFCore.csproj", "{E4AFF15A-ABCB-4A90-A215-B0DFE9A9F7DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioAce.DataCentre", "PortfolioAce.DataCentre\PortfolioAce.DataCentre.csproj", "{4AD6D68F-ED6E-4056-A05F-0DAC96AEC0CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E4AFF15A-ABCB-4A90-A215-B0DFE9A9F7DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4AFF15A-ABCB-4A90-A215-B0DFE9A9F7DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4AFF15A-ABCB-4A90-A215-B0DFE9A9F7DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AD6D68F-ED6E-4056-A05F-0DAC96AEC0CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AD6D68F-ED6E-4056-A05F-0DAC96AEC0CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AD6D68F-ED6E-4056-A05F-0DAC96AEC0CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AD6D68F-ED6E-4056-A05F-0DAC96AEC0CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
