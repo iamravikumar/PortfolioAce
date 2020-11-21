@@ -135,11 +135,12 @@ namespace PortfolioAce.ViewModels.Modals
             }
             set
             {
+                _fundLaunch = value;
+                _validationErrors.ClearErrors(nameof(FundLaunch));
                 if (_fundLaunch.DayOfWeek == DayOfWeek.Saturday || _fundLaunch.DayOfWeek == DayOfWeek.Sunday)
                 {
                     _validationErrors.AddError(nameof(FundLaunch), "Your fund can't launch on a weekend");
                 }
-                _fundLaunch = value;
                 OnPropertyChanged(nameof(FundLaunch));
             }
         }
