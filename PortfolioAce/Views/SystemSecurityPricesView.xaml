@@ -7,6 +7,20 @@
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
-        <TextBlock Text="All Security Prices" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Grid.Row="0" Text="All Security Prices" />
+            <TextBox  Grid.Row="0" Text="{Binding Symbol, UpdateSourceTrigger=PropertyChanged}"  Grid.Column="2" Grid.ColumnSpan="1"/>
+        </StackPanel>
+        <Button Command="{Binding SaveSecurityPriceCommand}" Grid.Row="0" Grid.Column="1" Margin="0,5,0,0" >Store Prices</Button>
     </Grid>
 </UserControl>

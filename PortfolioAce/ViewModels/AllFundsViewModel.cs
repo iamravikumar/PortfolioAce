@@ -125,6 +125,7 @@ namespace PortfolioAce.ViewModels
         
         public bool IsInitialised
         {
+            // need to find a way to incorporate no fund option so it doesn't break
             get
             {
                 return (_currentFund != null) ? _currentFund.IsInitialised : false;
@@ -139,7 +140,7 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return _currentFund.NavPrices.OrderByDescending(cf=>cf.FinalisedDate).FirstOrDefault();
+                return (_currentFund != null) ? _currentFund.NavPrices.OrderByDescending(cf=>cf.FinalisedDate).FirstOrDefault():null;
             }
             private set
             {

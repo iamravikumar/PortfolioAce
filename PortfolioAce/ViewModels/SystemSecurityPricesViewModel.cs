@@ -1,10 +1,12 @@
-﻿using PortfolioAce.DataCentre.DeserialisedObjects;
+﻿using PortfolioAce.Commands;
+using PortfolioAce.DataCentre.DeserialisedObjects;
 using PortfolioAce.EFCore.Services.PriceServices;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels
 {
@@ -15,7 +17,23 @@ namespace PortfolioAce.ViewModels
         public SystemSecurityPricesViewModel(IPriceService priceService)
         {
             _priceService = priceService;
+            SaveSecurityPriceCommand = new SaveSecurityPriceCommand(this, priceService);
+        }
 
+        public ICommand SaveSecurityPriceCommand { get; set; }
+
+        private string _symbol;
+        public string Symbol
+        {
+            get
+            {
+                return _symbol;
+            }
+            set
+            {
+                _symbol = value;
+                OnPropertyChanged(nameof(Symbol));
+            }
         }
 
         /*
