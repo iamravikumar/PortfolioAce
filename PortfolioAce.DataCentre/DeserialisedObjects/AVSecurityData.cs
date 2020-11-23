@@ -6,6 +6,7 @@ namespace PortfolioAce.DataCentre.DeserialisedObjects
 {
     public class AVSecurityPriceData
     {
+        public DateTime TimeStamp { get; set; }
         public decimal Close {get;set;}
     }
 }

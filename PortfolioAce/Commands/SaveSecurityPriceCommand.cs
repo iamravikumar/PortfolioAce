@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
@@ -29,17 +30,15 @@ namespace PortfolioAce.Commands
 
         public async void Execute(object parameter)
         {
-            Debug.WriteLine(_sysSecurityPricesVM.Symbol);
-            /*
             try
             {
-
+                await _priceService.AddPrices(_sysSecurityPricesVM.Symbol);
             }
             catch (Exception e)
             {
-                
+                MessageBox.Show(e.Message);
             }
-            */
+            
         }
 
     }
