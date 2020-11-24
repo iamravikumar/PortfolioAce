@@ -20,6 +20,6 @@ namespace PortfolioAce.Domain.Models
 
         [ForeignKey("Security")]
         public int SecurityId { get; set; }
-        public virtual Security Security { get; set; }
+        public Security Security { get; set; }
     }
 }

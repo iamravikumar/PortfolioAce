@@ -57,6 +57,8 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
+                // include is having negative impact on performance
+                // look for optimisation at some point
                 return context.Funds
                     .Include(f => f.CashBooks)
                     .Include(f=> f.NavPrices)

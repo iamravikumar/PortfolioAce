@@ -22,5 +22,6 @@ namespace PortfolioAce.Domain.Models
         public string Currency { get; set; }
         public string ISIN { get; set; }
 
+        public virtual ICollection<SecurityPriceStore> SecurityPrices { get; set; }
     }
 }
