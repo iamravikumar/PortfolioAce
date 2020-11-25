@@ -9,7 +9,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
 {
     public class TransferAgencyBO
     {
-        [Required]
+        [Key]
         public int TransferAgencyId { get; set; }
 
         [Required]

@@ -42,7 +42,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         public int? CashTradeId { get; set; }
         public CashTradeBO CashTrade { get; set; }
 
-        [ForeignKey("TransferAgency")]
+        [ForeignKey("TransferAgent")]
         public int? TransferAgencyId { get; set; }
         public TransferAgencyBO TransferAgent { get; set; }
     }
