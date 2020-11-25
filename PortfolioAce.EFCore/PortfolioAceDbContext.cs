@@ -18,7 +18,6 @@ namespace PortfolioAce.EFCore
         public DbSet<CashBook> CashBooks { get; set; }
         public DbSet<Security> Securities { get; set; }
         public DbSet<TransferAgency> TransferAgent { get; set; }
-        public DbSet<NAVPriceStore> NavPriceData { get; set; }
         public DbSet<SecurityPriceStore> SecurityPriceData { get; set; }
 
         // Back Office Models
@@ -38,7 +37,7 @@ namespace PortfolioAce.EFCore
 
 
         // Fact Tables
-        public DbSet<NAVPriceStoreFACT> NavPriceData_ { get; set; }
+        public DbSet<NAVPriceStoreFACT> NavPriceData { get; set; }
         public DbSet<FundPerformanceFACT> FundPerformance_ { get; set; }
         public DbSet<PositionFACT> Positions_ { get; set; }
         //public DbSet<SecurityPriceStore> SecurityPrices { get; set; }

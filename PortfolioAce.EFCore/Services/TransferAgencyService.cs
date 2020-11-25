@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.FactTables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,7 +69,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void InitialiseFundAction(Fund fund, List<TransferAgency> investors, NAVPriceStore initialNav)
+        public void InitialiseFundAction(Fund fund, List<TransferAgency> investors, NAVPriceStoreFACT initialNav)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {

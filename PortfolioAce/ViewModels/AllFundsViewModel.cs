@@ -2,6 +2,7 @@
 using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Modals;
@@ -136,7 +137,7 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public NAVPriceStore LatestNav
+        public NAVPriceStoreFACT LatestNav
         {
             get
             {
