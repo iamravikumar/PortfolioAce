@@ -25,7 +25,6 @@ namespace PortfolioAce.Domain.BusinessServices
 
         public List<Position> GetAllPositions(Fund fund)
         {
-            
             List<Trade> allTrades = fund.Trades.OrderBy(t => t.TradeDate).ToList();// this orders the trades by trade date.
             Dictionary<Security, List<Trade>> tradeDict = new Dictionary<Security, List<Trade>>();
 
