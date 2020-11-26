@@ -87,10 +87,10 @@ namespace PortfolioAce.EFCore.Services
             // maps cash trade information to a transaction in the database.
             
             transaction.CashTradeId = cashTrade.CashTradeId;
-            transaction.TransactionType = cashTrade.CashTradeTypeId;
+            transaction.TransactionType = cashTrade.CashTradeType;
             decimal amount = cashTrade.Amount;
 
-            transaction.TransactionAmount = (cashTrade.CashTradeTypeId == "Expense")?-amount:amount;
+            transaction.TransactionAmount = (cashTrade.CashTradeType == "Expense")?-amount:amount;
             transaction.TransactionDate = cashTrade.SettleDate;
             transaction.Currency = cashTrade.Currency;
             transaction.FundId = cashTrade.FundId;

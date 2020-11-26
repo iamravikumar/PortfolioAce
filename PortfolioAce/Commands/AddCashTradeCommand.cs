@@ -36,7 +36,7 @@ namespace PortfolioAce.Commands
             {
                 CashTradeBO newCashTrade = new CashTradeBO
                 {
-                    CashTradeTypeId = _addCashTradeWindowVM.CashType,
+                    CashTradeType = _addCashTradeWindowVM.CashType,
                     Amount = _addCashTradeWindowVM.CashAmount,
                     TradeDate = _addCashTradeWindowVM.TradeDate,
                     SettleDate = _addCashTradeWindowVM.SettleDate,

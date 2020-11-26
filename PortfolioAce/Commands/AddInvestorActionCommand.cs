@@ -39,7 +39,7 @@ namespace PortfolioAce.Commands
                     TransactionDate = _investorActionVM.TradeDate,
                     TransactionSettleDate = _investorActionVM.SettleDate,
                     InvestorName = _investorActionVM.InvestorName,
-                    IssueTypeId = _investorActionVM.TAType,
+                    IssueType = _investorActionVM.TAType,
                     Units = _investorActionVM.Units,
                     NAVPrice = _investorActionVM.Price,
                     TradeAmount = _investorActionVM.TradeAmount,

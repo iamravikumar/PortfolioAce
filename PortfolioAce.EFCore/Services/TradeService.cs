@@ -122,13 +122,13 @@ namespace PortfolioAce.EFCore.Services
             // maps trade information to a transaction in the database for the cashaccount.
 
             transaction.TradeId = trade.TradeId;
-            transaction.TransactionType = trade.TradeTypeId;// trade or corp action
+            transaction.TransactionType = trade.TradeType;// trade or corp action
             transaction.TransactionAmount = trade.TradeAmount;
             transaction.TransactionDate = trade.SettleDate;
-            transaction.Currency = trade.CurrencyId;
+            transaction.Currency = trade.Currency;
             transaction.FundId = trade.FundId;
             string comment;
-            if (trade.TradeTypeId == "Corp Action")
+            if (trade.TradeType == "Corp Action")
             {
                 comment = $"Corporate Action for {security.Symbol}";
             }

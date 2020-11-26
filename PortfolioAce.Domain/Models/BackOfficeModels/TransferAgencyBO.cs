@@ -39,9 +39,8 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         [Required]
         public decimal Fees { get; set; }
 
-        [ForeignKey("IssueType")]
-        public int IssueTypeId { get; set; } //subscription and redemption date
-        public IssueTypesDIM IssueType { get; set; }
+        [Required]
+        public string IssueType { get; set; } //subscription and redemption date
 
         [ForeignKey("Fund")]
         public int FundId { get; set; }

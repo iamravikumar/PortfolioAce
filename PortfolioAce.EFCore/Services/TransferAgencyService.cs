@@ -107,13 +107,13 @@ namespace PortfolioAce.EFCore.Services
         private CashBookBO TransactionMapper(TransferAgencyBO investorAction, CashBookBO transaction)
         {
             transaction.TransferAgencyId = investorAction.TransferAgencyId;
-            transaction.TransactionType = investorAction.IssueTypeId;// subscription or redemption
+            transaction.TransactionType = investorAction.IssueType;// subscription or redemption
             transaction.TransactionAmount = investorAction.TradeAmount;
             transaction.TransactionDate = investorAction.TransactionSettleDate;
             transaction.Currency = investorAction.Currency;
             transaction.FundId = investorAction.FundId;
 
-            transaction.Comment = (investorAction.IssueTypeId =="Subscription")?"FUND SUBSCRIPTION":"FUND REDEMPTION";
+            transaction.Comment = (investorAction.IssueType =="Subscription")?"FUND SUBSCRIPTION":"FUND REDEMPTION";
             return transaction;
         }
     }

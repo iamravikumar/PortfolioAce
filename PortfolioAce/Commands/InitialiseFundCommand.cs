@@ -53,7 +53,7 @@ namespace PortfolioAce.Commands
                             Currency = updateFund.BaseCurrency,
                             FundId = updateFund.FundId,
                             Fees = 0,
-                            IssueTypeId = "Subscription",
+                            IssueType = "Subscription",
                             Units = seedInvestor.SeedAmount / _fundInitialiseVM.NavPrice,
                             IsNavFinal=true,
                         };

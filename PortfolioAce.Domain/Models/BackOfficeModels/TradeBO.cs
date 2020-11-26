@@ -31,13 +31,9 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
 
         public decimal Commission { get; set; }
 
-        [ForeignKey("TradeType")]
-        public int TradeTypeId { get; set; }
-        public virtual TradeTypesDIM TradeType { get; set; }
+        public string TradeType { get; set; }
 
-        [ForeignKey("Currency")]
-        public int CurrencyId { get; set; }
-        public virtual CurrenciesDIM Currency { get; set; }
+        public string Currency { get; set; }
 
         [ForeignKey("Fund")]
         public int FundId { get; set; }

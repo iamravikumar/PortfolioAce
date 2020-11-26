@@ -30,9 +30,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         [StringLength(3, MinimumLength = 3)]
         public string Currency { get; set; }
 
-        [ForeignKey("CashTradeType")]
-        public int CashTradeTypeId { get; set; }
-        public CashTradeTypesDIM CashTradeType { get; set; }
+        public string CashTradeType { get; set; }
 
         [ForeignKey("Fund")]
         public int FundId { get; set; }
