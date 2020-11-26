@@ -24,18 +24,18 @@ namespace PortfolioAce.EFCore
 
         // Dimensions
         public DbSet<SecuritiesDIM> Securities { get; set; }
-        public DbSet<AssetClassDIM> AssetClasses_ { get; set; }
-        public DbSet<CashTradeTypesDIM> CashTradeTypes_ { get; set; }
-        public DbSet<CurrenciesDIM> Currencies_ { get; set; }
-        public DbSet<IssueTypesDIM> IssueTypes_ { get; set; }
-        public DbSet<NavFrequencyDIM> NavFrequencies_ { get; set; }
-        public DbSet<TradeTypesDIM> TradeTypes_ { get; set; }
+        public DbSet<AssetClassDIM> AssetClasses { get; set; }
+        public DbSet<CashTradeTypesDIM> CashTradeTypes { get; set; }
+        public DbSet<CurrenciesDIM> Currencies { get; set; }
+        public DbSet<IssueTypesDIM> IssueTypes { get; set; }
+        public DbSet<NavFrequencyDIM> NavFrequencies { get; set; }
+        public DbSet<TradeTypesDIM> TradeTypes { get; set; }
 
 
         // Fact Tables
         public DbSet<NAVPriceStoreFACT> NavPriceData { get; set; }
-        public DbSet<FundPerformanceFACT> FundPerformance_ { get; set; }
-        public DbSet<PositionFACT> Positions_ { get; set; }
+        public DbSet<FundPerformanceFACT> FundPerformance { get; set; }
+        public DbSet<PositionFACT> Positions { get; set; }
         //public DbSet<SecurityPriceStore> SecurityPrices { get; set; }
 
         public PortfolioAceDbContext(DbContextOptions options) : base(options)
