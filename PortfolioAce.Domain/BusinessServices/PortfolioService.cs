@@ -1,5 +1,7 @@
 ﻿using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
+using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,15 +27,15 @@ namespace PortfolioAce.Domain.BusinessServices
 
         public List<Position> GetAllPositions(Fund fund)
         {
-            List<Trade> allTrades = fund.Trades.OrderBy(t => t.TradeDate).ToList();// this orders the trades by trade date.
-            Dictionary<Security, List<Trade>> tradeDict = new Dictionary<Security, List<Trade>>();
+            List<TradeBO> allTrades = fund.Trades.OrderBy(t => t.TradeDate).ToList();// this orders the trades by trade date.
+            Dictionary<SecuritiesDIM, List<TradeBO>> tradeDict = new Dictionary<SecuritiesDIM, List<TradeBO>>();
 
-            foreach (Trade t in allTrades)
+            foreach (TradeBO t in allTrades)
             {
-                Security security = t.Security;
+                SecuritiesDIM security = t.Security;
                 if (!tradeDict.ContainsKey(security))
                 {
-                    tradeDict[security] = new List<Trade> { t };
+                    tradeDict[security] = new List<TradeBO> { t };
                 }
                 else
                 {
@@ -43,10 +45,10 @@ namespace PortfolioAce.Domain.BusinessServices
 
             List<Position> result = new List<Position>();
 
-            foreach (KeyValuePair<Security, List<Trade>> Kvp in tradeDict)
+            foreach (KeyValuePair<SecuritiesDIM, List<TradeBO>> Kvp in tradeDict)
             {
                 Position pos = new Position(Kvp.Key);
-                foreach (Trade t in Kvp.Value)
+                foreach (TradeBO t in Kvp.Value)
                 {
                     pos.AddTransaction(t);
                 }

@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using PortfolioAce.ViewModels.Windows;
@@ -33,12 +34,12 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                TransferAgency newInvestorAction = new TransferAgency
+                TransferAgencyBO newInvestorAction = new TransferAgencyBO
                 {
                     TransactionDate = _investorActionVM.TradeDate,
                     TransactionSettleDate = _investorActionVM.SettleDate,
                     InvestorName = _investorActionVM.InvestorName,
-                    Type = _investorActionVM.TAType,
+                    IssueTypeId = _investorActionVM.TAType,
                     Units = _investorActionVM.Units,
                     NAVPrice = _investorActionVM.Price,
                     TradeAmount = _investorActionVM.TradeAmount,

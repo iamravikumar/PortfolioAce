@@ -1,4 +1,6 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
+using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,14 +10,14 @@ namespace PortfolioAce.EFCore.Services
 {
     public interface ITradeService
     {
-        Task<Trade> GetTradeById(int id);
-        Task<Trade> CreateTrade(Trade trade);
-        Task<Trade> UpdateTrade(Trade trade);
-        Task<Trade> DeleteTrade(int id);
-        Security GetSecurityInfo(string symbol);
+        Task<TradeBO> GetTradeById(int id);
+        Task<TradeBO> CreateTrade(TradeBO trade);
+        Task<TradeBO> UpdateTrade(TradeBO trade);
+        Task<TradeBO> DeleteTrade(int id);
+        SecuritiesDIM GetSecurityInfo(string symbol);
         bool SecurityExists(string symbol);
-        List<Trade> GetTradesBySymbol(string Symbol, int fundId);
-        List<Trade> GetAllFundTrades(int fundId);
+        List<TradeBO> GetTradesBySymbol(string Symbol, int fundId);
+        List<TradeBO> GetAllFundTrades(int fundId);
 
     }
 }

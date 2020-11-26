@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.HelperObjects;
@@ -37,12 +38,12 @@ namespace PortfolioAce.Commands
             {
                 Fund updateFund = _fundInitialiseVM.TargetFund;
                 updateFund.IsInitialised = true;
-                List<TransferAgency> newInvestors = new List<TransferAgency>();
+                List<TransferAgencyBO> newInvestors = new List<TransferAgencyBO>();
                 foreach(SeedingInvestor seedInvestor in _fundInitialiseVM.dgSeedingInvestors)
                 {
                     if (seedInvestor.InvestorName!="" || seedInvestor.SeedAmount>0 ) 
                     {
-                        TransferAgency newInvestor = new TransferAgency
+                        TransferAgencyBO newInvestor = new TransferAgencyBO
                         {
                             InvestorName = seedInvestor.InvestorName,
                             TradeAmount = seedInvestor.SeedAmount,
@@ -52,7 +53,7 @@ namespace PortfolioAce.Commands
                             Currency = updateFund.BaseCurrency,
                             FundId = updateFund.FundId,
                             Fees = 0,
-                            Type = "Subscription",
+                            IssueTypeId = "Subscription",
                             Units = seedInvestor.SeedAmount / _fundInitialiseVM.NavPrice,
                             IsNavFinal=true,
                         };

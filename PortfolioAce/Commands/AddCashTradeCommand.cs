@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using PortfolioAce.ViewModels.Windows;
@@ -33,9 +34,9 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                CashTrade newCashTrade = new CashTrade
+                CashTradeBO newCashTrade = new CashTradeBO
                 {
-                    CashType = _addCashTradeWindowVM.CashType,
+                    CashTradeTypeId = _addCashTradeWindowVM.CashType,
                     Amount = _addCashTradeWindowVM.CashAmount,
                     TradeDate = _addCashTradeWindowVM.TradeDate,
                     SettleDate = _addCashTradeWindowVM.SettleDate,

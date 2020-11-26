@@ -1,4 +1,6 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
+using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,7 @@ namespace PortfolioAce.Domain.DataObjects
 {
     public class Position
     {
-        public Security security { get; } 
+        public SecuritiesDIM security { get; } 
         public decimal AverageCost { get; set; }
         public decimal NetQuantity { get; set; }
         public decimal RealisedPnL { get; set; } // think about how to incorporate commission here
@@ -17,7 +19,7 @@ namespace PortfolioAce.Domain.DataObjects
         protected List<PositionSnapshot> positionBreakdown;
         private Queue<OpenLots> openLots;
 
-        public Position(Security security)
+        public Position(SecuritiesDIM security)
         {
             this.security = security;
             this.AverageCost = 0;
@@ -27,7 +29,7 @@ namespace PortfolioAce.Domain.DataObjects
             this.openLots = new Queue<OpenLots>();
         }
 
-        public void AddTransaction(Trade transaction)
+        public void AddTransaction(TradeBO transaction)
         {
             
             if (transaction.Security.SecurityName != this.security.SecurityName || transaction.Security.Currency != this.security.Currency)
@@ -122,7 +124,7 @@ namespace PortfolioAce.Domain.DataObjects
             return this.positionBreakdown;
         }
 
-        private void UpdatePosition(Trade transaction)
+        private void UpdatePosition(TradeBO transaction)
         {
             this.NetQuantity = this.openLots.Sum(lots => lots.quantity);
             if (transaction.Quantity == 0 && this.openLots.Count > 0)

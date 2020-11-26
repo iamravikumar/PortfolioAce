@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.FactTables;
 using System;
 using System.Collections.Generic;
@@ -9,13 +10,13 @@ namespace PortfolioAce.EFCore.Services
 {
     public interface ITransferAgencyService
     {
-        Task<TransferAgency> GetInvestorActionById(int id);
-        Task<TransferAgency> CreateInvestorAction(TransferAgency investorAction);
-        Task<TransferAgency> UpdateInvestorAction(TransferAgency investorAction);
-        Task<TransferAgency> DeleteInvestorAction(int id);
+        Task<TransferAgencyBO> GetInvestorActionById(int id);
+        Task<TransferAgencyBO> CreateInvestorAction(TransferAgencyBO investorAction);
+        Task<TransferAgencyBO> UpdateInvestorAction(TransferAgencyBO investorAction);
+        Task<TransferAgencyBO> DeleteInvestorAction(int id);
 
-        void InitialiseFundAction(Fund fund, List<TransferAgency> investors, NAVPriceStoreFACT initialNav);
-        List<TransferAgency> GetAllFundInvestorActions(int fundId);
+        void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investors, NAVPriceStoreFACT initialNav);
+        List<TransferAgencyBO> GetAllFundInvestorActions(int fundId);
 
     }
 }

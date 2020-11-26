@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,11 +9,11 @@ namespace PortfolioAce.EFCore.Services
 {
     public interface ICashTradeService
     {
-        Task<CashTrade> GetCashTradeById(int id);
-        Task<CashTrade> CreateCashTrade(CashTrade cashTrade);
-        Task<CashTrade> UpdateCashTrade(CashTrade cashTrade);
-        Task<CashTrade> DeleteCashTrade(int id);
-        List<CashTrade> GetAllFundCashTrades(int fundId);
+        Task<CashTradeBO> GetCashTradeById(int id);
+        Task<CashTradeBO> CreateCashTrade(CashTradeBO cashTrade);
+        Task<CashTradeBO> UpdateCashTrade(CashTradeBO cashTrade);
+        Task<CashTradeBO> DeleteCashTrade(int id);
+        List<CashTradeBO> GetAllFundCashTrades(int fundId);
 
     }
 }

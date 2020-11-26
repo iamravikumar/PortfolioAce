@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.FactTables;
 using System;
 using System.Collections.Generic;
@@ -20,13 +21,13 @@ namespace PortfolioAce.EFCore.Services
             this._contextFactory = contextFactory;
         }
 
-        public async Task<TransferAgency> CreateInvestorAction(TransferAgency investorAction)
+        public async Task<TransferAgencyBO> CreateInvestorAction(TransferAgencyBO investorAction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                EntityEntry<TransferAgency> res = await context.TransferAgent.AddAsync(investorAction);
+                EntityEntry<TransferAgencyBO> res = await context.TransferAgent.AddAsync(investorAction);
                 await context.SaveChangesAsync();
-                CashBook transaction = TransactionMapper(res.Entity, new CashBook());
+                CashBookBO  transaction = TransactionMapper(res.Entity, new CashBookBO());
                 await context.CashBooks.AddAsync(transaction);
                 await context.SaveChangesAsync();
 
@@ -34,18 +35,18 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public async Task<TransferAgency> DeleteInvestorAction(int id)
+        public async Task<TransferAgencyBO> DeleteInvestorAction(int id)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                TransferAgency investorAction = await context.TransferAgent.FindAsync(id);
+                TransferAgencyBO investorAction = await context.TransferAgent.FindAsync(id);
                 if (investorAction == null)
                 {
                     return investorAction;
                 }
                 context.TransferAgent.Remove(investorAction);
                 //TODO: raise a warning if there is no transaction to remove. Big issue if this is the case.
-                CashBook transaction = await context.CashBooks.Where(ta => ta.TransferAgencyId == id).FirstAsync();
+                CashBookBO transaction = await context.CashBooks.Where(ta => ta.TransferAgencyId == id).FirstAsync();
                 context.CashBooks.Remove(transaction);
                 await context.SaveChangesAsync();
 
@@ -53,7 +54,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public List<TransferAgency> GetAllFundInvestorActions(int fundId)
+        public List<TransferAgencyBO> GetAllFundInvestorActions(int fundId)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -61,7 +62,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public async Task<TransferAgency> GetInvestorActionById(int id)
+        public async Task<TransferAgencyBO> GetInvestorActionById(int id)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -69,7 +70,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void InitialiseFundAction(Fund fund, List<TransferAgency> investors, NAVPriceStoreFACT initialNav)
+        public void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investors, NAVPriceStoreFACT initialNav)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -77,11 +78,11 @@ namespace PortfolioAce.EFCore.Services
                 // Need to update the funds first NAV
                 context.Funds.Update(fund);
                 context.NavPriceData.Add(initialNav);
-                foreach (TransferAgency investor in investors)
+                foreach (TransferAgencyBO investor in investors)
                 {
                     var res = context.TransferAgent.Add(investor);
                     context.SaveChanges();
-                    CashBook transaction = TransactionMapper(res.Entity, new CashBook());
+                    CashBookBO transaction = TransactionMapper(res.Entity, new CashBookBO());
                     context.CashBooks.Add(transaction);
 
                 };
@@ -89,13 +90,13 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public async Task<TransferAgency> UpdateInvestorAction(TransferAgency investorAction)
+        public async Task<TransferAgencyBO> UpdateInvestorAction(TransferAgencyBO investorAction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 context.TransferAgent.Update(investorAction);
-                CashBook transaction = await context.CashBooks.Where(ta => ta.TransferAgencyId == investorAction.TransferAgencyId).FirstAsync();
-                CashBook newTransaction = TransactionMapper(investorAction, transaction);
+                CashBookBO transaction = await context.CashBooks.Where(ta => ta.TransferAgencyId == investorAction.TransferAgencyId).FirstAsync();
+                CashBookBO newTransaction = TransactionMapper(investorAction, transaction);
                 context.CashBooks.Update(newTransaction);
                 await context.SaveChangesAsync();
 
@@ -103,16 +104,16 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        private CashBook TransactionMapper(TransferAgency investorAction, CashBook transaction)
+        private CashBookBO TransactionMapper(TransferAgencyBO investorAction, CashBookBO transaction)
         {
             transaction.TransferAgencyId = investorAction.TransferAgencyId;
-            transaction.TransactionType = investorAction.Type;// subscription or redemption
+            transaction.TransactionType = investorAction.IssueTypeId;// subscription or redemption
             transaction.TransactionAmount = investorAction.TradeAmount;
             transaction.TransactionDate = investorAction.TransactionSettleDate;
             transaction.Currency = investorAction.Currency;
             transaction.FundId = investorAction.FundId;
 
-            transaction.Comment = (investorAction.Type =="Subscription")?"FUND SUBSCRIPTION":"FUND REDEMPTION";
+            transaction.Comment = (investorAction.IssueTypeId =="Subscription")?"FUND SUBSCRIPTION":"FUND REDEMPTION";
             return transaction;
         }
     }

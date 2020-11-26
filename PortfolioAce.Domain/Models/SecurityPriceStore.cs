@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PortfolioAce.Domain.Models.Dimensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,6 +21,6 @@ namespace PortfolioAce.Domain.Models
 
         [ForeignKey("Security")]
         public int SecurityId { get; set; }
-        public Security Security { get; set; }
+        public SecuritiesDIM Security { get; set; }
     }
 }

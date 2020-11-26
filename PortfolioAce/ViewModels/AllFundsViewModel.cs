@@ -2,6 +2,7 @@
 using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.Navigation;
@@ -199,8 +200,8 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        private List<Trade> _dgFundTrades;
-        public List<Trade> dgFundTrades
+        private List<TradeBO> _dgFundTrades;
+        public List<TradeBO> dgFundTrades
         {
             get
             {
@@ -213,8 +214,8 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        private List<CashBook> _dgFundCashBook;
-        public List<CashBook> dgFundCashBook
+        private List<CashBookBO> _dgFundCashBook;
+        public List<CashBookBO> dgFundCashBook
         {
             get
             {
@@ -227,8 +228,8 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        private List<TransferAgency> _dgFundTA;
-        public List<TransferAgency> dgFundTA
+        private List<TransferAgencyBO> _dgFundTA;
+        public List<TransferAgencyBO> dgFundTA
         {
             get
             {

@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.Models;
 using System;
@@ -99,8 +100,8 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        private List<Security> _dgSecurities;
-        public List<Security> dgSecurities
+        private List<SecuritiesDIM> _dgSecurities;
+        public List<SecuritiesDIM> dgSecurities
         {
             get
             {

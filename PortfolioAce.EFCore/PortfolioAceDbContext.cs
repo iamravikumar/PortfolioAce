@@ -13,21 +13,17 @@ namespace PortfolioAce.EFCore
     public class PortfolioAceDbContext:DbContext
     {
         public DbSet<Fund> Funds { get; set; }
-        public DbSet<Trade> Trades { get; set; }
-        public DbSet<CashTrade> CashTrades { get; set; }
-        public DbSet<CashBook> CashBooks { get; set; }
-        public DbSet<Security> Securities { get; set; }
-        public DbSet<TransferAgency> TransferAgent { get; set; }
+        //public DbSet<Security> Securities { get; set; }
         public DbSet<SecurityPriceStore> SecurityPriceData { get; set; }
 
         // Back Office Models
-        public DbSet<TradeBO> Trades_ { get; set; }
-        public DbSet<CashTradeBO> CashTrades_ { get; set; }
-        public DbSet<CashBookBO> CashBooks_ { get; set; }
-        public DbSet<TransferAgencyBO> TransferAgent_ { get; set; }
+        public DbSet<TradeBO> Trades { get; set; }
+        public DbSet<CashTradeBO> CashTrades { get; set; }
+        public DbSet<CashBookBO> CashBooks { get; set; }
+        public DbSet<TransferAgencyBO> TransferAgent { get; set; }
 
         // Dimensions
-        public DbSet<SecuritiesDIM> Securities_ { get; set; }
+        public DbSet<SecuritiesDIM> Securities { get; set; }
         public DbSet<AssetClassDIM> AssetClasses_ { get; set; }
         public DbSet<CashTradeTypesDIM> CashTradeTypes_ { get; set; }
         public DbSet<CurrenciesDIM> Currencies_ { get; set; }

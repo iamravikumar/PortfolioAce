@@ -1,4 +1,6 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using PortfolioAce.ViewModels.Windows;
@@ -33,8 +35,8 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                Security security = _tradeService.GetSecurityInfo(_addTradeWindowVM.Symbol);
-                Trade newTrade = new Trade
+                SecuritiesDIM security = _tradeService.GetSecurityInfo(_addTradeWindowVM.Symbol);
+                TradeBO newTrade = new TradeBO
                 {
                     TradeType = _addTradeWindowVM.TradeType,
                     SecurityId = security.SecurityId,

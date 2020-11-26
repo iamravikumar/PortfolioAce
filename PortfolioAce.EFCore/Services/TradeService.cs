@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
+using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,7 @@ namespace PortfolioAce.EFCore.Services
             this._contextFactory = contextFactory;
         }
 
-        public async Task<Trade> CreateTrade(Trade trade)
+        public async Task<TradeBO> CreateTrade(TradeBO trade)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -27,10 +29,10 @@ namespace PortfolioAce.EFCore.Services
                 // check security database to see if security exists. if not it must be created first
 
                 // trade amount in trades table should be negative for purchase and positive for sales.
-                EntityEntry<Trade> res = await context.Trades.AddAsync(trade);
+                EntityEntry<TradeBO> res = await context.Trades.AddAsync(trade);
                 await context.SaveChangesAsync();
-                Security security = context.Securities.Where(ts => ts.SecurityId==res.Entity.SecurityId).FirstOrDefault();
-                CashBook transaction = TransactionMapper(res.Entity, new CashBook(), security);
+                SecuritiesDIM security = context.Securities.Where(ts => ts.SecurityId==res.Entity.SecurityId).FirstOrDefault();
+                CashBookBO transaction = TransactionMapper(res.Entity, new CashBookBO(), security);
                 await context.CashBooks.AddAsync(transaction);
                 await context.SaveChangesAsync();
                 
@@ -38,18 +40,18 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public async Task<Trade> DeleteTrade(int id)
+        public async Task<TradeBO> DeleteTrade(int id)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                Trade trade = await context.Trades.FindAsync(id);
+                TradeBO trade = await context.Trades.FindAsync(id);
                 if (trade == null)
                 {
                     return trade;
                 }
                 context.Trades.Remove(trade);
                 //TODO: raise a warning if there is no transaction to remove. Big issue if this is the case.
-                CashBook transaction = await context.CashBooks.Where(c => c.TradeId == id).FirstAsync();
+                CashBookBO transaction = await context.CashBooks.Where(c => c.TradeId == id).FirstAsync();
                 context.CashBooks.Remove(transaction);
                 await context.SaveChangesAsync();
 
@@ -57,7 +59,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public List<Trade> GetAllFundTrades(int fundId)
+        public List<TradeBO> GetAllFundTrades(int fundId)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -65,7 +67,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public Security GetSecurityInfo(string symbol)
+        public SecuritiesDIM GetSecurityInfo(string symbol)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -73,7 +75,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public async Task<Trade> GetTradeById(int id)
+        public async Task<TradeBO> GetTradeById(int id)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -81,7 +83,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public List<Trade> GetTradesBySymbol(string symbol, int fundId)
+        public List<TradeBO> GetTradesBySymbol(string symbol, int fundId)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -100,14 +102,14 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public async Task<Trade> UpdateTrade(Trade trade)
+        public async Task<TradeBO> UpdateTrade(TradeBO trade)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 context.Trades.Update(trade);
-                CashBook transaction = await context.CashBooks.Where(c => c.TradeId == trade.TradeId).FirstAsync();
-                Security security = context.Securities.Where(ts => ts.SecurityId == trade.SecurityId).FirstOrDefault();
-                CashBook newTransaction = TransactionMapper(trade, transaction, security);
+                CashBookBO transaction = await context.CashBooks.Where(c => c.TradeId == trade.TradeId).FirstAsync();
+                SecuritiesDIM security = context.Securities.Where(ts => ts.SecurityId == trade.SecurityId).FirstOrDefault();
+                CashBookBO newTransaction = TransactionMapper(trade, transaction, security);
                 context.CashBooks.Update(newTransaction);
                 await context.SaveChangesAsync();
 
@@ -115,18 +117,18 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        private CashBook TransactionMapper(Trade trade, CashBook transaction, Security security=null)
+        private CashBookBO TransactionMapper(TradeBO trade, CashBookBO transaction, SecuritiesDIM security =null)
         {
             // maps trade information to a transaction in the database for the cashaccount.
 
             transaction.TradeId = trade.TradeId;
-            transaction.TransactionType = trade.TradeType;// trade or corp action
+            transaction.TransactionType = trade.TradeTypeId;// trade or corp action
             transaction.TransactionAmount = trade.TradeAmount;
             transaction.TransactionDate = trade.SettleDate;
-            transaction.Currency = trade.Currency;
+            transaction.Currency = trade.CurrencyId;
             transaction.FundId = trade.FundId;
             string comment;
-            if (trade.TradeType=="Corp Action")
+            if (trade.TradeTypeId == "Corp Action")
             {
                 comment = $"Corporate Action for {security.Symbol}";
             }

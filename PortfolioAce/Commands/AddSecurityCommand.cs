@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using System;
@@ -32,7 +33,7 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                Security newSecurity = new Security
+                SecuritiesDIM newSecurity = new SecuritiesDIM
                 {
                     AssetClass = _SecurityManagerVM.AssetClass,
                     Symbol = _SecurityManagerVM.SecuritySymbol,

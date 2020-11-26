@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace PortfolioAce.EFCore.Services
             this._contextFactory = contextFactory;
         }
 
-        public void AddSecurityInfo(Security security)
+        public void AddSecurityInfo(SecuritiesDIM security)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -29,13 +30,13 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                Security security = context.Securities.Where(s => s.Symbol == symbol).FirstOrDefault();
+                SecuritiesDIM security = context.Securities.Where(s => s.Symbol == symbol).FirstOrDefault();
                 context.Securities.Remove(security);
                 context.SaveChangesAsync();
             }
         }
 
-        public List<Security> GetAllSecurities()
+        public List<SecuritiesDIM> GetAllSecurities()
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -51,7 +52,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void UpdateSecurityInfo(Security security)
+        public void UpdateSecurityInfo(SecuritiesDIM security)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {

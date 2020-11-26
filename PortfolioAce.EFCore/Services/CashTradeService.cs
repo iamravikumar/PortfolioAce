@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,13 +19,13 @@ namespace PortfolioAce.EFCore.Services
         {
             this._contextFactory = contextFactory;
         }
-        public async Task<CashTrade> CreateCashTrade(CashTrade cashTrade)
+        public async Task<CashTradeBO> CreateCashTrade(CashTradeBO cashTrade)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                EntityEntry<CashTrade> res = await context.CashTrades.AddAsync(cashTrade);
+                EntityEntry<CashTradeBO> res = await context.CashTrades.AddAsync(cashTrade);
                 await context.SaveChangesAsync();
-                CashBook transaction = TransactionMapper(res.Entity, new CashBook());
+                CashBookBO transaction = TransactionMapper(res.Entity, new CashBookBO());
                 await context.CashBooks.AddAsync(transaction);
                 await context.SaveChangesAsync();
 
@@ -32,18 +33,18 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public async Task<CashTrade> DeleteCashTrade(int id)
+        public async Task<CashTradeBO> DeleteCashTrade(int id)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                CashTrade cashTrade = await context.CashTrades.FindAsync(id);
+                CashTradeBO cashTrade = await context.CashTrades.FindAsync(id);
                 if (cashTrade == null)
                 {
                     return cashTrade;
                 }
                 context.CashTrades.Remove(cashTrade);
                 //TODO: raise a warning if there is no transaction to remove. Big issue if this is the case.
-                CashBook transaction = await context.CashBooks.Where(c => c.CashTradeId == id).FirstAsync();
+                CashBookBO transaction = await context.CashBooks.Where(c => c.CashTradeId == id).FirstAsync();
                 context.CashBooks.Remove(transaction);
                 await context.SaveChangesAsync();
                 
@@ -51,7 +52,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public List<CashTrade> GetAllFundCashTrades(int fundId)
+        public List<CashTradeBO> GetAllFundCashTrades(int fundId)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -59,7 +60,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public async Task<CashTrade> GetCashTradeById(int id)
+        public async Task<CashTradeBO> GetCashTradeById(int id)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -67,13 +68,13 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public async Task<CashTrade> UpdateCashTrade(CashTrade cashTrade)
+        public async Task<CashTradeBO> UpdateCashTrade(CashTradeBO cashTrade)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 context.CashTrades.Update(cashTrade);
-                CashBook transaction = await context.CashBooks.Where(c=>c.CashTradeId ==cashTrade.CashTradeId).FirstAsync();
-                CashBook newTransaction = TransactionMapper(cashTrade, transaction);
+                CashBookBO transaction = await context.CashBooks.Where(c=>c.CashTradeId ==cashTrade.CashTradeId).FirstAsync();
+                CashBookBO newTransaction = TransactionMapper(cashTrade, transaction);
                 context.CashBooks.Update(newTransaction);
                 await context.SaveChangesAsync();
 
@@ -81,15 +82,15 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        private CashBook TransactionMapper(CashTrade cashTrade, CashBook transaction)
+        private CashBookBO TransactionMapper(CashTradeBO cashTrade, CashBookBO transaction)
         {
             // maps cash trade information to a transaction in the database.
             
             transaction.CashTradeId = cashTrade.CashTradeId;
-            transaction.TransactionType = cashTrade.CashType;
+            transaction.TransactionType = cashTrade.CashTradeTypeId;
             decimal amount = cashTrade.Amount;
 
-            transaction.TransactionAmount = (cashTrade.CashType == "Expense")?-amount:amount;
+            transaction.TransactionAmount = (cashTrade.CashTradeTypeId == "Expense")?-amount:amount;
             transaction.TransactionDate = cashTrade.SettleDate;
             transaction.Currency = cashTrade.Currency;
             transaction.FundId = cashTrade.FundId;
