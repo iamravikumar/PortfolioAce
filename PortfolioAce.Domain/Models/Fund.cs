@@ -8,6 +8,7 @@ using System.Text;
 
 namespace PortfolioAce.Domain.Models
 {
+    [Table("Fund")]
     public class Fund
     {
         [Key]

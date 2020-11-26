@@ -7,6 +7,7 @@ using System.Text;
 
 namespace PortfolioAce.Domain.Models.BackOfficeModels
 {
+    [Table("bo_Trades")]
     public class TradeBO
     {
         // dividends are accounted by setting the trade amount with 0 quantity and price

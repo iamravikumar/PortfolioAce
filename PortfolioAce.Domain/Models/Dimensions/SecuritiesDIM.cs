@@ -8,6 +8,7 @@ namespace PortfolioAce.Domain.Models.Dimensions
 {
     // maybe at some point create a security master that populates a skeleton
     // security with info from FMP...
+    [Table("dim_Securities")]
     public class SecuritiesDIM
     {
         [Key]

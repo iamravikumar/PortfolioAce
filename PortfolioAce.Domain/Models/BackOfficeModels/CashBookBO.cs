@@ -8,7 +8,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
 {
     // There should be no repo for this it is strictly a reference class. It is only updated via the CashTrades and Trades
     // Its crud operations are based on the CashTrade, InvestorActions and Trade amounts.
-
+    [Table("bo_CashBook")]
     public class CashBookBO
     {
         [Key]

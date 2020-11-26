@@ -7,6 +7,7 @@ using System.Text;
 
 namespace PortfolioAce.Domain.Models.BackOfficeModels
 {
+    [Table("bo_TransferAgency")]
     public class TransferAgencyBO
     {
         [Key]

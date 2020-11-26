@@ -7,6 +7,7 @@ using System.Text;
 
 namespace PortfolioAce.Domain.Models.FactTables
 {
+    [Table("fact_Positions")]
     public class PositionFACT
     {
         [Key]

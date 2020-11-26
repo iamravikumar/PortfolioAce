@@ -7,6 +7,7 @@ using System.Text;
 
 namespace PortfolioAce.Domain.Models
 {
+    [Table("SecurityPrices")]
     public class SecurityPriceStore
     {
         [Key]
