@@ -3,6 +3,7 @@ using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
+using PortfolioAce.Domain.ModelSeedData;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -43,7 +44,26 @@ namespace PortfolioAce.EFCore
         }
 
         // I can use on model creating to seed data
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Initial Seed Data for dimensions
+            SeedData seedData = SeedData.Instance;
+            modelBuilder.Entity<AssetClassDIM>().HasData(
+                seedData.SeedAssetClasses);
+            modelBuilder.Entity<CashTradeTypesDIM>().HasData(
+                seedData.SeedCashTradeTypes);
 
+            modelBuilder.Entity<CurrenciesDIM>().HasData(
+                seedData.SeedCurrencies);
+            modelBuilder.Entity<IssueTypesDIM>().HasData(
+                seedData.SeedIssueTypes);
+
+            modelBuilder.Entity<NavFrequencyDIM>().HasData(
+                seedData.SeedNavFrequencies);
+            modelBuilder.Entity<TradeTypesDIM>().HasData(
+                seedData.SeedTradeTypes);
+            base.OnModelCreating(modelBuilder);
+        }
 
     }
 }
