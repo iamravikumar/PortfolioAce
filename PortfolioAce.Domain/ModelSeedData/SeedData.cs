@@ -35,8 +35,8 @@ namespace PortfolioAce.Domain.ModelSeedData
         };
 
         public readonly CashTradeTypesDIM[] SeedCashTradeTypes = new CashTradeTypesDIM[]{
-            new CashTradeTypesDIM{CashTypeId=1, TypeName="Security Trade"},
-            new CashTradeTypesDIM{CashTypeId=2, TypeName="Corporate Action"}
+            new CashTradeTypesDIM{CashTypeId=1, TypeName="Income"},
+            new CashTradeTypesDIM{CashTypeId=2, TypeName="Expense"}
         };
 
         public readonly IssueTypesDIM[] SeedIssueTypes = new IssueTypesDIM[]{
