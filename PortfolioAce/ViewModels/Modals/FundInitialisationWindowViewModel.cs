@@ -1,6 +1,7 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.HelperObjects;
 using PortfolioAce.Models;
 using PortfolioAce.Navigation;
@@ -22,12 +23,13 @@ namespace PortfolioAce.ViewModels.Modals
         private ITransferAgencyService investorService;
         private Fund _fund;
         private readonly ValidationErrors _validationErrors;
+        private IStaticReferences _staticReferences;
 
-        public FundInitialisationWindowViewModel(ITransferAgencyService investorService, Fund fund)
+        public FundInitialisationWindowViewModel(ITransferAgencyService investorService, IStaticReferences staticReferences, Fund fund)
         {
             this.investorService = investorService;
             this._fund = fund;
-
+            _staticReferences = staticReferences;
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             dgSeedingInvestors = new ObservableCollection<SeedingInvestor>();

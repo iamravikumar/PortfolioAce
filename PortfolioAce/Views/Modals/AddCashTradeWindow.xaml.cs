@@ -21,8 +21,6 @@ namespace PortfolioAce.Views.Modals
         public AddCashTradeWindow()
         {
             InitializeComponent();
-            cmbCashType.ItemsSource = StaticDataObjects.CashTradeTypes;
-            cmbCurrency.ItemsSource = StaticDataObjects.Currencies;
         }
     }
 }

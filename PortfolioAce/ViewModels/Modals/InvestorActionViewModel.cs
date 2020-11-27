@@ -1,6 +1,7 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
 using PortfolioAce.ViewModels.Modals;
 using System;
@@ -18,12 +19,14 @@ namespace PortfolioAce.ViewModels.Modals
         private ITransferAgencyService investorService;
         private Fund _fund;
         private readonly ValidationErrors _validationErrors;
+        private IStaticReferences _staticReferences;
 
-        public InvestorActionViewModel(ITransferAgencyService investorService, Fund fund)
+        public InvestorActionViewModel(ITransferAgencyService investorService, IStaticReferences staticReferences, Fund fund)
         {
             // if _isNavFinal. disable the price and quantity box, which means amount is entered manually
             this.investorService = investorService;
             this._fund = fund;
+            _staticReferences = staticReferences;
             _tradeDate = DateExtentions.InitialDate();
             _settleDate = DateExtentions.InitialDate();
             _isNavFinal = false;

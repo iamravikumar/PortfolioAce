@@ -1,12 +1,14 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
 using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
@@ -16,10 +18,12 @@ namespace PortfolioAce.ViewModels.Modals
     {
         private Fund _fund;
         private readonly ValidationErrors _validationErrors;
-        public AddCashTradeWindowViewModel(ICashTradeService cashService, Fund fund)
+        private IStaticReferences _staticReferences;
+        public AddCashTradeWindowViewModel(ICashTradeService cashService, IStaticReferences staticReferences, Fund fund)
         {
             AddCashTradeCommand = new AddCashTradeCommand(this, cashService);
             _fund = fund;
+            _staticReferences = staticReferences;
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             _tradeDate = DateExtentions.InitialDate();
@@ -150,6 +154,22 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _notes = value;
                 OnPropertyChanged(nameof(Notes));
+            }
+        }
+
+        public List<string> cmbCashType
+        {
+            get
+            {
+                return _staticReferences.GetAllCashTradeTypes().Select(ctt => ctt.TypeName).ToList();
+            }
+        }
+
+        public List<string> cmbCurrency
+        {
+            get
+            {
+                return _staticReferences.GetAllCurrencies().Select(sr=>sr.Symbol).ToList();
             }
         }
 

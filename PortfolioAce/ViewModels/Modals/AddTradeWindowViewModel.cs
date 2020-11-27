@@ -1,6 +1,7 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Windows;
@@ -18,13 +19,15 @@ namespace PortfolioAce.ViewModels.Modals
     {
         private Fund _fund;
         private ITradeService _tradeService;
+        private IStaticReferences _staticReferences;
 
         private readonly ValidationErrors _validationErrors;
-        public AddTradeWindowViewModel(ITradeService tradeService, Fund fund)
+        public AddTradeWindowViewModel(ITradeService tradeService, IStaticReferences staticReferences, Fund fund)
         {
             AddTradeCommand = new AddTradeCommand(this, tradeService);
             _tradeService = tradeService;
             _fund = fund;
+            _staticReferences = staticReferences;
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             _tradeDate = DateExtentions.InitialDate();

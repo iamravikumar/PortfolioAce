@@ -61,7 +61,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="1">Cash Type:</Label>
-            <ComboBox Name="cmbCashType" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=CashType, UpdateSourceTrigger=PropertyChanged}">
+            <ComboBox ItemsSource="{Binding cmbCashType}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=CashType, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding }"/>
@@ -71,7 +71,7 @@
             <Label Grid.Row="2">Amount:</Label>
             <TextBox Text="{Binding CashAmount, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="3">Currency:</Label>
-            <ComboBox Name="cmbCurrency" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=TradeCurrency, UpdateSourceTrigger=PropertyChanged}">
+            <ComboBox ItemsSource="{Binding cmbCurrency}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=TradeCurrency, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding }"/>

@@ -5,6 +5,7 @@ using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Modals;
 using PortfolioAce.ViewModels.Windows;
@@ -26,33 +27,32 @@ namespace PortfolioAce.ViewModels
         private ICashTradeService _cashService;
         private ITransferAgencyService _investorService;
         private IPortfolioService _portfolioService;
-
+        private IStaticReferences _staticReferences;
         public AllFundsViewModel(IFundService fundService,
             ITradeService tradeService, ICashTradeService cashService,
-            IPortfolioService portfolioService, ITransferAgencyService investorService)
+            IPortfolioService portfolioService, ITransferAgencyService investorService, IStaticReferences staticReferences)
         {
             _tradeService = tradeService;
             _fundService = fundService;
             _cashService = cashService;
             _investorService = investorService;
             _portfolioService = portfolioService;
+            _staticReferences = staticReferences;
 
             List<Fund> allFunds = fundService.GetAllFunds();
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
             _currentFund = (_lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
-
-            ShowNewTradeCommand = new ActionCommand<Type, Type, ITradeService>(
-                OpenModalWindow, typeof(AddTradeWindow), typeof(AddTradeWindowViewModel), _tradeService);
-            ShowNewCashTradeCommand = new ActionCommand<Type, Type, ICashTradeService>(
-                OpenModalWindow, typeof(AddCashTradeWindow), typeof(AddCashTradeWindowViewModel), _cashService);
-            ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyService>(
-                OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorService
-                );
-            ShowFundInitialisationCommand = new ActionCommand<Type, Type, ITransferAgencyService>(
-                OpenModalWindow, typeof(FundInitialisationWindow), typeof(FundInitialisationWindowViewModel), _investorService
-                );
+            
+            ShowNewTradeCommand = new ActionCommand<Type, Type, ITradeService, IStaticReferences>(
+                OpenModalWindow, typeof(AddTradeWindow), typeof(AddTradeWindowViewModel), _tradeService,_staticReferences);
+            ShowNewCashTradeCommand = new ActionCommand<Type, Type, ICashTradeService, IStaticReferences>(
+                OpenModalWindow, typeof(AddCashTradeWindow), typeof(AddCashTradeWindowViewModel), _cashService, _staticReferences);
+            ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
+                OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorService, _staticReferences);
+            ShowFundInitialisationCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
+                OpenModalWindow, typeof(FundInitialisationWindow), typeof(FundInitialisationWindowViewModel), _investorService, _staticReferences);
             PositionDetailCommand = new ActionCommand(ViewPositionDetails);
         }
 
@@ -242,11 +242,11 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public void OpenModalWindow(Type windowType, Type viewModelType, object myService)
+        public void OpenModalWindow(Type windowType, Type viewModelType, object myService, object myService2)
         {
             int fundId = _currentFund.FundId;
             Window view = (Window)Activator.CreateInstance(windowType);
-            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, _currentFund);
+            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _currentFund);
             
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
