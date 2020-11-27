@@ -47,7 +47,7 @@ namespace PortfolioAce.EFCore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Initial Seed Data for dimensions
-            SeedData seedData = SeedData.Instance;
+            SeedData seedData = new SeedData();
             modelBuilder.Entity<AssetClassDIM>().HasData(
                 seedData.SeedAssetClasses);
             modelBuilder.Entity<CashTradeTypesDIM>().HasData(

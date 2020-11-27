@@ -6,7 +6,7 @@ using System.Text;
 namespace PortfolioAce.Domain.ModelSeedData
 {
     // This represents the initial seed data for my objects. Its a singleton
-    public sealed class SeedData
+    public class SeedData
     {
         public readonly CurrenciesDIM[] SeedCurrencies = new CurrenciesDIM[] {
             new CurrenciesDIM {CurrencyId=1, Name="Pound Sterling", Symbol="GBP"},
@@ -43,21 +43,5 @@ namespace PortfolioAce.Domain.ModelSeedData
             new IssueTypesDIM{IssueTypeID=1, TypeName="Subscription"},
             new IssueTypesDIM{IssueTypeID=2, TypeName="Redemption"}
         };
-
-        private static readonly SeedData instance = new SeedData();
-        static SeedData()
-        {
-        }
-        private SeedData()
-        {
-        }
-
-        public static SeedData Instance
-        {
-            get
-            {
-                return instance;
-            }
-        }
     }
 }
