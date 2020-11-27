@@ -243,6 +243,14 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public List<string> cmbTradeType
+        {
+            get
+            {
+                return _staticReferences.GetAllTradeTypes().Select(tt=>tt.TypeName).ToList();
+            }
+        }
+
         public ICommand AddTradeCommand { get; set; }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;

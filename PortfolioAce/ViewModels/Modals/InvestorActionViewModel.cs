@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
@@ -222,6 +223,14 @@ namespace PortfolioAce.ViewModels.Modals
                     _validationErrors.AddError(nameof(SettleDate), "The SettleDate cannot take place before the Action date");
                 }
                 OnPropertyChanged(nameof(SettleDate));
+            }
+        }
+
+        public List<string> cmbIssueType
+        {
+            get
+            {
+                return _staticReferences.GetAllIssueTypes().Select(i => i.TypeName).ToList();
             }
         }
 

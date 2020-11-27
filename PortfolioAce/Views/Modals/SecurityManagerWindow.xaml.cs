@@ -21,8 +21,6 @@ namespace PortfolioAce.Views.Modals
         public SecurityManagerWindow()
         {
             InitializeComponent();
-            cmbAssetClass.ItemsSource = StaticDataObjects.SecurityAssetClass;
-            cmbCurrency.ItemsSource = StaticDataObjects.Currencies;
         }
     }
 }

@@ -2,11 +2,13 @@
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
@@ -16,10 +18,12 @@ namespace PortfolioAce.ViewModels.Modals
     {
         private IAdminService _adminService;
         private readonly ValidationErrors _validationErrors;
+        private IStaticReferences _staticReferences;
 
-        public SecurityManagerWindowViewModel(IAdminService adminService)
+        public SecurityManagerWindowViewModel(IAdminService adminService, IStaticReferences staticReferences)
         {
             _adminService = adminService;
+            _staticReferences = staticReferences;
             AddSecurityCommand = new AddSecurityCommand(this, adminService);
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
@@ -111,6 +115,22 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _dgSecurities = _adminService.GetAllSecurities();
                 OnPropertyChanged(nameof(dgSecurities));
+            }
+        }
+
+        public List<string> cmbAssetClass
+        {
+            get
+            {
+                return _staticReferences.GetAllAssetClasses().Select(ac => ac.Name).ToList();
+            }
+        }
+
+        public List<string> cmbCurrency
+        {
+            get
+            {
+                return _staticReferences.GetAllCurrencies().Select(c => c.Symbol).ToList();
             }
         }
 

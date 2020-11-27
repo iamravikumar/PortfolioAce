@@ -21,7 +21,6 @@ namespace PortfolioAce.Views.Modals
         public InvestorActionsWindow()
         {
             InitializeComponent();
-            cmbType.ItemsSource = StaticDataObjects.IssueTypes;
         }
     }
 }

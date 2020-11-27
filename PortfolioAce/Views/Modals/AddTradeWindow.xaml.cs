@@ -22,7 +22,6 @@ namespace PortfolioAce.Views.Modals
         public AddTradeWindow()
         {
             InitializeComponent();
-            cmbTradeType.ItemsSource = StaticDataObjects.SecurityTradeTypes;
         }
     }
 }

@@ -66,7 +66,7 @@
             <Label Grid.Row="2">Fund Symbol:</Label>
             <TextBox Text="{Binding FundSymbol, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="3">Base Currency:</Label>
-            <ComboBox Name="cmbCurrency" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundCurrency, UpdateSourceTrigger=PropertyChanged}">
+            <ComboBox ItemsSource="{Binding cmbCurrency}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundCurrency, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding }"/>
@@ -78,7 +78,7 @@
             <Label Grid.Row="5">Performance Fee:</Label>
             <TextBox Text="{Binding FundPerfFee, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="6">NAV Frequency:</Label>
-            <ComboBox Name="cmbNavFreq" Grid.Row="6" Grid.Column="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundNavFreq, UpdateSourceTrigger=PropertyChanged}">
+            <ComboBox ItemsSource="{Binding cmbNavFreq}" Grid.Row="6" Grid.Column="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundNavFreq, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding }"/>

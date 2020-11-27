@@ -1,11 +1,13 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
 using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
@@ -16,14 +18,16 @@ namespace PortfolioAce.ViewModels.Modals
     {
         private IFundService _fundService;
         private readonly ValidationErrors _validationErrors;
+        private IStaticReferences _staticReferences;
 
-        public AddFundWindowViewModel(IFundService fundService)
+        public AddFundWindowViewModel(IFundService fundService, IStaticReferences staticReferences)
         {
             AddFundCommand = new AddFundCommand(this, fundService);
             _fundService = fundService;
             _fundLaunch = DateExtentions.InitialDate();
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
+            _staticReferences = staticReferences;
             // to set decimal points i might need to use a converter
         }
 
@@ -142,6 +146,22 @@ namespace PortfolioAce.ViewModels.Modals
                     _validationErrors.AddError(nameof(FundLaunch), "Your fund can't launch on a weekend");
                 }
                 OnPropertyChanged(nameof(FundLaunch));
+            }
+        }
+
+        public List<string> cmbNavFreq
+        {
+            get
+            {
+                return _staticReferences.GetAllNavFrequencies().Select(nf => nf.Frequency).ToList();
+            }
+        }
+
+        public List<string> cmbCurrency
+        {
+            get
+            {
+                return _staticReferences.GetAllCurrencies().Select(c => c.Symbol).ToList();
             }
         }
 

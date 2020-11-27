@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
 using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;
@@ -34,13 +35,15 @@ namespace PortfolioAce.Navigation
         }
         private IFundService _fundService;
         private IAdminService _adminService;
+        private IStaticReferences _staticReferences;
 
         public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IFundService fundService,
-            IAdminService adminService)
+            IAdminService adminService, IStaticReferences staticReferences)
         {
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
             _fundService = fundService;
             _adminService = adminService;
+            _staticReferences = staticReferences;
             // I can make these commands reusable
             ShowSettingsCommand = new ActionCommand(ShowSettingsWindow);
             ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
@@ -85,7 +88,7 @@ namespace PortfolioAce.Navigation
         public void ShowNewFundWindow()
         {
             Window view = new AddFundWindow();
-            ViewModelWindowBase viewModel = new AddFundWindowViewModel(_fundService);
+            ViewModelWindowBase viewModel = new AddFundWindowViewModel(_fundService, _staticReferences);
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -100,7 +103,7 @@ namespace PortfolioAce.Navigation
         public void ShowSecurityManagerWindow()
         {
             Window view = new SecurityManagerWindow();
-            ViewModelBase viewModel = new SecurityManagerWindowViewModel(_adminService);
+            ViewModelBase viewModel = new SecurityManagerWindowViewModel(_adminService, _staticReferences);
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;

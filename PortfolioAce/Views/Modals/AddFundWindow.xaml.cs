@@ -22,8 +22,6 @@ namespace PortfolioAce.Views.Modals
         public AddFundWindow()
         {
             InitializeComponent();
-            cmbNavFreq.ItemsSource = StaticDataObjects.NavFrequency;
-            cmbCurrency.ItemsSource = StaticDataObjects.Currencies;
         }
     }
 }
