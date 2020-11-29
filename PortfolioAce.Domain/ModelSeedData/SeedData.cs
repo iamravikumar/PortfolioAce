@@ -13,9 +13,10 @@ namespace PortfolioAce.Domain.ModelSeedData
             new CurrenciesDIM {CurrencyId=2, Name="Euro", Symbol="EUR"},
             new CurrenciesDIM {CurrencyId=3, Name="United States Dollar", Symbol="USD"},
             new CurrenciesDIM {CurrencyId=4, Name="Japanese Yen", Symbol="JPY"},
-            new CurrenciesDIM {CurrencyId=5, Name="Swiss Franc", Symbol="CHF"},
-            new CurrenciesDIM {CurrencyId=6, Name="Canadian Dollar", Symbol="CAD"},
-            new CurrenciesDIM {CurrencyId=7, Name="Australian Dollar", Symbol="AUD"}
+            new CurrenciesDIM {CurrencyId=5, Name="Indian Rupee", Symbol="INR"},
+            new CurrenciesDIM {CurrencyId=6, Name="Swiss Franc", Symbol="CHF"},
+            new CurrenciesDIM {CurrencyId=7, Name="Canadian Dollar", Symbol="CAD"},
+            new CurrenciesDIM {CurrencyId=8, Name="Australian Dollar", Symbol="AUD"}
         };
 
         public readonly AssetClassDIM[] SeedAssetClasses = new AssetClassDIM[]{
