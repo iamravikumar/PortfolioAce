@@ -44,5 +44,9 @@ namespace PortfolioAce.Domain.ModelSeedData
             new IssueTypesDIM{IssueTypeID=1, TypeName="Subscription"},
             new IssueTypesDIM{IssueTypeID=2, TypeName="Redemption"}
         };
+
+        public readonly CustodiansDIM[] SeedCustodians = new CustodiansDIM[]{
+            new CustodiansDIM{CustodiansId=1, Name="Default", Symbol="Default"}
+        };
     }
 }

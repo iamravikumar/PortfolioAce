@@ -14,7 +14,6 @@ namespace PortfolioAce.EFCore
     public class PortfolioAceDbContext:DbContext
     {
         public DbSet<Fund> Funds { get; set; }
-        //public DbSet<Security> Securities { get; set; }
         public DbSet<SecurityPriceStore> SecurityPriceData { get; set; }
 
         // Back Office Models
@@ -31,13 +30,13 @@ namespace PortfolioAce.EFCore
         public DbSet<IssueTypesDIM> IssueTypes { get; set; }
         public DbSet<NavFrequencyDIM> NavFrequencies { get; set; }
         public DbSet<TradeTypesDIM> TradeTypes { get; set; }
-
+        public DbSet<CustodiansDIM> Custodians { get; set; }
+        public DbSet<AccountingPeriodsDIM> Periods { get; set; }
 
         // Fact Tables
         public DbSet<NAVPriceStoreFACT> NavPriceData { get; set; }
         public DbSet<FundPerformanceFACT> FundPerformance { get; set; }
         public DbSet<PositionFACT> Positions { get; set; }
-        //public DbSet<SecurityPriceStore> SecurityPrices { get; set; }
 
         public PortfolioAceDbContext(DbContextOptions options) : base(options)
         { 
@@ -62,6 +61,8 @@ namespace PortfolioAce.EFCore
                 seedData.SeedNavFrequencies);
             modelBuilder.Entity<TradeTypesDIM>().HasData(
                 seedData.SeedTradeTypes);
+            modelBuilder.Entity<CustodiansDIM>().HasData(
+                seedData.SeedCustodians);
             base.OnModelCreating(modelBuilder);
         }
 
