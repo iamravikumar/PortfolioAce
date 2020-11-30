@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
+using PortfolioAce.EFCore.HelperMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,6 +88,36 @@ namespace PortfolioAce.EFCore.Services
                     context.CashBooks.Add(transaction);
 
                 };
+                // set the monthly or daily account periods for up to one year ahead...
+                DateTime startDate = fund.LaunchDate;
+                List<DateTime> allPeriods;
+                if (fund.NAVFrequency == "Daily")
+                {
+                    // get daily dates from fund launch to a year ahead
+                    allPeriods = DateSettings.AnnualWorkingDays(startDate);
+                }
+                else
+                {
+                    // get month end dates from fund launch to a year ahead
+                    allPeriods = DateSettings.AnnualMonthEnds(startDate);
+                }
+                // add all the dates to the new periods
+                List<AccountingPeriodsDIM> initialPeriods = new List<AccountingPeriodsDIM>();
+                foreach(DateTime period in allPeriods)
+                {
+                    AccountingPeriodsDIM newPeriod;
+                    if (period == fund.LaunchDate)
+                    {
+                        newPeriod = new AccountingPeriodsDIM { AccountingDate = period.Date, isLocked = true, FundId=fund.FundId };
+                    }
+                    else
+                    {
+                        newPeriod = new AccountingPeriodsDIM { AccountingDate = period.Date, isLocked = false, FundId = fund.FundId };
+                    }
+                    initialPeriods.Add(newPeriod);
+                }
+                context.Periods.AddRange(initialPeriods);
+
                 context.SaveChanges();
             }
         }
