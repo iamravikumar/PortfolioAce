@@ -19,7 +19,7 @@ namespace PortfolioAce.Domain.ModelSeedData
             new CurrenciesDIM {CurrencyId=8, Name=ISOName.AustralianDollar, Symbol=ISOSymbol.AUD}
         };
 
-        public readonly TransactionTypeDIM[] transactionTypes = new TransactionTypeDIM[]
+        public readonly TransactionTypeDIM[] SeedTransactionTypes = new TransactionTypeDIM[]
         {
             new TransactionTypeDIM {TransactionTypeId=1, TypeName=TranTypes.Purchase, TypeClass=TranClasses.SecurityTrade},
             new TransactionTypeDIM {TransactionTypeId=2, TypeName=TranTypes.Sell, TypeClass=TranClasses.SecurityTrade},
@@ -32,7 +32,7 @@ namespace PortfolioAce.Domain.ModelSeedData
             new TransactionTypeDIM {TransactionTypeId=9, TypeName=TranTypes.Interest, TypeClass=TranClasses.CashTrade},
             new TransactionTypeDIM {TransactionTypeId=10, TypeName=TranTypes.ManagementFee, TypeClass=TranClasses.CashTrade},
             new TransactionTypeDIM {TransactionTypeId=11, TypeName=TranTypes.PerformanceFee, TypeClass=TranClasses.CashTrade},
-            new TransactionTypeDIM {TransactionTypeId=11, TypeName=TranTypes.Miscellaneous, TypeClass=TranClasses.CashTrade}
+            new TransactionTypeDIM {TransactionTypeId=12, TypeName=TranTypes.Miscellaneous, TypeClass=TranClasses.CashTrade}
 
         };
 
@@ -63,7 +63,7 @@ namespace PortfolioAce.Domain.ModelSeedData
         };
 
         public readonly CustodiansDIM[] SeedCustodians = new CustodiansDIM[]{
-            new CustodiansDIM{CustodiansId=1, Name="Default", Symbol="Default"}
+            new CustodiansDIM{CustodianId=1, Name="Default", Symbol="Default"}
         };
     }
 }

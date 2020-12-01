@@ -10,7 +10,7 @@ namespace PortfolioAce.Domain.Models.Dimensions
     public class CustodiansDIM
     {
         [Key]
-        public int CustodiansId { get; set; }
+        public int CustodianId { get; set; }
         [Required]
         public string Symbol { get; set; } // i.e. IG, T212
         [Required]
