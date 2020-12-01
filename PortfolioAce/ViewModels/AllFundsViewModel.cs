@@ -28,8 +28,9 @@ namespace PortfolioAce.ViewModels
         private ITransferAgencyService _investorService;
         private IPortfolioService _portfolioService;
         private IStaticReferences _staticReferences;
+        private ITransactionService _transactionService;
         public AllFundsViewModel(IFundService fundService,
-            ITradeService tradeService, ICashTradeService cashService,
+            ITradeService tradeService,ITransactionService transactionService, ICashTradeService cashService,
             IPortfolioService portfolioService, ITransferAgencyService investorService, IStaticReferences staticReferences)
         {
             _tradeService = tradeService;
@@ -37,6 +38,7 @@ namespace PortfolioAce.ViewModels
             _cashService = cashService;
             _investorService = investorService;
             _portfolioService = portfolioService;
+            _transactionService = transactionService;
             _staticReferences = staticReferences;
 
             List<Fund> allFunds = fundService.GetAllFunds();
@@ -45,8 +47,8 @@ namespace PortfolioAce.ViewModels
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
             
-            ShowNewTradeCommand = new ActionCommand<Type, Type, ITradeService, IStaticReferences>(
-                OpenModalWindow, typeof(AddTradeWindow), typeof(AddTradeWindowViewModel), _tradeService,_staticReferences);
+            ShowNewTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
+                OpenModalWindow, typeof(AddTradeWindow), typeof(AddTradeWindowViewModel), _transactionService, _staticReferences);
             ShowNewCashTradeCommand = new ActionCommand<Type, Type, ICashTradeService, IStaticReferences>(
                 OpenModalWindow, typeof(AddCashTradeWindow), typeof(AddCashTradeWindowViewModel), _cashService, _staticReferences);
             ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(

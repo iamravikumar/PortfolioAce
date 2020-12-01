@@ -19,9 +19,12 @@ namespace PortfolioAce.Domain.Models.Dimensions
         public string SecurityName { get; set; }
         public string ISIN { get; set; }
 
-        [Required]
-        public string Currency { get; set; }
-        [Required]
-        public string AssetClass { get; set; }
+        [ForeignKey("AssetClass")]
+        public int AssetClassId { get; set; }
+        public AssetClassDIM AssetClass { get; set; }
+
+        [ForeignKey("Currency")]
+        public int CurrencyId { get; set; }
+        public CurrenciesDIM Currency { get; set; }
     }
 }

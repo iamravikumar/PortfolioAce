@@ -19,8 +19,7 @@ namespace PortfolioAce.Domain.Models.Dimensions
 
     public enum TranTypes
     {
-        Purchase,
-        Sell,
+        Trade,
         Coupon,
         Dividends,
         Income,

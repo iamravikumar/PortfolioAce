@@ -21,6 +21,7 @@ namespace PortfolioAce.EFCore
         public DbSet<CashTradeBO> CashTrades { get; set; } // To be removed
         public DbSet<CashBookBO> CashBooks { get; set; }
         public DbSet<TransferAgencyBO> TransferAgent { get; set; }
+        public DbSet<TransactionsBO> Transactions { get; set; }
 
         // Dimensions
         public DbSet<SecuritiesDIM> Securities { get; set; }
@@ -33,6 +34,7 @@ namespace PortfolioAce.EFCore
         public DbSet<CustodiansDIM> Custodians { get; set; }
         public DbSet<AccountingPeriodsDIM> Periods { get; set; }
         public DbSet<TransactionTypeDIM> TransactionTypes { get; set; }
+
         // Fact Tables
         public DbSet<NAVPriceStoreFACT> NavPriceData { get; set; }
         public DbSet<FundPerformanceFACT> FundPerformance { get; set; }

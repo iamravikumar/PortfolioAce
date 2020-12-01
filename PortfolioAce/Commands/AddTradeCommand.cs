@@ -17,13 +17,13 @@ namespace PortfolioAce.Commands
         public event EventHandler CanExecuteChanged;
 
         private AddTradeWindowViewModel _addTradeWindowVM;
-        private ITradeService _tradeService;
+        private ITransactionService _transactionService;
 
         public AddTradeCommand(AddTradeWindowViewModel addTradeWindowVM,
-            ITradeService tradeService)
+            ITransactionService transactionService)
         {
             _addTradeWindowVM = addTradeWindowVM;
-            _tradeService = tradeService;
+            _transactionService = transactionService;
         }
 
         public bool CanExecute(object parameter)
@@ -35,24 +35,30 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                SecuritiesDIM security = _tradeService.GetSecurityInfo(_addTradeWindowVM.Symbol);
-                TradeBO newTrade = new TradeBO
+                SecuritiesDIM security = _transactionService.GetSecurityInfo(_addTradeWindowVM.Symbol);
+                TransactionTypeDIM tradeType = _transactionService.GetTradeType(_addTradeWindowVM.TradeType);
+                TransactionsBO newTrade = new TransactionsBO
                 {
-                    TradeType = _addTradeWindowVM.TradeType,
                     SecurityId = security.SecurityId,
                     Quantity = _addTradeWindowVM.Quantity,
                     Price = _addTradeWindowVM.Price,
                     TradeAmount = _addTradeWindowVM.TradeAmount,
                     TradeDate = _addTradeWindowVM.TradeDate,
                     SettleDate = _addTradeWindowVM.SettleDate,
-                    Currency = _addTradeWindowVM.TradeCurrency,
-                    Commission = _addTradeWindowVM.Commission,
-                    FundId = _addTradeWindowVM.FundId
+                    CreatedDate = _addTradeWindowVM.CreatedDate,
+                    LastModified = _addTradeWindowVM.LastModifiedDate,
+                    Fees = _addTradeWindowVM.Commission,
+                    isActive = _addTradeWindowVM.isActive,
+                    isLocked = _addTradeWindowVM.isLocked,
+                    FundId = _addTradeWindowVM.FundId,
+                    TransactionTypeId = tradeType.TransactionTypeId,
+                    CurrencyId = security.CurrencyId,
+                    Comment=""
                 };
-                await _tradeService.CreateTrade(newTrade);
+                await _transactionService.CreateTransaction(newTrade);
                 _addTradeWindowVM.CloseAction();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }

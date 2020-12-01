@@ -24,7 +24,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             _adminService = adminService;
             _staticReferences = staticReferences;
-            AddSecurityCommand = new AddSecurityCommand(this, adminService);
+            AddSecurityCommand = new AddSecurityCommand(this, adminService, staticReferences);
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
         }

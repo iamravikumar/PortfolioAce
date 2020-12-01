@@ -61,6 +61,7 @@ namespace PortfolioAce
             services.AddSingleton<IFundService, FundService>();
             services.AddSingleton<ICashTradeService, CashTradeService>();
             services.AddSingleton<ITradeService, TradeService>();
+            services.AddSingleton<ITransactionService, TransactionService>();
             services.AddSingleton<IAdminService, AdminService>();
             services.AddSingleton<ITransferAgencyService, TransferAgencyService>();
             services.AddSingleton<IPriceService, PriceService>();
@@ -71,6 +72,7 @@ namespace PortfolioAce
             services.AddSingleton<AllFundsViewModel>(services=> new AllFundsViewModel(
                 services.GetRequiredService<IFundService>(), 
                 services.GetRequiredService<ITradeService>(),
+                services.GetRequiredService<ITransactionService>(),
                  services.GetRequiredService<ICashTradeService>(),
                  services.GetRequiredService<IPortfolioService>(),
                  services.GetRequiredService<ITransferAgencyService>(),

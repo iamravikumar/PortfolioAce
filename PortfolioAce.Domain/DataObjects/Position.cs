@@ -32,7 +32,7 @@ namespace PortfolioAce.Domain.DataObjects
         public void AddTransaction(TradeBO transaction)
         {
             
-            if (transaction.Security.SecurityName != this.security.SecurityName || transaction.Security.Currency != this.security.Currency)
+            if (transaction.Security.SecurityName != this.security.SecurityName || transaction.Security.Currency.Symbol.ToString() != this.security.Currency.Symbol.ToString())
             {
                 throw new InvalidOperationException("The transaction ticker does not match the ticker of this position");
             }

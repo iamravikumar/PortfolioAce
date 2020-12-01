@@ -18,21 +18,20 @@ namespace PortfolioAce.ViewModels.Modals
     public class AddTradeWindowViewModel: ViewModelWindowBase, INotifyDataErrorInfo
     {
         private Fund _fund;
-        private ITradeService _tradeService;
+        private ITransactionService _transactionService;
         private IStaticReferences _staticReferences;
 
         private readonly ValidationErrors _validationErrors;
-        public AddTradeWindowViewModel(ITradeService tradeService, IStaticReferences staticReferences, Fund fund)
+        public AddTradeWindowViewModel(ITransactionService transactionService, IStaticReferences staticReferences, Fund fund)
         {
-            AddTradeCommand = new AddTradeCommand(this, tradeService);
-            _tradeService = tradeService;
+            AddTradeCommand = new AddTradeCommand(this, transactionService);
+            _transactionService = transactionService;
             _fund = fund;
             _staticReferences = staticReferences;
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             _tradeDate = DateExtentions.InitialDate();
             _settleDate = DateExtentions.InitialDate();
-            
         }
 
         public int FundId
@@ -72,7 +71,7 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _symbol = value;
                 _validationErrors.ClearErrors(nameof(Symbol));
-                if (!_tradeService.SecurityExists(_symbol))
+                if (!_transactionService.SecurityExists(_symbol))
                 {
                     _validationErrors.AddError(nameof(Symbol), $"The Security '{_symbol}' does not exist");
                 }
@@ -126,7 +125,7 @@ namespace PortfolioAce.ViewModels.Modals
             
             get
             {
-                if (TradeType != "Corporate Action")
+                if (TradeType == "Trade")
                 {
                     int multiplier = -1;
                     _tradeAmount = Math.Round((Quantity * Price * multiplier) - Commission, 2);
@@ -144,7 +143,6 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        //private string _tradeCurrency;
         public string TradeCurrency
         {
             get
@@ -156,8 +154,8 @@ namespace PortfolioAce.ViewModels.Modals
                 }
                 else
                 {
-                    var res = _tradeService.GetSecurityInfo(Symbol);
-                    return (res != null) ? res.Currency : null;
+                    var res = _transactionService.GetSecurityInfo(Symbol);
+                    return (res != null) ? res.Currency.Symbol.ToString() : null;
                 }
             }
             private set
@@ -243,11 +241,43 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public DateTime CreatedDate
+        {
+            get
+            {
+                return DateTime.Today;
+                //return _staticReferences.GetAllTradeTypes().Select(tt=>tt.TypeName).ToList();
+            }
+        }
+        public DateTime LastModifiedDate
+        {
+            get
+            {
+                return DateTime.Today;
+            }
+        }
+        public bool isActive
+        {
+            get
+            {
+                return true;
+            }
+        }
+        public bool isLocked
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+
         public List<string> cmbTradeType
         {
             get
             {
-                return _staticReferences.GetAllTradeTypes().Select(tt=>tt.TypeName).ToList();
+                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass.ToString() == "SecurityTrade").Select(t => t.TypeName.ToString()).ToList();
+                //return _staticReferences.GetAllTradeTypes().Select(tt=>tt.TypeName).ToList();
             }
         }
 

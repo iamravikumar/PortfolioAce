@@ -21,18 +21,17 @@ namespace PortfolioAce.Domain.ModelSeedData
 
         public readonly TransactionTypeDIM[] SeedTransactionTypes = new TransactionTypeDIM[]
         {
-            new TransactionTypeDIM {TransactionTypeId=1, TypeName=TranTypes.Purchase, TypeClass=TranClasses.SecurityTrade},
-            new TransactionTypeDIM {TransactionTypeId=2, TypeName=TranTypes.Sell, TypeClass=TranClasses.SecurityTrade},
-            new TransactionTypeDIM {TransactionTypeId=3, TypeName=TranTypes.Coupon, TypeClass=TranClasses.SecurityTrade},
-            new TransactionTypeDIM {TransactionTypeId=4, TypeName=TranTypes.Dividends, TypeClass=TranClasses.SecurityTrade},
-            new TransactionTypeDIM {TransactionTypeId=5, TypeName=TranTypes.Income, TypeClass=TranClasses.CashTrade},
-            new TransactionTypeDIM {TransactionTypeId=6, TypeName=TranTypes.Expense, TypeClass=TranClasses.CashTrade},
-            new TransactionTypeDIM {TransactionTypeId=7, TypeName=TranTypes.Deposit, TypeClass=TranClasses.CashTrade},
-            new TransactionTypeDIM {TransactionTypeId=8, TypeName=TranTypes.Withdrawal, TypeClass=TranClasses.CashTrade},
-            new TransactionTypeDIM {TransactionTypeId=9, TypeName=TranTypes.Interest, TypeClass=TranClasses.CashTrade},
-            new TransactionTypeDIM {TransactionTypeId=10, TypeName=TranTypes.ManagementFee, TypeClass=TranClasses.CashTrade},
-            new TransactionTypeDIM {TransactionTypeId=11, TypeName=TranTypes.PerformanceFee, TypeClass=TranClasses.CashTrade},
-            new TransactionTypeDIM {TransactionTypeId=12, TypeName=TranTypes.Miscellaneous, TypeClass=TranClasses.CashTrade}
+            new TransactionTypeDIM {TransactionTypeId=1, TypeName=TranTypes.Trade, TypeClass=TranClasses.SecurityTrade},
+            new TransactionTypeDIM {TransactionTypeId=2, TypeName=TranTypes.Coupon, TypeClass=TranClasses.SecurityTrade},
+            new TransactionTypeDIM {TransactionTypeId=3, TypeName=TranTypes.Dividends, TypeClass=TranClasses.SecurityTrade},
+            new TransactionTypeDIM {TransactionTypeId=4, TypeName=TranTypes.Income, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=5, TypeName=TranTypes.Expense, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=6, TypeName=TranTypes.Deposit, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=7, TypeName=TranTypes.Withdrawal, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=8, TypeName=TranTypes.Interest, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=9, TypeName=TranTypes.ManagementFee, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=10, TypeName=TranTypes.PerformanceFee, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=11, TypeName=TranTypes.Miscellaneous, TypeClass=TranClasses.CashTrade}
 
         };
 

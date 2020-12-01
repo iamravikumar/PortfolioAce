@@ -1,6 +1,7 @@
 ﻿using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.ViewModels.Modals;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,14 @@ namespace PortfolioAce.Commands
 
         private SecurityManagerWindowViewModel _SecurityManagerVM;
         private IAdminService _adminService;
+        private IStaticReferences _staticReferences;
 
         public AddSecurityCommand(SecurityManagerWindowViewModel securityManagerVM, 
-            IAdminService adminService)
+            IAdminService adminService, IStaticReferences staticReferences)
         {
             _SecurityManagerVM = securityManagerVM;
             _adminService = adminService;
+            _staticReferences = staticReferences;
         }
 
         public bool CanExecute(object parameter)
@@ -31,13 +34,16 @@ namespace PortfolioAce.Commands
 
         public void Execute(object parameter)
         {
+            // currency and asset class objects
+            CurrenciesDIM currency = _staticReferences.GetCurrency(_SecurityManagerVM.Currency);
+            AssetClassDIM assetClass = _staticReferences.GetAssetClass(_SecurityManagerVM.AssetClass);
             try
             {
                 SecuritiesDIM newSecurity = new SecuritiesDIM
                 {
-                    AssetClass = _SecurityManagerVM.AssetClass,
+                    AssetClassId = assetClass.AssetClassId,
                     Symbol = _SecurityManagerVM.SecuritySymbol,
-                    Currency = _SecurityManagerVM.Currency,
+                    CurrencyId = currency.CurrencyId,
                     SecurityName = _SecurityManagerVM.SecurityName,
                     ISIN = _SecurityManagerVM.ISIN
                 };
