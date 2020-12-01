@@ -33,7 +33,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.Where(s => s.Symbol == symbol).Include(s=>s.Currency).FirstOrDefault();
+                return context.Securities.Where(s => s.Symbol == symbol).Include(s=>s.Currency).Include(s=>s.AssetClass).FirstOrDefault();
             }
         }
 

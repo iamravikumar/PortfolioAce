@@ -37,7 +37,20 @@ namespace PortfolioAce.Domain.ModelSeedData
         public readonly AssetClassDIM[] SeedAssetClasses = new AssetClassDIM[]{
             new AssetClassDIM {AssetClassId=1, Name=AssetClass.Equity},
             new AssetClassDIM {AssetClassId=2, Name=AssetClass.Crytocurrency},
-            new AssetClassDIM {AssetClassId=3, Name=AssetClass.FX}
+            new AssetClassDIM {AssetClassId=3, Name=AssetClass.FX},
+            new AssetClassDIM {AssetClassId=4, Name=AssetClass.Cash},
+        };
+
+        public readonly SecuritiesDIM[] seedSecuritisedCash = new SecuritiesDIM[]
+        {
+            new SecuritiesDIM{SecurityId=1, SecurityName="CASH GBP", Symbol="GBPc", AssetClassId=4, CurrencyId=1},
+            new SecuritiesDIM{SecurityId=2, SecurityName="CASH EURO", Symbol="EURc", AssetClassId=4, CurrencyId=2},
+            new SecuritiesDIM{SecurityId=3, SecurityName="CASH USD", Symbol="USDc", AssetClassId=4, CurrencyId=3},
+            new SecuritiesDIM{SecurityId=4, SecurityName="CASH JPY", Symbol="JPYc", AssetClassId=4, CurrencyId=4},
+            new SecuritiesDIM{SecurityId=5, SecurityName="CASH INR", Symbol="INRc", AssetClassId=4, CurrencyId=5},
+            new SecuritiesDIM{SecurityId=6, SecurityName="CASH CHF", Symbol="CHFc", AssetClassId=4, CurrencyId=6},
+            new SecuritiesDIM{SecurityId=7, SecurityName="CASH CAD", Symbol="CADc", AssetClassId=4, CurrencyId=7},
+            new SecuritiesDIM{SecurityId=8, SecurityName="CASH AUD", Symbol="AUDc", AssetClassId=4, CurrencyId=8},
         };
 
         public readonly NavFrequencyDIM[] SeedNavFrequencies = new NavFrequencyDIM[]{

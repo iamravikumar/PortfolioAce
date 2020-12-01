@@ -75,6 +75,14 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     _validationErrors.AddError(nameof(Symbol), $"The Security '{_symbol}' does not exist");
                 }
+                else
+                {
+                    string assetClass = _transactionService.GetSecurityInfo(Symbol).AssetClass.Name.ToString();
+                    if(assetClass == "Cash")
+                    {
+                        _validationErrors.AddError(nameof(Symbol), $"Cash purchases/sales not yet supported");
+                    }
+                }
                 // I can check the Database for the value,
                 // and if it exists prefill the currency field
                 // if not raise exception

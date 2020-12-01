@@ -18,6 +18,7 @@ namespace PortfolioAce.Domain.Models.Dimensions
     public enum AssetClass
     {
         Equity,
+        Cash,
         Crytocurrency,
         FX
     }
