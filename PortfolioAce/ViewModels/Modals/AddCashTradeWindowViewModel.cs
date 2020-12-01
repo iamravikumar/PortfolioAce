@@ -55,7 +55,7 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _cashType = value;
                 OnPropertyChanged(nameof(CashType));
-                OnPropertyChanged(nameof(CashAmount));
+                CashAmount = _cashAmount; // this is to iniate the setter on the CashAmount
             }
         }
 
@@ -75,18 +75,19 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     direction = _staticReferences.GetTransactionType(_cashType).Direction.ToString();
                 }
+
                 if (direction == "Inflow")
                 {
                     if (_cashAmount < 0)
                     {
-                        _validationErrors.AddError(nameof(CashAmount), "You cannot have a negative Inflow");
+                        _validationErrors.AddError(nameof(CashAmount), "You cannot have a negative inflow");
                     }
                 }
                 else if (direction == "Outflow")
                 {
                     if (_cashAmount > 0)
                     {
-                        _validationErrors.AddError(nameof(CashAmount), "You cannot have a positive Outflow");
+                        _validationErrors.AddError(nameof(CashAmount), "You cannot have a positive outflow");
                     }
                 }               
                 OnPropertyChanged(nameof(CashAmount));
