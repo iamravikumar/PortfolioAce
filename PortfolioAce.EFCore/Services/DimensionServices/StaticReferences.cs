@@ -76,7 +76,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.AssetClasses.Where(a => a.Name.ToString() == name).FirstOrDefault();
+                return context.AssetClasses.Where(a => ((string)(object)a.Name) == name).FirstOrDefault();
             }
         }
 
@@ -84,7 +84,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Currencies.Where(c => c.Symbol.ToString() == symbol).FirstOrDefault();
+                return context.Currencies.Where(c => ((string)(object)c.Symbol) == symbol).FirstOrDefault();
             }
         }
     }

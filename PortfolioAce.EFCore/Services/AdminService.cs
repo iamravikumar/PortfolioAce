@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,10 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.OrderBy(s=>s.SecurityName).ToList();
+                return context.Securities
+                        .Include(s => s.AssetClass)
+                        .Include(s => s.Currency)
+                        .OrderBy(s => s.SecurityName).ToList(); ;
             }
         }
 

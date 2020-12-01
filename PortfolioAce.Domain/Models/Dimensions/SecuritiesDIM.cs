@@ -21,10 +21,11 @@ namespace PortfolioAce.Domain.Models.Dimensions
 
         [ForeignKey("AssetClass")]
         public int AssetClassId { get; set; }
-        public AssetClassDIM AssetClass { get; set; }
+        public virtual AssetClassDIM AssetClass { get; set; }
 
         [ForeignKey("Currency")]
         public int CurrencyId { get; set; }
-        public CurrenciesDIM Currency { get; set; }
+        public virtual CurrenciesDIM Currency { get; set; }
+
     }
 }

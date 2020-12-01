@@ -93,10 +93,10 @@
                           RowBackground="GhostWhite" AlternatingRowBackground="White"
                           VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Asset Class"  Binding="{Binding AssetClass}"/>
+                        <DataGridTextColumn Header="Asset Class"  Binding="{Binding AssetClass.Name}"/>
                         <DataGridTextColumn Header="Security Name" Binding="{Binding SecurityName}"/>
                         <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}"/>
-                        <DataGridTextColumn Header="Currency" Binding="{Binding Currency}"/>
+                        <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}"/>
                         <DataGridTextColumn Header="ISIN" Binding="{Binding ISIN}"/>
                     </DataGrid.Columns>
                 </DataGrid>
