@@ -12,8 +12,30 @@ namespace PortfolioAce.Domain.Models.Dimensions
         [Key]
         public int CurrencyId { get; set; }
         [Required]
-        public string Symbol { get; set; } // i.e. JPY. the ISO Code
+        public ISOSymbol Symbol { get; set; } // i.e. JPY. the ISO Code
         [Required]
-        public string Name { get; set; } // i.e. Japanese Yen
+        public ISOName Name { get; set; } // i.e. Japanese Yen
+    }
+    public enum ISOSymbol
+    {
+        GBP,
+        EUR,
+        USD,
+        JPY,
+        INR,
+        CHF,
+        CAD,
+        AUD
+    }
+    public enum ISOName
+    {
+        PoundSterling,
+        Euro,
+        UnitedStatesDollar,
+        JapaneseYen,
+        IndianRupee,
+        SwissFranc,
+        CanadianDollar,
+        AustralianDollar
     }
 }

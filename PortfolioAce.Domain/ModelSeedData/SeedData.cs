@@ -9,14 +9,14 @@ namespace PortfolioAce.Domain.ModelSeedData
     public class SeedData
     {
         public readonly CurrenciesDIM[] SeedCurrencies = new CurrenciesDIM[] {
-            new CurrenciesDIM {CurrencyId=1, Name="Pound Sterling", Symbol="GBP"},
-            new CurrenciesDIM {CurrencyId=2, Name="Euro", Symbol="EUR"},
-            new CurrenciesDIM {CurrencyId=3, Name="United States Dollar", Symbol="USD"},
-            new CurrenciesDIM {CurrencyId=4, Name="Japanese Yen", Symbol="JPY"},
-            new CurrenciesDIM {CurrencyId=5, Name="Indian Rupee", Symbol="INR"},
-            new CurrenciesDIM {CurrencyId=6, Name="Swiss Franc", Symbol="CHF"},
-            new CurrenciesDIM {CurrencyId=7, Name="Canadian Dollar", Symbol="CAD"},
-            new CurrenciesDIM {CurrencyId=8, Name="Australian Dollar", Symbol="AUD"}
+            new CurrenciesDIM {CurrencyId=1, Name=ISOName.PoundSterling, Symbol=ISOSymbol.GBP},
+            new CurrenciesDIM {CurrencyId=2, Name=ISOName.Euro, Symbol=ISOSymbol.EUR},
+            new CurrenciesDIM {CurrencyId=3, Name=ISOName.UnitedStatesDollar, Symbol=ISOSymbol.USD},
+            new CurrenciesDIM {CurrencyId=4, Name=ISOName.JapaneseYen, Symbol=ISOSymbol.JPY},
+            new CurrenciesDIM {CurrencyId=5, Name=ISOName.IndianRupee, Symbol=ISOSymbol.INR},
+            new CurrenciesDIM {CurrencyId=6, Name=ISOName.SwissFranc, Symbol=ISOSymbol.CHF},
+            new CurrenciesDIM {CurrencyId=7, Name=ISOName.CanadianDollar, Symbol=ISOSymbol.CAD},
+            new CurrenciesDIM {CurrencyId=8, Name=ISOName.AustralianDollar, Symbol=ISOSymbol.AUD}
         };
 
         public readonly AssetClassDIM[] SeedAssetClasses = new AssetClassDIM[]{
