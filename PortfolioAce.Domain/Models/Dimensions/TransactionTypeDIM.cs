@@ -17,12 +17,15 @@ namespace PortfolioAce.Domain.Models.Dimensions
 
     public enum TranTypes
     {
+        Purchase,
+        Sell,
+        Coupon,
+        Dividends,
         Income,
         Expense,
         Deposit,
         Withdrawal,
         Interest,
-        Dividends,
         ManagementFee,
         PerformanceFee,
         Miscellaneous

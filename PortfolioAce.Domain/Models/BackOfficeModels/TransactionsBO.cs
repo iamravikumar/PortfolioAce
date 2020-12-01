@@ -36,7 +36,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime LastModified { get; set; } // This is not set by the user
 
-        public decimal Commission { get; set; } // Or fees
+        public decimal Fees { get; set; } // Or fees
         [Required]
         public bool isActive { get; set; } // for audit purposes entries cannot be deleted, only deactivated
         [Required]
@@ -62,7 +62,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         public TransactionTypeDIM TransactionType { get; set; } //purchase sell income etc.. seperated by security or cash security or cash.. This will snowflake
 
         /*
-         * Direction (purchase, sell, Income, Expense, Withdrawal, Deposit, dividends, Interest, management fee, perfromance fee, miscellaneous)
+         * Direction (purchase, sell, Income, Expense, Withdrawal, Deposit, dividends, Interest, management fee, perfromance fee, miscellaneous) X
          * ^ These types will have another column that will be cash or security. This will allow me to differentiate on what should be where
          * Trade Type (Security or Cash) X
          * Quantity X

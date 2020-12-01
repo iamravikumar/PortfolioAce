@@ -51,6 +51,12 @@ namespace PortfolioAce.EFCore
             modelBuilder.Entity<CurrenciesDIM>()
                 .Property(c => c.Symbol)
                 .HasConversion<string>();
+            modelBuilder.Entity<TransactionTypeDIM>()
+                .Property(t=>t.TypeClass)
+                .HasConversion<string>();
+            modelBuilder.Entity<TransactionTypeDIM>()
+                .Property(t => t.TypeName)
+                .HasConversion<string>();
 
             // Initial Seed Data for dimensions
             SeedData seedData = new SeedData();

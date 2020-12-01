@@ -19,6 +19,23 @@ namespace PortfolioAce.Domain.ModelSeedData
             new CurrenciesDIM {CurrencyId=8, Name=ISOName.AustralianDollar, Symbol=ISOSymbol.AUD}
         };
 
+        public readonly TransactionTypeDIM[] transactionTypes = new TransactionTypeDIM[]
+        {
+            new TransactionTypeDIM {TransactionTypeId=1, TypeName=TranTypes.Purchase, TypeClass=TranClasses.SecurityTrade},
+            new TransactionTypeDIM {TransactionTypeId=2, TypeName=TranTypes.Sell, TypeClass=TranClasses.SecurityTrade},
+            new TransactionTypeDIM {TransactionTypeId=3, TypeName=TranTypes.Coupon, TypeClass=TranClasses.SecurityTrade},
+            new TransactionTypeDIM {TransactionTypeId=4, TypeName=TranTypes.Dividends, TypeClass=TranClasses.SecurityTrade},
+            new TransactionTypeDIM {TransactionTypeId=5, TypeName=TranTypes.Income, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=6, TypeName=TranTypes.Expense, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=7, TypeName=TranTypes.Deposit, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=8, TypeName=TranTypes.Withdrawal, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=9, TypeName=TranTypes.Interest, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=10, TypeName=TranTypes.ManagementFee, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=11, TypeName=TranTypes.PerformanceFee, TypeClass=TranClasses.CashTrade},
+            new TransactionTypeDIM {TransactionTypeId=11, TypeName=TranTypes.Miscellaneous, TypeClass=TranClasses.CashTrade}
+
+        };
+
         public readonly AssetClassDIM[] SeedAssetClasses = new AssetClassDIM[]{
             new AssetClassDIM {AssetClassId=1, Name="Crytocurrency"},
             new AssetClassDIM {AssetClassId=2, Name="Equity"},
@@ -33,12 +50,12 @@ namespace PortfolioAce.Domain.ModelSeedData
         public readonly TradeTypesDIM[] SeedTradeTypes = new TradeTypesDIM[]{
             new TradeTypesDIM{SecurityTypeId=1, TypeName="Security Trade"},
             new TradeTypesDIM{SecurityTypeId=2, TypeName="Corporate Action"}
-        };
+        }; // to be Deleted
 
         public readonly CashTradeTypesDIM[] SeedCashTradeTypes = new CashTradeTypesDIM[]{
             new CashTradeTypesDIM{CashTypeId=1, TypeName="Income"},
             new CashTradeTypesDIM{CashTypeId=2, TypeName="Expense"}
-        };
+        }; // To be Deleted
 
         public readonly IssueTypesDIM[] SeedIssueTypes = new IssueTypesDIM[]{
             new IssueTypesDIM{IssueTypeID=1, TypeName="Subscription"},
