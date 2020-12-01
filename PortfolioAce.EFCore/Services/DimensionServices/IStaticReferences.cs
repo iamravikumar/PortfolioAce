@@ -23,5 +23,6 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
 
         AssetClassDIM GetAssetClass(string name);
         CurrenciesDIM GetCurrency(string symbol);
+        TransactionTypeDIM GetTransactionType(string typeName);
     }
 }

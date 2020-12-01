@@ -245,7 +245,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return DateTime.Today;
+                return DateTime.Now;
                 //return _staticReferences.GetAllTradeTypes().Select(tt=>tt.TypeName).ToList();
             }
         }
@@ -253,7 +253,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return DateTime.Today;
+                return DateTime.Now;
             }
         }
         public bool isActive
@@ -277,7 +277,6 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass.ToString() == "SecurityTrade").Select(t => t.TypeName.ToString()).ToList();
-                //return _staticReferences.GetAllTradeTypes().Select(tt=>tt.TypeName).ToList();
             }
         }
 

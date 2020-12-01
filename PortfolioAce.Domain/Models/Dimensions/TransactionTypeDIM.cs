@@ -15,6 +15,8 @@ namespace PortfolioAce.Domain.Models.Dimensions
         public TranTypes TypeName { get; set; } 
         [Required]
         public TranClasses TypeClass { get; set; } 
+        [Required]
+        public TranDirection Direction { get; set; }
     }
 
     public enum TranTypes
@@ -36,5 +38,12 @@ namespace PortfolioAce.Domain.Models.Dimensions
     {
         SecurityTrade,
         CashTrade
+    }
+
+    public enum TranDirection
+    {
+        Inflow,
+        Outflow,
+        None
     }
 }

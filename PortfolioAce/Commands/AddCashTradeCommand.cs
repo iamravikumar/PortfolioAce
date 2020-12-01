@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using PortfolioAce.ViewModels.Windows;
@@ -15,14 +16,14 @@ namespace PortfolioAce.Commands
     {
         public event EventHandler CanExecuteChanged;
         private AddCashTradeWindowViewModel _addCashTradeWindowVM;
-        private ICashTradeService _cashService;
-        
+        private ITransactionService _transactionService;
+
         public AddCashTradeCommand(
             AddCashTradeWindowViewModel addCashTradeWindowVM,
-            ICashTradeService cashService)
+            ITransactionService transactionService)
         {
             _addCashTradeWindowVM = addCashTradeWindowVM;
-            _cashService = cashService;
+            _transactionService = transactionService;
         }
 
         public bool CanExecute(object parameter)
@@ -34,17 +35,28 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                CashTradeBO newCashTrade = new CashTradeBO
+                // cash symbol would be something like EURc name = EUR CASH
+                SecuritiesDIM security = _transactionService.GetSecurityInfo(_addCashTradeWindowVM.Symbol);
+                TransactionTypeDIM tradeType = _transactionService.GetTradeType(_addCashTradeWindowVM.CashType);
+                TransactionsBO newCashTrade = new TransactionsBO
                 {
-                    CashTradeType = _addCashTradeWindowVM.CashType,
-                    Amount = _addCashTradeWindowVM.CashAmount,
+                    SecurityId = security.SecurityId,
+                    Quantity = _addCashTradeWindowVM.Quantity,
+                    Price = _addCashTradeWindowVM.Price,
+                    TradeAmount = _addCashTradeWindowVM.CashAmount,
                     TradeDate = _addCashTradeWindowVM.TradeDate,
                     SettleDate = _addCashTradeWindowVM.SettleDate,
-                    Currency = _addCashTradeWindowVM.TradeCurrency,
-                    Comment = _addCashTradeWindowVM.Notes,
-                    FundId = _addCashTradeWindowVM.FundId
+                    CreatedDate = _addCashTradeWindowVM.CreatedDate,
+                    LastModified = _addCashTradeWindowVM.LastModifiedDate,
+                    Fees = _addCashTradeWindowVM.Fees,
+                    isActive = _addCashTradeWindowVM.isActive,
+                    isLocked = _addCashTradeWindowVM.isLocked,
+                    FundId = _addCashTradeWindowVM.FundId,
+                    TransactionTypeId = tradeType.TransactionTypeId,
+                    CurrencyId= security.CurrencyId,
+                    Comment=_addCashTradeWindowVM.Notes,
                 };
-                await _cashService.CreateCashTrade(newCashTrade);
+                await _transactionService.CreateTransaction(newCashTrade);
                 _addCashTradeWindowVM.CloseAction();
             }
             catch(Exception e)

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
 using System;
@@ -32,7 +33,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.Where(s => s.Symbol == symbol).FirstOrDefault();
+                return context.Securities.Where(s => s.Symbol == symbol).Include(s=>s.Currency).FirstOrDefault();
             }
         }
 
@@ -40,7 +41,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.TransactionTypes.Where(t => t.TypeName.ToString() == name).FirstOrDefault();
+                return context.TransactionTypes.Where(t => ((string)(object)t.TypeName) == name).FirstOrDefault();
             }
         }
 

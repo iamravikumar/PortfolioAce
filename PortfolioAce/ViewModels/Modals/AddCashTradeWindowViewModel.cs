@@ -19,10 +19,12 @@ namespace PortfolioAce.ViewModels.Modals
         private Fund _fund;
         private readonly ValidationErrors _validationErrors;
         private IStaticReferences _staticReferences;
-        public AddCashTradeWindowViewModel(ICashTradeService cashService, IStaticReferences staticReferences, Fund fund)
+        private ITransactionService _transactionService;
+        public AddCashTradeWindowViewModel(ITransactionService transactionService, IStaticReferences staticReferences, Fund fund)
         {
-            AddCashTradeCommand = new AddCashTradeCommand(this, cashService);
+            AddCashTradeCommand = new AddCashTradeCommand(this, transactionService);
             _fund = fund;
+            _transactionService = transactionService;
             _staticReferences = staticReferences;
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
@@ -53,6 +55,7 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _cashType = value;
                 OnPropertyChanged(nameof(CashType));
+                OnPropertyChanged(nameof(CashAmount));
             }
         }
 
@@ -67,11 +70,44 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _cashAmount = value;
                 _validationErrors.ClearErrors(nameof(CashAmount));
-                if (_cashAmount < 0)
+                string direction = "None";
+                if(_cashType != null)
                 {
-                    _validationErrors.AddError(nameof(CashAmount), "The cash amount cannot be a negative number");
+                    direction = _staticReferences.GetTransactionType(_cashType).Direction.ToString();
                 }
+                if (direction == "Inflow")
+                {
+                    if (_cashAmount < 0)
+                    {
+                        _validationErrors.AddError(nameof(CashAmount), "You cannot have a negative Inflow");
+                    }
+                }
+                else if (direction == "Outflow")
+                {
+                    if (_cashAmount > 0)
+                    {
+                        _validationErrors.AddError(nameof(CashAmount), "You cannot have a positive Outflow");
+                    }
+                }               
                 OnPropertyChanged(nameof(CashAmount));
+            }
+        }
+
+        public decimal Quantity
+        {
+            get
+            {
+                return _cashAmount;
+            }
+            // my reason for having a quantity is because i am securitising cash.
+            // this means the quantity is the CashPosition and the CashAmount is the cash balance.
+        }
+
+        public decimal Price
+        {
+            get
+            {
+                return decimal.One;
             }
         }
 
@@ -89,6 +125,13 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public string Symbol
+        {
+            get
+            {
+                return $"{_currency}c";
+            }
+        }
 
         private DateTime _tradeDate;
         public DateTime TradeDate
@@ -143,6 +186,14 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public decimal Fees
+        {
+            get
+            {
+                return decimal.Zero;
+            }
+        }
+
         private string _notes;
         public string Notes
         {
@@ -157,11 +208,41 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public DateTime CreatedDate
+        {
+            get
+            {
+                return DateTime.Now;
+                //return _staticReferences.GetAllTradeTypes().Select(tt=>tt.TypeName).ToList();
+            }
+        }
+        public DateTime LastModifiedDate
+        {
+            get
+            {
+                return DateTime.Now;
+            }
+        }
+        public bool isActive
+        {
+            get
+            {
+                return true;
+            }
+        }
+        public bool isLocked
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public List<string> cmbCashType
         {
             get
             {
-                return _staticReferences.GetAllCashTradeTypes().Select(ctt => ctt.TypeName).ToList();
+                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass.ToString() == "CashTrade").Select(t => t.TypeName.ToString()).ToList();
             }
         }
 

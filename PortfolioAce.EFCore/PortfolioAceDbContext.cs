@@ -60,6 +60,9 @@ namespace PortfolioAce.EFCore
             modelBuilder.Entity<TransactionTypeDIM>()
                 .Property(t => t.TypeName)
                 .HasConversion<string>();
+            modelBuilder.Entity<TransactionTypeDIM>()
+                .Property(t => t.Direction)
+                .HasConversion<string>();
             modelBuilder.Entity<AssetClassDIM>()
                 .Property(a => a.Name)
                 .HasConversion<string>();

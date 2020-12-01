@@ -87,5 +87,13 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
                 return context.Currencies.Where(c => ((string)(object)c.Symbol) == symbol).FirstOrDefault();
             }
         }
+
+        public TransactionTypeDIM GetTransactionType(string typeName)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.TransactionTypes.Where(c => ((string)(object)c.TypeName) == typeName).FirstOrDefault();
+            }
+        }
     }
 }
