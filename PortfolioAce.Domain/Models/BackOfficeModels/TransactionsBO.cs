@@ -59,7 +59,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
 
         [ForeignKey("TransactionType")]
         public int TransactionTypeId { get; set; }
-        public TransactionTypeDIM TransactionType { get; set; } //purchase sell income etc.. seperated by security or cash security or cash.. This will snowflake
+        public TransactionTypeDIM TransactionType { get; set; } //purchase sell income etc.. seperated by security or cash security or cash..
 
         /*
          * Direction (purchase, sell, Income, Expense, Withdrawal, Deposit, dividends, Interest, management fee, perfromance fee, miscellaneous) X

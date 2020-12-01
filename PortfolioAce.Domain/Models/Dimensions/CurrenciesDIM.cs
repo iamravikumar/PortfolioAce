@@ -12,9 +12,9 @@ namespace PortfolioAce.Domain.Models.Dimensions
         [Key]
         public int CurrencyId { get; set; }
         [Required]
-        public ISOSymbol Symbol { get; set; } // i.e. JPY. the ISO Code
+        public ISOSymbol Symbol { get; set; } 
         [Required]
-        public ISOName Name { get; set; } // i.e. Japanese Yen
+        public ISOName Name { get; set; } 
     }
     public enum ISOSymbol
     {

@@ -37,9 +37,9 @@ namespace PortfolioAce.Domain.ModelSeedData
         };
 
         public readonly AssetClassDIM[] SeedAssetClasses = new AssetClassDIM[]{
-            new AssetClassDIM {AssetClassId=1, Name="Crytocurrency"},
-            new AssetClassDIM {AssetClassId=2, Name="Equity"},
-            new AssetClassDIM {AssetClassId=3, Name="FX"}
+            new AssetClassDIM {AssetClassId=1, Name=AssetClass.Equity},
+            new AssetClassDIM {AssetClassId=2, Name=AssetClass.Crytocurrency},
+            new AssetClassDIM {AssetClassId=3, Name=AssetClass.FX}
         };
 
         public readonly NavFrequencyDIM[] SeedNavFrequencies = new NavFrequencyDIM[]{
