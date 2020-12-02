@@ -60,10 +60,9 @@ namespace PortfolioAce.EFCore.Services
                 // include is having negative impact on performance
                 // look for optimisation at some point
                 return context.Funds
-                    .Include(f => f.CashBooks)
                     .Include(f=> f.NavPrices)
                     .Include(f=> f.TransferAgent)
-                    .Include(f => f.Trades).ThenInclude(s=>s.Security)
+                    .Include(f => f.Transactions).ThenInclude(s=>s.Security)
                     .ToList();
             }
         }
@@ -73,23 +72,10 @@ namespace PortfolioAce.EFCore.Services
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.Funds.Where(f => f.Symbol == fundSymbol)
-                            .Include(f => f.CashBooks)
                             .Include(f=> f.NavPrices)
                             .Include(f => f.TransferAgent)
-                            .Include(f => f.Trades).ThenInclude(s => s.Security)
+                            .Include(f => f.Transactions).ThenInclude(s => s.Security)
                             .FirstOrDefault();
-
-                // the group by code etc can be used for when i actually need it.
-                /*
-                return context.Funds.Where(f=>f.Symbol==fundSymbol)
-                    .Include(f => f.CashBooks.GroupBy(c => c.Currency)
-                                                .Select(g => new {
-                                                    g.Key,
-                                                    ccyTotal = g.Sum(s => s.TransactionAmount)
-                                                }))
-                    .Include(f => f.Trades.OrderBy(t => t.TradeDate))
-                    .FirstOrDefault();
-                */
             }
         }
 

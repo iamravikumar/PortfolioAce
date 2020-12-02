@@ -14,9 +14,6 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         List<AssetClassDIM> GetAllAssetClasses();
         List<NavFrequencyDIM> GetAllNavFrequencies();
 
-        List<TradeTypesDIM> GetAllTradeTypes();
-
-        List<CashTradeTypesDIM> GetAllCashTradeTypes();
         List<IssueTypesDIM> GetAllIssueTypes();
 
         List<TransactionTypeDIM> GetAllTransactionTypes();

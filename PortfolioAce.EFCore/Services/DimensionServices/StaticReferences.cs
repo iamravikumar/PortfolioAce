@@ -32,14 +32,6 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
             }
         }
 
-        public List<CashTradeTypesDIM> GetAllCashTradeTypes()
-        {
-            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
-            {
-                return context.CashTradeTypes.ToList();
-            }
-        }
-
         public List<CurrenciesDIM> GetAllCurrencies()
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
@@ -61,14 +53,6 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.NavFrequencies.ToList();
-            }
-        }
-
-        public List<TradeTypesDIM> GetAllTradeTypes()
-        {
-            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
-            {
-                return context.TradeTypes.ToList();
             }
         }
 

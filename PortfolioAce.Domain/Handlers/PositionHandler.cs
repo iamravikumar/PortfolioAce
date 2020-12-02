@@ -29,7 +29,7 @@ namespace PortfolioAce.Domain.Handlers
             this.openLots = new Queue<OpenLots>();
         }
 
-        public void AddTransaction(TradeBO transaction)
+        public void AddTransaction(TransactionsBO transaction)
         {
 
             if (transaction.Security.SecurityName != this.security.SecurityName || transaction.Security.Currency.Symbol.ToString() != this.security.Currency.Symbol.ToString())
@@ -48,7 +48,7 @@ namespace PortfolioAce.Domain.Handlers
 
             decimal quantityRef = transaction.Quantity; // a reference to the transaction quantity so it doesn't get manipulated
 
-            if (transaction.TradeType == "Corporate Action")
+            if (transaction.TransactionType.TypeName.ToString() == "CorporateAction")
             {
                 NetQuantity += quantityRef;
                 RealisedPnL += transaction.TradeAmount;
@@ -129,7 +129,7 @@ namespace PortfolioAce.Domain.Handlers
             return this.openLots.ToList(); // i MIGHT need to reverse the list.
         }
 
-        private void UpdatePosition(TradeBO transaction)
+        private void UpdatePosition(TransactionsBO transaction)
         {
             this.NetQuantity = this.openLots.Sum(lots => lots.quantity);
             if (transaction.Quantity == 0 && this.openLots.Count > 0)

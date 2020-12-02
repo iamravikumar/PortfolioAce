@@ -32,8 +32,7 @@ namespace PortfolioAce.Domain.Models
         [Required]
         public bool IsInitialised { get; set; } // Defaults to False when Fund is first created, set to true once fund is initialised..
 
-        public virtual ICollection<TradeBO> Trades { get; set; }
-        public virtual ICollection<CashBookBO> CashBooks { get; set; }
+        public virtual ICollection<TransactionsBO> Transactions { get; set; }
         public virtual ICollection<TransferAgencyBO> TransferAgent {get;set;}
         public virtual ICollection<NAVPriceStoreFACT> NavPrices { get; set; }
 

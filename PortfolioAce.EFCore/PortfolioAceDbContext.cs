@@ -17,20 +17,15 @@ namespace PortfolioAce.EFCore
         public DbSet<SecurityPriceStore> SecurityPriceData { get; set; }
 
         // Back Office Models
-        public DbSet<TradeBO> Trades { get; set; } // To be removed
-        public DbSet<CashTradeBO> CashTrades { get; set; } // To be removed
-        public DbSet<CashBookBO> CashBooks { get; set; }
         public DbSet<TransferAgencyBO> TransferAgent { get; set; }
         public DbSet<TransactionsBO> Transactions { get; set; }
 
         // Dimensions
         public DbSet<SecuritiesDIM> Securities { get; set; }
         public DbSet<AssetClassDIM> AssetClasses { get; set; }
-        public DbSet<CashTradeTypesDIM> CashTradeTypes { get; set; } // To be removed
         public DbSet<CurrenciesDIM> Currencies { get; set; }
         public DbSet<IssueTypesDIM> IssueTypes { get; set; }
         public DbSet<NavFrequencyDIM> NavFrequencies { get; set; }
-        public DbSet<TradeTypesDIM> TradeTypes { get; set; } // To be removed
         public DbSet<CustodiansDIM> Custodians { get; set; }
         public DbSet<AccountingPeriodsDIM> Periods { get; set; }
         public DbSet<TransactionTypeDIM> TransactionTypes { get; set; }
@@ -71,8 +66,6 @@ namespace PortfolioAce.EFCore
             SeedData seedData = new SeedData();
             modelBuilder.Entity<AssetClassDIM>().HasData(
                 seedData.SeedAssetClasses);
-            modelBuilder.Entity<CashTradeTypesDIM>().HasData(
-                seedData.SeedCashTradeTypes); // To be removed
 
             modelBuilder.Entity<CurrenciesDIM>().HasData(
                 seedData.SeedCurrencies);
@@ -81,8 +74,6 @@ namespace PortfolioAce.EFCore
 
             modelBuilder.Entity<NavFrequencyDIM>().HasData(
                 seedData.SeedNavFrequencies);
-            modelBuilder.Entity<TradeTypesDIM>().HasData(
-                seedData.SeedTradeTypes); // To be removed
             modelBuilder.Entity<CustodiansDIM>().HasData(
                 seedData.SeedCustodians);
             modelBuilder.Entity<TransactionTypeDIM>().HasData(

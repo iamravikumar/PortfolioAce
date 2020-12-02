@@ -29,9 +29,7 @@ namespace PortfolioAce.EFCore.Services
             {
                 EntityEntry<TransferAgencyBO> res = await context.TransferAgent.AddAsync(investorAction);
                 await context.SaveChangesAsync();
-                CashBookBO  transaction = TransactionMapper(res.Entity, new CashBookBO());
-                await context.CashBooks.AddAsync(transaction);
-                await context.SaveChangesAsync();
+                // create a transactions and have a mapper
 
                 return res.Entity;
             }
@@ -48,8 +46,6 @@ namespace PortfolioAce.EFCore.Services
                 }
                 context.TransferAgent.Remove(investorAction);
                 //TODO: raise a warning if there is no transaction to remove. Big issue if this is the case.
-                CashBookBO transaction = await context.CashBooks.Where(ta => ta.TransferAgencyId == id).FirstAsync();
-                context.CashBooks.Remove(transaction);
                 await context.SaveChangesAsync();
 
                 return investorAction;
@@ -84,8 +80,7 @@ namespace PortfolioAce.EFCore.Services
                 {
                     var res = context.TransferAgent.Add(investor);
                     context.SaveChanges();
-                    CashBookBO transaction = TransactionMapper(res.Entity, new CashBookBO());
-                    context.CashBooks.Add(transaction);
+                    // here i create Transactions and map them
 
                 };
                 // set the monthly or daily account periods for up to one year ahead...
@@ -127,26 +122,12 @@ namespace PortfolioAce.EFCore.Services
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 context.TransferAgent.Update(investorAction);
-                CashBookBO transaction = await context.CashBooks.Where(ta => ta.TransferAgencyId == investorAction.TransferAgencyId).FirstAsync();
-                CashBookBO newTransaction = TransactionMapper(investorAction, transaction);
-                context.CashBooks.Update(newTransaction);
+                //CashBookBO transaction = await context.CashBooks.Where(ta => ta.TransferAgencyId == investorAction.TransferAgencyId).FirstAsync();
+                // then map and update
                 await context.SaveChangesAsync();
 
                 return investorAction;
             }
-        }
-
-        private CashBookBO TransactionMapper(TransferAgencyBO investorAction, CashBookBO transaction)
-        {
-            transaction.TransferAgencyId = investorAction.TransferAgencyId;
-            transaction.TransactionType = investorAction.IssueType;// subscription or redemption
-            transaction.TransactionAmount = investorAction.TradeAmount;
-            transaction.TransactionDate = investorAction.TransactionSettleDate;
-            transaction.Currency = investorAction.Currency;
-            transaction.FundId = investorAction.FundId;
-
-            transaction.Comment = (investorAction.IssueType =="Subscription")?"FUND SUBSCRIPTION":"FUND REDEMPTION";
-            return transaction;
         }
     }
 }

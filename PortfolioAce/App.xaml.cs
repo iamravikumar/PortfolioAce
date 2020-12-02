@@ -59,8 +59,6 @@ namespace PortfolioAce
 
             // Add UoW Serices here
             services.AddSingleton<IFundService, FundService>();
-            services.AddSingleton<ICashTradeService, CashTradeService>();
-            services.AddSingleton<ITradeService, TradeService>();
             services.AddSingleton<ITransactionService, TransactionService>();
             services.AddSingleton<IAdminService, AdminService>();
             services.AddSingleton<ITransferAgencyService, TransferAgencyService>();
@@ -71,9 +69,7 @@ namespace PortfolioAce
             services.AddSingleton<HomeViewModel>();
             services.AddSingleton<AllFundsViewModel>(services=> new AllFundsViewModel(
                 services.GetRequiredService<IFundService>(), 
-                services.GetRequiredService<ITradeService>(),
                 services.GetRequiredService<ITransactionService>(),
-                 services.GetRequiredService<ICashTradeService>(),
                  services.GetRequiredService<IPortfolioService>(),
                  services.GetRequiredService<ITransferAgencyService>(),
                  services.GetRequiredService<IStaticReferences>())); // this is how i can pass in my repositories

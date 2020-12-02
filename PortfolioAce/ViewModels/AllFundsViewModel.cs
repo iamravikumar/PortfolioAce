@@ -1,6 +1,7 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.Handlers;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.FactTables;
@@ -23,19 +24,15 @@ namespace PortfolioAce.ViewModels
     public class AllFundsViewModel : ViewModelBase
     {
         private IFundService _fundService;
-        private ITradeService _tradeService;
-        private ICashTradeService _cashService;
         private ITransferAgencyService _investorService;
         private IPortfolioService _portfolioService;
         private IStaticReferences _staticReferences;
         private ITransactionService _transactionService;
         public AllFundsViewModel(IFundService fundService,
-            ITradeService tradeService,ITransactionService transactionService, ICashTradeService cashService,
-            IPortfolioService portfolioService, ITransferAgencyService investorService, IStaticReferences staticReferences)
+            ITransactionService transactionService, IPortfolioService portfolioService,
+            ITransferAgencyService investorService, IStaticReferences staticReferences)
         {
-            _tradeService = tradeService;
             _fundService = fundService;
-            _cashService = cashService;
             _investorService = investorService;
             _portfolioService = portfolioService;
             _transactionService = transactionService;
@@ -68,8 +65,8 @@ namespace PortfolioAce.ViewModels
         public ICommand PositionDetailCommand { get; set; }
 
 
-        private Position _dtPositionObject;
-        public Position dtPositionObject
+        private PositionHandler _dtPositionObject;
+        public PositionHandler dtPositionObject
         {
             // This object will open a window that will display the position information such as currency, direction, ITD realised pnl, open lots,
             // positionbreakdown
@@ -116,9 +113,9 @@ namespace PortfolioAce.ViewModels
                 // all variables pass through here so that they update the view
                 OnPropertyChanged(nameof(CurrentFund));
                 OnPropertyChanged(nameof(dgFundPositions));
-                OnPropertyChanged(nameof(dgFundCashHoldings));
-                OnPropertyChanged(nameof(dgFundTrades));
-                OnPropertyChanged(nameof(dgFundCashBook));
+                //OnPropertyChanged(nameof(dgFundCashHoldings));
+                //OnPropertyChanged(nameof(dgFundTrades));
+                //OnPropertyChanged(nameof(dgFundCashBook));
                 OnPropertyChanged(nameof(dgFundTA));
                 OnPropertyChanged(nameof(IsInitialised));
                 OnPropertyChanged(nameof(LatestNav));
@@ -164,7 +161,7 @@ namespace PortfolioAce.ViewModels
 
             }
         }
-
+        /*
         private List<CashAccountBalance> _dgFundCashHoldings;
         public List<CashAccountBalance> dgFundCashHoldings
         {
@@ -187,9 +184,9 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashHoldings));
             }
         }
-
-        private List<Position> _dgFundPositions;
-        public List<Position> dgFundPositions
+        */
+        private List<PositionHandler> _dgFundPositions;
+        public List<PositionHandler> dgFundPositions
         {
             get
             {
@@ -201,7 +198,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundPositions));
             }
         }
-
+        /*
         private List<TradeBO> _dgFundTrades;
         public List<TradeBO> dgFundTrades
         {
@@ -229,7 +226,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashBook));
             }
         }
-
+        */
         private List<TransferAgencyBO> _dgFundTA;
         public List<TransferAgencyBO> dgFundTA
         {

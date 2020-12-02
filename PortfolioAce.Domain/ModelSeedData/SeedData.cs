@@ -58,16 +58,6 @@ namespace PortfolioAce.Domain.ModelSeedData
             new NavFrequencyDIM{NavFrequencyId=2, Frequency="Monthly"}
         };
 
-        public readonly TradeTypesDIM[] SeedTradeTypes = new TradeTypesDIM[]{
-            new TradeTypesDIM{SecurityTypeId=1, TypeName="Security Trade"},
-            new TradeTypesDIM{SecurityTypeId=2, TypeName="Corporate Action"}
-        }; // to be Deleted
-
-        public readonly CashTradeTypesDIM[] SeedCashTradeTypes = new CashTradeTypesDIM[]{
-            new CashTradeTypesDIM{CashTypeId=1, TypeName="Income"},
-            new CashTradeTypesDIM{CashTypeId=2, TypeName="Expense"}
-        }; // To be Deleted
-
         public readonly IssueTypesDIM[] SeedIssueTypes = new IssueTypesDIM[]{
             new IssueTypesDIM{IssueTypeID=1, TypeName="Subscription"},
             new IssueTypesDIM{IssueTypeID=2, TypeName="Redemption"}
