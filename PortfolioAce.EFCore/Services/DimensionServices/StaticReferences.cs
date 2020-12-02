@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models.Dimensions;
+﻿using Microsoft.EntityFrameworkCore;
+using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,6 +94,14 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.Custodians.Where(c => ((string)(object)c.Name) == custodianName).FirstOrDefault();
+            }
+        }
+
+        public SecuritiesDIM GetSecurityInfo(string symbol)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Securities.Where(s => s.Symbol == symbol).Include(s => s.Currency).Include(s => s.AssetClass).FirstOrDefault();
             }
         }
     }

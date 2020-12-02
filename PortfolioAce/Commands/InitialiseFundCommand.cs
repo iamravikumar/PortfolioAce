@@ -1,7 +1,9 @@
 ﻿using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.HelperObjects;
 using PortfolioAce.ViewModels.Modals;
 using System;
@@ -19,12 +21,14 @@ namespace PortfolioAce.Commands
 
         private FundInitialisationWindowViewModel _fundInitialiseVM;
         private ITransferAgencyService _investorService;
+        private IStaticReferences _staticReferences;
 
         public InitialiseFundCommand(FundInitialisationWindowViewModel fundInitialiseVM,
-            ITransferAgencyService investorService)
+            ITransferAgencyService investorService, IStaticReferences staticReferences)
         {
             _fundInitialiseVM = fundInitialiseVM;
             _investorService = investorService;
+            _staticReferences = staticReferences;
         }
 
         public bool CanExecute(object parameter)
@@ -38,7 +42,14 @@ namespace PortfolioAce.Commands
             {
                 Fund updateFund = _fundInitialiseVM.TargetFund;
                 updateFund.IsInitialised = true;
+
+                string cashSymbol = $"{updateFund.BaseCurrency}c";
+                SecuritiesDIM security = _staticReferences.GetSecurityInfo(cashSymbol);
+                TransactionTypeDIM tradeType = _staticReferences.GetTransactionType("Deposit");
+                CustodiansDIM custodian = _staticReferences.GetCustodian("Default");
+
                 List<TransferAgencyBO> newInvestors = new List<TransferAgencyBO>();
+                List<TransactionsBO> transactions = new List<TransactionsBO>();
                 foreach(SeedingInvestor seedInvestor in _fundInitialiseVM.dgSeedingInvestors)
                 {
                     if (seedInvestor.InvestorName!="" || seedInvestor.SeedAmount>0 ) 
@@ -58,6 +69,27 @@ namespace PortfolioAce.Commands
                             IsNavFinal=true,
                         };
                         newInvestors.Add(newInvestor);
+                        TransactionsBO newTransaction = new TransactionsBO
+                        {
+                            SecurityId = security.SecurityId,
+                            Quantity = seedInvestor.SeedAmount,
+                            Price = decimal.One,
+                            TradeAmount = seedInvestor.SeedAmount,
+                            TradeDate = updateFund.LaunchDate,
+                            SettleDate = updateFund.LaunchDate,
+                            CreatedDate = DateTime.Now,
+                            LastModified = DateTime.Now,
+                            Fees = decimal.Zero,
+                            isActive = true,
+                            isLocked = true,
+                            FundId = updateFund.FundId,
+                            TransactionTypeId = tradeType.TransactionTypeId,
+                            CurrencyId = security.CurrencyId,
+                            Comment = "Initial Subscription",
+                            CustodianId = custodian.CustodianId
+                        };
+                        transactions.Add(newTransaction);
+
                     }
                     else
                     {
@@ -73,7 +105,7 @@ namespace PortfolioAce.Commands
                     SharesOutstanding=newInvestors.Sum(ni=>ni.Units) ,
                     Currency = updateFund.BaseCurrency
                 };
-                _investorService.InitialiseFundAction(updateFund, newInvestors, initialNav);// takes in
+                _investorService.InitialiseFundAction(updateFund, newInvestors,transactions, initialNav);// takes in
                 //await _investorService.CreateInvestorAction(newInvestorAction);
                 _fundInitialiseVM.CloseAction();
             }

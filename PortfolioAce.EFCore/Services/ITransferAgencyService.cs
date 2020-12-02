@@ -15,7 +15,7 @@ namespace PortfolioAce.EFCore.Services
         Task<TransferAgencyBO> UpdateInvestorAction(TransferAgencyBO investorAction);
         Task<TransferAgencyBO> DeleteInvestorAction(int id);
 
-        void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investors, NAVPriceStoreFACT initialNav);
+        void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investors, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav);
         List<TransferAgencyBO> GetAllFundInvestorActions(int fundId);
 
     }

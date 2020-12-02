@@ -68,21 +68,21 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investors, NAVPriceStoreFACT initialNav)
+        public void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investors, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                // need to update fund to initialised, add TA to database, add cashbook to DB,
-                // Need to update the funds first NAV
+                // Saves the funds state to initialised
                 context.Funds.Update(fund);
-                context.NavPriceData.Add(initialNav);
-                foreach (TransferAgencyBO investor in investors)
-                {
-                    var res = context.TransferAgent.Add(investor);
-                    context.SaveChanges();
-                    // here i create Transactions and map them
 
-                };
+                // Saves the first Nav
+                context.NavPriceData.Add(initialNav);
+                // saves the investors to the database
+                context.TransferAgent.AddRange(investors);
+
+                context.Transactions.AddRange(transactions);
+
+                //context.SaveChanges();
                 // set the monthly or daily account periods for up to one year ahead...
                 DateTime startDate = fund.LaunchDate;
                 List<DateTime> allPeriods;

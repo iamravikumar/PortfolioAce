@@ -33,7 +33,7 @@ namespace PortfolioAce.ViewModels.Modals
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             dgSeedingInvestors = new ObservableCollection<SeedingInvestor>();
-            InitialiseFundCommand = new InitialiseFundCommand(this, investorService);
+            InitialiseFundCommand = new InitialiseFundCommand(this, investorService, staticReferences);
             _NavPrice = 1;
         }
         public ICommand InitialiseFundCommand { get; set; }
