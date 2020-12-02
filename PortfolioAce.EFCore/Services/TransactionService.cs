@@ -29,6 +29,14 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public CustodiansDIM GetCustodian(string name)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Custodians.Where(c => ((string)(object)c.Name) == name).FirstOrDefault();
+            }
+        }
+
         public SecuritiesDIM GetSecurityInfo(string symbol)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())

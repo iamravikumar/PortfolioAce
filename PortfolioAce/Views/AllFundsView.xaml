@@ -95,16 +95,17 @@
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Type"  Binding="{Binding TradeType}"/>
+                            <DataGridTextColumn Header="Type"  Binding="{Binding TransactionType.TypeName}"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Security.SecurityName}" />
                             <DataGridTextColumn Header="Symbol" Binding="{Binding Security.Symbol}"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
                             <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
                             <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount}"/>
-                            <DataGridTextColumn Header="Commission" Binding="{Binding Commission}"/>
+                            <DataGridTextColumn Header="Commission" Binding="{Binding Fees}"/>
                             <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate, StringFormat={}{0:d}}"/>
                             <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate, StringFormat={}{0:d}}"/>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" Width="*"/>
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:d}}"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
@@ -113,11 +114,13 @@
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Type" Binding="{Binding TransactionType}" />
-                            <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TransactionAmount}" />
-                            <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TransactionDate, StringFormat={}{0:d}}"/>
+                            <DataGridTextColumn Header="Type" Binding="{Binding TransactionType.TypeName}" />
+                            <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TradeAmount}" />
+                            <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TradeDate, StringFormat={}{0:d}}"/>
+                            <DataGridTextColumn Header="Settle Date"  Binding="{Binding SettleDate, StringFormat={}{0:d}}"/>
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:d}}"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" />
                             <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Comment}"/>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

@@ -62,7 +62,14 @@ namespace PortfolioAce.EFCore.Services
                 return context.Funds
                     .Include(f=> f.NavPrices)
                     .Include(f=> f.TransferAgent)
-                    .Include(f => f.Transactions).ThenInclude(s=>s.Security)
+                    .Include(f => f.Transactions)
+                        .ThenInclude(s => s.Security)
+                    .Include(f => f.Transactions)
+                        .ThenInclude(c => c.Currency)
+                    .Include(f => f.Transactions)
+                        .ThenInclude(t => t.TransactionType)
+                    .Include(f => f.Transactions)
+                        .ThenInclude(cu => cu.Custodian)
                     .ToList();
             }
         }
@@ -74,7 +81,14 @@ namespace PortfolioAce.EFCore.Services
                 return context.Funds.Where(f => f.Symbol == fundSymbol)
                             .Include(f=> f.NavPrices)
                             .Include(f => f.TransferAgent)
-                            .Include(f => f.Transactions).ThenInclude(s => s.Security)
+                            .Include(f => f.Transactions)
+                                .ThenInclude(s => s.Security)
+                            .Include(f => f.Transactions)
+                                .ThenInclude(c=>c.Currency)
+                            .Include(f => f.Transactions)
+                                .ThenInclude(t => t.TransactionType)
+                            .Include(f=>f.Transactions)
+                                .ThenInclude(cu=>cu.Custodian)
                             .FirstOrDefault();
             }
         }

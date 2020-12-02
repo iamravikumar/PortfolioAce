@@ -13,5 +13,6 @@ namespace PortfolioAce.EFCore.Services
         SecuritiesDIM GetSecurityInfo(string symbol);
         bool SecurityExists(string symbol);
         TransactionTypeDIM GetTradeType(string name);
+        CustodiansDIM GetCustodian(string name);
     }
 }

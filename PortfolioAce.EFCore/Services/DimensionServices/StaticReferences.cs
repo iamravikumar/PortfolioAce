@@ -79,5 +79,21 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
                 return context.TransactionTypes.Where(c => ((string)(object)c.TypeName) == typeName).FirstOrDefault();
             }
         }
+
+        public List<CustodiansDIM> GetAllCustodians()
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Custodians.ToList();
+            }
+        }
+
+        public CustodiansDIM GetCustodian(string custodianName)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Custodians.Where(c => ((string)(object)c.Name) == custodianName).FirstOrDefault();
+            }
+        }
     }
 }

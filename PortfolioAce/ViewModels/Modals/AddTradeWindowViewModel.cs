@@ -249,6 +249,20 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        private string _custodian;
+        public string Custodian
+        {
+            get
+            {
+                return _custodian;
+            }
+            set
+            {
+                _custodian = value;
+                OnPropertyChanged(nameof(Custodian));
+            }
+        }
+
         public DateTime CreatedDate
         {
             get
@@ -285,6 +299,14 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass.ToString() == "SecurityTrade").Select(t => t.TypeName.ToString()).ToList();
+            }
+        }
+
+        public List<string> cmbCustodians
+        {
+            get
+            {
+                return _staticReferences.GetAllCustodians().Select(c => c.Name.ToString()).ToList();
             }
         }
 

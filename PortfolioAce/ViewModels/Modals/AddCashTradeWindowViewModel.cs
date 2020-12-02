@@ -239,6 +239,20 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        private string _custodian;
+        public string Custodian
+        {
+            get
+            {
+                return _custodian;
+            }
+            set
+            {
+                _custodian = value;
+                OnPropertyChanged(nameof(Custodian));
+            }
+        }
+
         public List<string> cmbCashType
         {
             get
@@ -252,6 +266,14 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 return _staticReferences.GetAllCurrencies().Select(c=>c.Symbol.ToString()).ToList();
+            }
+        }
+
+        public List<string> cmbCustodians
+        {
+            get
+            {
+                return _staticReferences.GetAllCustodians().Select(c => c.Name.ToString()).ToList();
             }
         }
 

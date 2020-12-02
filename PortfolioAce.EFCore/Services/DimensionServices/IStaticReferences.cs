@@ -17,9 +17,11 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         List<IssueTypesDIM> GetAllIssueTypes();
 
         List<TransactionTypeDIM> GetAllTransactionTypes();
+        List<CustodiansDIM> GetAllCustodians();
 
         AssetClassDIM GetAssetClass(string name);
         CurrenciesDIM GetCurrency(string symbol);
         TransactionTypeDIM GetTransactionType(string typeName);
+        CustodiansDIM GetCustodian(string typeName);
     }
 }

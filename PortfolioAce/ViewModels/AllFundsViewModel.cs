@@ -114,8 +114,8 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(CurrentFund));
                 OnPropertyChanged(nameof(dgFundPositions));
                 //OnPropertyChanged(nameof(dgFundCashHoldings));
-                //OnPropertyChanged(nameof(dgFundTrades));
-                //OnPropertyChanged(nameof(dgFundCashBook));
+                OnPropertyChanged(nameof(dgFundTrades));
+                OnPropertyChanged(nameof(dgFundCashBook));
                 OnPropertyChanged(nameof(dgFundTA));
                 OnPropertyChanged(nameof(IsInitialised));
                 OnPropertyChanged(nameof(LatestNav));
@@ -196,6 +196,36 @@ namespace PortfolioAce.ViewModels
             {
                 _dgFundPositions = _portfolioService.GetAllPositions(_currentFund);
                 OnPropertyChanged(nameof(dgFundPositions));
+            }
+        }
+
+        private List<TransactionsBO> _dgFundTrades;
+        public List<TransactionsBO> dgFundTrades
+        {
+            get
+            {
+                // Transactions filtered for just security trades
+                return (_currentFund != null) ? _currentFund.Transactions.Where(t => t.TransactionType.TypeClass.ToString() == "SecurityTrade").OrderBy(t=>t.TradeDate).ToList() : null;
+            }
+            set
+            {
+                _dgFundTrades = _currentFund.Transactions.Where(t => t.TransactionType.TypeClass.ToString() == "SecurityTrade").OrderBy(t => t.TradeDate).ToList();
+                OnPropertyChanged(nameof(dgFundTrades));
+            }
+        }
+
+        private List<TransactionsBO> _dgFundCashBook;
+        public List<TransactionsBO> dgFundCashBook
+        {
+            get
+            {
+                // all Transactions ordered by date... 
+                return (_currentFund != null) ? _currentFund.Transactions.OrderBy(t => t.TradeDate).ToList() : null;
+            }
+            set
+            {
+                _dgFundCashBook = _currentFund.Transactions.OrderBy(t => t.TradeDate).ToList();
+                OnPropertyChanged(nameof(dgFundCashBook));
             }
         }
         /*

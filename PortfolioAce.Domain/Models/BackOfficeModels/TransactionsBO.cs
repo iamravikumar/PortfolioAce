@@ -52,6 +52,10 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         [ForeignKey("Currency")]
         public int CurrencyId { get; set; }
         public CurrenciesDIM Currency { get; set; }
+        
+        [ForeignKey("Custodian")]
+        public int CustodianId { get; set; }
+        public CustodiansDIM Custodian { get; set; }
 
         [ForeignKey("Fund")]
         public int FundId { get; set; }

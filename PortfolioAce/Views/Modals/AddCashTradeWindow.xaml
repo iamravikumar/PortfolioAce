@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         mc:Ignorable="d"
-        Title="Add a new Cash Trade" Height="300" Width="410">
+        Title="Add a new Cash Trade" Height="400" Width="410">
     <Border Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3" Margin="3">
         <Grid Margin="1">
             <Grid.Resources>
@@ -82,9 +82,17 @@
             <DatePicker Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=TradeDate, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Grid.Row="5">Settle Date:</Label>
             <DatePicker Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=SettleDate, UpdateSourceTrigger=PropertyChanged}"/>
-            <Label Grid.Row="6">Notes:</Label>
-            <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" AcceptsReturn="True"/>
-            <Button Command="{Binding AddCashTradeCommand}" Grid.Row="7" Grid.Column="1" Margin="0,5,0,0" IsEnabled="{Binding CanCreate}">Add Cash Trade</Button>
+            <Label Grid.Row="6">Custodian:</Label>
+            <ComboBox ItemsSource="{Binding cmbCustodians}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=Custodian, UpdateSourceTrigger=PropertyChanged}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding }"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Grid.Row="7">Notes:</Label>
+            <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" AcceptsReturn="True"/>
+            <Button Command="{Binding AddCashTradeCommand}" Grid.Row="8" Grid.Column="1" Margin="0,5,0,0" IsEnabled="{Binding CanCreate}">Add Cash Trade</Button>
         </Grid>
     </Border>
 </Window>

@@ -1,4 +1,0 @@
-﻿I will need to refactor the repository
-i cannot use repos within other repos
-To do this i would have to create services. repos perform basic crud tasks.
-A service example would be trade/cashtrade entry and the impact they have on the cash account.

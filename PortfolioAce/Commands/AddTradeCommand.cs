@@ -37,6 +37,7 @@ namespace PortfolioAce.Commands
             {
                 SecuritiesDIM security = _transactionService.GetSecurityInfo(_addTradeWindowVM.Symbol);
                 TransactionTypeDIM tradeType = _transactionService.GetTradeType(_addTradeWindowVM.TradeType);
+                CustodiansDIM custodian = _transactionService.GetCustodian(_addTradeWindowVM.Custodian);
                 TransactionsBO newTrade = new TransactionsBO
                 {
                     SecurityId = security.SecurityId,
@@ -53,7 +54,8 @@ namespace PortfolioAce.Commands
                     FundId = _addTradeWindowVM.FundId,
                     TransactionTypeId = tradeType.TransactionTypeId,
                     CurrencyId = security.CurrencyId,
-                    Comment=""
+                    Comment="",
+                    CustodianId=custodian.CustodianId
                 };
                 await _transactionService.CreateTransaction(newTrade);
                 _addTradeWindowVM.CloseAction();

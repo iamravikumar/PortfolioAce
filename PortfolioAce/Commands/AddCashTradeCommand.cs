@@ -38,6 +38,7 @@ namespace PortfolioAce.Commands
                 // cash symbol would be something like EURc name = EUR CASH
                 SecuritiesDIM security = _transactionService.GetSecurityInfo(_addCashTradeWindowVM.Symbol);
                 TransactionTypeDIM tradeType = _transactionService.GetTradeType(_addCashTradeWindowVM.CashType);
+                CustodiansDIM custodian = _transactionService.GetCustodian(_addCashTradeWindowVM.Custodian);
                 TransactionsBO newCashTrade = new TransactionsBO
                 {
                     SecurityId = security.SecurityId,
@@ -55,6 +56,7 @@ namespace PortfolioAce.Commands
                     TransactionTypeId = tradeType.TransactionTypeId,
                     CurrencyId= security.CurrencyId,
                     Comment=_addCashTradeWindowVM.Notes,
+                    CustodianId=custodian.CustodianId
                 };
                 await _transactionService.CreateTransaction(newCashTrade);
                 _addCashTradeWindowVM.CloseAction();
