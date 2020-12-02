@@ -1,5 +1,4 @@
 ﻿using PortfolioAce.Domain.DataObjects;
-using PortfolioAce.Domain.Handlers;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
@@ -14,9 +13,9 @@ namespace PortfolioAce.Domain.BusinessServices
     public class PortfolioService : IPortfolioService
     {
 
-        public List<PositionHandler> GetAllPositions(Fund fund)
+        public List<CalculatedSecurityPosition> GetAllPositions(Fund fund)
         {
-            return new List<PositionHandler>();
+            return new List<CalculatedSecurityPosition>();
             /*
             List<TradeBO> allTrades = fund.Trades.OrderBy(t => t.TradeDate).ToList();// this orders the trades by trade date.
             Dictionary<SecuritiesDIM, List<TradeBO>> tradeDict = new Dictionary<SecuritiesDIM, List<TradeBO>>();
@@ -34,11 +33,11 @@ namespace PortfolioAce.Domain.BusinessServices
                 }
             }
 
-            List<PositionHandler> result = new List<PositionHandler>();
+            List<CalculatedSecurityPosition> result = new List<CalculatedSecurityPosition>();
 
             foreach (KeyValuePair<SecuritiesDIM, List<TradeBO>> Kvp in tradeDict)
             {
-                PositionHandler pos = new PositionHandler(Kvp.Key);
+                CalculatedSecurityPosition pos = new CalculatedSecurityPosition(Kvp.Key);
                 foreach (TradeBO t in Kvp.Value)
                 {
                     pos.AddTransaction(t);

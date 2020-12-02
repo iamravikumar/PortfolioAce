@@ -1,7 +1,6 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.DataObjects;
-using PortfolioAce.Domain.Handlers;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.FactTables;
@@ -65,8 +64,8 @@ namespace PortfolioAce.ViewModels
         public ICommand PositionDetailCommand { get; set; }
 
 
-        private PositionHandler _dtPositionObject;
-        public PositionHandler dtPositionObject
+        private CalculatedSecurityPosition _dtPositionObject;
+        public CalculatedSecurityPosition dtPositionObject
         {
             // This object will open a window that will display the position information such as currency, direction, ITD realised pnl, open lots,
             // positionbreakdown
@@ -185,8 +184,8 @@ namespace PortfolioAce.ViewModels
             }
         }
         */
-        private List<PositionHandler> _dgFundPositions;
-        public List<PositionHandler> dgFundPositions
+        private List<CalculatedSecurityPosition> _dgFundPositions;
+        public List<CalculatedSecurityPosition> dgFundPositions
         {
             get
             {

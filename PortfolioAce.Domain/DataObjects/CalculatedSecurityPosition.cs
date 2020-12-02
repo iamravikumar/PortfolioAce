@@ -5,10 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PortfolioAce.Domain.Handlers
+namespace PortfolioAce.Domain.DataObjects
 {
-    // This handler keeps track of our positions and updates it everytime a new transaction is added.
-    public class PositionHandler
+    public class CalculatedSecurityPosition
     {
         public SecuritiesDIM security { get; }
         public decimal AverageCost { get; set; }
@@ -19,7 +18,7 @@ namespace PortfolioAce.Domain.Handlers
         protected List<PositionSnapshot> positionBreakdown;
         private Queue<OpenLots> openLots;
 
-        public PositionHandler(SecuritiesDIM security)
+        public CalculatedSecurityPosition(SecuritiesDIM security)
         {
             this.security = security;
             this.AverageCost = 0;
@@ -27,6 +26,14 @@ namespace PortfolioAce.Domain.Handlers
             this.RealisedPnL = 0;
             this.positionBreakdown = new List<PositionSnapshot>();
             this.openLots = new Queue<OpenLots>();
+        }
+
+        public void AddTransactions(List<TransactionsBO> transactions)
+        {
+            foreach (TransactionsBO transaction in transactions)
+            {
+                this.AddTransaction(transaction);
+            }
         }
 
         public void AddTransaction(TransactionsBO transaction)
@@ -239,4 +246,3 @@ namespace PortfolioAce.Domain.Handlers
         }
     }
 }
-
