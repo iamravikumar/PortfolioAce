@@ -67,13 +67,14 @@
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding Path=dtPositionObject, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
+                            <DataGridTextColumn Header="Asset Class" Binding="{Binding security.AssetClass.Name}"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding security.SecurityName}"  />
                             <DataGridTextColumn Header="Symbol" Binding="{Binding security.Symbol}" />
                             <DataGridTextColumn Header="Quantity" Binding="{Binding NetQuantity}" />
                             <DataGridTextColumn Header="Average Cost" Binding="{Binding AverageCost}" />
                             <DataGridTextColumn Header="Realised Profit/Loss" Binding="{Binding RealisedPnL}" />
                             <DataGridTextColumn Header="Currency" Binding="{Binding security.Currency.Symbol}"/>
-                            <DataGridTextColumn Header="Asset Class" Binding="{Binding security.AssetClass.Name}" Width="*"/>
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding custodian.Name}" Width="*"/>
                         </DataGrid.Columns>
                         <DataGrid.InputBindings>
                             <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding PositionDetailCommand}"/>

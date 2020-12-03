@@ -16,51 +16,34 @@ namespace PortfolioAce.Domain.BusinessServices
         public List<CalculatedSecurityPosition> GetAllSecurityPositions(Fund fund)
         {
             List<TransactionsBO> allTrades = fund.Transactions
-                                                  .Where(t => t.isActive && t.TransactionType.TypeClass.ToString() == "SecurityTrade")
-                                                  .OrderBy(t => t.TradeDate)
-                                                  .ToList();
-            Dictionary<SecuritiesDIM, List<TransactionsBO>> tradeDict = new Dictionary<SecuritiesDIM, List<TransactionsBO>>();
+                                                 .Where(t => t.isActive && t.TransactionType.TypeClass.ToString() == "SecurityTrade")
+                                                 .OrderBy(t => t.TradeDate)
+                                                 .ToList();
 
-            var x = new Dictionary<(SecuritiesDIM, CustodiansDIM), List<TransactionsBO>>(); // USE THIS ONE GOING FORWARD
-            foreach (TransactionsBO t in allTrades)
+            Dictionary<(SecuritiesDIM, CustodiansDIM), List<TransactionsBO>> tradeDict = new Dictionary<(SecuritiesDIM, CustodiansDIM), List<TransactionsBO>>(); 
+            foreach (TransactionsBO trade in allTrades)
             {
-                SecuritiesDIM security = t.Security;
-                CustodiansDIM custodians = t.Custodian;
-                if (!x.ContainsKey((security,custodians)))
+                ValueTuple<SecuritiesDIM, CustodiansDIM> groupKey = (trade.Security, trade.Custodian); // this allos me to group transactions by security AND custodian
+                if (!tradeDict.ContainsKey(groupKey))
                 {
-                    x[(security,custodians)] = new List<TransactionsBO> { t };
+                    tradeDict[groupKey] = new List<TransactionsBO> { trade };
                 }
                 else
                 {
-                    x[(security, custodians)].Add(t);
+                    tradeDict[groupKey].Add(trade);
                 }
             }
-            /*
-            foreach (TransactionsBO t in allTrades)
+
+            List<CalculatedSecurityPosition> allPositions = new List<CalculatedSecurityPosition>();
+
+            foreach(KeyValuePair<(SecuritiesDIM, CustodiansDIM), List<TransactionsBO>> Kvp in tradeDict)
             {
-                SecuritiesDIM security = t.Security;
-                if (!tradeDict.ContainsKey(security))
-                {
-                    tradeDict[security] = new List<TransactionsBO> { t };
-                }
-                else
-                {
-                    tradeDict[security].Add(t);
-                }
+                CalculatedSecurityPosition position = new CalculatedSecurityPosition(Kvp.Key.Item1, Kvp.Key.Item2);
+                position.AddTransactions(Kvp.Value);
+                allPositions.Add(position);
             }
-            */
-            List<CalculatedSecurityPosition> result = new List<CalculatedSecurityPosition>();
-            // i need to calculate positions based on the custodians look into ToLookUp instead of dictionary...
-            foreach (KeyValuePair<SecuritiesDIM, List<TransactionsBO>> Kvp in tradeDict)
-            {
-                CalculatedSecurityPosition pos = new CalculatedSecurityPosition(Kvp.Key);
-                foreach (TransactionsBO t in Kvp.Value)
-                {
-                    pos.AddTransaction(t);
-                }
-                result.Add(pos);
-            }
-            return result;
+
+            return allPositions;
         }
     }
 }

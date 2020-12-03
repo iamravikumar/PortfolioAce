@@ -10,6 +10,7 @@ namespace PortfolioAce.Domain.DataObjects
     public class CalculatedSecurityPosition
     {
         public SecuritiesDIM security { get; }
+        public CustodiansDIM custodian { get; }
         public decimal AverageCost { get; set; }
         public decimal NetQuantity { get; set; }
         public decimal RealisedPnL { get; set; } // think about how to incorporate commission here
@@ -18,9 +19,10 @@ namespace PortfolioAce.Domain.DataObjects
         protected List<PositionSnapshot> positionBreakdown;
         private Queue<OpenLots> openLots;
 
-        public CalculatedSecurityPosition(SecuritiesDIM security)
+        public CalculatedSecurityPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
             this.security = security;
+            this.custodian = custodian;
             this.AverageCost = 0;
             this.NetQuantity = 0;
             this.RealisedPnL = 0;
@@ -42,6 +44,11 @@ namespace PortfolioAce.Domain.DataObjects
             if (transaction.Security.SecurityName != this.security.SecurityName || transaction.Security.Currency.Symbol.ToString() != this.security.Currency.Symbol.ToString())
             {
                 throw new InvalidOperationException("The transaction ticker does not match the ticker of this position");
+            }
+
+            if (transaction.Custodian.Name != this.custodian.Name)
+            {
+                throw new InvalidOperationException("These transaction belongs to a different custodian");
             }
 
             // raise an error if the if this transaction occurs earlier than the most recent transaction.
