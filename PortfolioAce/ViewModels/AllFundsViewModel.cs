@@ -112,7 +112,7 @@ namespace PortfolioAce.ViewModels
                 // all variables pass through here so that they update the view
                 OnPropertyChanged(nameof(CurrentFund));
                 OnPropertyChanged(nameof(dgFundPositions));
-                //OnPropertyChanged(nameof(dgFundCashHoldings));
+                OnPropertyChanged(nameof(dgFundCashHoldings));
                 OnPropertyChanged(nameof(dgFundTrades));
                 OnPropertyChanged(nameof(dgFundCashBook));
                 OnPropertyChanged(nameof(dgFundTA));
@@ -160,30 +160,21 @@ namespace PortfolioAce.ViewModels
 
             }
         }
-        /*
-        private List<CashAccountBalance> _dgFundCashHoldings;
-        public List<CashAccountBalance> dgFundCashHoldings
+        
+        private List<CalculatedCashPosition> _dgFundCashHoldings;
+        public List<CalculatedCashPosition> dgFundCashHoldings
         {
             get
             {
-                if (_currentFund != null)
-                {
-                    CashHoldings holdings = _portfolioService.GetAllCashBalances(_currentFund);
-                    return holdings.GetCashBalances();
-                }
-                else
-                {
-                    return null;
-                }
+                return (_currentFund != null) ? _portfolioService.GetAllCashBalances(_currentFund) : null;
             }
             set
             {
-                CashHoldings holdings = _portfolioService.GetAllCashBalances(_currentFund); 
-                _dgFundCashHoldings = holdings.GetCashBalances();
+                _dgFundCashHoldings = _portfolioService.GetAllCashBalances(_currentFund);
                 OnPropertyChanged(nameof(dgFundCashHoldings));
             }
         }
-        */
+        
         private List<CalculatedSecurityPosition> _dgFundPositions;
         public List<CalculatedSecurityPosition> dgFundPositions
         {

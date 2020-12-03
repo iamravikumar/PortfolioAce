@@ -12,6 +12,35 @@ namespace PortfolioAce.Domain.BusinessServices
 {
     public class PortfolioService : IPortfolioService
     {
+        public List<CalculatedCashPosition> GetAllCashBalances(Fund fund)
+        {
+            List<TransactionsBO> allTrades = fund.Transactions
+                                                 .OrderBy(t => t.TradeDate)
+                                                 .ToList();
+            Dictionary<(CurrenciesDIM, CustodiansDIM), List<TransactionsBO>> tradeDict = new Dictionary<(CurrenciesDIM, CustodiansDIM), List<TransactionsBO>>();
+            foreach (TransactionsBO trade in allTrades)
+            {
+                ValueTuple<CurrenciesDIM, CustodiansDIM> groupKey = (trade.Currency, trade.Custodian); // this allows me to group transactions by security AND custodian
+                if (!tradeDict.ContainsKey(groupKey))
+                {
+                    tradeDict[groupKey] = new List<TransactionsBO> { trade };
+                }
+                else
+                {
+                    tradeDict[groupKey].Add(trade);
+                }
+            }
+
+            List<CalculatedCashPosition> allBalances = new List<CalculatedCashPosition>();
+
+            foreach (KeyValuePair<(CurrenciesDIM, CustodiansDIM), List<TransactionsBO>> Kvp in tradeDict)
+            {
+                CalculatedCashPosition balance = new CalculatedCashPosition(Kvp.Key.Item1, Kvp.Key.Item2);
+                balance.AddTransactions(Kvp.Value);
+                allBalances.Add(balance);
+            }
+            return allBalances;
+        }
 
         public List<CalculatedSecurityPosition> GetAllSecurityPositions(Fund fund)
         {
@@ -23,7 +52,7 @@ namespace PortfolioAce.Domain.BusinessServices
             Dictionary<(SecuritiesDIM, CustodiansDIM), List<TransactionsBO>> tradeDict = new Dictionary<(SecuritiesDIM, CustodiansDIM), List<TransactionsBO>>(); 
             foreach (TransactionsBO trade in allTrades)
             {
-                ValueTuple<SecuritiesDIM, CustodiansDIM> groupKey = (trade.Security, trade.Custodian); // this allos me to group transactions by security AND custodian
+                ValueTuple<SecuritiesDIM, CustodiansDIM> groupKey = (trade.Security, trade.Custodian); // this allows me to group transactions by security AND custodian
                 if (!tradeDict.ContainsKey(groupKey))
                 {
                     tradeDict[groupKey] = new List<TransactionsBO> { trade };

@@ -86,9 +86,10 @@
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding Name}" Width="100" />
-                            <DataGridTextColumn Header="Balance" Binding="{Binding Balance}" Width="150" />
-                            <DataGridTextColumn Header="As Of (Date)" Width="*"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding currency.Symbol}" Width="100" />
+                            <DataGridTextColumn Header="Balance" Binding="{Binding AccountBalance}" Width="150" />
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding custodian.Name}" Width="150" />
+                            <DataGridTextColumn Header="As Of (Date)" Binding="{Binding AsOfDate, StringFormat={}{0:d}}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

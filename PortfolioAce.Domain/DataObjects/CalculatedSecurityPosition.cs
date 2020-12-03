@@ -48,7 +48,7 @@ namespace PortfolioAce.Domain.DataObjects
 
             if (transaction.Custodian.Name != this.custodian.Name)
             {
-                throw new InvalidOperationException("These transaction belongs to a different custodian");
+                throw new InvalidOperationException("These transactions belongs to a different custodian");
             }
 
             // raise an error if the if this transaction occurs earlier than the most recent transaction.

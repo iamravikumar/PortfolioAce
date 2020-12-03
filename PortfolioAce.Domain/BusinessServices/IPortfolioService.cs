@@ -10,5 +10,7 @@ namespace PortfolioAce.Domain.BusinessServices
     public interface IPortfolioService
     {
         List<CalculatedSecurityPosition> GetAllSecurityPositions(Fund fund);
+
+        List<CalculatedCashPosition> GetAllCashBalances(Fund fund);
     }
 }
