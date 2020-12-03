@@ -189,11 +189,11 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return (_currentFund!=null)?_portfolioService.GetAllPositions(_currentFund):null;
+                return (_currentFund!=null)?_portfolioService.GetAllSecurityPositions(_currentFund):null;
             }
             set
             {
-                _dgFundPositions = _portfolioService.GetAllPositions(_currentFund);
+                _dgFundPositions = _portfolioService.GetAllSecurityPositions(_currentFund);
                 OnPropertyChanged(nameof(dgFundPositions));
             }
         }
@@ -227,35 +227,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashBook));
             }
         }
-        /*
-        private List<TradeBO> _dgFundTrades;
-        public List<TradeBO> dgFundTrades
-        {
-            get
-            {
-                return (_currentFund != null) ?_currentFund.Trades.OrderBy(t=>t.TradeDate).ToList() : null;
-            }
-            set
-            {
-                _dgFundTrades = _currentFund.Trades.OrderBy(t => t.TradeDate).ToList();
-                OnPropertyChanged(nameof(dgFundTrades));
-            }
-        }
 
-        private List<CashBookBO> _dgFundCashBook;
-        public List<CashBookBO> dgFundCashBook
-        {
-            get
-            {
-                return (_currentFund != null) ? _currentFund.CashBooks.OrderBy(t => t.TransactionDate).ToList() : null;
-            }
-            set
-            {
-                _dgFundCashBook = _currentFund.CashBooks.OrderBy(t => t.TransactionDate).ToList();
-                OnPropertyChanged(nameof(dgFundCashBook));
-            }
-        }
-        */
         private List<TransferAgencyBO> _dgFundTA;
         public List<TransferAgencyBO> dgFundTA
         {

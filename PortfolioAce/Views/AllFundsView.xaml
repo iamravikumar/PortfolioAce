@@ -72,7 +72,8 @@
                             <DataGridTextColumn Header="Quantity" Binding="{Binding NetQuantity}" />
                             <DataGridTextColumn Header="Average Cost" Binding="{Binding AverageCost}" />
                             <DataGridTextColumn Header="Realised Profit/Loss" Binding="{Binding RealisedPnL}" />
-                            <DataGridTextColumn Header="Currency" Binding="{Binding security.Currency}" Width="*"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding security.Currency.Symbol}"/>
+                            <DataGridTextColumn Header="Asset Class" Binding="{Binding security.AssetClass.Name}" Width="*"/>
                         </DataGrid.Columns>
                         <DataGrid.InputBindings>
                             <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding PositionDetailCommand}"/>

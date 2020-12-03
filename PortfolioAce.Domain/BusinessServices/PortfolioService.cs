@@ -13,40 +13,54 @@ namespace PortfolioAce.Domain.BusinessServices
     public class PortfolioService : IPortfolioService
     {
 
-        public List<CalculatedSecurityPosition> GetAllPositions(Fund fund)
+        public List<CalculatedSecurityPosition> GetAllSecurityPositions(Fund fund)
         {
-            return new List<CalculatedSecurityPosition>();
-            /*
-            List<TradeBO> allTrades = fund.Trades.OrderBy(t => t.TradeDate).ToList();// this orders the trades by trade date.
-            Dictionary<SecuritiesDIM, List<TradeBO>> tradeDict = new Dictionary<SecuritiesDIM, List<TradeBO>>();
+            List<TransactionsBO> allTrades = fund.Transactions
+                                                  .Where(t => t.isActive && t.TransactionType.TypeClass.ToString() == "SecurityTrade")
+                                                  .OrderBy(t => t.TradeDate)
+                                                  .ToList();
+            Dictionary<SecuritiesDIM, List<TransactionsBO>> tradeDict = new Dictionary<SecuritiesDIM, List<TransactionsBO>>();
 
-            foreach (TradeBO t in allTrades)
+            var x = new Dictionary<(SecuritiesDIM, CustodiansDIM), List<TransactionsBO>>(); // USE THIS ONE GOING FORWARD
+            foreach (TransactionsBO t in allTrades)
+            {
+                SecuritiesDIM security = t.Security;
+                CustodiansDIM custodians = t.Custodian;
+                if (!x.ContainsKey((security,custodians)))
+                {
+                    x[(security,custodians)] = new List<TransactionsBO> { t };
+                }
+                else
+                {
+                    x[(security, custodians)].Add(t);
+                }
+            }
+            /*
+            foreach (TransactionsBO t in allTrades)
             {
                 SecuritiesDIM security = t.Security;
                 if (!tradeDict.ContainsKey(security))
                 {
-                    tradeDict[security] = new List<TradeBO> { t };
+                    tradeDict[security] = new List<TransactionsBO> { t };
                 }
                 else
                 {
                     tradeDict[security].Add(t);
                 }
             }
-
+            */
             List<CalculatedSecurityPosition> result = new List<CalculatedSecurityPosition>();
-
-            foreach (KeyValuePair<SecuritiesDIM, List<TradeBO>> Kvp in tradeDict)
+            // i need to calculate positions based on the custodians look into ToLookUp instead of dictionary...
+            foreach (KeyValuePair<SecuritiesDIM, List<TransactionsBO>> Kvp in tradeDict)
             {
                 CalculatedSecurityPosition pos = new CalculatedSecurityPosition(Kvp.Key);
-                foreach (TradeBO t in Kvp.Value)
+                foreach (TransactionsBO t in Kvp.Value)
                 {
                     pos.AddTransaction(t);
                 }
                 result.Add(pos);
             }
             return result;
-            
-            */
         }
     }
 }
