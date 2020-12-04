@@ -28,6 +28,7 @@ namespace PortfolioAce.Domain.DataObjects
             this.RealisedPnL = 0;
             this.positionBreakdown = new List<PositionSnapshot>();
             this.openLots = new Queue<OpenLots>();
+            
         }
 
         public void AddTransactions(List<TransactionsBO> transactions)
@@ -121,7 +122,7 @@ namespace PortfolioAce.Domain.DataObjects
             //when all said and done, net position should equal total open lots
         }
 
-        public decimal GetTotalMarketValue()
+        public decimal GetTotalTradeValue()
         {
             decimal result = 0;
             if (this.openLots.Count > 0)
@@ -189,9 +190,9 @@ namespace PortfolioAce.Domain.DataObjects
             {
                 return Decimal.Zero;
             }
-            decimal marketValue = GetTotalMarketValue();
+            decimal totalTradeValue = GetTotalTradeValue();
 
-            return marketValue / this.NetQuantity;
+            return totalTradeValue / this.NetQuantity;
         }
 
         private void CheckDirection()
