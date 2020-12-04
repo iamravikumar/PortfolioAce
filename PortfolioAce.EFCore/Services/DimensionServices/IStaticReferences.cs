@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models.BackOfficeModels;
+﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         List<NavFrequencyDIM> GetAllNavFrequencies();
 
         List<IssueTypesDIM> GetAllIssueTypes();
-
+        Dictionary<(SecuritiesDIM, DateTime), List<SecurityPriceStore>> GetAllSecurityPrices();
         List<TransactionTypeDIM> GetAllTransactionTypes();
         List<CustodiansDIM> GetAllCustodians();
         SecuritiesDIM GetSecurityInfo(string symbol);

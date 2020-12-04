@@ -3,6 +3,7 @@ using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
@@ -40,6 +41,8 @@ namespace PortfolioAce.ViewModels
             List<Fund> allFunds = fundService.GetAllFunds();
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
             _currentFund = (_lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
+
+            _priceReferences = staticReferences.GetAllSecurityPrices();
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
             
@@ -80,8 +83,16 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        
 
+        private Dictionary<(SecuritiesDIM, DateTime), List<SecurityPriceStore>> _priceReferences;
+        public Dictionary<(SecuritiesDIM, DateTime), List<SecurityPriceStore>> priceReferences
+        {
+            get
+            {
+                return _priceReferences;
+            }
+        }
+        
 
         // List box click should have a command and that command changes the fields displayed on the right of the allfundsview.
         private List<string> _lbFunds;
