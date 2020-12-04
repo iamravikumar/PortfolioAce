@@ -16,7 +16,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         List<NavFrequencyDIM> GetAllNavFrequencies();
 
         List<IssueTypesDIM> GetAllIssueTypes();
-        Dictionary<(SecuritiesDIM, DateTime), List<SecurityPriceStore>> GetAllSecurityPrices();
+        List<SecurityPriceStore> GetAllSecurityPrices(DateTime asOfDate);
         List<TransactionTypeDIM> GetAllTransactionTypes();
         List<CustodiansDIM> GetAllCustodians();
         SecuritiesDIM GetSecurityInfo(string symbol);

@@ -41,8 +41,8 @@ namespace PortfolioAce.ViewModels
             List<Fund> allFunds = fundService.GetAllFunds();
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
             _currentFund = (_lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
-
-            _priceReferences = staticReferences.GetAllSecurityPrices();
+            _asOfDate = DateTime.Today;
+            _priceReferences = staticReferences.GetAllSecurityPrices(_asOfDate);
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
             
@@ -66,6 +66,20 @@ namespace PortfolioAce.ViewModels
 
         public ICommand PositionDetailCommand { get; set; }
 
+        private DateTime _asOfDate;
+        public DateTime asOfDate
+        {
+            get
+            {
+                return _asOfDate;
+            }
+            set
+            {
+                _asOfDate = value;
+                OnPropertyChanged(nameof(asOfDate));
+            }
+        }
+
 
         private CalculatedSecurityPosition _dtPositionObject;
         public CalculatedSecurityPosition dtPositionObject
@@ -84,8 +98,8 @@ namespace PortfolioAce.ViewModels
         }
 
 
-        private Dictionary<(SecuritiesDIM, DateTime), List<SecurityPriceStore>> _priceReferences;
-        public Dictionary<(SecuritiesDIM, DateTime), List<SecurityPriceStore>> priceReferences
+        private List<SecurityPriceStore> _priceReferences;
+        public List<SecurityPriceStore> priceReferences
         {
             get
             {
@@ -177,11 +191,11 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return (_currentFund != null) ? _portfolioService.GetAllCashBalances(_currentFund) : null;
+                return (_currentFund != null) ? _portfolioService.GetAllCashBalances(_currentFund, _asOfDate) : null;
             }
             set
             {
-                _dgFundCashHoldings = _portfolioService.GetAllCashBalances(_currentFund);
+                _dgFundCashHoldings = _portfolioService.GetAllCashBalances(_currentFund, _asOfDate);
                 OnPropertyChanged(nameof(dgFundCashHoldings));
             }
         }
@@ -191,11 +205,11 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return (_currentFund!=null)?_portfolioService.GetAllSecurityPositions(_currentFund):null;
+                return (_currentFund!=null)?_portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate):null;
             }
             set
             {
-                _dgFundPositions = _portfolioService.GetAllSecurityPositions(_currentFund);
+                _dgFundPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
                 OnPropertyChanged(nameof(dgFundPositions));
             }
         }

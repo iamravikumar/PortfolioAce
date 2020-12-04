@@ -106,25 +106,11 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
             }
         }
 
-        public Dictionary<(SecuritiesDIM, DateTime), List<SecurityPriceStore>> GetAllSecurityPrices()
+        public List<SecurityPriceStore> GetAllSecurityPrices(DateTime asOfDate)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                List<SecurityPriceStore>  allPrices = context.SecurityPriceData.Include(s=>s.Security).ToList();
-                Dictionary<(SecuritiesDIM, DateTime), List<SecurityPriceStore>> priceDict = new Dictionary<(SecuritiesDIM, DateTime), List<SecurityPriceStore>>();
-                foreach(SecurityPriceStore price in allPrices)
-                {
-                    ValueTuple<SecuritiesDIM, DateTime> groupKey = (price.Security, price.Date);
-                    if (!priceDict.ContainsKey(groupKey))
-                    {
-                        priceDict[groupKey] = new List<SecurityPriceStore> { price };
-                    }
-                    else
-                    {
-                        priceDict[groupKey].Add(price);
-                    }
-                }
-                return priceDict;
+                return context.SecurityPriceData.Where(s=>s.Date<=asOfDate).ToHashSet();
             }
         }
     }

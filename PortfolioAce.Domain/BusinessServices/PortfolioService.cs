@@ -12,9 +12,10 @@ namespace PortfolioAce.Domain.BusinessServices
 {
     public class PortfolioService : IPortfolioService
     {
-        public List<CalculatedCashPosition> GetAllCashBalances(Fund fund)
+        public List<CalculatedCashPosition> GetAllCashBalances(Fund fund, DateTime asOfDate)
         {
             List<TransactionsBO> allTrades = fund.Transactions
+                                                 .Where(t=>t.TradeDate<=asOfDate)
                                                  .OrderBy(t => t.TradeDate)
                                                  .ToList();
             Dictionary<(CurrenciesDIM, CustodiansDIM), List<TransactionsBO>> tradeDict = new Dictionary<(CurrenciesDIM, CustodiansDIM), List<TransactionsBO>>();
@@ -42,10 +43,10 @@ namespace PortfolioAce.Domain.BusinessServices
             return allBalances;
         }
 
-        public List<CalculatedSecurityPosition> GetAllSecurityPositions(Fund fund)
+        public List<CalculatedSecurityPosition> GetAllSecurityPositions(Fund fund, DateTime asOfDate)
         {
             List<TransactionsBO> allTrades = fund.Transactions
-                                                 .Where(t => t.isActive && t.TransactionType.TypeClass.ToString() == "SecurityTrade")
+                                                 .Where(t => t.isActive && t.TransactionType.TypeClass.ToString() == "SecurityTrade" && t.TradeDate<=asOfDate)
                                                  .OrderBy(t => t.TradeDate)
                                                  .ToList();
 
