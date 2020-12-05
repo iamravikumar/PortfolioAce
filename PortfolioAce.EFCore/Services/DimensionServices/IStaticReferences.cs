@@ -17,6 +17,8 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
 
         List<IssueTypesDIM> GetAllIssueTypes();
         List<SecurityPriceStore> GetAllSecurityPrices(DateTime asOfDate);
+
+        Dictionary<(int, DateTime), decimal> GetPriceTable(DateTime asOfDate); // this is used to map positions to historical prices
         List<TransactionTypeDIM> GetAllTransactionTypes();
         List<CustodiansDIM> GetAllCustodians();
         SecuritiesDIM GetSecurityInfo(string symbol);

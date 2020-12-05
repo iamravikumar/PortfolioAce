@@ -67,14 +67,17 @@
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding Path=dtPositionObject, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Asset Class" Binding="{Binding security.AssetClass.Name}"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding security.SecurityName}"  />
-                            <DataGridTextColumn Header="Symbol" Binding="{Binding security.Symbol}" />
-                            <DataGridTextColumn Header="Quantity" Binding="{Binding NetQuantity}" />
-                            <DataGridTextColumn Header="Average Cost" Binding="{Binding AverageCost}" />
-                            <DataGridTextColumn Header="Realised Profit/Loss" Binding="{Binding RealisedPnL}" />
-                            <DataGridTextColumn Header="Currency" Binding="{Binding security.Currency.Symbol}"/>
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding custodian.Name}" Width="*"/>
+                            <DataGridTextColumn Header="Asset Class" Binding="{Binding Position.security.AssetClass.Name}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Position.security.SecurityName}" Width="SizeToCells" />
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding Position.security.Symbol}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding Position.NetQuantity}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Avg Cost" Binding="{Binding Position.AverageCost}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Current Price" Binding="{Binding price}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Realised PnL" Binding="{Binding Position.RealisedPnL}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Unrealised PnL" Binding="{Binding unrealisedPnl}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Market Value" Binding="{Binding MarketValue}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Position.security.Currency.Symbol}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding Position.custodian.Name}" Width="*"/>
                         </DataGrid.Columns>
                         <DataGrid.InputBindings>
                             <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding PositionDetailCommand}"/>

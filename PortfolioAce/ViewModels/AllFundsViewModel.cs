@@ -41,8 +41,8 @@ namespace PortfolioAce.ViewModels
             List<Fund> allFunds = fundService.GetAllFunds();
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
             _currentFund = (_lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
-            _asOfDate = DateTime.Today;
-            _priceReferences = staticReferences.GetAllSecurityPrices(_asOfDate);
+            _asOfDate = DateTime.Today.AddDays(-1); // Changed to the day i have a price for.
+            _priceTable = staticReferences.GetPriceTable(_asOfDate);
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
             
@@ -81,8 +81,8 @@ namespace PortfolioAce.ViewModels
         }
 
 
-        private CalculatedSecurityPosition _dtPositionObject;
-        public CalculatedSecurityPosition dtPositionObject
+        private DataGridValuedPosition _dtPositionObject;
+        public DataGridValuedPosition dtPositionObject
         {
             // This object will open a window that will display the position information such as currency, direction, ITD realised pnl, open lots,
             // positionbreakdown
@@ -98,12 +98,12 @@ namespace PortfolioAce.ViewModels
         }
 
 
-        private List<SecurityPriceStore> _priceReferences;
-        public List<SecurityPriceStore> priceReferences
+        private Dictionary<(int, DateTime), decimal> _priceTable;
+        public Dictionary<(int, DateTime), decimal> priceTable
         {
             get
             {
-                return _priceReferences;
+                return _priceTable;
             }
         }
         
@@ -199,7 +199,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashHoldings));
             }
         }
-        
+        /*
         private List<CalculatedSecurityPosition> _dgFundPositions;
         public List<CalculatedSecurityPosition> dgFundPositions
         {
@@ -210,6 +210,43 @@ namespace PortfolioAce.ViewModels
             set
             {
                 _dgFundPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
+                OnPropertyChanged(nameof(dgFundPositions));
+            }
+        }
+        */
+        private List<DataGridValuedPosition> _dgFundPositions;
+        public List<DataGridValuedPosition> dgFundPositions
+        {
+            get
+            {
+                // This is temporary for now
+                if (_currentFund != null)
+                {
+                    List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
+                    List<DataGridValuedPosition> dgPositions = new List<DataGridValuedPosition>();
+                    foreach(CalculatedSecurityPosition position in allPositions)
+                    {
+                        var p = new DataGridValuedPosition(position, _priceTable, _asOfDate);
+                        dgPositions.Add(p);
+                    }
+                    return dgPositions;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            set
+            {
+                List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
+                List<DataGridValuedPosition> dgPositions = new List<DataGridValuedPosition>();
+                foreach (CalculatedSecurityPosition position in allPositions)
+                {
+                    var p = new DataGridValuedPosition(position, _priceTable, _asOfDate);
+                    dgPositions.Add(p);
+                }
+                
+                _dgFundPositions = dgPositions;
                 OnPropertyChanged(nameof(dgFundPositions));
             }
         }
@@ -283,7 +320,29 @@ namespace PortfolioAce.ViewModels
         public void ViewPositionDetails()
         {
             // This will be a window at some point..
-            MessageBox.Show($"Name: {_dtPositionObject.security.Symbol} Quantity: {_dtPositionObject.NetQuantity} ");
+            MessageBox.Show($"Name: {_dtPositionObject.Position.security.Symbol} Quantity: {_dtPositionObject.Position.NetQuantity} ");
+        }
+    }
+
+    public class DataGridValuedPosition
+    {
+        public CalculatedSecurityPosition Position { get; set; }
+        public decimal MarketValue { get; set; }
+        public decimal unrealisedPnl {get;set;}
+        public decimal unrealisedPnLPercent { get; set; }
+        public decimal price { get; set; }
+        public DateTime AsOfDate { get; set; }
+
+        // I can even put performance metrics here
+        public DataGridValuedPosition(CalculatedSecurityPosition position, Dictionary<(int, DateTime), decimal> priceTable, DateTime asOfDate)
+        {
+            this.Position = position;
+            this.AsOfDate = asOfDate;
+            ValueTuple<int, DateTime> tableKey = (position.security.SecurityId, asOfDate);
+            int multiplierPnL = (position.NetQuantity>=0) ? 1 : -1;
+            this.price = priceTable.ContainsKey(tableKey) ?priceTable[tableKey]: decimal.Zero;
+            this.MarketValue = Math.Round(position.NetQuantity * price,2);
+            this.unrealisedPnl = Math.Round(position.NetQuantity*(position.AverageCost-this.price)*multiplierPnL, 2);
         }
     }
 }
