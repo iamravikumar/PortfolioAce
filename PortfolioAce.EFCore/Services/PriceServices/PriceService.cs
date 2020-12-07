@@ -59,7 +59,8 @@ namespace PortfolioAce.EFCore.Services.PriceServices
             }
             else if (assetClass == "Cryptocurrency")
             {
-                uri = $"function=DIGITAL_CURRENCY_DAILY&symbol={symbol}";
+                // This isnt perfect yet I need to figure out how to deserialise the ClosePrice
+                uri = $"function=DIGITAL_CURRENCY_DAILY&symbol={symbol}&market=USD";
             }
             else
             {

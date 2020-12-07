@@ -153,7 +153,7 @@ namespace PortfolioAce.Domain.DataObjects
             }
             else
             {
-                this.AverageCost = GetAverageCost();
+                this.AverageCost = Math.Round(GetAverageCost(),2);
             }
             CheckDirection();
             AppendBreakdown(transaction.TradeDate);

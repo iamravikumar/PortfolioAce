@@ -39,14 +39,14 @@
                         <Run FontWeight="Bold" Text="{Binding CurrentNavPrice.FinalisedDate, StringFormat={}{0:dd/MM/yyyy}}"/>
                         <Run FontWeight="Bold" Text=": "/>
                         <Run Text="{Binding CurrentNavPrice.NetAssetValue}"/>
-                        <Run Text="{Binding CurrentNavPrice.BaseCurrency}"/>
+                        <Run Text="{Binding CurrentNavPrice.Currency}"/>
                 </TextBlock>
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
                         <Run FontWeight="Bold" Text="NAV per share as of "/>
                         <Run FontWeight="Bold" Text="{Binding CurrentNavPrice.FinalisedDate, StringFormat={}{0:dd/MM/yyyy}}"/>
                         <Run FontWeight="Bold" Text=": "/>
                         <Run Text="{Binding CurrentNavPrice.NAVPrice}"/>
-                        <Run Text="{Binding CurrentNavPrice.BaseCurrency}"/>
+                        <Run Text="{Binding CurrentNavPrice.Currency}"/>
                 </TextBlock>
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>ITD Performance:</Bold> N/A</TextBlock>
                 <StackPanel Orientation="Horizontal">

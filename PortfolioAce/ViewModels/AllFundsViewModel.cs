@@ -42,7 +42,7 @@ namespace PortfolioAce.ViewModels
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
             _currentFund = (_lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
             _asOfDate = DateTime.Today; // Changed to the day i have a price for.
-            _priceTable = staticReferences.GetPriceTable(_asOfDate);
+            _priceTable = staticReferences.GetPriceTable(_asOfDate); // to shrink this to save space i can just look for all securities ever traded on this fund.
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
             
@@ -252,9 +252,18 @@ namespace PortfolioAce.ViewModels
                 {
                     List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
                     List<DataGridValuedPosition> dgPositions = new List<DataGridValuedPosition>();
+                    
                     foreach(CalculatedSecurityPosition position in allPositions)
                     {
-                        var p = new DataGridValuedPosition(position, _priceTable, _asOfDate);
+                        int idFx = 0;
+                        if (_currentFund.BaseCurrency != position.security.Symbol.ToString())
+                        {
+                            string fxSymbol = $"{_currentFund.BaseCurrency}{position.security.Symbol}";
+                            var security = _staticReferences.GetSecurityInfo(fxSymbol);
+                            idFx = (security!=null)?security.SecurityId:0;
+                        }
+
+                        var p = new DataGridValuedPosition(position, _priceTable, _asOfDate, idFx);
                         dgPositions.Add(p);
                     }
                     return dgPositions;
@@ -270,6 +279,13 @@ namespace PortfolioAce.ViewModels
                 List<DataGridValuedPosition> dgPositions = new List<DataGridValuedPosition>();
                 foreach (CalculatedSecurityPosition position in allPositions)
                 {
+                    int idFx = 0;
+                    if (_currentFund.BaseCurrency != position.security.Symbol.ToString())
+                    {
+                        string fxSymbol = $"{_currentFund.BaseCurrency}{position.security.Symbol}";
+                        var security = _staticReferences.GetSecurityInfo(fxSymbol);
+                        idFx = (security != null) ? security.SecurityId : 0;
+                    }
                     var p = new DataGridValuedPosition(position, _priceTable, _asOfDate);
                     dgPositions.Add(p);
                 }
@@ -377,20 +393,22 @@ namespace PortfolioAce.ViewModels
         public decimal unrealisedPnl {get;set;}
         public decimal unrealisedPnLPercent { get; set; }
         public decimal price { get; set; }
+        public decimal fxRate { get; set; }
         public DateTime AsOfDate { get; set; }
 
         // I can even put performance metrics here
-        public DataGridValuedPosition(CalculatedSecurityPosition position, Dictionary<(int, DateTime), decimal> priceTable, DateTime asOfDate)
+        public DataGridValuedPosition(CalculatedSecurityPosition position, Dictionary<(int, DateTime), decimal> priceTable, DateTime asOfDate, int fxRateId=0)
         {
             this.Position = position;
             this.AsOfDate = asOfDate;
-            ValueTuple<int, DateTime> tableKey = (position.security.SecurityId, asOfDate);
+            ValueTuple<int, DateTime> tableKeySecurity = (position.security.SecurityId, asOfDate);
+            ValueTuple<int, DateTime> tableKeyFx = (fxRateId, asOfDate);
             int multiplierPnL = (position.NetQuantity>=0) ? 1 : -1;
-            this.price = priceTable.ContainsKey(tableKey) ?priceTable[tableKey]: decimal.Zero;
+            this.price = priceTable.ContainsKey(tableKeySecurity) ?priceTable[tableKeySecurity] : decimal.Zero;
+            this.fxRate = priceTable.ContainsKey(tableKeyFx) ? priceTable[tableKeyFx] : decimal.Zero; // i can then compare this against values to get base FX rate..
             this.MarketValue = Math.Round(position.NetQuantity * price,2);
             this.unrealisedPnl = Math.Round(position.NetQuantity*(position.AverageCost-this.price)*multiplierPnL, 2);
 
         }
-        // To take FX info into account ill have to check the funds base currency and compare it to the positions base currency...
     }
 }
