@@ -151,6 +151,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(IsInitialised));
                 OnPropertyChanged(nameof(CurrentNavPrice));
                 OnPropertyChanged(nameof(ShowWidget));
+                OnPropertyChanged(nameof(LockedNav));
             }
         }
 
