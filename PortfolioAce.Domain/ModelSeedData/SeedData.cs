@@ -36,7 +36,7 @@ namespace PortfolioAce.Domain.ModelSeedData
 
         public readonly AssetClassDIM[] SeedAssetClasses = new AssetClassDIM[]{
             new AssetClassDIM {AssetClassId=1, Name=AssetClass.Equity},
-            new AssetClassDIM {AssetClassId=2, Name=AssetClass.Crytocurrency},
+            new AssetClassDIM {AssetClassId=2, Name=AssetClass.Cryptocurrency},
             new AssetClassDIM {AssetClassId=3, Name=AssetClass.FX},
             new AssetClassDIM {AssetClassId=4, Name=AssetClass.Cash},
         };

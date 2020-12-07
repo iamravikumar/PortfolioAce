@@ -1,4 +1,5 @@
-﻿using PortfolioAce.EFCore.Services.PriceServices;
+﻿using PortfolioAce.Domain.Models.Dimensions;
+using PortfolioAce.EFCore.Services.PriceServices;
 using PortfolioAce.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,8 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                await _priceService.AddPrices(_sysSecurityPricesVM.Symbol);
+                SecuritiesDIM security = _priceService.GetSecurityInfo(_sysSecurityPricesVM.Symbol);
+                await _priceService.AddDailyPrices(security);
             }
             catch (Exception e)
             {

@@ -389,6 +389,8 @@ namespace PortfolioAce.ViewModels
             this.price = priceTable.ContainsKey(tableKey) ?priceTable[tableKey]: decimal.Zero;
             this.MarketValue = Math.Round(position.NetQuantity * price,2);
             this.unrealisedPnl = Math.Round(position.NetQuantity*(position.AverageCost-this.price)*multiplierPnL, 2);
+
         }
+        // To take FX info into account ill have to check the funds base currency and compare it to the positions base currency...
     }
 }

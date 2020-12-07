@@ -1,6 +1,8 @@
-﻿using PortfolioAce.DataCentre.APIConnections;
+﻿using Microsoft.EntityFrameworkCore;
+using PortfolioAce.DataCentre.APIConnections;
 using PortfolioAce.DataCentre.DeserialisedObjects;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,27 +22,57 @@ namespace PortfolioAce.EFCore.Services.PriceServices
         }
 
 
-        public async Task<List<AVSecurityPriceData>> AddPrices(string symbol)
+        public async Task<List<AVSecurityPriceData>> AddDailyPrices(SecuritiesDIM security)
         {
+            // This is for Equity Prices
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                int symbolId = context.Securities.Where(s=>s.Symbol == symbol).Select(s=>s.SecurityId).FirstOrDefault();
                 AlphaVantageConnection avConn = _dataFactory.CreateAlphaVantageClient();
-                string uri = $"function=TIME_SERIES_DAILY&symbol={symbol}";
+                string uri = GenerateURI(security);
                 var allPrices = await avConn.GetAsync<List<AVSecurityPriceData>>(uri);
-                HashSet<DateTime> existingDates = context.SecurityPriceData.Where(spd => spd.Security.Symbol == symbol).Select(spd => spd.Date).ToHashSet();
+                HashSet<DateTime> existingDates = context.SecurityPriceData.Where(spd => spd.Security.Symbol == security.Symbol).Select(spd => spd.Date).ToHashSet();
+
                 foreach(AVSecurityPriceData price in allPrices)
                 {
                     if (!existingDates.Contains(price.TimeStamp))
                     {
-                        SecurityPriceStore newPrice = new SecurityPriceStore { Date = price.TimeStamp, ClosePrice = price.Close, SecurityId = symbolId };
+                        SecurityPriceStore newPrice = new SecurityPriceStore { Date = price.TimeStamp, ClosePrice = price.Close, SecurityId = security.SecurityId};
                         context.SecurityPriceData.Add(newPrice);
                     }
                 }
                 await context.SaveChangesAsync();
 
-
                 return allPrices;
+            }
+        }
+        private string GenerateURI(SecuritiesDIM security)
+        {
+            string assetClass = security.AssetClass.Name.ToString();
+            string symbol = security.Symbol;
+            string uri;
+            
+            if (assetClass == "FX")
+            {
+                string from_symbol = symbol.Substring(0,3);
+                string to_symbol = symbol.Substring(3);
+                uri = $"function=FX_DAILY&from_symbol={from_symbol}&to_symbol={to_symbol}";
+            }
+            else if (assetClass == "Cryptocurrency")
+            {
+                uri = $"function=DIGITAL_CURRENCY_DAILY&symbol={symbol}";
+            }
+            else
+            {
+                uri = $"function=TIME_SERIES_DAILY&symbol={symbol}";
+            }
+            return uri;
+        }
+
+        public SecuritiesDIM GetSecurityInfo(string symbol)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Securities.Where(s => s.Symbol == symbol).Include(s => s.Currency).Include(s => s.AssetClass).FirstOrDefault();
             }
         }
     }

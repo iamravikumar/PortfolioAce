@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.DataCentre.DeserialisedObjects;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace PortfolioAce.EFCore.Services.PriceServices
 {
     public interface IPriceService
     {
-        Task<List<AVSecurityPriceData>> AddPrices(string symbol);
-
+        Task<List<AVSecurityPriceData>> AddDailyPrices(SecuritiesDIM security);
+        SecuritiesDIM GetSecurityInfo(string symbol);
     }
 }

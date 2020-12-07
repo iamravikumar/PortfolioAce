@@ -19,7 +19,7 @@ namespace PortfolioAce.Domain.Models.Dimensions
     {
         Equity,
         Cash,
-        Crytocurrency,
+        Cryptocurrency,
         FX
     }
 }
