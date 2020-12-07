@@ -36,19 +36,24 @@
                 </TextBlock>
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
                         <Run FontWeight="Bold" Text="NAV as of "/>
-                        <Run FontWeight="Bold" Text="{Binding LatestNav.FinalisedDate, StringFormat={}{0:d}}"/>
+                        <Run FontWeight="Bold" Text="{Binding CurrentNavPrice.FinalisedDate, StringFormat={}{0:dd/MM/yyyy}}"/>
                         <Run FontWeight="Bold" Text=": "/>
-                        <Run Text="{Binding LatestNav.NetAssetValue}"/>
-                        <Run Text="{Binding CurrentFund.BaseCurrency}"/>
+                        <Run Text="{Binding CurrentNavPrice.NetAssetValue}"/>
+                        <Run Text="{Binding CurrentNavPrice.BaseCurrency}"/>
                 </TextBlock>
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
                         <Run FontWeight="Bold" Text="NAV per share as of "/>
-                        <Run FontWeight="Bold" Text="{Binding LatestNav.FinalisedDate, StringFormat={}{0:d}}"/>
+                        <Run FontWeight="Bold" Text="{Binding CurrentNavPrice.FinalisedDate, StringFormat={}{0:dd/MM/yyyy}}"/>
                         <Run FontWeight="Bold" Text=": "/>
-                        <Run Text="{Binding LatestNav.NAVPrice}"/>
-                        <Run Text="{Binding CurrentFund.BaseCurrency}"/>
+                        <Run Text="{Binding CurrentNavPrice.NAVPrice}"/>
+                        <Run Text="{Binding CurrentNavPrice.BaseCurrency}"/>
                 </TextBlock>
-                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>ITD Performance:</Bold> 10.7314%</TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>ITD Performance:</Bold> N/A</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/PortfolioAce;component/Resources\icons8-NAVFinalised-24.png" Visibility="{Binding LockedNav, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Image Source="/PortfolioAce;component/Resources\icons8-NAVnotFinalised-24.png" Visibility="{Binding LockedNav, Converter={StaticResource invertVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DatePicker SelectedDate="{Binding Path=asOfDate, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
             </StackPanel>
             <StackPanel DockPanel.Dock="Left" Margin="30,0,0,0">
                 <Button Margin="20,10,0,0" Width="210" Command="{Binding ShowNewInvestorActionCommand}">Investor Manager...</Button>
@@ -92,7 +97,7 @@
                             <DataGridTextColumn Header="Currency" Binding="{Binding currency.Symbol}" Width="100" />
                             <DataGridTextColumn Header="Balance" Binding="{Binding AccountBalance}" Width="150" />
                             <DataGridTextColumn Header="Custodian" Binding="{Binding custodian.Name}" Width="150" />
-                            <DataGridTextColumn Header="As Of (Date)" Binding="{Binding AsOfDate, StringFormat={}{0:d}}" Width="*"/>
+                            <DataGridTextColumn Header="As Of (Date)" Binding="{Binding AsOfDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
@@ -108,9 +113,9 @@
                             <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
                             <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount}"/>
                             <DataGridTextColumn Header="Commission" Binding="{Binding Fees}"/>
-                            <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate, StringFormat={}{0:d}}"/>
-                            <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate, StringFormat={}{0:d}}"/>
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:d}}"/>
+                            <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}"/>
+                            <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}"/>
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -122,9 +127,9 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType.TypeName}" />
                             <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TradeAmount}" />
-                            <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TradeDate, StringFormat={}{0:d}}"/>
-                            <DataGridTextColumn Header="Settle Date"  Binding="{Binding SettleDate, StringFormat={}{0:d}}"/>
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:d}}"/>
+                            <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}"/>
+                            <DataGridTextColumn Header="Settle Date"  Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}"/>
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" />
                             <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Comment}"/>
                         </DataGrid.Columns>
@@ -141,8 +146,8 @@
                             <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount}" />
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" />
                             <DataGridTextColumn Header="Investor Name" Binding="{Binding InvestorName}" />
-                            <DataGridTextColumn Header="Action Date" Binding="{Binding TransactionDate, StringFormat={}{0:d}}" />
-                            <DataGridTextColumn Header="Action Settle Date" Binding="{Binding TransactionSettleDate, StringFormat={}{0:d}}" Width="*"/>
+                            <DataGridTextColumn Header="Action Date" Binding="{Binding TransactionDate, StringFormat={}{0:dd/MM/yyyy}}" />
+                            <DataGridTextColumn Header="Action Settle Date" Binding="{Binding TransactionSettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

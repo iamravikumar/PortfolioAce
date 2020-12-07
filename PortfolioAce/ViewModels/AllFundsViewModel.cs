@@ -41,7 +41,7 @@ namespace PortfolioAce.ViewModels
             List<Fund> allFunds = fundService.GetAllFunds();
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
             _currentFund = (_lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
-            _asOfDate = DateTime.Today.AddDays(-1); // Changed to the day i have a price for.
+            _asOfDate = DateTime.Today; // Changed to the day i have a price for.
             _priceTable = staticReferences.GetPriceTable(_asOfDate);
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
@@ -77,6 +77,13 @@ namespace PortfolioAce.ViewModels
             {
                 _asOfDate = value;
                 OnPropertyChanged(nameof(asOfDate));
+                OnPropertyChanged(nameof(dgFundCashHoldings));
+                OnPropertyChanged(nameof(dgFundPositions));
+                OnPropertyChanged(nameof(dgFundTrades));
+                OnPropertyChanged(nameof(dgFundCashBook));
+                OnPropertyChanged(nameof(dgFundTA));
+                OnPropertyChanged(nameof(CurrentNavPrice));
+                OnPropertyChanged(nameof(LockedNav));
             }
         }
 
@@ -142,7 +149,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashBook));
                 OnPropertyChanged(nameof(dgFundTA));
                 OnPropertyChanged(nameof(IsInitialised));
-                OnPropertyChanged(nameof(LatestNav));
+                OnPropertyChanged(nameof(CurrentNavPrice));
                 OnPropertyChanged(nameof(ShowWidget));
             }
         }
@@ -161,11 +168,11 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public NAVPriceStoreFACT LatestNav
+        public NAVPriceStoreFACT CurrentNavPrice
         {
             get
             {
-                return (_currentFund != null) ? _currentFund.NavPrices.OrderByDescending(cf=>cf.FinalisedDate).FirstOrDefault():null;
+                return (_currentFund != null) ? _currentFund.NavPrices.Where(np=>np.FinalisedDate==_asOfDate).FirstOrDefault():null;
             }
             private set
             {
@@ -173,6 +180,26 @@ namespace PortfolioAce.ViewModels
             }
         }
 
+        public Visibility LockedNav
+        {
+            // true = this will put a green tick is the nav is locked which means the price and amount you see are finalised...
+            // false = this will put a red cross if the nav is unlocked which means the price you see is not yet final
+            get
+            {
+                if(_currentFund != null)
+                {
+                    AccountingPeriodsDIM period = _currentFund.NavAccountingPeriods.Where(np => np.AccountingDate == _asOfDate).FirstOrDefault();
+                    if(period != null)
+                    {
+                        return (period.isLocked) ? Visibility.Visible : Visibility.Collapsed;
+                    }
+                }
+                return Visibility.Collapsed;
+            }
+            private set
+            {
+            }
+        }
 
         public Visibility ShowWidget
         {
@@ -257,11 +284,17 @@ namespace PortfolioAce.ViewModels
             get
             {
                 // Transactions filtered for just security trades
-                return (_currentFund != null) ? _currentFund.Transactions.Where(t => t.TransactionType.TypeClass.ToString() == "SecurityTrade").OrderBy(t=>t.TradeDate).ToList() : null;
+                return (_currentFund != null) ? _currentFund.Transactions
+                                                            .Where(t => t.TransactionType.TypeClass.ToString() == "SecurityTrade" && t.TradeDate <= _asOfDate)
+                                                            .OrderBy(t=>t.TradeDate)
+                                                            .ToList() : null;
             }
             set
             {
-                _dgFundTrades = _currentFund.Transactions.Where(t => t.TransactionType.TypeClass.ToString() == "SecurityTrade").OrderBy(t => t.TradeDate).ToList();
+                _dgFundTrades = _currentFund.Transactions
+                                            .Where(t => t.TransactionType.TypeClass.ToString() == "SecurityTrade" && t.TradeDate<= _asOfDate)
+                                            .OrderBy(t => t.TradeDate)
+                                            .ToList();
                 OnPropertyChanged(nameof(dgFundTrades));
             }
         }
@@ -272,11 +305,17 @@ namespace PortfolioAce.ViewModels
             get
             {
                 // all Transactions ordered by date... 
-                return (_currentFund != null) ? _currentFund.Transactions.OrderBy(t => t.TradeDate).ToList() : null;
+                return (_currentFund != null) ? _currentFund.Transactions
+                                                            .Where(t=>t.TradeDate<=_asOfDate)
+                                                            .OrderBy(t => t.TradeDate)
+                                                            .ToList() : null;
             }
             set
             {
-                _dgFundCashBook = _currentFund.Transactions.OrderBy(t => t.TradeDate).ToList();
+                _dgFundCashBook = _currentFund.Transactions
+                                              .Where(t=>t.TradeDate<=_asOfDate)
+                                              .OrderBy(t => t.TradeDate)
+                                              .ToList();
                 OnPropertyChanged(nameof(dgFundCashBook));
             }
         }
@@ -286,11 +325,17 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return (_currentFund != null) ? _currentFund.TransferAgent.OrderBy(ta => ta.TransactionDate).ToList() : null;
+                return (_currentFund != null) ? _currentFund.TransferAgent
+                                                            .Where(ta=>ta.TransactionDate<=_asOfDate)
+                                                            .OrderBy(ta => ta.TransactionDate)
+                                                            .ToList() : null;
             }
             set
             {
-                _dgFundTA = _currentFund.TransferAgent.OrderBy(ta => ta.TransactionDate).ToList();
+                _dgFundTA = _currentFund.TransferAgent
+                                        .Where(ta=>ta.TransactionDate<=_asOfDate)
+                                        .OrderBy(ta => ta.TransactionDate)
+                                        .ToList();
                 OnPropertyChanged(nameof(dgFundTA));
             }
         }

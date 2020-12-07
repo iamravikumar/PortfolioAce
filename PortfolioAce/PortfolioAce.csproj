@@ -16,6 +16,8 @@
     <None Remove="Resources\icons8-fx-rates-24.png" />
     <None Remove="Resources\icons8-home-24.png" />
     <None Remove="Resources\icons8-import-csv-24.png" />
+    <None Remove="Resources\icons8-NAVFinalised-24.png" />
+    <None Remove="Resources\icons8-NAVnotFinalised-24.png" />
     <None Remove="Resources\icons8-services-24.png" />
     <None Remove="Resources\portfolioace logo.png" />
     <None Remove="Resources\portfolioace_logo2_hd.png" />
@@ -60,6 +62,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\icons8-import-csv-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-NAVFinalised-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-NAVnotFinalised-24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\icons8-services-24.png">
