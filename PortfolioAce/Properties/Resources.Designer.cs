@@ -153,6 +153,26 @@ namespace PortfolioAce.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] icons8_NAVFinalised_24 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_NAVFinalised_24", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] icons8_NAVnotFinalised_24 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_NAVnotFinalised_24", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] icons8_services_24 {
             get {
                 object obj = ResourceManager.GetObject("icons8_services_24", resourceCulture);
