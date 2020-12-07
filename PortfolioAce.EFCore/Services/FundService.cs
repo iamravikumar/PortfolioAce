@@ -71,6 +71,7 @@ namespace PortfolioAce.EFCore.Services
                         .ThenInclude(t => t.TransactionType)
                     .Include(f => f.Transactions)
                         .ThenInclude(cu => cu.Custodian)
+                    .Include(f=>f.NavAccountingPeriods)
                     .ToList();
             }
         }
@@ -91,6 +92,7 @@ namespace PortfolioAce.EFCore.Services
                                 .ThenInclude(t => t.TransactionType)
                             .Include(f=>f.Transactions)
                                 .ThenInclude(cu=>cu.Custodian)
+                            .Include(f => f.NavAccountingPeriods)
                             .FirstOrDefault();
             }
         }
