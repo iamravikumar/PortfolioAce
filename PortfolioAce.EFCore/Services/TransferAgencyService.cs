@@ -70,6 +70,11 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
+                // lock period
+                AccountingPeriodsDIM period = context.Periods.Find(initialNav.NAVPeriodId);
+                period.isLocked = true;
+                context.Periods.Update(period);
+
                 // Saves the first Nav
                 context.NavPriceData.Add(initialNav);
 

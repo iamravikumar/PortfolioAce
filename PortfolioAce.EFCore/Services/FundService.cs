@@ -87,7 +87,6 @@ namespace PortfolioAce.EFCore.Services
                 // include is having negative impact on performance
                 // look for optimisation at some point
                 return context.Funds
-                    .Include(f=> f.NavPrices)
                     .Include(f=> f.TransferAgent)
                     .Include(f => f.Transactions)
                         .ThenInclude(s => s.Security)
@@ -109,7 +108,6 @@ namespace PortfolioAce.EFCore.Services
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.Funds.Where(f => f.Symbol == fundSymbol)
-                            .Include(f=> f.NavPrices)
                             .Include(f => f.TransferAgent)
                             .Include(f => f.Transactions)
                                 .ThenInclude(s => s.Security)

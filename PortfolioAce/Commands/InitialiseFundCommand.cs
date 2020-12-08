@@ -108,7 +108,7 @@ namespace PortfolioAce.Commands
                     Currency = updateFund.BaseCurrency,
                     NAVPeriodId = PeriodId
                 };
-                _investorService.InitialiseFundAction(updateFund, newInvestors,transactions, initialNav);// takes in
+                _investorService.InitialiseFundAction(updateFund, newInvestors,transactions, initialNav);
                 _fundInitialiseVM.CloseAction();
             }
             catch (Exception e)
