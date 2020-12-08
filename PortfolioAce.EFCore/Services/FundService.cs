@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
+using PortfolioAce.EFCore.HelperMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +24,32 @@ namespace PortfolioAce.EFCore.Services
         {
             using(PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                EntityEntry<Fund> res = await context.Set<Fund>().AddAsync(fund);
+                EntityEntry<Fund> res = await context.Funds.AddAsync(fund);
+                await context.SaveChangesAsync();
+                // Once the fund has been created, I then create the accounting periods
+
+                // set the monthly or daily account periods for up to one year ahead...
+                DateTime startDate = fund.LaunchDate;
+                List<DateTime> allPeriods;
+                if (fund.NAVFrequency == "Daily")
+                {
+                    // get daily dates from fund launch to a year ahead
+                    allPeriods = DateSettings.AnnualWorkingDays(startDate);
+                }
+                else
+                {
+                    // get month end dates from fund launch to a year ahead
+                    allPeriods = DateSettings.AnnualMonthEnds(startDate);
+                }
+                // add all the dates to the new periods
+                List<AccountingPeriodsDIM> initialPeriods = new List<AccountingPeriodsDIM>();
+                foreach (DateTime period in allPeriods)
+                {
+                    AccountingPeriodsDIM newPeriod;
+                    newPeriod = new AccountingPeriodsDIM { AccountingDate = period.Date, isLocked = false, FundId = fund.FundId };
+                    initialPeriods.Add(newPeriod);
+                }
+                context.Periods.AddRange(initialPeriods);
                 await context.SaveChangesAsync();
                 
                 return res.Entity;
@@ -38,7 +65,7 @@ namespace PortfolioAce.EFCore.Services
                 {
                     return fund;
                 }
-                context.Set<Fund>().Remove(fund);
+                context.Funds.Remove(fund);
                 await context.SaveChangesAsync();
 
                 return fund;
@@ -71,7 +98,8 @@ namespace PortfolioAce.EFCore.Services
                         .ThenInclude(t => t.TransactionType)
                     .Include(f => f.Transactions)
                         .ThenInclude(cu => cu.Custodian)
-                    .Include(f=>f.NavAccountingPeriods)
+                    .Include(f=>f.NavPrices)
+                        .ThenInclude(nav=>nav.NAVPeriod)
                     .ToList();
             }
         }
@@ -92,7 +120,8 @@ namespace PortfolioAce.EFCore.Services
                                 .ThenInclude(t => t.TransactionType)
                             .Include(f=>f.Transactions)
                                 .ThenInclude(cu=>cu.Custodian)
-                            .Include(f => f.NavAccountingPeriods)
+                            .Include(f => f.NavPrices)
+                                .ThenInclude(nav=>nav.NAVPeriod)
                             .FirstOrDefault();
             }
         }

@@ -36,7 +36,5 @@ namespace PortfolioAce.Domain.Models
         public virtual ICollection<TransactionsBO> Transactions { get; set; }
         public virtual ICollection<TransferAgencyBO> TransferAgent {get;set;}
         public virtual ICollection<NAVPriceStoreFACT> NavPrices { get; set; }
-        public virtual ICollection<AccountingPeriodsDIM> NavAccountingPeriods { get; set; }
-
     }
 }

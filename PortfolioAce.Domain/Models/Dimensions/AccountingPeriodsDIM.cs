@@ -20,6 +20,7 @@ namespace PortfolioAce.Domain.Models.Dimensions
         [ForeignKey("Fund")]
         public int FundId { get; set; }
         public Fund Fund { get; set; }
+        public virtual ICollection<AccountingPeriodsDIM> NavAccountingPeriods { get; set; }
         // in the future maybe add a string that states the date it was locked on and what process locked it. i.e.
     }
 }

@@ -173,7 +173,7 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return (_currentFund != null) ? _currentFund.NavPrices.Where(np=>np.FinalisedDate==_asOfDate).FirstOrDefault():null;
+                return (_currentFund != null) ? _currentFund.NavPrices.Where(np=>np.FinalisedDate==_asOfDate).FirstOrDefault():null; //maybe nav periods...
             }
             private set
             {
@@ -189,7 +189,7 @@ namespace PortfolioAce.ViewModels
             {
                 if(_currentFund != null)
                 {
-                    AccountingPeriodsDIM period = _currentFund.NavAccountingPeriods.Where(np => np.AccountingDate == _asOfDate).FirstOrDefault();
+                    AccountingPeriodsDIM period = _currentFund.NavPrices.Where(np => np.NAVPeriod.AccountingDate == _asOfDate).Select(np=>np.NAVPeriod).FirstOrDefault();
                     if(period != null)
                     {
                         return (period.isLocked) ? Visibility.Visible : Visibility.Collapsed;

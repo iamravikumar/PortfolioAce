@@ -26,5 +26,6 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         CurrenciesDIM GetCurrency(string symbol);
         TransactionTypeDIM GetTransactionType(string typeName);
         CustodiansDIM GetCustodian(string typeName);
+        AccountingPeriodsDIM GetPeriod(DateTime dateTime, int fundId);
     }
 }

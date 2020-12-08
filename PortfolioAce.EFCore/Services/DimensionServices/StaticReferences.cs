@@ -129,5 +129,13 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
                 return priceTable;
             }
         }
+
+        public AccountingPeriodsDIM GetPeriod(DateTime dateTime, int fundId)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Periods.Where(p => p.AccountingDate == dateTime && p.FundId == fundId).FirstOrDefault();
+            }
+        }
     }
 }

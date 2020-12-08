@@ -29,7 +29,6 @@ namespace PortfolioAce.EFCore.Services
             {
                 EntityEntry<TransferAgencyBO> res = await context.TransferAgent.AddAsync(investorAction);
                 await context.SaveChangesAsync();
-                // create a transactions and have a mapper
 
                 return res.Entity;
             }
@@ -45,7 +44,6 @@ namespace PortfolioAce.EFCore.Services
                     return investorAction;
                 }
                 context.TransferAgent.Remove(investorAction);
-                //TODO: raise a warning if there is no transaction to remove. Big issue if this is the case.
                 await context.SaveChangesAsync();
 
                 return investorAction;
@@ -72,46 +70,21 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
+                AccountingPeriodsDIM lockedPeriod = context.Periods.Where(p=>p.AccountingDate==fund.LaunchDate &&  p.FundId==fund.FundId).FirstOrDefault();
+                initialNav.NAVPeriodId = lockedPeriod.PeriodId;
+                // Saves the first Nav
+                context.NavPriceData.Add(initialNav);
+
+
                 // Saves the funds state to initialised
                 context.Funds.Update(fund);
 
-                // Saves the first Nav
-                context.NavPriceData.Add(initialNav);
+                
                 // saves the investors to the database
                 context.TransferAgent.AddRange(investors);
 
                 context.Transactions.AddRange(transactions);
 
-                //context.SaveChanges();
-                // set the monthly or daily account periods for up to one year ahead...
-                DateTime startDate = fund.LaunchDate;
-                List<DateTime> allPeriods;
-                if (fund.NAVFrequency == "Daily")
-                {
-                    // get daily dates from fund launch to a year ahead
-                    allPeriods = DateSettings.AnnualWorkingDays(startDate);
-                }
-                else
-                {
-                    // get month end dates from fund launch to a year ahead
-                    allPeriods = DateSettings.AnnualMonthEnds(startDate);
-                }
-                // add all the dates to the new periods
-                List<AccountingPeriodsDIM> initialPeriods = new List<AccountingPeriodsDIM>();
-                foreach(DateTime period in allPeriods)
-                {
-                    AccountingPeriodsDIM newPeriod;
-                    if (period == fund.LaunchDate)
-                    {
-                        newPeriod = new AccountingPeriodsDIM { AccountingDate = period.Date, isLocked = true, FundId=fund.FundId };
-                    }
-                    else
-                    {
-                        newPeriod = new AccountingPeriodsDIM { AccountingDate = period.Date, isLocked = false, FundId = fund.FundId };
-                    }
-                    initialPeriods.Add(newPeriod);
-                }
-                context.Periods.AddRange(initialPeriods);
 
                 context.SaveChanges();
             }
@@ -122,8 +95,6 @@ namespace PortfolioAce.EFCore.Services
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 context.TransferAgent.Update(investorAction);
-                //CashBookBO transaction = await context.CashBooks.Where(ta => ta.TransferAgencyId == investorAction.TransferAgencyId).FirstAsync();
-                // then map and update
                 await context.SaveChangesAsync();
 
                 return investorAction;
