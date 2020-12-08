@@ -70,6 +70,8 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
+                // I will also need to create positions on this too.. Cash Positions that is in the PositionFactTable
+
                 // lock period
                 AccountingPeriodsDIM period = context.Periods.Find(initialNav.NAVPeriodId);
                 period.isLocked = true;

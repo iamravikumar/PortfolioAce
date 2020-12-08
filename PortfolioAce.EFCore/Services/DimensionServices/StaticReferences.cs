@@ -114,16 +114,16 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
             }
         }
 
-        public Dictionary<(int, DateTime), decimal> GetPriceTable(DateTime asOfDate)
+        public Dictionary<(string, DateTime), decimal> GetPriceTable(DateTime asOfDate)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                List<SecurityPriceStore> allPrices =  context.SecurityPriceData.Where(s => s.Date <= asOfDate).ToList();
+                List<SecurityPriceStore> allPrices =  context.SecurityPriceData.Where(s => s.Date <= asOfDate).Include(s=>s.Security).ToList();
 
-                Dictionary<(int, DateTime), decimal> priceTable = new Dictionary<(int, DateTime), decimal>();
+                Dictionary<(string, DateTime), decimal> priceTable = new Dictionary<(string, DateTime), decimal>();
                 foreach (SecurityPriceStore price in allPrices)
                 {
-                    ValueTuple<int, DateTime> groupKey = (price.SecurityId, price.Date); // this allows me to group prices by security AND date
+                    ValueTuple<string, DateTime> groupKey = (price.Security.Symbol, price.Date); // this allows me to group prices by security AND date
                     priceTable[groupKey] = price.ClosePrice;
                 }
                 return priceTable;

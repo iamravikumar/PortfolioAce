@@ -42,7 +42,7 @@ namespace PortfolioAce.ViewModels
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
             _currentFund = (_lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
             _asOfDate = DateTime.Today; // Changed to the day i have a price for.
-            _priceTable = staticReferences.GetPriceTable(_asOfDate); // to shrink this to save space i can just look for all securities ever traded on this fund.
+            _priceTable = staticReferences.GetPriceTable(_asOfDate); // to save space i can look just for asofdate OR use all securities under particular fund
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
             
@@ -105,8 +105,8 @@ namespace PortfolioAce.ViewModels
         }
 
 
-        private Dictionary<(int, DateTime), decimal> _priceTable;
-        public Dictionary<(int, DateTime), decimal> priceTable
+        private Dictionary<(string, DateTime), decimal> _priceTable;
+        public Dictionary<(string, DateTime), decimal> priceTable
         {
             get
             {
@@ -241,15 +241,10 @@ namespace PortfolioAce.ViewModels
                     
                     foreach(CalculatedSecurityPosition position in allPositions)
                     {
-                        int idFx = 0;
-                        if (_currentFund.BaseCurrency != position.security.Symbol.ToString())
-                        {
-                            string fxSymbol = $"{_currentFund.BaseCurrency}{position.security.Symbol}";
-                            var security = _staticReferences.GetSecurityInfo(fxSymbol);
-                            idFx = (security!=null)?security.SecurityId:0;
-                        }
+                        string fxSymbol = $"{_currentFund.BaseCurrency}{position.security.Symbol}";
+                        
 
-                        var p = new DataGridValuedPosition(position, _priceTable, _asOfDate, idFx);
+                        var p = new DataGridValuedPosition(position, _priceTable, _asOfDate, fxSymbol);
                         dgPositions.Add(p);
                     }
                     return dgPositions;
@@ -265,14 +260,9 @@ namespace PortfolioAce.ViewModels
                 List<DataGridValuedPosition> dgPositions = new List<DataGridValuedPosition>();
                 foreach (CalculatedSecurityPosition position in allPositions)
                 {
-                    int idFx = 0;
-                    if (_currentFund.BaseCurrency != position.security.Symbol.ToString())
-                    {
-                        string fxSymbol = $"{_currentFund.BaseCurrency}{position.security.Symbol}";
-                        var security = _staticReferences.GetSecurityInfo(fxSymbol);
-                        idFx = (security != null) ? security.SecurityId : 0;
-                    }
-                    var p = new DataGridValuedPosition(position, _priceTable, _asOfDate);
+                    string fxSymbol = $"{_currentFund.BaseCurrency}{position.security.Symbol}";
+                    
+                    var p = new DataGridValuedPosition(position, _priceTable, _asOfDate, fxSymbol);
                     dgPositions.Add(p);
                 }
                 
@@ -383,12 +373,12 @@ namespace PortfolioAce.ViewModels
         public DateTime AsOfDate { get; set; }
 
         // I can even put performance metrics here
-        public DataGridValuedPosition(CalculatedSecurityPosition position, Dictionary<(int, DateTime), decimal> priceTable, DateTime asOfDate, int fxRateId=0)
+        public DataGridValuedPosition(CalculatedSecurityPosition position, Dictionary<(string, DateTime), decimal> priceTable, DateTime asOfDate, string fxRate)
         {
             this.Position = position;
             this.AsOfDate = asOfDate;
-            ValueTuple<int, DateTime> tableKeySecurity = (position.security.SecurityId, asOfDate);
-            ValueTuple<int, DateTime> tableKeyFx = (fxRateId, asOfDate);
+            ValueTuple<string, DateTime> tableKeySecurity = (position.security.Symbol, asOfDate);
+            ValueTuple<string, DateTime> tableKeyFx = (fxRate, asOfDate);
             int multiplierPnL = (position.NetQuantity>=0) ? 1 : -1;
             this.price = priceTable.ContainsKey(tableKeySecurity) ?priceTable[tableKeySecurity] : decimal.Zero;
             this.fxRate = priceTable.ContainsKey(tableKeyFx) ? priceTable[tableKeyFx] : decimal.Zero; // i can then compare this against values to get base FX rate..
