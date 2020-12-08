@@ -227,21 +227,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashHoldings));
             }
         }
-        /*
-        private List<CalculatedSecurityPosition> _dgFundPositions;
-        public List<CalculatedSecurityPosition> dgFundPositions
-        {
-            get
-            {
-                return (_currentFund!=null)?_portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate):null;
-            }
-            set
-            {
-                _dgFundPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
-                OnPropertyChanged(nameof(dgFundPositions));
-            }
-        }
-        */
+
         private List<DataGridValuedPosition> _dgFundPositions;
         public List<DataGridValuedPosition> dgFundPositions
         {

@@ -96,17 +96,19 @@ namespace PortfolioAce.Commands
                         throw new ArgumentException("Investor must have a name and the seed amount must be greater than 0");
                     }
                 }
+
+                int PeriodId = _staticReferences.GetPeriod(updateFund.LaunchDate, updateFund.FundId).PeriodId;
                 NAVPriceStoreFACT initialNav = new NAVPriceStoreFACT
                 {
                     FinalisedDate = updateFund.LaunchDate,
                     NAVPrice = _fundInitialiseVM.NavPrice,
                     FundId = updateFund.FundId,
-                    NetAssetValue=newInvestors.Sum(ni=>ni.TradeAmount), 
-                    SharesOutstanding=newInvestors.Sum(ni=>ni.Units) ,
-                    Currency = updateFund.BaseCurrency
+                    NetAssetValue = newInvestors.Sum(ni => ni.TradeAmount),
+                    SharesOutstanding = newInvestors.Sum(ni => ni.Units),
+                    Currency = updateFund.BaseCurrency,
+                    NAVPeriodId = PeriodId
                 };
                 _investorService.InitialiseFundAction(updateFund, newInvestors,transactions, initialNav);// takes in
-                //await _investorService.CreateInvestorAction(newInvestorAction);
                 _fundInitialiseVM.CloseAction();
             }
             catch (Exception e)
