@@ -38,14 +38,14 @@
                         <Run FontWeight="Bold" Text="NAV as of "/>
                         <Run FontWeight="Bold" Text="{Binding CurrentNavPrice.FinalisedDate, StringFormat={}{0:dd/MM/yyyy}}"/>
                         <Run FontWeight="Bold" Text=": "/>
-                        <Run Text="{Binding CurrentNavPrice.NetAssetValue}"/>
+                        <Run Text="{Binding CurrentNavPrice.NetAssetValue, StringFormat=N2}"/>
                         <Run Text="{Binding CurrentNavPrice.Currency}"/>
                 </TextBlock>
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
                         <Run FontWeight="Bold" Text="NAV per share as of "/>
                         <Run FontWeight="Bold" Text="{Binding CurrentNavPrice.FinalisedDate, StringFormat={}{0:dd/MM/yyyy}}"/>
                         <Run FontWeight="Bold" Text=": "/>
-                        <Run Text="{Binding CurrentNavPrice.NAVPrice}"/>
+                        <Run Text="{Binding CurrentNavPrice.NAVPrice, StringFormat=N2}"/>
                         <Run Text="{Binding CurrentNavPrice.Currency}"/>
                 </TextBlock>
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>ITD Performance:</Bold> N/A</TextBlock>
@@ -75,12 +75,12 @@
                             <DataGridTextColumn Header="Asset Class" Binding="{Binding Position.security.AssetClass.Name}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Position.security.SecurityName}" Width="SizeToCells" />
                             <DataGridTextColumn Header="Symbol" Binding="{Binding Position.security.Symbol}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Quantity" Binding="{Binding Position.NetQuantity}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Avg Cost" Binding="{Binding Position.AverageCost}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Current Price" Binding="{Binding price}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Realised PnL" Binding="{Binding Position.RealisedPnL}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Unrealised PnL" Binding="{Binding unrealisedPnl}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding Position.NetQuantity, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Avg Cost" Binding="{Binding Position.AverageCost, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Current Price" Binding="{Binding price, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Realised PnL" Binding="{Binding Position.RealisedPnL, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Unrealised PnL" Binding="{Binding unrealisedPnl, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Position.security.Currency.Symbol}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Custodian" Binding="{Binding Position.custodian.Name}" Width="*"/>
                         </DataGrid.Columns>
@@ -94,10 +94,11 @@
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding currency.Symbol}" Width="100" />
-                            <DataGridTextColumn Header="Balance" Binding="{Binding AccountBalance}" Width="150" />
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding custodian.Name}" Width="150" />
-                            <DataGridTextColumn Header="As Of (Date)" Binding="{Binding AsOfDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding CashPosition.currency.Symbol}" Width="100" />
+                            <DataGridTextColumn Header="Balance" Binding="{Binding CashPosition.AccountBalance, StringFormat=N2}" Width="150" />
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding CashPosition.custodian.Name}" Width="150" />
+                            <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="150" />
+                            <DataGridTextColumn Header="As Of (Date)" Binding="{Binding CashPosition.AsOfDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
@@ -109,9 +110,9 @@
                             <DataGridTextColumn Header="Type"  Binding="{Binding TransactionType.TypeName}"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Security.SecurityName}" />
                             <DataGridTextColumn Header="Symbol" Binding="{Binding Security.Symbol}"/>
-                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
-                            <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
-                            <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount}"/>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount, StringFormat=N2}"/>
                             <DataGridTextColumn Header="Commission" Binding="{Binding Fees}"/>
                             <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}"/>
                             <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}"/>
@@ -126,7 +127,7 @@
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType.TypeName}" />
-                            <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TradeAmount}" />
+                            <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TradeAmount, StringFormat=N2}" />
                             <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}"/>
                             <DataGridTextColumn Header="Settle Date"  Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}"/>
                             <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}"/>
@@ -141,9 +142,9 @@
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type" Binding="{Binding IssueType}" />
-                            <DataGridTextColumn Header="Units" Binding="{Binding Units}" />
-                            <DataGridTextColumn Header="NAV Price" Binding="{Binding NAVPrice}" />
-                            <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount}" />
+                            <DataGridTextColumn Header="Units" Binding="{Binding Units, StringFormat=N2}" />
+                            <DataGridTextColumn Header="NAV Price" Binding="{Binding NAVPrice, StringFormat=N2}" />
+                            <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount, StringFormat=N2}" />
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" />
                             <DataGridTextColumn Header="Investor Name" Binding="{Binding InvestorName}" />
                             <DataGridTextColumn Header="Action Date" Binding="{Binding TransactionDate, StringFormat={}{0:dd/MM/yyyy}}" />
