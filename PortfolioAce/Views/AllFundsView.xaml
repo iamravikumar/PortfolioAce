@@ -80,7 +80,7 @@
                             <DataGridTextColumn Header="Current Price" Binding="{Binding price}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Realised PnL" Binding="{Binding Position.RealisedPnL}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Unrealised PnL" Binding="{Binding unrealisedPnl}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Market Value" Binding="{Binding MarketValue}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Position.security.Currency.Symbol}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Custodian" Binding="{Binding Position.custodian.Name}" Width="*"/>
                         </DataGrid.Columns>

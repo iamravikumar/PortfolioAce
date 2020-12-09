@@ -88,11 +88,10 @@ namespace PortfolioAce.ViewModels
         }
 
 
-        private DataGridValuedPosition _dtPositionObject;
-        public DataGridValuedPosition dtPositionObject
+        private SecurityPositionValuation _dtPositionObject;
+        public SecurityPositionValuation dtPositionObject
         {
-            // This object will open a window that will display the position information such as currency, direction, ITD realised pnl, open lots,
-            // positionbreakdown
+            // This object will open a window that will display the position information such as local currency metrics, open lots etc..
             get
             {
                 return _dtPositionObject;
@@ -228,8 +227,8 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        private List<DataGridValuedPosition> _dgFundPositions;
-        public List<DataGridValuedPosition> dgFundPositions
+        private List<SecurityPositionValuation> _dgFundPositions;
+        public List<SecurityPositionValuation> dgFundPositions
         {
             get
             {
@@ -237,17 +236,14 @@ namespace PortfolioAce.ViewModels
                 if (_currentFund != null)
                 {
                     List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
-                    List<DataGridValuedPosition> dgPositions = new List<DataGridValuedPosition>();
+                    List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
                     
                     foreach(CalculatedSecurityPosition position in allPositions)
                     {
-                        string fxSymbol = $"{_currentFund.BaseCurrency}{position.security.Symbol}";
-                        
-
-                        var p = new DataGridValuedPosition(position, _priceTable, _asOfDate, fxSymbol);
-                        dgPositions.Add(p);
+                        SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, _priceTable, _asOfDate, _currentFund.BaseCurrency);
+                        valuedPositions.Add(valuedPosition);
                     }
-                    return dgPositions;
+                    return valuedPositions;
                 }
                 else
                 {
@@ -257,16 +253,14 @@ namespace PortfolioAce.ViewModels
             set
             {
                 List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
-                List<DataGridValuedPosition> dgPositions = new List<DataGridValuedPosition>();
+                List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
                 foreach (CalculatedSecurityPosition position in allPositions)
                 {
-                    string fxSymbol = $"{_currentFund.BaseCurrency}{position.security.Symbol}";
-                    
-                    var p = new DataGridValuedPosition(position, _priceTable, _asOfDate, fxSymbol);
-                    dgPositions.Add(p);
+                    SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, _priceTable, _asOfDate, _currentFund.BaseCurrency);
+                    valuedPositions.Add(valuedPosition);
                 }
                 
-                _dgFundPositions = dgPositions;
+                _dgFundPositions = valuedPositions;
                 OnPropertyChanged(nameof(dgFundPositions));
             }
         }
@@ -359,32 +353,6 @@ namespace PortfolioAce.ViewModels
         {
             // This will be a window at some point..
             MessageBox.Show($"Name: {_dtPositionObject.Position.security.Symbol} Quantity: {_dtPositionObject.Position.NetQuantity} ");
-        }
-    }
-
-    public class DataGridValuedPosition
-    {
-        public CalculatedSecurityPosition Position { get; set; }
-        public decimal MarketValue { get; set; }
-        public decimal unrealisedPnl {get;set;}
-        public decimal unrealisedPnLPercent { get; set; }
-        public decimal price { get; set; }
-        public decimal fxRate { get; set; }
-        public DateTime AsOfDate { get; set; }
-
-        // I can even put performance metrics here
-        public DataGridValuedPosition(CalculatedSecurityPosition position, Dictionary<(string, DateTime), decimal> priceTable, DateTime asOfDate, string fxRate)
-        {
-            this.Position = position;
-            this.AsOfDate = asOfDate;
-            ValueTuple<string, DateTime> tableKeySecurity = (position.security.Symbol, asOfDate);
-            ValueTuple<string, DateTime> tableKeyFx = (fxRate, asOfDate);
-            int multiplierPnL = (position.NetQuantity>=0) ? 1 : -1;
-            this.price = priceTable.ContainsKey(tableKeySecurity) ?priceTable[tableKeySecurity] : decimal.Zero;
-            this.fxRate = priceTable.ContainsKey(tableKeyFx) ? priceTable[tableKeyFx] : decimal.Zero; // i can then compare this against values to get base FX rate..
-            this.MarketValue = Math.Round(position.NetQuantity * price,2);
-            this.unrealisedPnl = Math.Round(position.NetQuantity*(position.AverageCost-this.price)*multiplierPnL, 2);
-
         }
     }
 }
