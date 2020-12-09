@@ -1,17 +1,55 @@
 ﻿using PortfolioAce.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects
 {
     public class NavValuations
     {
-        // I need the fund model to calculate performance and management fees... I can also reuse it to get the base currencies...
-        public NavValuations(List<CalculatedSecurityPosition> securityPositions, List<CalculatedCashPosition> cashPositions, 
-            Dictionary<(int, DateTime), decimal> priceTable, DateTime asOfDate, Fund fund)
+        // I need the fund model to management fees, NAV and NAVps... I can also reuse it to get the base currencies...
+        // Performance fees aren't calculated here... They are done an investor level since investors can buy/sell at different prices...
+        // effectively i need a Holdings FACT Table for transfer agent
+        public Fund fund { get; set; }
+        public decimal ManagementFeeAmount { get; set; }
+        public List<SecurityPositionValuation> SecurityPositions { get; set; }
+        public List<CashPositionValuation> CashPositions { get; set; }
+        public DateTime AsOfDate { get; set; }
+        public decimal NetAssetValue { get; set; }
+        public decimal SharesOutstanding { get; set; }
+        public decimal NetAssetValuePerShare { get; set; }
+        public NavValuations(List<SecurityPositionValuation> securityPositions, List<CashPositionValuation> cashPositions, 
+            DateTime asOfDate, Fund fund)
         {
+            this.SecurityPositions = securityPositions;
+            this.CashPositions = cashPositions;
+            this.fund = fund;
+            this.AsOfDate = asOfDate;
+            this.Initialisation();
+        }
 
+        private void Initialisation()
+        {
+            // This will initialise the calculations
+            this.NetAssetValue = SecurityPositions.Sum(sp => sp.MarketValueBase) + CashPositions.Sum(cp => cp.MarketValueBase);
+            this.SharesOutstanding = this.fund.TransferAgent.Sum(ta => ta.Units); // if i make the units absolute i will have to negative units..
+            this.NetAssetValuePerShare = Math.Round(this.NetAssetValue/ this.SharesOutstanding, 4);
+
+
+            //accruals
+            int accrualPeriods;
+            if(fund.NAVFrequency== "Daily")
+            {
+                accrualPeriods = (!DateTime.IsLeapYear(AsOfDate.Year) ? 365 : 366);
+            }
+            else
+            {
+                accrualPeriods = 12;
+            }
+            // REMEMBER for performance i need to calculate the holding period return
+            // HPR = (Ending Value) / (Previous Value After Cash Flow) – 1.
+            this.ManagementFeeAmount = (this.NetAssetValue * fund.ManagementFee)/accrualPeriods; // this will then be weighted on the investors..
         }
     }
 
