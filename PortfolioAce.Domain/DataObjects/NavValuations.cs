@@ -7,7 +7,7 @@ namespace PortfolioAce.Domain.DataObjects
 {
     public class NavValuations
     {
-        // I need the fund to calculate performance and management fees... I can also reuse it to get the base currencies...
+        // I need the fund model to calculate performance and management fees... I can also reuse it to get the base currencies...
         public NavValuations(List<CalculatedSecurityPosition> securityPositions, List<CalculatedCashPosition> cashPositions, 
             Dictionary<(int, DateTime), decimal> priceTable, DateTime asOfDate, Fund fund)
         {
@@ -48,9 +48,17 @@ namespace PortfolioAce.Domain.DataObjects
     }
     public class CashPositionValuation
     {
-        public CashPositionValuation()
+        public CalculatedCashPosition CashPosition { get; set; }
+        public decimal fxRate { get; set; }
+        public decimal MarketValueBase { get; set; }
+        public CashPositionValuation(CalculatedCashPosition cashPosition, Dictionary<(string, DateTime), decimal> priceTable, DateTime asOfDate, string FundBaseCurrency)
         {
             // this is for cash holdings I can get the valuation in base currency
+            this.CashPosition = cashPosition;
+            string fxSymbol = $"{cashPosition.currency}{FundBaseCurrency}";
+            ValueTuple<string, DateTime> tableKeyFx = (fxSymbol, asOfDate);
+            this.fxRate = priceTable.ContainsKey(tableKeyFx) ? priceTable[tableKeyFx] : decimal.One; // i can then compare this against values to get base FX rate..
+            this.MarketValueBase = Math.Round(this.CashPosition.AccountBalance * fxRate, 2);
         }
     }
     

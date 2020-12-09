@@ -213,16 +213,37 @@ namespace PortfolioAce.ViewModels
             }
         }
         
-        private List<CalculatedCashPosition> _dgFundCashHoldings;
-        public List<CalculatedCashPosition> dgFundCashHoldings
+        private List<CashPositionValuation> _dgFundCashHoldings;
+        public List<CashPositionValuation> dgFundCashHoldings
         {
             get
             {
-                return (_currentFund != null) ? _portfolioService.GetAllCashBalances(_currentFund, _asOfDate) : null;
+                if(_currentFund != null)
+                {
+                    List<CalculatedCashPosition> cashPositions = _portfolioService.GetAllCashBalances(_currentFund, _asOfDate);
+                    List<CashPositionValuation> valuedCashPositions = new List<CashPositionValuation>();
+                    foreach(CalculatedCashPosition cashPosition in cashPositions)
+                    {
+                        CashPositionValuation valuedCashPosition = new CashPositionValuation(cashPosition, _priceTable, _asOfDate, _currentFund.BaseCurrency);
+                        valuedCashPositions.Add(valuedCashPosition);
+                    }
+                    return valuedCashPositions;
+                }
+                else
+                {
+                    return null;
+                }
             }
             set
             {
-                _dgFundCashHoldings = _portfolioService.GetAllCashBalances(_currentFund, _asOfDate);
+                List<CalculatedCashPosition> cashPositions = _portfolioService.GetAllCashBalances(_currentFund, _asOfDate);
+                List<CashPositionValuation> valuedCashPositions = new List<CashPositionValuation>();
+                foreach (CalculatedCashPosition cashPosition in cashPositions)
+                {
+                    CashPositionValuation valuedCashPosition = new CashPositionValuation(cashPosition, _priceTable, _asOfDate, _currentFund.BaseCurrency);
+                    valuedCashPositions.Add(valuedCashPosition);
+                }
+                _dgFundCashHoldings = valuedCashPositions;
                 OnPropertyChanged(nameof(dgFundCashHoldings));
             }
         }
