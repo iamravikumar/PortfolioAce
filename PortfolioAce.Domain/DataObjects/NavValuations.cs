@@ -13,8 +13,8 @@ namespace PortfolioAce.Domain.DataObjects
         // effectively i need a Holdings FACT Table for transfer agent
         public Fund fund { get; set; }
         public decimal ManagementFeeAmount { get; set; }
-        public List<SecurityPositionValuation> SecurityPositions { get; set; }
-        public List<CashPositionValuation> CashPositions { get; set; }
+        public List<SecurityPositionValuation> SecurityPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
+        public List<CashPositionValuation> CashPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
         public DateTime AsOfDate { get; set; }
         public decimal NetAssetValue { get; set; }
         public decimal SharesOutstanding { get; set; }
@@ -32,7 +32,9 @@ namespace PortfolioAce.Domain.DataObjects
         private void Initialisation()
         {
             // This will initialise the calculations
-            this.NetAssetValue = SecurityPositions.Sum(sp => sp.MarketValueBase) + CashPositions.Sum(cp => cp.MarketValueBase);
+            decimal securityNav = (SecurityPositions!=null)? SecurityPositions.Sum(sp => sp.MarketValueBase) :decimal.Zero;
+            decimal cashNav = (CashPositions != null) ? CashPositions.Sum(cp => cp.MarketValueBase):decimal.Zero;
+            this.NetAssetValue = securityNav + cashNav;
             this.SharesOutstanding = this.fund.TransferAgent.Sum(ta => ta.Units); // if i make the units absolute i will have to negative units..
             this.NetAssetValuePerShare = Math.Round(this.NetAssetValue/ this.SharesOutstanding, 4);
 
@@ -65,20 +67,39 @@ namespace PortfolioAce.Domain.DataObjects
         public decimal price { get; set; }
         public decimal fxRate { get; set; }
         public DateTime AsOfDate { get; set; }
+        public bool IsValuedBase { get; set; } // This determines whether fxRates and Market prices are available on this date...
 
         //public decimal TotalPnl {get;} this is unrealised *base
         public SecurityPositionValuation(CalculatedSecurityPosition position, Dictionary<(string, DateTime), decimal> priceTable, DateTime asOfDate, string FundBaseCurrency)
         {
             this.Position = position;
             this.AsOfDate = asOfDate;
-            string fxSymbol = $"{position.security.Currency}{FundBaseCurrency}";
+
+            // these are temporary but i used this to make sure its valued..
+            bool hasFxValue;
+            bool hasSecurityValue;
+            if (position.security.Currency.Symbol.ToString() == FundBaseCurrency)
+            {
+                hasFxValue = true;
+                this.fxRate = decimal.One;
+            }
+            else
+            {
+                string fxSymbol = $"{position.security.Currency}{FundBaseCurrency}";
+                ValueTuple<string, DateTime> tableKeyFx = (fxSymbol, asOfDate);
+                hasFxValue = priceTable.ContainsKey(tableKeyFx);
+                this.fxRate = (priceTable.ContainsKey(tableKeyFx)) ? priceTable[tableKeyFx] : decimal.One;
+            }
+
             ValueTuple<string, DateTime> tableKeySecurity = (position.security.Symbol, asOfDate);
-            ValueTuple<string, DateTime> tableKeyFx = (fxSymbol, asOfDate);
+            hasSecurityValue = priceTable.ContainsKey(tableKeySecurity);
+            this.price = priceTable.ContainsKey(tableKeySecurity) ? priceTable[tableKeySecurity] : decimal.Zero;
+
+            this.IsValuedBase = (hasFxValue && hasSecurityValue);
+
             int multiplierPnL = (position.NetQuantity >= 0) ? 1 : -1;
 
             // raise exception if no fx rate is found.. (This might not be useful because USDUSD shouldnt be found...)
-            this.price = priceTable.ContainsKey(tableKeySecurity) ? priceTable[tableKeySecurity] : decimal.Zero; 
-            this.fxRate = priceTable.ContainsKey(tableKeyFx) ? priceTable[tableKeyFx] : decimal.One; // i can then compare this against values to get base FX rate..
             this.MarketValueLocal = Math.Round(position.NetQuantity * price, 2);
             this.MarketValueBase = Math.Round(this.MarketValueLocal * fxRate, 2);
             this.unrealisedPnl = Math.Round(position.NetQuantity * (this.price - position.AverageCost) * multiplierPnL, 2);
@@ -89,13 +110,23 @@ namespace PortfolioAce.Domain.DataObjects
         public CalculatedCashPosition CashPosition { get; set; }
         public decimal fxRate { get; set; }
         public decimal MarketValueBase { get; set; }
+        public bool IsValuedBase { get; set; } // This determines whether fxRates and Market prices are available on this date...
         public CashPositionValuation(CalculatedCashPosition cashPosition, Dictionary<(string, DateTime), decimal> priceTable, DateTime asOfDate, string FundBaseCurrency)
         {
             // this is for cash holdings I can get the valuation in base currency
             this.CashPosition = cashPosition;
-            string fxSymbol = $"{cashPosition.currency}{FundBaseCurrency}";
-            ValueTuple<string, DateTime> tableKeyFx = (fxSymbol, asOfDate);
-            this.fxRate = priceTable.ContainsKey(tableKeyFx) ? priceTable[tableKeyFx] : decimal.One; // i can then compare this against values to get base FX rate..
+            if (cashPosition.currency.Symbol.ToString() == FundBaseCurrency)
+            {
+                IsValuedBase = true;
+                this.fxRate = decimal.One;
+            }
+            else
+            {
+                string fxSymbol = $"{cashPosition.currency}{FundBaseCurrency}";
+                ValueTuple<string, DateTime> tableKeyFx = (fxSymbol, asOfDate);
+                this.IsValuedBase = priceTable.ContainsKey(tableKeyFx);
+                this.fxRate = (priceTable.ContainsKey(tableKeyFx)) ? priceTable[tableKeyFx] : decimal.One;
+            }
             this.MarketValueBase = Math.Round(this.CashPosition.AccountBalance * fxRate, 2);
         }
     }

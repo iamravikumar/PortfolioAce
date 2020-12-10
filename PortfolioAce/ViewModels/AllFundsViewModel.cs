@@ -54,6 +54,8 @@ namespace PortfolioAce.ViewModels
                 OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorService, _staticReferences);
             ShowFundInitialisationCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
                 OpenModalWindow, typeof(FundInitialisationWindow), typeof(FundInitialisationWindowViewModel), _investorService, _staticReferences);
+            ShowNavSummaryCommand = new ActionCommand<Type, Type, ITransferAgencyService>(
+                OpenNavSummaryWindow, typeof(NavSummaryWindow),typeof(NavSummaryViewModel), _investorService);
             PositionDetailCommand = new ActionCommand(ViewPositionDetails);
         }
 
@@ -63,7 +65,7 @@ namespace PortfolioAce.ViewModels
 
         public ICommand ShowFundInitialisationCommand { get; set; }
         public ICommand ShowNewInvestorActionCommand { get; set; }
-
+        public ICommand ShowNavSummaryCommand { get; set; }
         public ICommand PositionDetailCommand { get; set; }
 
         private DateTime _asOfDate;
@@ -84,6 +86,16 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundTA));
                 OnPropertyChanged(nameof(CurrentNavPrice));
                 OnPropertyChanged(nameof(LockedNav));
+                OnPropertyChanged(nameof(NavValuation));
+            }
+        }
+
+        public NavValuations NavValuation
+        {
+            // with this is the fund is unlocked then i can create Estimate NAV as of XXX. Estimate Nav pershare as of:
+            get
+            {
+                return new NavValuations(dgFundPositions, dgFundCashHoldings, _asOfDate, _currentFund); ;
             }
         }
 
@@ -151,6 +163,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(CurrentNavPrice));
                 OnPropertyChanged(nameof(ShowWidget));
                 OnPropertyChanged(nameof(LockedNav));
+                OnPropertyChanged(nameof(NavValuation));
             }
         }
 
@@ -354,6 +367,22 @@ namespace PortfolioAce.ViewModels
             Window view = (Window)Activator.CreateInstance(windowType);
             ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _currentFund);
             
+            view.DataContext = viewModel;
+            view.Owner = Application.Current.MainWindow;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (viewModel.CloseAction == null)
+            {
+                viewModel.CloseAction = new Action(() => view.Close());
+            }
+            view.ShowDialog();
+        }
+
+        public void OpenNavSummaryWindow(Type windowType, Type viewModelType, object myService)
+        {
+            // This is temporary
+            Window view = (Window)Activator.CreateInstance(windowType);
+            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, NavValuation, myService);
+
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
