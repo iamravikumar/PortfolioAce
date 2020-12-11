@@ -36,11 +36,8 @@ namespace PortfolioAce.Domain.DataObjects
             decimal securityNav = SecurityPositions.Sum(sp => sp.MarketValueBase);
             decimal cashNav = CashPositions.Sum(cp => cp.MarketValueBase);
             this.UnvaluedPositions = SecurityPositions.Where(sp => !sp.IsValuedBase).Count() + CashPositions.Where(cp => !cp.IsValuedBase).Count();
-
-            this.NetAssetValue = securityNav + cashNav;
+            decimal GrossNetAssetValue = securityNav + cashNav;
             this.SharesOutstanding = this.fund.TransferAgent.Sum(ta => ta.Units); // if i make the units absolute i will have to negative units..
-            this.NetAssetValuePerShare = Math.Round(this.NetAssetValue/ this.SharesOutstanding, 4);
-
 
             //accruals
             int accrualPeriods;
@@ -54,7 +51,11 @@ namespace PortfolioAce.Domain.DataObjects
             }
             // REMEMBER for performance i need to calculate the holding period return
             // HPR = (Ending Value) / (Previous Value After Cash Flow) – 1.
-            this.ManagementFeeAmount = (this.NetAssetValue * fund.ManagementFee)/accrualPeriods; // this will then be weighted on the investors..
+            
+            this.ManagementFeeAmount = (GrossNetAssetValue * fund.ManagementFee)/accrualPeriods; // this will then be weighted on the investors..
+            this.NetAssetValue = GrossNetAssetValue - this.ManagementFeeAmount;
+            this.NetAssetValuePerShare = Math.Round(this.NetAssetValue / this.SharesOutstanding, 4);
+
         }
     }
 
