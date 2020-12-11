@@ -19,6 +19,7 @@ namespace PortfolioAce.Domain.DataObjects
         public decimal NetAssetValue { get; set; }
         public decimal SharesOutstanding { get; set; }
         public decimal NetAssetValuePerShare { get; set; }
+        public int UnvaluedPositions { get; set; } // number of positions that do not have a price...
         public NavValuations(List<SecurityPositionValuation> securityPositions, List<CashPositionValuation> cashPositions, 
             DateTime asOfDate, Fund fund)
         {
@@ -32,8 +33,10 @@ namespace PortfolioAce.Domain.DataObjects
         private void Initialisation()
         {
             // This will initialise the calculations
-            decimal securityNav = (SecurityPositions!=null)? SecurityPositions.Sum(sp => sp.MarketValueBase) :decimal.Zero;
-            decimal cashNav = (CashPositions != null) ? CashPositions.Sum(cp => cp.MarketValueBase):decimal.Zero;
+            decimal securityNav = SecurityPositions.Sum(sp => sp.MarketValueBase);
+            decimal cashNav = CashPositions.Sum(cp => cp.MarketValueBase);
+            this.UnvaluedPositions = SecurityPositions.Where(sp => !sp.IsValuedBase).Count() + CashPositions.Where(cp => !cp.IsValuedBase).Count();
+
             this.NetAssetValue = securityNav + cashNav;
             this.SharesOutstanding = this.fund.TransferAgent.Sum(ta => ta.Units); // if i make the units absolute i will have to negative units..
             this.NetAssetValuePerShare = Math.Round(this.NetAssetValue/ this.SharesOutstanding, 4);

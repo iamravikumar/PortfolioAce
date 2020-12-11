@@ -4,6 +4,7 @@ using PortfolioAce.EFCore.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 
 namespace PortfolioAce.ViewModels.Modals
 {
@@ -34,6 +35,14 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 return _navValuation.fund.FundName;
+            }
+        }
+
+        public string BaseCurrency
+        {
+            get
+            {
+                return _navValuation.fund.BaseCurrency;
             }
         }
 
@@ -69,11 +78,56 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public int UnvaluedPositions
+        {
+            get
+            {
+                return _navValuation.UnvaluedPositions;
+            }
+        }
+
         public decimal ManagementFeeAmount
         {
             get
             {
                 return _navValuation.ManagementFeeAmount;
+            }
+        }
+
+        public List<SecurityPositionValuation> dgSecurityPositions
+        {
+            get
+            {
+                return _navValuation.SecurityPositions;
+            }
+        }
+
+        public List<CashPositionValuation> dgCashPositions
+        {
+            get
+            {
+                return _navValuation.CashPositions;
+            }
+        }
+        public Visibility ValuedMessage
+        {
+            // determines the message shown if ALL positions are valued..
+            get
+            {
+                return (UnvaluedPositions==0) ? Visibility.Visible : Visibility.Collapsed;
+            }
+            private set
+            {
+
+            }
+        }
+
+        public bool EnableLockNav
+        {
+            get
+            {
+                // and the accounting period is not locked AND the prior accounting period is not locked....
+                return (UnvaluedPositions == 0);
             }
         }
     }

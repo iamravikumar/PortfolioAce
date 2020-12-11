@@ -244,7 +244,7 @@ namespace PortfolioAce.ViewModels
                 }
                 else
                 {
-                    return null;
+                    return new List<CashPositionValuation>();
                 }
             }
             set
@@ -281,7 +281,7 @@ namespace PortfolioAce.ViewModels
                 }
                 else
                 {
-                    return null;
+                    return new List<SecurityPositionValuation>();
                 }
             }
             set

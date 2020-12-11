@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
+        xmlns:src="clr-namespace:PortfolioAce.Models"
         mc:Ignorable="d"
         Title="Nav Summary" Height="525" Width="600">
+    <Window.Resources>
+        <src:InvertVisibilityConverter x:Key="invertVisibilityConverter"/>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -18,7 +22,7 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <DockPanel Grid.ColumnSpan="3" Grid.Row="0" Margin="2">
+        <DockPanel Grid.ColumnSpan="3" Grid.Row="0" Margin="2,0,0,0">
             <StackPanel DockPanel.Dock="Left" Grid.ColumnSpan="2">
                 <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}">
                     <Run FontWeight="Bold" Text="NAV Summary for"/>
@@ -45,10 +49,84 @@
                         <Run Text="{Binding ManagementFeeAmount, StringFormat=N2, Mode=OneWay}"/>
                         <Run Text="{Binding BaseCurrency, Mode=OneWay}"/>
                 </TextBlock>
+                <TextBlock Visibility="{Binding ValuedMessage, Converter={StaticResource invertVisibilityConverter}}">
+                        <Run FontWeight="Bold" Text="{Binding UnvaluedPositions, Mode=OneWay}"/>
+                        <Run Text="positions are not valued!"/>
+                </TextBlock>
+                <TextBlock Visibility="{Binding ValuedMessage}">
+                        <Run Text="All positions are valued!"/>
+                </TextBlock>
             </StackPanel>
         </DockPanel>
-        <DockPanel Grid.ColumnSpan="3" Grid.Row="1" Margin="2">
-            
+        <DockPanel Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Margin="2">
+            <TabControl DockPanel.Dock="Top" Style="{StaticResource MaterialDesignTabControl}" Background="LightGray" >
+                <TabItem Header="Security Positions">
+                    <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" 
+                              RowBackground="GhostWhite" AlternatingRowBackground="White"
+                              ItemsSource="{Binding Path=dgSecurityPositions}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding Path=dtPositionObject, UpdateSourceTrigger=PropertyChanged}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="50">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image>
+                                            <Image.Style>
+                                                <Style TargetType="{x:Type Image}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsValuedBase}" Value="true">
+                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-NAVFinalised-24.png"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsValuedBase}" Value="false">
+                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-NAVnotFinalised-24.png"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Position.security.SecurityName}" Width="SizeToCells" />
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding Position.security.Symbol}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding Position.NetQuantity, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Current Price" Binding="{Binding price, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Cash Positions">
+                    <DataGrid Name="dgCashHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgCashPositions}" 
+                              RowBackground="GhostWhite" AlternatingRowBackground="White"
+                              VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="50">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image>
+                                            <Image.Style>
+                                                <Style TargetType="{x:Type Image}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsValuedBase}" Value="true">
+                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-NAVFinalised-24.png"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsValuedBase}" Value="false">
+                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-NAVnotFinalised-24.png"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding CashPosition.currency.Symbol}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Balance" Binding="{Binding CashPosition.AccountBalance, StringFormat=N2}" Width="SizeToCells" />
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding CashPosition.custodian.Name}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
         </DockPanel>
+        <Button Grid.Column="1" Grid.Row="3" Content="Lock NAV" IsEnabled="{Binding EnableLockNav}"/>
     </Grid>
 </Window>
