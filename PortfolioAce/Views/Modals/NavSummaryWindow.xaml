@@ -127,6 +127,6 @@
                 </TabItem>
             </TabControl>
         </DockPanel>
-        <Button Grid.Column="1" Grid.Row="3" Content="Lock NAV" IsEnabled="{Binding EnableLockNav}"/>
+        <Button Grid.Column="1" Grid.Row="3" Content="Lock NAV" IsEnabled="{Binding EnableLockNav}" Command="{Binding LockNavCommand}"/>
     </Grid>
 </Window>
