@@ -29,5 +29,52 @@ namespace PortfolioAce.ViewModels.Modals
              */
         }
 
+        public string FundName
+        {
+            get
+            {
+                return _navValuation.fund.FundName;
+            }
+        }
+
+        public DateTime AsOfDate
+        {
+            get
+            {
+                return _navValuation.AsOfDate;
+            }
+        }
+
+        public decimal NetAssetValue
+        {
+            get
+            {
+                return _navValuation.NetAssetValue;
+            }
+        }
+
+        public decimal NetAssetValuePS
+        {
+            get
+            {
+                return _navValuation.NetAssetValuePerShare;
+            }
+        }
+
+        public decimal SharesOutstanding
+        {
+            get
+            {
+                return _navValuation.SharesOutstanding;
+            }
+        }
+
+        public decimal ManagementFeeAmount
+        {
+            get
+            {
+                return _navValuation.ManagementFeeAmount;
+            }
+        }
     }
 }

@@ -5,8 +5,50 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         mc:Ignorable="d"
-        Title="Nav Summary" Height="425" Width="533">
+        Title="Nav Summary" Height="525" Width="600">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.ColumnSpan="3" Grid.Row="0" Margin="2">
+            <StackPanel DockPanel.Dock="Left" Grid.ColumnSpan="2">
+                <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}">
+                    <Run FontWeight="Bold" Text="NAV Summary for"/>
+                    <Run FontWeight="Bold" Text="{Binding Path=FundName, Mode=OneWay}"/>
+                    <Run FontWeight="Bold" Text="as of"/>
+                    <Run FontWeight="Bold" Text="{Binding AsOfDate, Mode=OneWay, StringFormat={}{0:dd/MM/yyyy}}"/>
+                </TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
+                        <Run FontWeight="Bold" Text="Estimated Net Asset Value:"/>
+                        <Run Text="{Binding NetAssetValue, Mode=OneWay, StringFormat=N2}"/>
+                        <Run Text="{Binding BaseCurrency, Mode=OneWay}"/>
+                </TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
+                        <Run FontWeight="Bold" Text="Estimated NAV per share: "/>
+                        <Run Text="{Binding NetAssetValuePS, Mode=OneWay}"/>
+                        <Run Text="{Binding BaseCurrency, Mode=OneWay}"/>
+                </TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
+                        <Run FontWeight="Bold" Text="Shares Outstanding: "/>
+                        <Run Text="{Binding SharesOutstanding, StringFormat=N2, Mode=OneWay}"/>
+                </TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
+                        <Run FontWeight="Bold" Text="Accrued Management Fee: "/>
+                        <Run Text="{Binding ManagementFeeAmount, StringFormat=N2, Mode=OneWay}"/>
+                        <Run Text="{Binding BaseCurrency, Mode=OneWay}"/>
+                </TextBlock>
+            </StackPanel>
+        </DockPanel>
+        <DockPanel Grid.ColumnSpan="3" Grid.Row="1" Margin="2">
+            
+        </DockPanel>
     </Grid>
 </Window>
