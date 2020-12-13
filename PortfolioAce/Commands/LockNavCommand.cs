@@ -4,6 +4,7 @@ using PortfolioAce.ViewModels.Modals;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
@@ -13,12 +14,14 @@ namespace PortfolioAce.Commands
         public event EventHandler CanExecuteChanged;
 
         private NavValuations _navValuation;
+        private NavSummaryViewModel _navValuationVM;
         private ITransferAgencyService _investorService;
 
-        public LockNavCommand(NavValuations navValuation, ITransferAgencyService investorService)
+        public LockNavCommand(NavSummaryViewModel navValuationVM, NavValuations navValuation, ITransferAgencyService investorService)
         {
             _navValuation = navValuation;
             _investorService = investorService;
+            _navValuationVM = navValuationVM;
         }
 
         public bool CanExecute(object parameter)
@@ -28,7 +31,16 @@ namespace PortfolioAce.Commands
 
         public void Execute(object parameter)
         {
-            Console.WriteLine("Pending");
+            try
+            {
+                // if the fund is monthly and the period to lock does not match the periods in the database prevent the lock operation this...
+                _investorService.LockNav(_navValuation);
+                _navValuationVM.CloseAction();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
     }
 }

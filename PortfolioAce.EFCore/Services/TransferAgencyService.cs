@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
@@ -92,6 +93,96 @@ namespace PortfolioAce.EFCore.Services
 
 
                 context.SaveChanges();
+            }
+        }
+
+        public void LockNav(NavValuations navValuations)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                DateTime asOfDate = navValuations.AsOfDate;
+                int fundId = navValuations.fund.FundId;
+                AccountingPeriodsDIM period = context.Periods.Where(p => p.FundId == fundId && p.AccountingDate == asOfDate).FirstOrDefault();
+                period.isLocked = true;
+
+                context.Periods.Update(period);
+                List<TransactionsBO> allTransactions;
+                if (navValuations.fund.NAVFrequency == "Daily")
+                {
+                    allTransactions = navValuations.fund.Transactions.Where(t => t.TradeDate == asOfDate).ToList();
+                }
+                else
+                {
+                    allTransactions = navValuations.fund.Transactions.Where(t => t.TradeDate.Month == asOfDate.Month).ToList();
+                }
+                foreach (TransactionsBO transaction in allTransactions)
+                {
+                    transaction.isLocked = true;
+                }
+                context.Transactions.UpdateRange(allTransactions);
+
+                NAVPriceStoreFACT newNavPrice = new NAVPriceStoreFACT
+                {
+                    FinalisedDate = asOfDate,
+                    Currency = navValuations.fund.BaseCurrency,
+                    FundId = fundId,
+                    NAVPeriodId = period.PeriodId,
+                    SharesOutstanding = navValuations.SharesOutstanding,
+                    NetAssetValue = navValuations.NetAssetValue,
+                    NAVPrice = navValuations.NetAssetValuePerShare,
+                };
+                context.NavPriceData.Add(newNavPrice);
+
+                List<PositionFACT> newPositions = new List<PositionFACT>();
+                foreach (SecurityPositionValuation secPosition in navValuations.SecurityPositions)
+                {
+                    PositionFACT newPosition = new PositionFACT
+                    {
+                        PositionDate = secPosition.AsOfDate,
+                        SecurityId=secPosition.Position.security.SecurityId,
+                        AssetClassId=secPosition.Position.security.AssetClassId,
+                        FundId=fundId,
+                        AverageCost=secPosition.Position.AverageCost,
+                        CurrencyId=secPosition.Position.security.CurrencyId,
+                        MarketValue=secPosition.MarketValueBase,
+                        Price=secPosition.price,
+                        Quantity=secPosition.Position.NetQuantity,
+                        RealisedPnl=secPosition.Position.RealisedPnL,
+                        UnrealisedPnl=secPosition.unrealisedPnl
+                    };
+                    newPositions.Add(newPosition);
+                }
+                foreach(CashPositionValuation cashPosition in navValuations.CashPositions)
+                {
+                    string currencySecSymbol = $"{cashPosition.CashPosition.currency.Symbol}c";
+                    SecuritiesDIM securitisedCash = context.Securities.Where(s => s.Symbol == currencySecSymbol).Include(s => s.AssetClass).FirstOrDefault();
+
+                    PositionFACT newPosition = new PositionFACT
+                    {
+                        PositionDate = cashPosition.AsOfDate,
+                        SecurityId = securitisedCash.SecurityId,
+                        AssetClassId = securitisedCash.AssetClassId,
+                        FundId = fundId,
+                        AverageCost = 1,
+                        CurrencyId = cashPosition.CashPosition.currency.CurrencyId,
+                        MarketValue = cashPosition.MarketValueBase,
+                        Price = cashPosition.fxRate,
+                        Quantity = cashPosition.CashPosition.AccountBalance,
+                        RealisedPnl = 0,
+                        UnrealisedPnl = 0
+                    };
+                    newPositions.Add(newPosition);
+                }
+
+                context.Positions.AddRange(newPositions);
+
+                context.SaveChanges();
+                // Lock all transactions with this trade Date... DONE
+                // Add to Position SnapShot Fact Table... DONE
+                // Lock Period... DONE
+                // Update TransferAgent Fact Table I need to create this....
+                // NavPrices DONE
+
             }
         }
 

@@ -15,19 +15,19 @@ namespace PortfolioAce.Domain.Models.FactTables
         [Key]
         public int PositionId { get; set; }
         [Required]
-        public decimal PositionDate { get; set; }
+        public DateTime PositionDate { get; set; }
         [Required]
         public decimal Quantity { get; set; }
         [Required]
         public decimal AverageCost { get; set; }
         [Required]
-        public decimal MarketValue { get; set; } // this cannot be static. use computed column https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-5.0/whatsnew
+        public decimal MarketValue { get; set; } // This is base. I also need local..
         [Required]
         public decimal RealisedPnl { get; set; }
         [Required]
-        public decimal UnrealisedPnl { get; set; } // this cannot be static. use computed column https://docs.microsoft.com/en-us/ef/core/what-is-new/ef-core-5.0/whatsnew
+        public decimal UnrealisedPnl { get; set; } // 
         [Required]
-        public decimal Price { get; set; } // this cannot be static. reference the security have to reference
+        public decimal Price { get; set; } // I think this should reference an actual security price..
 
         [ForeignKey("Fund")]
         public int FundId { get; set; }

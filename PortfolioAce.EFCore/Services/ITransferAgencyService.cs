@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models;
+﻿using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.FactTables;
 using System;
@@ -16,6 +17,9 @@ namespace PortfolioAce.EFCore.Services
         Task<TransferAgencyBO> DeleteInvestorAction(int id);
 
         void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investors, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav);
+
+        void LockNav(NavValuations navValuations);
+
         List<TransferAgencyBO> GetAllFundInvestorActions(int fundId);
 
     }

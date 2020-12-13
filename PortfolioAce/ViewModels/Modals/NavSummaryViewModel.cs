@@ -19,7 +19,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             _navValuation = navValuation;
             _investorService = investorService;
-            LockNavCommand = new LockNavCommand(_navValuation, _investorService);
+            LockNavCommand = new LockNavCommand(this, _navValuation, _investorService);
         }
         public ICommand LockNavCommand { get; set; }
 

@@ -115,8 +115,13 @@ namespace PortfolioAce.Domain.DataObjects
         public decimal fxRate { get; set; }
         public decimal MarketValueBase { get; set; }
         public bool IsValuedBase { get; set; } // This determines whether fxRates and Market prices are available on this date...
+        public DateTime AsOfDate { get; set; }
+
+        // Investigate.. you can have unrealised cash on cash balances...
         public CashPositionValuation(CalculatedCashPosition cashPosition, Dictionary<(string, DateTime), decimal> priceTable, DateTime asOfDate, string FundBaseCurrency)
         {
+
+            this.AsOfDate = asOfDate;
             // this is for cash holdings I can get the valuation in base currency
             this.CashPosition = cashPosition;
             if (cashPosition.currency.Symbol.ToString() == FundBaseCurrency)
