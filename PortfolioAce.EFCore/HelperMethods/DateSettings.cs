@@ -28,7 +28,7 @@ namespace PortfolioAce.EFCore.HelperMethods
             // get the next 12month end.
             DateTime endDate = startDate.AddYears(1);
             DateTime newDate = startDate;
-            List<DateTime> allDates = new List<DateTime>();
+            List<DateTime> allDates = new List<DateTime> { startDate};
             while (newDate < endDate)
             {
                 newDate = MonthEndWorkingDate(newDate);
