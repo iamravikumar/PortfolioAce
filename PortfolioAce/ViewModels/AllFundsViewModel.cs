@@ -54,8 +54,8 @@ namespace PortfolioAce.ViewModels
                 OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorService, _staticReferences);
             ShowFundInitialisationCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
                 OpenModalWindow, typeof(FundInitialisationWindow), typeof(FundInitialisationWindowViewModel), _investorService, _staticReferences);
-            ShowNavSummaryCommand = new ActionCommand<Type, Type, ITransferAgencyService>(
-                OpenNavSummaryWindow, typeof(NavSummaryWindow),typeof(NavSummaryViewModel), _investorService);
+            ShowNavSummaryCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
+                OpenNavSummaryWindow, typeof(NavSummaryWindow),typeof(NavSummaryViewModel), _investorService, _staticReferences);
             PositionDetailCommand = new ActionCommand(ViewPositionDetails);
         }
 
@@ -377,11 +377,11 @@ namespace PortfolioAce.ViewModels
             view.ShowDialog();
         }
 
-        public void OpenNavSummaryWindow(Type windowType, Type viewModelType, object myService)
+        public void OpenNavSummaryWindow(Type windowType, Type viewModelType, object myService, object myService2)
         {
             // This is temporary
             Window view = (Window)Activator.CreateInstance(windowType);
-            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, NavValuation, myService);
+            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, NavValuation, myService, myService2);
 
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;

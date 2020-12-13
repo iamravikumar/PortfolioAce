@@ -1,7 +1,9 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
+using PortfolioAce.EFCore.Services.DimensionServices;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,12 +15,14 @@ namespace PortfolioAce.ViewModels.Modals
     public class NavSummaryViewModel:ViewModelWindowBase
     {
         private ITransferAgencyService _investorService;
+        private IStaticReferences _staticReferences;
         private NavValuations _navValuation;
 
-        public NavSummaryViewModel(NavValuations navValuation, ITransferAgencyService investorService)
+        public NavSummaryViewModel(NavValuations navValuation, ITransferAgencyService investorService, IStaticReferences staticReferences)
         {
             _navValuation = navValuation;
             _investorService = investorService;
+            _staticReferences = staticReferences;
             LockNavCommand = new LockNavCommand(this, _navValuation, _investorService);
         }
         public ICommand LockNavCommand { get; set; }
@@ -120,7 +124,15 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 // and the accounting period is not locked AND the prior accounting period is not locked....
-                return (UnvaluedPositions == 0);
+                AccountingPeriodsDIM period = _staticReferences.GetPeriod(AsOfDate,_navValuation.fund.FundId);
+                if (period == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return (UnvaluedPositions == 0 && !period.isLocked);
+                }
             }
         }
     }

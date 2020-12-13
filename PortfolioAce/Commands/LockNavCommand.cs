@@ -33,7 +33,6 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                // if the fund is monthly and the period to lock does not match the periods in the database prevent the lock operation this...
                 _investorService.LockNav(_navValuation);
                 _navValuationVM.CloseAction();
             }
