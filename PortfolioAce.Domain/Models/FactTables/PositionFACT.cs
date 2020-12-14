@@ -25,7 +25,7 @@ namespace PortfolioAce.Domain.Models.FactTables
         [Required]
         public decimal RealisedPnl { get; set; }
         [Required]
-        public decimal UnrealisedPnl { get; set; } // 
+        public decimal UnrealisedPnl { get; set; } 
         [Required]
         public decimal Price { get; set; } // I think this should reference an actual security price..
 

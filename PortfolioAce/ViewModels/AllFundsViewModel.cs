@@ -87,6 +87,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(CurrentNavPrice));
                 OnPropertyChanged(nameof(LockedNav));
                 OnPropertyChanged(nameof(NavValuation));
+                OnPropertyChanged(nameof(dgFundClients));
             }
         }
 
@@ -95,7 +96,7 @@ namespace PortfolioAce.ViewModels
             // with this is the fund is unlocked then i can create Estimate NAV as of XXX. Estimate Nav pershare as of:
             get
             {
-                return new NavValuations(dgFundPositions, dgFundCashHoldings, _asOfDate, _currentFund); ;
+                return new NavValuations(dgFundPositions, dgFundCashHoldings,dgFundClients, _asOfDate, _currentFund); ;
             }
         }
 
@@ -164,6 +165,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(ShowWidget));
                 OnPropertyChanged(nameof(LockedNav));
                 OnPropertyChanged(nameof(NavValuation));
+                OnPropertyChanged(nameof(dgFundClients));
             }
         }
 
@@ -257,6 +259,29 @@ namespace PortfolioAce.ViewModels
                     valuedCashPositions.Add(valuedCashPosition);
                 }
                 _dgFundCashHoldings = valuedCashPositions;
+                OnPropertyChanged(nameof(dgFundCashHoldings));
+            }
+        }
+
+        private List<ClientHolding> _dgFundClients;
+        public List<ClientHolding> dgFundClients
+        {
+            get
+            {
+                if (_currentFund != null)
+                {
+                    List<ClientHolding> allClientHoldings = _portfolioService.GetAllClientHoldings(_currentFund, asOfDate);
+                    return allClientHoldings; // This is temporary until I make the NaValuation live in this view...
+                }
+                else
+                {
+                    return new List<ClientHolding>();
+                }
+            }
+            set
+            {
+                List<ClientHolding> allClientHoldings = _portfolioService.GetAllClientHoldings(_currentFund, _asOfDate);
+                _dgFundClients = allClientHoldings;
                 OnPropertyChanged(nameof(dgFundCashHoldings));
             }
         }

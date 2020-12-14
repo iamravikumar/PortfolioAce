@@ -106,6 +106,9 @@ namespace PortfolioAce.ViewModels.Modals
                 return _navValuation.CashPositions;
             }
         }
+
+
+
         public Visibility ValuedMessage
         {
             // determines the message shown if ALL positions are valued..

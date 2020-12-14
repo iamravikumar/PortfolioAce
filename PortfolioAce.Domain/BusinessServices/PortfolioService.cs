@@ -43,6 +43,37 @@ namespace PortfolioAce.Domain.BusinessServices
             return allBalances;
         }
 
+        public List<ClientHolding> GetAllClientHoldings(Fund fund, DateTime asOfDate)
+        {
+            List<TransferAgencyBO> allActions = fund.TransferAgent.Where(t => t.IsNavFinal && t.TransactionDate <= asOfDate)
+                                                    .OrderBy(t => t.TransactionDate)
+                                                    .ToList();
+            Dictionary<string, List<TransferAgencyBO>> transferDict = new Dictionary<string, List<TransferAgencyBO>>();
+            foreach(TransferAgencyBO transaction in allActions)
+            {
+                string dictKey = transaction.InvestorName;
+                if (!transferDict.ContainsKey(dictKey))
+                {
+                    transferDict[dictKey] = new List<TransferAgencyBO> { transaction };
+                }
+                else
+                {
+                    transferDict[dictKey].Add(transaction);
+                }
+            }
+
+            List<ClientHolding> allHoldings = new List<ClientHolding>();
+
+            foreach (KeyValuePair<string, List<TransferAgencyBO>> Kvp in transferDict)
+            {
+                ClientHolding holding = new ClientHolding(Kvp.Key);
+                holding.AddClientTransactions(Kvp.Value);
+                allHoldings.Add(holding);
+            }
+
+            return allHoldings;
+        }
+
         public List<CalculatedSecurityPosition> GetAllSecurityPositions(Fund fund, DateTime asOfDate)
         {
             List<TransactionsBO> allTrades = fund.Transactions

@@ -15,22 +15,24 @@ namespace PortfolioAce.Domain.DataObjects
         public decimal ManagementFeeAmount { get; set; }
         public List<SecurityPositionValuation> SecurityPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
         public List<CashPositionValuation> CashPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
+        public List<ClientHoldingValuation> ClientHoldings { get; set; }
         public DateTime AsOfDate { get; set; }
         public decimal NetAssetValue { get; set; }
         public decimal SharesOutstanding { get; set; }
         public decimal NetAssetValuePerShare { get; set; }
         public int UnvaluedPositions { get; set; } // number of positions that do not have a price...
-        public NavValuations(List<SecurityPositionValuation> securityPositions, List<CashPositionValuation> cashPositions, 
+        public NavValuations(List<SecurityPositionValuation> securityPositions, List<CashPositionValuation> cashPositions, List<ClientHolding> clientHoldings,
             DateTime asOfDate, Fund fund)
         {
             this.SecurityPositions = securityPositions;
             this.CashPositions = cashPositions;
             this.fund = fund;
             this.AsOfDate = asOfDate;
-            this.Initialisation();
+            this.ClientHoldings = new List<ClientHoldingValuation>();
+            this.Initialisation(clientHoldings);// this clientHoldings parameter is temporary. When i make the NavValuations live in the view i will refactor this..
         }
 
-        private void Initialisation()
+        private void Initialisation(List<ClientHolding> clientHoldings)
         {
             // This will initialise the calculations
             decimal securityNav = SecurityPositions.Sum(sp => sp.MarketValueBase);
@@ -55,7 +57,11 @@ namespace PortfolioAce.Domain.DataObjects
             this.ManagementFeeAmount = (GrossNetAssetValue * fund.ManagementFee)/accrualPeriods; // this will then be weighted on the investors..
             this.NetAssetValue = GrossNetAssetValue - this.ManagementFeeAmount;
             this.NetAssetValuePerShare = Math.Round(this.NetAssetValue / this.SharesOutstanding, 4);
-
+            foreach(ClientHolding holding in clientHoldings)
+            {
+                ClientHoldingValuation holdingValued = new ClientHoldingValuation(holding, this.NetAssetValuePerShare);
+                this.ClientHoldings.Add(holdingValued);
+            }
         }
     }
 
@@ -138,6 +144,27 @@ namespace PortfolioAce.Domain.DataObjects
             }
             this.MarketValueBase = Math.Round(this.CashPosition.AccountBalance * fxRate, 2);
         }
+    }
+    public class ClientHoldingValuation
+    {
+        public ClientHolding Holding { get; set; }
+        public decimal GrossValuation { get; set; }
+        public decimal NetValuation { get; set; }
+        public decimal ManagementFeesAccrued { get; set; }
+        public decimal NavPrice { get; set; }
+
+        public decimal PerformanceFeesAccrued { get; set; }
+        public decimal HighWaterMark { get; set; } // ???
+
+        public ClientHoldingValuation(ClientHolding clientHolding, decimal navPrice)
+        {
+            this.Holding = clientHolding;
+            this.NavPrice = navPrice;
+            this.GrossValuation = this.Holding.Units * this.NavPrice;
+            this.PerformanceFeesAccrued = 0;
+            this.ManagementFeesAccrued = 0;
+        }
+
     }
     
 }
