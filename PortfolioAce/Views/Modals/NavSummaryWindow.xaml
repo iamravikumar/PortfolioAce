@@ -125,6 +125,21 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
+                <TabItem Header="Clients">
+                    <DataGrid Name="dgClientHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgClientHoldings}" 
+                              RowBackground="GhostWhite" AlternatingRowBackground="White"
+                              VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Investor" Binding="{Binding Holding.ClientName}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Units" Binding="{Binding Holding.Units, StringFormat=N2}" Width="SizeToCells" />
+                            <DataGridTextColumn Header="GAV Price" Binding="{Binding GavPrice, StringFormat=N2}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Net Value Base" Binding="{Binding NetValuation, StringFormat=N2}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Management Fee" Binding="{Binding ManagementFeesAccrued, StringFormat=N2}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Performance Fee" Binding="{Binding PerformanceFeesAccrued, StringFormat=N2}" Width="*" />
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
             </TabControl>
         </DockPanel>
         <Button Grid.Column="1" Grid.Row="3" Content="Lock NAV" IsEnabled="{Binding EnableLockNav}" Command="{Binding LockNavCommand}"/>

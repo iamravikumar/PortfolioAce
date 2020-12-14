@@ -18,8 +18,10 @@ namespace PortfolioAce.Domain.DataObjects
         public List<ClientHoldingValuation> ClientHoldings { get; set; }
         public DateTime AsOfDate { get; set; }
         public decimal NetAssetValue { get; set; }
+        public decimal GrossAssetValue { get; set; }
         public decimal SharesOutstanding { get; set; }
         public decimal NetAssetValuePerShare { get; set; }
+        public decimal GrossAssetValuePerShare { get; set; }
         public int UnvaluedPositions { get; set; } // number of positions that do not have a price...
         public NavValuations(List<SecurityPositionValuation> securityPositions, List<CashPositionValuation> cashPositions, List<ClientHolding> clientHoldings,
             DateTime asOfDate, Fund fund)
@@ -38,8 +40,9 @@ namespace PortfolioAce.Domain.DataObjects
             decimal securityNav = SecurityPositions.Sum(sp => sp.MarketValueBase);
             decimal cashNav = CashPositions.Sum(cp => cp.MarketValueBase);
             this.UnvaluedPositions = SecurityPositions.Where(sp => !sp.IsValuedBase).Count() + CashPositions.Where(cp => !cp.IsValuedBase).Count();
-            decimal GrossNetAssetValue = securityNav + cashNav;
+            this.GrossAssetValue = securityNav + cashNav;
             this.SharesOutstanding = this.fund.TransferAgent.Sum(ta => ta.Units); // if i make the units absolute i will have to negative units..
+            this.GrossAssetValuePerShare = Math.Round(this.GrossAssetValue / this.SharesOutstanding, 5);
 
             //accruals
             int accrualPeriods;
@@ -54,12 +57,14 @@ namespace PortfolioAce.Domain.DataObjects
             // REMEMBER for performance i need to calculate the holding period return
             // HPR = (Ending Value) / (Previous Value After Cash Flow) – 1.
             
-            this.ManagementFeeAmount = (GrossNetAssetValue * fund.ManagementFee)/accrualPeriods; // this will then be weighted on the investors..
-            this.NetAssetValue = GrossNetAssetValue - this.ManagementFeeAmount;
-            this.NetAssetValuePerShare = Math.Round(this.NetAssetValue / this.SharesOutstanding, 4);
+            this.ManagementFeeAmount = (GrossAssetValue * fund.ManagementFee)/accrualPeriods; // this will then be weighted on the investors..
+            this.NetAssetValue = GrossAssetValue - this.ManagementFeeAmount;
+            this.NetAssetValuePerShare = Math.Round(this.NetAssetValue / this.SharesOutstanding, 5);
             foreach(ClientHolding holding in clientHoldings)
             {
-                ClientHoldingValuation holdingValued = new ClientHoldingValuation(holding, this.NetAssetValuePerShare);
+                ClientHoldingValuation holdingValued = new ClientHoldingValuation(holding, this.GrossAssetValuePerShare);
+                holdingValued.ApplyManagementFee(Math.Round((holding.Units / this.SharesOutstanding) *this.ManagementFeeAmount,2));
+                // I Need to get the weighted average here...
                 this.ClientHoldings.Add(holdingValued);
             }
         }
@@ -148,23 +153,35 @@ namespace PortfolioAce.Domain.DataObjects
     public class ClientHoldingValuation
     {
         public ClientHolding Holding { get; set; }
-        public decimal GrossValuation { get; set; }
+        public decimal GrossValuation { get;  set; }
         public decimal NetValuation { get; set; }
         public decimal ManagementFeesAccrued { get; set; }
-        public decimal NavPrice { get; set; }
+        public decimal GavPrice { get; set; }
 
         public decimal PerformanceFeesAccrued { get; set; }
         public decimal HighWaterMark { get; set; } // ???
-
-        public ClientHoldingValuation(ClientHolding clientHolding, decimal navPrice)
+        public ClientHoldingValuation(ClientHolding clientHolding, decimal gavPrice)
         {
             this.Holding = clientHolding;
-            this.NavPrice = navPrice;
-            this.GrossValuation = this.Holding.Units * this.NavPrice;
+            this.GavPrice = gavPrice;
+            this.GrossValuation = this.Holding.Units * this.GavPrice;
+            this.NetValuation = this.Holding.Units * this.GavPrice;
             this.PerformanceFeesAccrued = 0;
             this.ManagementFeesAccrued = 0;
         }
 
+        public void ApplyManagementFee(decimal fee)
+        {
+            ManagementFeesAccrued += fee;
+            NetValuation -= fee;
+            
+        }
+        public void ApplyPerformanceFee(decimal fee)
+        {
+            PerformanceFeesAccrued += fee;
+            NetValuation -= fee;
+
+        }
     }
     
 }

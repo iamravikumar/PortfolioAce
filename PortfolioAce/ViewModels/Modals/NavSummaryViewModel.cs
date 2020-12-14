@@ -107,7 +107,13 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-
+        public List<ClientHoldingValuation> dgClientHoldings
+        {
+            get
+            {
+                return _navValuation.ClientHoldings;
+            }
+        }
 
         public Visibility ValuedMessage
         {
