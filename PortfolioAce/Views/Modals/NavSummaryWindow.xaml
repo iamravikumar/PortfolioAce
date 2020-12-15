@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         xmlns:src="clr-namespace:PortfolioAce.Models"
         mc:Ignorable="d"
-        Title="Nav Summary" Height="525" Width="600">
+        Title="Nav Summary" Height="525" Width="675">
     <Window.Resources>
         <src:InvertVisibilityConverter x:Key="invertVisibilityConverter"/>
     </Window.Resources>
@@ -135,8 +135,8 @@
                             <DataGridTextColumn Header="GAV Price" Binding="{Binding GavPrice, StringFormat=N2}" Width="SizeToHeader" />
                             <DataGridTextColumn Header="Net Value Base" Binding="{Binding NetValuation, StringFormat=N2}" Width="SizeToHeader" />
                             <DataGridTextColumn Header="Management Fee" Binding="{Binding ManagementFeesAccrued, StringFormat=N2}" Width="SizeToHeader" />
-                            <DataGridTextColumn Header="Performance Fee" Binding="{Binding PerformanceFeesAccrued, StringFormat=N2}" Width="*" />
-
+                            <DataGridTextColumn Header="Performance Fee" Binding="{Binding PerformanceFeesAccrued, StringFormat=N2}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Holding %" Width="SizeToHeader" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

@@ -56,8 +56,14 @@ namespace PortfolioAce.Domain.DataObjects
             }
             // REMEMBER for performance i need to calculate the holding period return
             // HPR = (Ending Value) / (Previous Value After Cash Flow) – 1.
-            
-            this.ManagementFeeAmount = (GrossAssetValue * fund.ManagementFee)/accrualPeriods; // this will then be weighted on the investors..
+            if (AsOfDate.DayOfWeek == DayOfWeek.Monday)
+            {
+                this.ManagementFeeAmount = 3*((GrossAssetValue * fund.ManagementFee) / accrualPeriods); // this will then be weighted on the investors..
+            }
+            else
+            {
+                this.ManagementFeeAmount = (GrossAssetValue * fund.ManagementFee) / accrualPeriods; // this will then be weighted on the investors..
+            }
             this.NetAssetValue = GrossAssetValue - this.ManagementFeeAmount;
             this.NetAssetValuePerShare = Math.Round(this.NetAssetValue / this.SharesOutstanding, 5);
             foreach(ClientHolding holding in clientHoldings)

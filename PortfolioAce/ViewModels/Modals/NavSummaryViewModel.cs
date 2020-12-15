@@ -140,7 +140,8 @@ namespace PortfolioAce.ViewModels.Modals
                 }
                 else
                 {
-                    return (UnvaluedPositions == 0 && !period.isLocked);
+                    bool isWeekend = (AsOfDate.DayOfWeek == DayOfWeek.Saturday || AsOfDate.DayOfWeek == DayOfWeek.Sunday); // you can't lock nav on weekend
+                    return (UnvaluedPositions == 0 && !period.isLocked && !isWeekend);
                 }
             }
         }
