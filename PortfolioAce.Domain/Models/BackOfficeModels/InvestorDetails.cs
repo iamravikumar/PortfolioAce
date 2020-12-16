@@ -9,9 +9,13 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
     public class InvestorDetails
     {
         // This class will contain the Highwatermark for now... BUT it will add flexibility if i decide to have different management and performance fees per investor..
+        // This is created when the fund is initialised OR if its the clients first trade on a fund...
         [Key]
         public int InvestorSettingId { get; set; }
         public decimal HighWaterMark { get; set; }
+        [Required, DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime InceptionDate { get; set; }
+
         [ForeignKey("Investor")]
         public int InvestorId { get; set; }
         public InvestorsBO Investor { get; set; }

@@ -46,10 +46,10 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         [ForeignKey("Fund")]
         public int FundId { get; set; }
         public Fund Fund { get; set; }
-        /*
+        
         [ForeignKey("Investor")]
         public int InvestorId { get; set; }
         public InvestorsBO Investor { get; set; }
-        */
+        
     }
 }

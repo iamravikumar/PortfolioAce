@@ -13,10 +13,9 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         [Required]
         public string FullName { get; set; }
 
-        //public decimal HighWaterMark { get; set; } // This means that i will have to link the investor to a fund but if i normalise this i won't...
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime BirthDate { get; set; }
-        public DateTime Domicile { get; set; }
+        public string Domicile { get; set; }
         [EmailAddress]
         public string Email { get; set; }
         [Phone]

@@ -165,7 +165,6 @@ namespace PortfolioAce.Domain.DataObjects
         public decimal GavPrice { get; set; }
 
         public decimal PerformanceFeesAccrued { get; set; }
-        public decimal HighWaterMark { get; set; } // ???
         public ClientHoldingValuation(ClientHolding clientHolding, decimal gavPrice)
         {
             this.Holding = clientHolding;
