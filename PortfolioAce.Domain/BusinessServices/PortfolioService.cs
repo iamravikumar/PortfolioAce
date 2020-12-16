@@ -48,10 +48,10 @@ namespace PortfolioAce.Domain.BusinessServices
             List<TransferAgencyBO> allActions = fund.TransferAgent.Where(t => t.IsNavFinal && t.TransactionDate <= asOfDate)
                                                     .OrderBy(t => t.TransactionDate)
                                                     .ToList();
-            Dictionary<string, List<TransferAgencyBO>> transferDict = new Dictionary<string, List<TransferAgencyBO>>();
+            Dictionary<FundInvestorBO, List<TransferAgencyBO>> transferDict = new Dictionary<FundInvestorBO, List<TransferAgencyBO>>();
             foreach(TransferAgencyBO transaction in allActions)
             {
-                string dictKey = transaction.InvestorName;
+                FundInvestorBO dictKey = transaction.FundInvestor;
                 if (!transferDict.ContainsKey(dictKey))
                 {
                     transferDict[dictKey] = new List<TransferAgencyBO> { transaction };
@@ -64,7 +64,7 @@ namespace PortfolioAce.Domain.BusinessServices
 
             List<ClientHolding> allHoldings = new List<ClientHolding>();
 
-            foreach (KeyValuePair<string, List<TransferAgencyBO>> Kvp in transferDict)
+            foreach (KeyValuePair<FundInvestorBO, List<TransferAgencyBO>> Kvp in transferDict)
             {
                 ClientHolding holding = new ClientHolding(Kvp.Key);
                 holding.AddClientTransactions(Kvp.Value);

@@ -26,6 +26,8 @@ namespace PortfolioAce.EFCore.Services
 
         List<TransferAgencyBO> GetAllFundInvestorActions(int fundId);
         List<InvestorsDIM> GetAllInvestors();
+        List<FundInvestorBO> GetAllFundInvestors(int fundId);
+
 
     }
 }

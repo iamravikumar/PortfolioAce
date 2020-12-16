@@ -146,7 +146,7 @@
                             <DataGridTextColumn Header="NAV Price" Binding="{Binding NAVPrice, StringFormat=N2}" />
                             <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount, StringFormat=N2}" />
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" />
-                            <DataGridTextColumn Header="Investor Name" Binding="{Binding InvestorName}" />
+                            <DataGridTextColumn Header="Investor" Binding="{Binding FundInvestor.Investor.FullName}" />
                             <DataGridTextColumn Header="Action Date" Binding="{Binding TransactionDate, StringFormat={}{0:dd/MM/yyyy}}" />
                             <DataGridTextColumn Header="Action Settle Date" Binding="{Binding TransactionSettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                         </DataGrid.Columns>

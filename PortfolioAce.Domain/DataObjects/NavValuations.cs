@@ -69,8 +69,7 @@ namespace PortfolioAce.Domain.DataObjects
             foreach(ClientHolding holding in clientHoldings)
             {
                 ClientHoldingValuation holdingValued = new ClientHoldingValuation(holding, this.GrossAssetValuePerShare);
-                holdingValued.ApplyManagementFee(Math.Round((holding.Units / this.SharesOutstanding) *this.ManagementFeeAmount,2));
-                // I Need to get the weighted average here...
+                holdingValued.ApplyManagementFee(Math.Round((holding.Units / this.SharesOutstanding) *this.ManagementFeeAmount,2)); // this is the weighted average fee
                 this.ClientHoldings.Add(holdingValued);
             }
         }

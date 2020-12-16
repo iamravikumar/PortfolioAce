@@ -70,6 +70,14 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public List<FundInvestorBO> GetAllFundInvestors(int fundId)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.FundInvestor.Where(fi => fi.FundId == fundId).ToList();
+            }
+        }
+
         public List<InvestorsDIM> GetAllInvestors()
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
@@ -202,7 +210,7 @@ namespace PortfolioAce.EFCore.Services
                 // Lock all transactions with this trade Date... DONE
                 // Add to Position SnapShot Fact Table... DONE
                 // Lock Period... DONE
-                // Update TransferAgent Fact Table I need to create this....
+                // Update TransferAgent Fact Table I need to create this Table and implement the update....
                 // NavPrices DONE
 
             }

@@ -8,15 +8,15 @@ namespace PortfolioAce.Domain.DataObjects
 {
     public class ClientHolding
     {
-        public string ClientName { get; set; }
+        public FundInvestorBO Investor { get; set; }
         public decimal Units { get; set; }
         public decimal AverageCost { get; set; }
         public decimal RealisedPnL { get; set; }
         public List<TransferAgencyBO> Transactions {get;set;}
         private Queue<OpenLots> openLots;
-        public ClientHolding(string client)
+        public ClientHolding(FundInvestorBO investor)
         {
-            ClientName = client;
+            Investor = investor;
             Units = 0;
             AverageCost = 0;
             RealisedPnL = 0;
@@ -33,7 +33,7 @@ namespace PortfolioAce.Domain.DataObjects
         }
         public void AddClientTransaction(TransferAgencyBO clientTransaction)
         {
-            if(clientTransaction.InvestorName != this.ClientName)
+            if(clientTransaction.FundInvestorId != this.Investor.FundInvestorId)
             {
                 throw new InvalidOperationException("This client does not match the client of this holding");
             }
