@@ -36,14 +36,16 @@ namespace PortfolioAce.Navigation
         private IFundService _fundService;
         private IAdminService _adminService;
         private IStaticReferences _staticReferences;
+        private ITransferAgencyService _investorService;
 
-        public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IFundService fundService,
+        public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IFundService fundService, ITransferAgencyService investorService,
             IAdminService adminService, IStaticReferences staticReferences)
         {
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
             _fundService = fundService;
             _adminService = adminService;
             _staticReferences = staticReferences;
+            _investorService = investorService;
             // I can make these commands reusable
             ShowSettingsCommand = new ActionCommand(ShowSettingsWindow);
             ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
@@ -51,6 +53,7 @@ namespace PortfolioAce.Navigation
             ShowAboutCommand = new ActionCommand(ShowAboutWindow);
             ShowImportTradesCommand = new ActionCommand(ShowImportTradesWindow);
             CloseApplicationCommand = new ActionCommand(CloseApplication);
+            ShowNewInvestorCommand = new ActionCommand(ShowNewInvestorWindow);
         }
 
         public ICommand CloseApplicationCommand { get; }
@@ -60,6 +63,7 @@ namespace PortfolioAce.Navigation
         public ICommand ShowAboutCommand { get; }
         public ICommand ShowImportTradesCommand { get; }
         public ICommand ShowSecurityManagerCommand { get; set; }
+        public ICommand ShowNewInvestorCommand { get; set; }
 
         public void CloseApplication()
         {
@@ -97,6 +101,21 @@ namespace PortfolioAce.Navigation
                 viewModel.CloseAction = new Action(() => view.Close());
             }
             
+            view.ShowDialog();
+        }
+
+        public void ShowNewInvestorWindow()
+        {
+            Window view = new AddInvestorWindow();
+            ViewModelWindowBase viewModel = new AddInvestorWindowViewModel(_investorService);
+            view.DataContext = viewModel;
+            view.Owner = Application.Current.MainWindow;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (viewModel.CloseAction == null)
+            {
+                viewModel.CloseAction = new Action(() => view.Close());
+            }
+
             view.ShowDialog();
         }
 

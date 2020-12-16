@@ -39,6 +39,13 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
+            <MenuItem Header="Investors">
+                <MenuItem Header="Create Investor..."  Command="{Binding ShowNewInvestorCommand}" CommandParameter="{x:Static nav:ViewType.FundsView}">
+                    <MenuItem.Icon>
+                        <Image Source="/PortfolioAce;component/Resources\icons8-AddInvestor-24.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="Tools">
                 <MenuItem Header="View Security Prices"  Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.SysSecurityPrices}">
                     <MenuItem.Icon>
