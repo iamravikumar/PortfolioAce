@@ -23,7 +23,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         public DateTime TransactionSettleDate { get; set; } // this is the subscription and redemption dates.
 
         [Required]
-        public string InvestorName { get; set; }
+        public string InvestorName { get; set; } // This is Client
 
         [Required]
         public decimal Units { get; set; }
@@ -46,5 +46,10 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         [ForeignKey("Fund")]
         public int FundId { get; set; }
         public Fund Fund { get; set; }
+        /*
+        [ForeignKey("Investor")]
+        public int InvestorId { get; set; }
+        public InvestorsBO Investor { get; set; }
+        */
     }
 }
