@@ -78,14 +78,13 @@
                 </Grid>
             </TabItem>
             <TabItem Header="All Investors">
-                <!-- A Datagrid with all securities that are NOT readonly. So they can be edited -->
-                <DataGrid Name="dgAllSecurities" ColumnWidth="*" ItemsSource="{Binding Path=dgSecurities}" 
+                <DataGrid Name="dgInvestors" ColumnWidth="*" ItemsSource="{Binding Path=dgInvestors}" 
                           RowBackground="GhostWhite" AlternatingRowBackground="White"
                           VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Full Name"  Binding="{Binding AssetClass.Name}"/>
-                        <DataGridTextColumn Header="Birth Date" Binding="{Binding SecurityName}"/>
-                        <DataGridTextColumn Header="Domicile" Binding="{Binding Symbol}"/>
+                        <DataGridTextColumn Header="Full Name"  Binding="{Binding FullName}"/>
+                        <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate}"/>
+                        <DataGridTextColumn Header="Domicile" Binding="{Binding Domicile}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>

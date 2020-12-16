@@ -11,7 +11,7 @@ using System.Text;
 namespace PortfolioAce.EFCore
 {
     // this class will manage our interaction with the database.
-    public class PortfolioAceDbContext:DbContext
+    public class PortfolioAceDbContext : DbContext
     {
         public DbSet<Fund> Funds { get; set; }
         public DbSet<SecurityPriceStore> SecurityPriceData { get; set; }
@@ -19,6 +19,7 @@ namespace PortfolioAce.EFCore
         // Back Office Models
         public DbSet<TransferAgencyBO> TransferAgent { get; set; }
         public DbSet<TransactionsBO> Transactions { get; set; }
+        public DbSet<FundInvestorBO> FundInvestor { get; set; }
 
         // Dimensions
         public DbSet<SecuritiesDIM> Securities { get; set; }
@@ -29,8 +30,10 @@ namespace PortfolioAce.EFCore
         public DbSet<CustodiansDIM> Custodians { get; set; }
         public DbSet<AccountingPeriodsDIM> Periods { get; set; }
         public DbSet<TransactionTypeDIM> TransactionTypes { get; set; }
+        public DbSet<InvestorsDIM> Investors { get; set; }
 
         // Fact Tables
+        public DbSet<InvestorHoldingsFACT> InvestorHoldings {get;set;}
         public DbSet<NAVPriceStoreFACT> NavPriceData { get; set; }
         public DbSet<FundPerformanceFACT> FundPerformance { get; set; }
         public DbSet<PositionFACT> Positions { get; set; }

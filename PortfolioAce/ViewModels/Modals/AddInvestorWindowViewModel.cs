@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Commands;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.Models;
 using System;
@@ -106,6 +107,14 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _nativeLanguage = value;
                 OnPropertyChanged(nameof(NativeLanguage));
+            }
+        }
+
+        public List<InvestorsDIM> dgInvestors
+        {
+            get
+            {
+                return _investorService.GetAllInvestors();
             }
         }
 

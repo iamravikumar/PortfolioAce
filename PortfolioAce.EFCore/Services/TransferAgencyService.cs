@@ -24,6 +24,17 @@ namespace PortfolioAce.EFCore.Services
             this._contextFactory = contextFactory;
         }
 
+        public async Task<InvestorsDIM> CreateInvestor(InvestorsDIM investor)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                EntityEntry<InvestorsDIM> res = await context.Investors.AddAsync(investor);
+                await context.SaveChangesAsync();
+
+                return res.Entity;
+            }
+        }
+
         public async Task<TransferAgencyBO> CreateInvestorAction(TransferAgencyBO investorAction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
@@ -56,6 +67,14 @@ namespace PortfolioAce.EFCore.Services
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.TransferAgent.Where(ta => ta.FundId == fundId).OrderBy(ta => ta.TransactionDate).ToList();
+            }
+        }
+
+        public List<InvestorsDIM> GetAllInvestors()
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Investors.ToList();
             }
         }
 

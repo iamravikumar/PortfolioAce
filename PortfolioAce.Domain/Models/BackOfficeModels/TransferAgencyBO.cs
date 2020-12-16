@@ -49,7 +49,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         
         [ForeignKey("Investor")]
         public int InvestorId { get; set; }
-        public InvestorsBO Investor { get; set; }
+        public InvestorsDIM Investor { get; set; }
         
     }
 }

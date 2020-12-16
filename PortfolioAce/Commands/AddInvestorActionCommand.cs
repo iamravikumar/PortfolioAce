@@ -51,7 +51,6 @@ namespace PortfolioAce.Commands
 
                 // Cash should hit the transactions on SettleDate not trade date...
 
-                // why cant i use await here? might be redundant once i refactor everything.
                 await _investorService.CreateInvestorAction(newInvestorAction);
                 _investorActionVM.CloseAction();
             }

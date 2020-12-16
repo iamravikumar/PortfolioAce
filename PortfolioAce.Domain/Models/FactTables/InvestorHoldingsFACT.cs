@@ -24,8 +24,5 @@ namespace PortfolioAce.Domain.Models.FactTables
         [Required]
         public decimal PerformanceFeesAccrued { get; set; }
 
-        [ForeignKey("InvestorDetails")]
-        public int InvestorDetailsId { get; set; }
-        public InvestorDetails InvestorDetails { get; set; }
     }
 }

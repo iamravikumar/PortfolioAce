@@ -16,11 +16,15 @@ namespace PortfolioAce.EFCore.Services
         Task<TransferAgencyBO> UpdateInvestorAction(TransferAgencyBO investorAction);
         Task<TransferAgencyBO> DeleteInvestorAction(int id);
 
+
+        Task<InvestorsDIM> CreateInvestor(InvestorsDIM investor);
+
         void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investors, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav);
 
         void LockNav(NavValuations navValuations);
 
         List<TransferAgencyBO> GetAllFundInvestorActions(int fundId);
+        List<InvestorsDIM> GetAllInvestors();
 
     }
 }

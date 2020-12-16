@@ -6,10 +6,10 @@ using System.Text;
 
 namespace PortfolioAce.Domain.Models.BackOfficeModels
 {
-    public class InvestorDetails
+    public class FundInvestorBO
     {
         // This class will contain the Highwatermark for now... BUT it will add flexibility if i decide to have different management and performance fees per investor..
-        // This is created when the fund is initialised OR if its the clients first trade on a fund...
+        // IMPORTANT NOTE: This is created when the fund is initialised OR if its the clients first trade on a fund...
         [Key]
         public int InvestorSettingId { get; set; }
         public decimal HighWaterMark { get; set; }
@@ -18,7 +18,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
 
         [ForeignKey("Investor")]
         public int InvestorId { get; set; }
-        public InvestorsBO Investor { get; set; }
+        public InvestorsDIM Investor { get; set; }
 
         [ForeignKey("Fund")]
         public int FundId { get; set; }
