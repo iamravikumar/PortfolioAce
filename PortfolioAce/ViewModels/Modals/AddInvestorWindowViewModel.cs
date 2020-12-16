@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models.BackOfficeModels;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.Models;
 using System;

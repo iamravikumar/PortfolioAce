@@ -88,6 +88,8 @@ namespace PortfolioAce.EFCore.Services
                 // look for optimisation at some point
                 return context.Funds
                     .Include(f=> f.TransferAgent)
+                        .ThenInclude(ta=>ta.FundInvestor)
+                        .ThenInclude(fi=>fi.Investor)
                     .Include(f => f.Transactions)
                         .ThenInclude(s => s.Security)
                         .ThenInclude(s=>s.AssetClass)
@@ -109,6 +111,8 @@ namespace PortfolioAce.EFCore.Services
             {
                 return context.Funds.Where(f => f.Symbol == fundSymbol)
                             .Include(f => f.TransferAgent)
+                                .ThenInclude(ta => ta.FundInvestor)
+                                .ThenInclude(fi => fi.Investor)
                             .Include(f => f.Transactions)
                                 .ThenInclude(s => s.Security)
                                 .ThenInclude(s => s.AssetClass)

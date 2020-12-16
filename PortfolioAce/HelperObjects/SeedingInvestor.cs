@@ -6,11 +6,11 @@ namespace PortfolioAce.HelperObjects
 {
     public class SeedingInvestor
     {
-        public string InvestorName { get; set; }
+        public int InvestorId{ get; set; }
         public decimal SeedAmount { get; set; }
-        public SeedingInvestor(string InvestorName, decimal SeedAmount)
+        public SeedingInvestor(int InvestorId, decimal SeedAmount)
         {
-            this.InvestorName = InvestorName;
+            this.InvestorId = InvestorId;
             this.SeedAmount = SeedAmount;
         }
         public SeedingInvestor()

@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.HelperObjects;
@@ -48,6 +49,14 @@ namespace PortfolioAce.ViewModels.Modals
             }
             private set
             {
+            }
+        }
+
+        public List<InvestorsDIM> cmbInvestors
+        {
+            get
+            {
+                return investorService.GetAllInvestors();
             }
         }
 

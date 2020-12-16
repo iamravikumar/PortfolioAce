@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         mc:Ignorable="d"
         Title="Fund Initialisation" Height="350" Width="500">
+    <Window.Resources>
+        <CollectionViewSource x:Key="InvestorsCVS" Source="{Binding cmbInvestors}"/>
+    </Window.Resources>
     <Border Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3" Margin="3">
         <Grid Margin="1">
             <Grid.Resources>
@@ -74,7 +77,7 @@
             <Label Grid.Row="5" Grid.ColumnSpan="2">Add your initial investors below</Label>
             <DataGrid Name="dgSeedingInvestors" Grid.Row="6" Grid.ColumnSpan="3" CanUserDeleteRows="True" CanUserAddRows="True" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding Path=dgSeedingInvestors, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Investor Name" Binding="{Binding InvestorName}" />
+                    <DataGridComboBoxColumn Header="Investor" ItemsSource="{Binding Source={StaticResource InvestorsCVS}}" SelectedValueBinding="{Binding InvestorId}" DisplayMemberPath="FullName" SelectedValuePath="InvestorId"/>
                     <DataGridTextColumn Header="Seeding Amount" Binding="{Binding SeedAmount}" />
                 </DataGrid.Columns>
             </DataGrid>

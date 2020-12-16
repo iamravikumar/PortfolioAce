@@ -48,15 +48,30 @@ namespace PortfolioAce.Commands
                 TransactionTypeDIM tradeType = _staticReferences.GetTransactionType("Deposit");
                 CustodiansDIM custodian = _staticReferences.GetCustodian("Default");
 
-                List<TransferAgencyBO> newInvestors = new List<TransferAgencyBO>();
+                List<TransferAgencyBO> subscriptions = new List<TransferAgencyBO>();
                 List<TransactionsBO> transactions = new List<TransactionsBO>();
-                foreach(SeedingInvestor seedInvestor in _fundInitialiseVM.dgSeedingInvestors)
+                List<FundInvestorBO> fundInvestors = new List<FundInvestorBO>();
+
+                if (_fundInitialiseVM.dgSeedingInvestors.Count == 0)
                 {
-                    if (seedInvestor.InvestorName!="" || seedInvestor.SeedAmount>0 ) 
+                    throw new ArgumentException("Your fund must have initial investors");
+                }
+                foreach (SeedingInvestor seedInvestor in _fundInitialiseVM.dgSeedingInvestors)
+                {
+                    if (seedInvestor.SeedAmount>0 ) // eventually this will be the funds minimum value
                     {
-                        TransferAgencyBO newInvestor = new TransferAgencyBO
+                        // The highwatermark is only applicable if the fund has a highwatermark...
+                        FundInvestorBO fundInvestor = new FundInvestorBO
                         {
-                            InvestorName = seedInvestor.InvestorName,
+                            InceptionDate=updateFund.LaunchDate,
+                            FundId=updateFund.FundId,
+                            HighWaterMark=_fundInitialiseVM.NavPrice,
+                            InvestorId=seedInvestor.InvestorId
+                        };
+                        fundInvestors.Add(fundInvestor);
+                        TransferAgencyBO newSubscription = new TransferAgencyBO
+                        {
+                            InvestorName = "DELETE THIS COLUMN LATER",
                             TradeAmount = seedInvestor.SeedAmount,
                             NAVPrice = _fundInitialiseVM.NavPrice,
                             TransactionDate = updateFund.LaunchDate,
@@ -67,8 +82,9 @@ namespace PortfolioAce.Commands
                             IssueType = "Subscription",
                             Units = seedInvestor.SeedAmount / _fundInitialiseVM.NavPrice,
                             IsNavFinal=true,
+                            FundInvestor=fundInvestor
                         };
-                        newInvestors.Add(newInvestor);
+                        subscriptions.Add(newSubscription);
                         TransactionsBO newTransaction = new TransactionsBO
                         {
                             SecurityId = security.SecurityId,
@@ -93,7 +109,7 @@ namespace PortfolioAce.Commands
                     }
                     else
                     {
-                        throw new ArgumentException("Investor must have a name and the seed amount must be greater than 0");
+                        throw new ArgumentException("The seed amount must be greater than 0"); // eventually this will be the funds minimum value
                     }
                 }
 
@@ -103,12 +119,12 @@ namespace PortfolioAce.Commands
                     FinalisedDate = updateFund.LaunchDate,
                     NAVPrice = _fundInitialiseVM.NavPrice,
                     FundId = updateFund.FundId,
-                    NetAssetValue = newInvestors.Sum(ni => ni.TradeAmount),
-                    SharesOutstanding = newInvestors.Sum(ni => ni.Units),
+                    NetAssetValue = subscriptions.Sum(ni => ni.TradeAmount),
+                    SharesOutstanding = subscriptions.Sum(ni => ni.Units),
                     Currency = updateFund.BaseCurrency,
                     NAVPeriodId = PeriodId
                 };
-                _investorService.InitialiseFundAction(updateFund, newInvestors,transactions, initialNav);
+                _investorService.InitialiseFundAction(updateFund, subscriptions,transactions, initialNav, fundInvestors);
                 _fundInitialiseVM.CloseAction();
             }
             catch (Exception e)

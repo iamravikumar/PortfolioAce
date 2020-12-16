@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PortfolioAce.Domain.Models.Dimensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,7 +12,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         // This class will contain the Highwatermark for now... BUT it will add flexibility if i decide to have different management and performance fees per investor..
         // IMPORTANT NOTE: This is created when the fund is initialised OR if its the clients first trade on a fund...
         [Key]
-        public int InvestorSettingId { get; set; }
+        public int FundInvestorId { get; set; }
         public decimal HighWaterMark { get; set; }
         [Required, DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime InceptionDate { get; set; }

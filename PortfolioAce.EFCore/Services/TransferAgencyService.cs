@@ -86,7 +86,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investors, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav)
+        public void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investorSubscriptions, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav, List<FundInvestorBO> fundInvestors)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -97,6 +97,9 @@ namespace PortfolioAce.EFCore.Services
                 period.isLocked = true;
                 context.Periods.Update(period);
 
+                // Saves the fund investors that are attached to the transferagent subscriptions
+                context.FundInvestor.AddRange(fundInvestors);
+
                 // Saves the first Nav
                 context.NavPriceData.Add(initialNav);
 
@@ -106,7 +109,7 @@ namespace PortfolioAce.EFCore.Services
 
                 
                 // saves the investors to the database
-                context.TransferAgent.AddRange(investors);
+                context.TransferAgent.AddRange(investorSubscriptions);
 
                 context.Transactions.AddRange(transactions);
 

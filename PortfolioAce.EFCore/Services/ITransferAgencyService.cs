@@ -1,6 +1,7 @@
 ﻿using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace PortfolioAce.EFCore.Services
 
         Task<InvestorsDIM> CreateInvestor(InvestorsDIM investor);
 
-        void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investors, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav);
+        void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investorSubscriptions, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav, List<FundInvestorBO> fundInvestors);
 
         void LockNav(NavValuations navValuations);
 

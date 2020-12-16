@@ -83,7 +83,7 @@
                           VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Full Name"  Binding="{Binding FullName}"/>
-                        <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate}"/>
+                        <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat={}{0:dd/MM/yyyy}}"/>
                         <DataGridTextColumn Header="Domicile" Binding="{Binding Domicile}"/>
                     </DataGrid.Columns>
                 </DataGrid>
