@@ -24,6 +24,7 @@ namespace PortfolioAce.EFCore.Services
 
         void LockNav(NavValuations navValuations);
 
+        FundInvestorBO GetFundInvestor(int fundId, int investorId);
         List<TransferAgencyBO> GetAllFundInvestorActions(int fundId);
         List<InvestorsDIM> GetAllInvestors();
         List<FundInvestorBO> GetAllFundInvestors(int fundId);

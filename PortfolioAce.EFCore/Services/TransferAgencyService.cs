@@ -86,6 +86,14 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public FundInvestorBO GetFundInvestor(int fundId, int investorId)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.FundInvestor.Where(fi => fi.FundId == fundId && fi.InvestorId == investorId).FirstOrDefault();
+            }
+        }
+
         public async Task<TransferAgencyBO> GetInvestorActionById(int id)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())

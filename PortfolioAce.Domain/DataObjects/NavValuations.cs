@@ -11,6 +11,7 @@ namespace PortfolioAce.Domain.DataObjects
         // I need the fund model to management fees, NAV and NAVps... I can also reuse it to get the base currencies...
         // Performance fees aren't calculated here... They are done an investor level since investors can buy/sell at different prices...
         // effectively i need a Holdings FACT Table for transfer agent
+        // ONE MORE THING... There might be a potential big bug. If there is a Sub/Red that is not final Do i include the class but dont increase the SharesOutstanding
         public Fund fund { get; set; }
         public decimal ManagementFeeAmount { get; set; }
         public List<SecurityPositionValuation> SecurityPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't

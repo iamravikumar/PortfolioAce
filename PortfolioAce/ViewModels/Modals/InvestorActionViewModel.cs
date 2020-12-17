@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
@@ -77,20 +78,26 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        private string _InvestorName;
-        public string InvestorName
+
+        public List<InvestorsDIM> cmbInvestors
         {
             get
             {
-                return _InvestorName;
+                return investorService.GetAllInvestors();
+            }
+        }
+
+        private InvestorsDIM _selectedInvestor;
+        public InvestorsDIM SelectedInvestor
+        {
+            get
+            {
+                return _selectedInvestor;
             }
             set
             {
-                _InvestorName = value;
-                // I can check the Database for the value,
-                // and if it exists prefill the currency field
-                // if not raise exception
-                OnPropertyChanged(nameof(InvestorName));
+                _selectedInvestor = value;
+                OnPropertyChanged(nameof(SelectedInvestor));
             }
         }
 

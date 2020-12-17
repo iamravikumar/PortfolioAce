@@ -71,7 +71,6 @@ namespace PortfolioAce.Commands
                         fundInvestors.Add(fundInvestor);
                         TransferAgencyBO newSubscription = new TransferAgencyBO
                         {
-                            InvestorName = "DELETE THIS COLUMN LATER",
                             TradeAmount = seedInvestor.SeedAmount,
                             NAVPrice = _fundInitialiseVM.NavPrice,
                             TransactionDate = updateFund.LaunchDate,

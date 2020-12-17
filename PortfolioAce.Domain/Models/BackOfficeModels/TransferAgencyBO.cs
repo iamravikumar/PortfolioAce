@@ -23,9 +23,6 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         public DateTime TransactionSettleDate { get; set; } // this is the subscription and redemption dates.
 
         [Required]
-        public string InvestorName { get; set; } // This is Client
-
-        [Required]
         public decimal Units { get; set; }
 
         [Required]

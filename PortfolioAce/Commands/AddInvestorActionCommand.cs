@@ -38,7 +38,6 @@ namespace PortfolioAce.Commands
                 {
                     TransactionDate = _investorActionVM.TradeDate,
                     TransactionSettleDate = _investorActionVM.SettleDate,
-                    InvestorName = _investorActionVM.InvestorName,
                     IssueType = _investorActionVM.TAType,
                     Units = _investorActionVM.Units,
                     NAVPrice = _investorActionVM.Price,
@@ -48,6 +47,23 @@ namespace PortfolioAce.Commands
                     FundId = _investorActionVM.FundId,
                     IsNavFinal = _investorActionVM.isNavFinal
                 };
+                FundInvestorBO fundInvestor = _investorService.GetFundInvestor(_investorActionVM.FundId, _investorActionVM.SelectedInvestor.InvestorId);
+                if (fundInvestor ==null)
+                {
+                    //this means the investor is new to the fund.
+                    fundInvestor = new FundInvestorBO
+                    {
+                        InceptionDate = _investorActionVM.TradeDate,
+                        FundId = _investorActionVM.FundId,
+                        InvestorId = _investorActionVM.SelectedInvestor.InvestorId,
+                        HighWaterMark = _investorActionVM.Price
+                    };
+                    newInvestorAction.FundInvestor = fundInvestor;
+                }
+                else
+                {
+                    newInvestorAction.FundInvestorId = fundInvestor.FundInvestorId;
+                }
 
                 // Cash should hit the transactions on SettleDate not trade date...
 
