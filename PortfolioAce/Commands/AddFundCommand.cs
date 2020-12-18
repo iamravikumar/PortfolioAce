@@ -40,6 +40,10 @@ namespace PortfolioAce.Commands
                     PerformanceFee = _addFundWindowVM.FundPerfFee,
                     NAVFrequency = _addFundWindowVM.FundNavFreq,
                     LaunchDate = _addFundWindowVM.FundLaunch.Date,
+                    HasHighWaterMark = _addFundWindowVM.HighWaterMark,
+                    HurdleRate = _addFundWindowVM.HurdleRate,
+                    HurdleType=_addFundWindowVM.selectedHurdleType,
+                    MinimumInvestment=_addFundWindowVM.MinimumInvestment,
                     IsInitialised =false
                 };
                 // i've hardcoded IsInitialised for now. false is the default option.

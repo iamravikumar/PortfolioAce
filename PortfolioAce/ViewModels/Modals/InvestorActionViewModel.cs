@@ -38,6 +38,22 @@ namespace PortfolioAce.ViewModels.Modals
             AddInvestorActionCommand = new AddInvestorActionCommand(this, investorService);
         }
 
+        public bool TargetFundWaterMark
+        {
+            get
+            {
+                return _fund.HasHighWaterMark;
+            }
+        }
+
+        public decimal TargetFundMinimumInvestment
+        {
+            get
+            {
+                return _fund.MinimumInvestment;
+            }
+        }
+
         public int FundId
         {
             get
@@ -64,7 +80,7 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public bool _isNavFinal;
+        private bool _isNavFinal;
         public bool isNavFinal
         {
             get

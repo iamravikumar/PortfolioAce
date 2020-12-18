@@ -204,6 +204,11 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _hurdleRate = value;
+                _validationErrors.ClearErrors(nameof(HurdleRate));
+                if (_hurdleRate < 0 || _hurdleRate > 1)
+                {
+                    _validationErrors.AddError(nameof(HurdleRate), "The Hurdle Rate must be between 0% to 100%");
+                }
                 OnPropertyChanged(nameof(HurdleRate));
             }
         }

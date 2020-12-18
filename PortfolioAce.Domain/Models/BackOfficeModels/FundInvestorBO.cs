@@ -13,7 +13,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         // IMPORTANT NOTE: This is created when the fund is initialised OR if its the clients first trade on a fund...
         [Key]
         public int FundInvestorId { get; set; }
-        public decimal HighWaterMark { get; set; }
+        public decimal? HighWaterMark { get; set; }
         [Required, DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime InceptionDate { get; set; }
 

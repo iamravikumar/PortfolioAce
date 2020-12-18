@@ -34,6 +34,10 @@ namespace PortfolioAce.Commands
         {
             try
             {
+                if (_investorActionVM.TradeAmount <= _investorActionVM.TargetFundMinimumInvestment && _investorActionVM.TAType=="Subscription")
+                {
+                    throw new ArgumentException("The Subscription amount must be greater than the Funds minimum investment");
+                }
                 TransferAgencyBO newInvestorAction = new TransferAgencyBO
                 {
                     TransactionDate = _investorActionVM.TradeDate,
@@ -56,8 +60,8 @@ namespace PortfolioAce.Commands
                         InceptionDate = _investorActionVM.TradeDate,
                         FundId = _investorActionVM.FundId,
                         InvestorId = _investorActionVM.SelectedInvestor.InvestorId,
-                        HighWaterMark = _investorActionVM.Price
                     };
+                    fundInvestor.HighWaterMark = (_investorActionVM.TargetFundWaterMark && _investorActionVM.isNavFinal) ? _investorActionVM.Price : (decimal?)null;
                     newInvestorAction.FundInvestor = fundInvestor;
                 }
                 else

@@ -58,16 +58,16 @@ namespace PortfolioAce.Commands
                 }
                 foreach (SeedingInvestor seedInvestor in _fundInitialiseVM.dgSeedingInvestors)
                 {
-                    if (seedInvestor.SeedAmount>0 ) // eventually this will be the funds minimum value
+                    if (seedInvestor.SeedAmount>=updateFund.MinimumInvestment )
                     {
-                        // The highwatermark is only applicable if the fund has a highwatermark...
                         FundInvestorBO fundInvestor = new FundInvestorBO
                         {
                             InceptionDate=updateFund.LaunchDate,
                             FundId=updateFund.FundId,
-                            HighWaterMark=_fundInitialiseVM.NavPrice,
                             InvestorId=seedInvestor.InvestorId
                         };
+                        // The highwatermark is only applicable if the fund has a highwatermark...
+                        fundInvestor.HighWaterMark = (updateFund.HasHighWaterMark)? _fundInitialiseVM.NavPrice :(decimal?)null;
                         fundInvestors.Add(fundInvestor);
                         TransferAgencyBO newSubscription = new TransferAgencyBO
                         {
@@ -108,7 +108,7 @@ namespace PortfolioAce.Commands
                     }
                     else
                     {
-                        throw new ArgumentException("The seed amount must be greater than 0"); // eventually this will be the funds minimum value
+                        throw new ArgumentException("The seed amount must be greater than the Funds minimum investment");
                     }
                 }
 
