@@ -28,6 +28,9 @@ namespace PortfolioAce.ViewModels.Modals
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             _staticReferences = staticReferences;
+            _MinimumInvestment = decimal.One;
+            _selectedHurdleType = "None";
+            _HighWaterMark = false;
             // to set decimal points i might need to use a converter
         }
 
@@ -78,6 +81,20 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public bool _HighWaterMark;
+        public bool HighWaterMark
+        {
+            get
+            {
+                return _HighWaterMark;
+            }
+            set
+            {
+                _HighWaterMark = value;
+                OnPropertyChanged(nameof(HighWaterMark));
+            }
+        }
+
         private decimal _fundManFee;
         public decimal FundManFee
         {
@@ -116,6 +133,25 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        private decimal _MinimumInvestment;
+        public decimal MinimumInvestment
+        {
+            get
+            {
+                return _MinimumInvestment;
+            }
+            set
+            {
+                _MinimumInvestment = value;
+                _validationErrors.ClearErrors(nameof(MinimumInvestment));
+                if (_MinimumInvestment <= 0)
+                {
+                    _validationErrors.AddError(nameof(MinimumInvestment), "The Minimum investment must be greater than zero");
+                }
+                OnPropertyChanged(nameof(MinimumInvestment));
+            }
+        }
+
         private string _fundNavFreq;
         public string FundNavFreq
         {
@@ -130,7 +166,7 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public string _selectedHurdleType;
+        private string _selectedHurdleType;
         public string selectedHurdleType
         {
             get
@@ -140,7 +176,35 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _selectedHurdleType = value;
+                if (_selectedHurdleType == "None")
+                {
+                    _hurdleRate = decimal.Zero;
+                }
                 OnPropertyChanged(nameof(selectedHurdleType));
+                OnPropertyChanged(nameof(HurdleRate));
+                OnPropertyChanged(nameof(EnableHurdleRate));
+            }
+        }
+
+        public bool EnableHurdleRate
+        {
+            get
+            {
+                return (_selectedHurdleType!="None");
+            }
+        }
+
+        private decimal _hurdleRate;
+        public decimal HurdleRate
+        {
+            get
+            {
+                return _hurdleRate;
+            }
+            set
+            {
+                _hurdleRate = value;
+                OnPropertyChanged(nameof(HurdleRate));
             }
         }
 

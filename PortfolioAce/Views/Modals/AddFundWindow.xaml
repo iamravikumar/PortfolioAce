@@ -8,9 +8,9 @@
         xmlns:src="clr-namespace:PortfolioAce.Models"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Create a New Fund" Height="400" Width="450">
+        Title="Create a New Fund" Height="425" Width="450">
     <Window.Resources>
-        <src:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
+        <src:InvertBoolConverter x:Key="invertBoolConverter"/>
         <src:EnumToStringConverter x:Key="EnumToStringConverter"/>
     </Window.Resources>
     <Border Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3" Margin="3">
@@ -69,46 +69,50 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="1">Fund Name:</Label>
             <TextBox Text="{Binding FundName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,2"/>
             <Label Grid.Row="2">Fund Symbol:</Label>
             <TextBox Text="{Binding FundSymbol, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Label Grid.Row="3">Base Currency:</Label>
-            <ComboBox ItemsSource="{Binding cmbCurrency}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundCurrency, UpdateSourceTrigger=PropertyChanged}">
+            <Label Grid.Row="3">Minimum Investment:</Label>
+            <TextBox Text="{Binding MinimumInvestment, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+            <Label Grid.Row="4">Base Currency:</Label>
+            <ComboBox ItemsSource="{Binding cmbCurrency}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundCurrency, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding }"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Label Grid.Row="4">Management Fee:</Label>
-            <TextBox Text="{Binding FundManFee, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Label Grid.Row="5">Performance Fee:</Label>
-            <TextBox Text="{Binding FundPerfFee, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Label Grid.Row="6">Hurdle Rate:</Label>
-            <TextBox Text="{Binding HurdleRate, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <StackPanel Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Label Grid.Row="5">Management Fee:</Label>
+            <TextBox Text="{Binding FundManFee, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+            <Label Grid.Row="6">Performance Fee:</Label>
+            <TextBox Text="{Binding FundPerfFee, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+            <Label Grid.Row="7">Hurdle Rate:</Label>
+            <TextBox Text="{Binding HurdleRate, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding EnableHurdleRate}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+            <Label Grid.Row="8" Margin="0,5,0,0">Hurdle Type:</Label>
+            <StackPanel Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="0,0,0,0" Width="45" GroupName="Hurdle" IsChecked="{Binding selectedHurdleType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToStringConverter}, ConverterParameter={x:Static enumRef:HurdleType.Hard}}">Hard</RadioButton>
                 <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="3,0,0,0" Width="45" GroupName="Hurdle" IsChecked="{Binding selectedHurdleType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToStringConverter}, ConverterParameter={x:Static enumRef:HurdleType.Soft}}">Soft</RadioButton>
                 <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="3,0,0,0" Width="50" GroupName="Hurdle" IsChecked="{Binding selectedHurdleType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToStringConverter}, ConverterParameter={x:Static enumRef:HurdleType.None}}">None</RadioButton>
             </StackPanel>
-            <Label Grid.Row="8">High-Water Mark:</Label>
-            <StackPanel Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+            <Label Grid.Row="9">High-Water Mark:</Label>
+            <StackPanel Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <RadioButton Style="{DynamicResource MaterialDesignDarkRadioButton}" Margin="0,7,0,0">Yes</RadioButton>
-                <RadioButton Style="{DynamicResource MaterialDesignDarkRadioButton}" Margin="9,7,0,0">No</RadioButton>
+                <RadioButton Style="{DynamicResource MaterialDesignDarkRadioButton}" IsChecked="{Binding Path=HighWaterMark, Converter={StaticResource invertBoolConverter}}" Margin="9,7,0,0">No</RadioButton>
             </StackPanel>
-            <Label Grid.Row="9">NAV Frequency:</Label>
-            <ComboBox ItemsSource="{Binding cmbNavFreq}" Grid.Row="9" Grid.Column="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundNavFreq, UpdateSourceTrigger=PropertyChanged}">
+            <Label Grid.Row="10">NAV Frequency:</Label>
+            <ComboBox ItemsSource="{Binding cmbNavFreq}" Grid.Row="10" Grid.Column="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundNavFreq, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding }"/>
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Label Grid.Row="10">Launch Date:</Label>
-            <DatePicker Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=FundLaunch, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Command="{Binding AddFundCommand}" Grid.Row="11" Grid.Column="1" Margin="0,10,0,0" IsEnabled="{Binding CanCreate}">Create Fund</Button>
+            <Label Grid.Row="11">Launch Date:</Label>
+            <DatePicker Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=FundLaunch, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Command="{Binding AddFundCommand}" Grid.Row="12" Grid.Column="1" Margin="0,10,0,0" IsEnabled="{Binding CanCreate}">Create Fund</Button>
         </Grid>
     </Border>
 </Window>
