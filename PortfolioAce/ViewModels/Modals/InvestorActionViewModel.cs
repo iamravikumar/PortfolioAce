@@ -32,6 +32,7 @@ namespace PortfolioAce.ViewModels.Modals
             _tradeDate = DateExtentions.InitialDate();
             _settleDate = DateExtentions.InitialDate();
             _isNavFinal = false;
+            _TAType = cmbIssueType[0]; // this defaults the type to subscription..
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             // currency should be the funds base currency
@@ -77,6 +78,7 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _TAType = value;
                 OnPropertyChanged(nameof(TAType));
+                Units = _units; // this will trigger the set on units.
             }
         }
 
@@ -122,12 +124,20 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                // these should be absolute.
                 return _units;
             }
             set
             {
                 _units = value;
+                _validationErrors.ClearErrors(nameof(Units));
+                if (_TAType=="Subscription" && _units < 0)
+                {
+                    _validationErrors.AddError(nameof(Units), "The Subscription amount cannot be a negative number");
+                }
+                else if(_TAType == "Redemption" && _units > 0)
+                {
+                    _validationErrors.AddError(nameof(Units), "The Redemption amount cannot be a positive number");
+                }
                 OnPropertyChanged(nameof(Units)); 
                 OnPropertyChanged(nameof(TradeAmount));
             }
