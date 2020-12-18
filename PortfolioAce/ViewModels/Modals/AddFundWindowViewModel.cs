@@ -130,6 +130,20 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public string _selectedHurdleType;
+        public string selectedHurdleType
+        {
+            get
+            {
+                return _selectedHurdleType;
+            }
+            set
+            {
+                _selectedHurdleType = value;
+                OnPropertyChanged(nameof(selectedHurdleType));
+            }
+        }
+
         private DateTime _fundLaunch;
         public DateTime FundLaunch
         {
@@ -184,5 +198,11 @@ namespace PortfolioAce.ViewModels.Modals
             OnPropertyChanged(nameof(CanCreate));
         }
 
+    }
+    public enum HurdleType
+    {
+        Hard,
+        Soft,
+        None
     }
 }

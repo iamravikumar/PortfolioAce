@@ -4,9 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
+        xmlns:enumRef="clr-namespace:PortfolioAce.ViewModels.Modals"
+        xmlns:src="clr-namespace:PortfolioAce.Models"
         mc:Ignorable="d"
         ResizeMode="NoResize"
         Title="Create a New Fund" Height="400" Width="450">
+    <Window.Resources>
+        <src:EnumBooleanConverter x:Key="EnumBooleanConverter"/>
+        <src:EnumToStringConverter x:Key="EnumToStringConverter"/>
+    </Window.Resources>
     <Border Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3" Margin="3">
         <Grid Margin="1">
             <Grid.Resources>
@@ -83,9 +89,9 @@
             <Label Grid.Row="6">Hurdle Rate:</Label>
             <TextBox Text="{Binding HurdleRate, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <StackPanel Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-                <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="0,0,0,0" Width="45">Hard</RadioButton>
-                <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="3,0,0,0" Width="45">Soft</RadioButton>
-                <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="3,0,0,0" Width="50">None</RadioButton>
+                <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="0,0,0,0" Width="45" GroupName="Hurdle" IsChecked="{Binding selectedHurdleType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToStringConverter}, ConverterParameter={x:Static enumRef:HurdleType.Hard}}">Hard</RadioButton>
+                <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="3,0,0,0" Width="45" GroupName="Hurdle" IsChecked="{Binding selectedHurdleType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToStringConverter}, ConverterParameter={x:Static enumRef:HurdleType.Soft}}">Soft</RadioButton>
+                <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="3,0,0,0" Width="50" GroupName="Hurdle" IsChecked="{Binding selectedHurdleType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToStringConverter}, ConverterParameter={x:Static enumRef:HurdleType.None}}">None</RadioButton>
             </StackPanel>
             <Label Grid.Row="8">High-Water Mark:</Label>
             <StackPanel Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">

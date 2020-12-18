@@ -12,6 +12,8 @@ namespace PortfolioAce.Domain.DataObjects
         // Performance fees aren't calculated here... They are done an investor level since investors can buy/sell at different prices...
         // effectively i need a Holdings FACT Table for transfer agent
         // ONE MORE THING... There might be a potential big bug. If there is a Sub/Red that is not final Do i include the class but dont increase the SharesOutstanding
+        // What i do is calculate the NAV price then mint the new units and amend the tranfer angency
+        // i.e. there is a not final 50k subscription. i calculate the NAV price then set a units and price for that subscription.. this will cause the nav to stay the same and i can incorporate it..
         public Fund fund { get; set; }
         public decimal ManagementFeeAmount { get; set; }
         public List<SecurityPositionValuation> SecurityPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
