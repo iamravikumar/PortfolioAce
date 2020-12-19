@@ -214,11 +214,29 @@ namespace PortfolioAce.EFCore.Services
 
                 context.Positions.AddRange(newPositions);
 
+                List<InvestorHoldingsFACT> newHoldings = new List<InvestorHoldingsFACT>();
+                foreach(ClientHoldingValuation clientHolding in navValuations.ClientHoldings)
+                {
+                    InvestorHoldingsFACT newHolding = new InvestorHoldingsFACT
+                    {
+                        NetValuation = clientHolding.NetValuation,
+                        AverageCost = clientHolding.Holding.AverageCost,
+                        HighWaterMark = clientHolding.Holding.Investor.HighWaterMark,
+                        ManagementFeesAccrued = clientHolding.ManagementFeesAccrued,
+                        Units = clientHolding.Holding.Units,
+                        PerformanceFeesAccrued = clientHolding.PerformanceFeesAccrued
+                    };
+                    newHoldings.Add(newHolding);
+                }
+                context.InvestorHoldings.AddRange(newHoldings);
+
+
+
                 context.SaveChanges();
                 // Lock all transactions with this trade Date... DONE
                 // Add to Position SnapShot Fact Table... DONE
                 // Lock Period... DONE
-                // Update TransferAgent Fact Table I need to create this Table and implement the update....
+                // Update TransferAgent Fact Table.... DONE
                 // NavPrices DONE
 
             }

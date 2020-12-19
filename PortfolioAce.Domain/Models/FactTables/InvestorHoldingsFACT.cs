@@ -7,6 +7,7 @@ using System.Text;
 
 namespace PortfolioAce.Domain.Models.FactTables
 {
+    [Table("fact_InvestorHoldings")]
     public class InvestorHoldingsFACT
     {
         [Key]
@@ -16,7 +17,7 @@ namespace PortfolioAce.Domain.Models.FactTables
         [Required]
         public decimal AverageCost { get; set; }
         [Required]
-        public decimal HighWaterMark { get; set; }
+        public decimal? HighWaterMark { get; set; }
         [Required]
         public decimal NetValuation { get; set; }
         [Required]
