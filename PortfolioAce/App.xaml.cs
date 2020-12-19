@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using PortfolioAce.DataCentre.APIConnections;
 using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.Models;
@@ -26,83 +28,110 @@ namespace PortfolioAce
     /// </summary>
     public partial class App : Application
     {
+        private readonly IHost _host;
+
+        public App()
+        {
+            _host = CreateHostBuilder().Build();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args = null)
+        {
+            return Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(c =>
+                {
+                    c.AddEnvironmentVariables();
+                })
+                .ConfigureServices((context, services) =>
+                {
+                    // Add API Services here
+                    string apiKeyAV = "demo";
+                    string apiKeyFMP = "demo";
+                    services.AddSingleton<DataConnectionFactory>(new DataConnectionFactory(apiKeyAV, apiKeyFMP));
+
+                    string connectionString = "Data Source=PortfolioAce.db";
+                    Action<DbContextOptionsBuilder> configureDbContext = db => db.UseSqlite(connectionString);
+                    services.AddDbContext<PortfolioAceDbContext>(configureDbContext);
+                    services.AddSingleton<PortfolioAceDbContextFactory>(new PortfolioAceDbContextFactory(configureDbContext));
+
+                    services.AddSingleton<IPortfolioAceViewModelAbstractFactory, PortfolioAceViewModelAbstractFactory>();
+                    //services.AddSingleton<PortfolioAceDbContextFactory>();
+
+
+                    // Add Business Services here
+                    services.AddSingleton<IPortfolioService, PortfolioService>();
+
+
+                    // Add UoW Serices here
+                    services.AddSingleton<IFundService, FundService>();
+                    services.AddSingleton<ITransactionService, TransactionService>();
+                    services.AddSingleton<IAdminService, AdminService>();
+                    services.AddSingleton<ITransferAgencyService, TransferAgencyService>();
+                    services.AddSingleton<IPriceService, PriceService>();
+                    services.AddSingleton<IStaticReferences, StaticReferences>();
+
+                    // Add viewmodels here
+                    services.AddSingleton<HomeViewModel>();
+                    services.AddSingleton<AllFundsViewModel>(services => new AllFundsViewModel(
+                        services.GetRequiredService<IFundService>(),
+                        services.GetRequiredService<ITransactionService>(),
+                         services.GetRequiredService<IPortfolioService>(),
+                         services.GetRequiredService<ITransferAgencyService>(),
+                         services.GetRequiredService<IStaticReferences>())); // this is how i can pass in my repositories
+                    services.AddSingleton<SystemFXRatesViewModel>();
+                    services.AddSingleton<SystemSecurityPricesViewModel>(services => new SystemSecurityPricesViewModel(
+                        services.GetRequiredService<IPriceService>()));
+
+                    // We register the viewmodels to be created in our dependency injection container
+                    services.AddSingleton<CreateViewModel<HomeViewModel>>(services =>
+                    {
+                        return () => services.GetRequiredService<HomeViewModel>();
+                    });
+                    services.AddSingleton<CreateViewModel<AllFundsViewModel>>(services =>
+                    {
+                        return () => services.GetRequiredService<AllFundsViewModel>();
+                    });
+                    services.AddSingleton<CreateViewModel<SystemFXRatesViewModel>>(services =>
+                    {
+                        return () => services.GetRequiredService<SystemFXRatesViewModel>();
+                    });
+                    services.AddSingleton<CreateViewModel<SystemSecurityPricesViewModel>>(services =>
+                    {
+                        return () => services.GetRequiredService<SystemSecurityPricesViewModel>();
+                    });
+
+
+
+                    services.AddScoped<INavigator, Navigator>();
+                    services.AddScoped<MainViewModel>();
+
+                    services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
+
+                });
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
-            IServiceProvider serviceProvider = CreateServiceProvider();
+            _host.Start();
             System.Windows.FrameworkCompatibilityPreferences.KeepTextBoxDisplaySynchronizedWithTextProperty = false; // allows me to put negatives in textbox
 
-            Window window =  serviceProvider.GetRequiredService<MainWindow>();
+            PortfolioAceDbContextFactory contextFactory = _host.Services.GetRequiredService<PortfolioAceDbContextFactory>();
+            using(PortfolioAceDbContext context = contextFactory.CreateDbContext())
+            {
+                context.Database.Migrate();
+            }
+
+            Window window =  _host.Services.GetRequiredService<MainWindow>();
             window.Show();
             base.OnStartup(e);
         }
 
-        private IServiceProvider CreateServiceProvider()
+        protected override async void OnExit(ExitEventArgs e)
         {
-            IServiceCollection services = new ServiceCollection();
+            await _host.StopAsync();
+            _host.Dispose();
 
-            string connectionString = "Data Source=PortfolioAce.db";
-            services.AddDbContext<PortfolioAceDbContext>(db => db.UseSqlite(connectionString));
-            services.AddSingleton<PortfolioAceDbContextFactory>(new PortfolioAceDbContextFactory());
-
-
-            services.AddSingleton<IPortfolioAceViewModelAbstractFactory, PortfolioAceViewModelAbstractFactory>();
-            services.AddSingleton<PortfolioAceDbContextFactory>();
-
-            // Add API Services here
-            string apiKeyAV = "demo";
-            string apiKeyFMP = "demo";
-            services.AddSingleton<DataConnectionFactory>(new DataConnectionFactory(apiKeyAV, apiKeyFMP));
-
-            // Add Business Services here
-            services.AddSingleton<IPortfolioService, PortfolioService>();
-
-
-            // Add UoW Serices here
-            services.AddSingleton<IFundService, FundService>();
-            services.AddSingleton<ITransactionService, TransactionService>();
-            services.AddSingleton<IAdminService, AdminService>();
-            services.AddSingleton<ITransferAgencyService, TransferAgencyService>();
-            services.AddSingleton<IPriceService, PriceService>();
-            services.AddSingleton<IStaticReferences, StaticReferences>();
-
-            // Add viewmodels here
-            services.AddSingleton<HomeViewModel>();
-            services.AddSingleton<AllFundsViewModel>(services=> new AllFundsViewModel(
-                services.GetRequiredService<IFundService>(), 
-                services.GetRequiredService<ITransactionService>(),
-                 services.GetRequiredService<IPortfolioService>(),
-                 services.GetRequiredService<ITransferAgencyService>(),
-                 services.GetRequiredService<IStaticReferences>())); // this is how i can pass in my repositories
-            services.AddSingleton<SystemFXRatesViewModel>();
-            services.AddSingleton<SystemSecurityPricesViewModel>(services=> new SystemSecurityPricesViewModel(
-                services.GetRequiredService<IPriceService>()));
-
-            // We register the viewmodels to be created in our dependency injection container
-            services.AddSingleton<CreateViewModel<HomeViewModel>>(services =>
-            {
-                return () => services.GetRequiredService<HomeViewModel>();
-            });
-            services.AddSingleton<CreateViewModel<AllFundsViewModel>>(services =>
-            {
-                return () => services.GetRequiredService<AllFundsViewModel>();
-            });
-            services.AddSingleton<CreateViewModel<SystemFXRatesViewModel>>(services =>
-            {
-                return () => services.GetRequiredService<SystemFXRatesViewModel>();
-            });
-            services.AddSingleton<CreateViewModel<SystemSecurityPricesViewModel>>(services =>
-            {
-                return () => services.GetRequiredService<SystemSecurityPricesViewModel>();
-            });
-
-
-
-            services.AddScoped<INavigator, Navigator>();
-            services.AddScoped<MainViewModel>();
-
-            services.AddScoped<MainWindow>(s => new MainWindow(s.GetRequiredService<MainViewModel>()));
-
-            return services.BuildServiceProvider();
+            base.OnExit(e);
         }
     }
 }
