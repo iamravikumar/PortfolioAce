@@ -111,6 +111,7 @@ namespace PortfolioAce.ViewModels.Modals
                     _validationErrors.AddError(nameof(FundManFee), "The management fee must be between 0% to 100%");
                 }
                 OnPropertyChanged(nameof(FundManFee));
+                OnPropertyChanged(nameof(percentageFundManFee));
             }
         }
 
@@ -130,6 +131,7 @@ namespace PortfolioAce.ViewModels.Modals
                     _validationErrors.AddError(nameof(FundPerfFee), "The performance fee must be between 0% to 100%");
                 }
                 OnPropertyChanged(nameof(FundPerfFee));
+                OnPropertyChanged(nameof(percentageFundPerfFee));
             }
         }
 
@@ -183,6 +185,7 @@ namespace PortfolioAce.ViewModels.Modals
                 OnPropertyChanged(nameof(selectedHurdleType));
                 OnPropertyChanged(nameof(HurdleRate));
                 OnPropertyChanged(nameof(EnableHurdleRate));
+                OnPropertyChanged(nameof(percentageFundHurdleRate));
             }
         }
 
@@ -210,6 +213,7 @@ namespace PortfolioAce.ViewModels.Modals
                     _validationErrors.AddError(nameof(HurdleRate), "The Hurdle Rate must be between 0% to 100%");
                 }
                 OnPropertyChanged(nameof(HurdleRate));
+                OnPropertyChanged(nameof(percentageFundHurdleRate));
             }
         }
 
@@ -231,6 +235,31 @@ namespace PortfolioAce.ViewModels.Modals
                 OnPropertyChanged(nameof(FundLaunch));
             }
         }
+
+        public string percentageFundManFee
+        {
+            get
+            {
+                return String.Format("{0:P2}", _fundManFee);
+            }
+        }
+
+        public string percentageFundPerfFee
+        {
+            get
+            {
+                return String.Format("{0:P2}", _fundPerfFee);
+            }
+        }
+
+        public string percentageFundHurdleRate
+        {
+            get
+            {
+                return String.Format("{0:P2}", _hurdleRate);
+            }
+        }
+
 
         public List<string> cmbNavFreq
         {

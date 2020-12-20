@@ -71,13 +71,21 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="1">Fund Name:</Label>
+            <Label Grid.Row="1" FontWeight="Bold">Fund Name:</Label>
             <TextBox Text="{Binding FundName, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,2"/>
-            <Label Grid.Row="2">Fund Symbol:</Label>
+            <Label Grid.Row="2" FontWeight="Bold">Fund Symbol:</Label>
             <TextBox Text="{Binding FundSymbol, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Label Grid.Row="3">Minimum Investment:</Label>
+            <Label Grid.Row="3" Content="Minimum Investment:" FontWeight="Bold">
+                <Label.ToolTip>
+                    <TextBlock>
+                        The least amount of money required to invest
+                        <LineBreak />
+                         in the fund.
+                    </TextBlock>
+                </Label.ToolTip>
+            </Label>
             <TextBox Text="{Binding MinimumInvestment, StringFormat=N2, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Label Grid.Row="4">Base Currency:</Label>
+            <Label Grid.Row="4" FontWeight="Bold">Base Currency:</Label>
             <ComboBox ItemsSource="{Binding cmbCurrency}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundCurrency, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -85,24 +93,79 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Label Grid.Row="5">Management Fee:</Label>
+            <Label Grid.Row="5" Content="Management Fee:" FontWeight="Bold">
+                <Label.ToolTip>
+                    <TextBlock>
+                        A fee the Asset Manager will charge periodically for making
+                        <LineBreak />
+                        investment decisions on their behalf.
+                        <LineBreak />
+                        It is calculated based on a percentage of the AUM.
+                    </TextBlock>
+                </Label.ToolTip>
+            </Label>
             <TextBox Text="{Binding FundManFee, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Label Grid.Row="6">Performance Fee:</Label>
+            <Label Content="{Binding percentageFundManFee, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="2" Margin="3,0,0,0"/>
+            <Label Grid.Row="6" Content="Performance Fee:" FontWeight="Bold">
+                <Label.ToolTip>
+                    <TextBlock>
+                        A fee the Asset Manager will charge periodically should the
+                        <LineBreak />
+                        fund perform well. It is calculated based on a percentage
+                        <LineBreak />
+                        of the gain and hurdle rate and HWM (if applicable).
+                    </TextBlock>
+                </Label.ToolTip>
+            </Label>
             <TextBox Text="{Binding FundPerfFee, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Label Grid.Row="7">Hurdle Rate:</Label>
+            <Label Content="{Binding percentageFundPerfFee, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="2" Margin="3,0,0,0"/>
+            <Label Grid.Row="7" Content="Hurdle Rate:" FontWeight="Bold">
+                <Label.ToolTip>
+                    <TextBlock>
+                        Represents the level of return that a fund must achieve
+                        <LineBreak />
+                        before a performance fee can be taken.
+                    </TextBlock>
+                </Label.ToolTip>
+            </Label>
             <TextBox Text="{Binding HurdleRate, StringFormat=N4, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding EnableHurdleRate}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Label Grid.Row="8" Margin="0,5,0,0">Hurdle Type:</Label>
+            <Label Content="{Binding percentageFundHurdleRate, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="2" Margin="3,0,0,0"/>
+            <Label Grid.Row="8" Margin="0,5,0,0" Content="Hurdle Type:" FontWeight="Bold">
+                <Label.ToolTip>
+                    <TextBlock>
+                        Hard Hurdle: Performance fee is taken only on gains in excess of the hurdle rate.
+                        <LineBreak />
+                        Soft Hurdle: Performance fee is taken on ALL gains as long as the hurdle rate is met.
+                    </TextBlock>
+                </Label.ToolTip>
+            </Label>
             <StackPanel Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="0,0,0,0" Width="45" GroupName="Hurdle" IsChecked="{Binding selectedHurdleType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToStringConverter}, ConverterParameter={x:Static enumRef:HurdleType.Hard}}">Hard</RadioButton>
                 <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="3,0,0,0" Width="45" GroupName="Hurdle" IsChecked="{Binding selectedHurdleType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToStringConverter}, ConverterParameter={x:Static enumRef:HurdleType.Soft}}">Soft</RadioButton>
                 <RadioButton Style="{DynamicResource MaterialDesignFlatToggleButton}" Margin="3,0,0,0" Width="50" GroupName="Hurdle" IsChecked="{Binding selectedHurdleType, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToStringConverter}, ConverterParameter={x:Static enumRef:HurdleType.None}}">None</RadioButton>
             </StackPanel>
-            <Label Grid.Row="9">High-Water Mark:</Label>
+            <Label Grid.Row="9" Content="High-Water Mark:" FontWeight="Bold">
+                <Label.ToolTip>
+                    <TextBlock>
+                        Ensures that the performance fee is taken only when
+                        <LineBreak />
+                        the fund's NAV per share at the end of the performance period
+                        <LineBreak />
+                        is greater than it's previous NAV per share in the performance period.
+                    </TextBlock>
+                </Label.ToolTip>
+            </Label>
             <StackPanel Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
                 <RadioButton Style="{DynamicResource MaterialDesignDarkRadioButton}" Margin="0,7,0,0">Yes</RadioButton>
                 <RadioButton Style="{DynamicResource MaterialDesignDarkRadioButton}" IsChecked="{Binding Path=HighWaterMark, Converter={StaticResource invertBoolConverter}}" Margin="9,7,0,0">No</RadioButton>
             </StackPanel>
-            <Label Grid.Row="10">NAV Frequency:</Label>
+            <Label Grid.Row="10" Content="NAV Frequency:" FontWeight="Bold">
+                <Label.ToolTip>
+                    <TextBlock>
+                        Determines the frequency of when the NAV is finalised.
+                    </TextBlock>
+                </Label.ToolTip>
+            </Label>
             <ComboBox ItemsSource="{Binding cmbNavFreq}" Grid.Row="10" Grid.Column="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FundNavFreq, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -110,7 +173,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-            <Label Grid.Row="11">Launch Date:</Label>
+            <Label Grid.Row="11" FontWeight="Bold">Launch Date:</Label>
             <DatePicker Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=FundLaunch, UpdateSourceTrigger=PropertyChanged}"/>
             <Button Command="{Binding AddFundCommand}" Grid.Row="12" Grid.Column="1" Margin="0,10,0,0" IsEnabled="{Binding CanCreate}">Create Fund</Button>
         </Grid>
