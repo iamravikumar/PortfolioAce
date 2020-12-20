@@ -5,8 +5,77 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Windows"
         mc:Ignorable="d"
-        Title="About" Height="240" Width="320">
+        Title="About PortfolioAce" Height="200" Width="315" ResizeMode="NoResize" WindowStyle="ToolWindow">
     <Grid>
-        <TextBlock>Icons from https://icons8.com</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Logo and Title -->
+        <Grid Grid.Column="0"
+			  Grid.Row="0"
+			  Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0" Grid.Row="0" Width="42" Height="42" Source="/PortfolioAce;component/Resources\portfolioace_logo2_hd.png" />
+            <Label Content="PortfolioAce" Grid.Column="1" Grid.Row="0" FontSize="26" />
+        </Grid>
+
+        <!-- Description -->
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="10,0,10,0">
+            <TextBlock TextWrapping="Wrap" Text="© 2020 Ramon Williams" Margin="0,4,5,0"/>
+            <Label Margin="40,0,0,0">
+                <Hyperlink
+						   RequestNavigate="Link_RequestNavigate"
+						   NavigateUri="https://github.com/RamonWill">
+                    <TextBlock
+							   Text="Source Code"/>
+                </Hyperlink>
+            </Label>
+        </StackPanel>
+
+
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="2">
+            <TextBlock Margin="10,4,0,0" TextWrapping="Wrap" Text="This product is licensed under the "/>
+            <Label>
+                <Hyperlink
+						   RequestNavigate="Link_RequestNavigate"
+						   NavigateUri="https://tldrlegal.com/license/mit-license">
+                    <TextBlock
+							   Text="MIT License"/>
+                </Hyperlink>
+            </Label>
+        </StackPanel>
+
+        <!-- Version -->
+        <Grid Grid.Column="0" Grid.Row="3" Margin="10,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Text="Version: " />
+            <Label Content="0.9.0" Grid.Column="1" Grid.Row="0" />
+        </Grid>
+
+        <!-- Additional Notes -->
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="5" Margin="10,0,10,10" >
+            <TextBlock Margin="1,4,0,0" TextWrapping="Wrap" Text="Icons are sourced from " FontSize="9"/>
+            <Label>
+                <Hyperlink
+						   RequestNavigate="Link_RequestNavigate"
+						   NavigateUri="https://icons8.com">
+                    <TextBlock Text="Icons8" FontSize="9"/>
+                </Hyperlink>
+            </Label>
+        </StackPanel>
     </Grid>
 </Window>

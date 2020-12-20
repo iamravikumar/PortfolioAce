@@ -6,5 +6,8 @@ namespace PortfolioAce.ViewModels.Windows
 {
     public class AboutWindowViewModel : ViewModelBase
     {
+        public AboutWindowViewModel()
+        {
+        }
     }
 }
