@@ -57,9 +57,13 @@ namespace PortfolioAce.ViewModels
                 OpenModalWindow, typeof(FundInitialisationWindow), typeof(FundInitialisationWindowViewModel), _investorService, _staticReferences);
             ShowNavSummaryCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
                 OpenNavSummaryWindow, typeof(NavSummaryWindow),typeof(NavSummaryViewModel), _investorService, _staticReferences);
-            PositionDetailCommand = new ActionCommand(ViewPositionDetails);
+
+            PositionDetailsCommand = new PositionDetailsCommand();
+
+
         }
 
+        public ICommand PositionDetailsCommand { get; set; }
         public ICommand SelectFundCommand { get; set; }
         public ICommand ShowNewTradeCommand { get; set; }
         public ICommand ShowNewCashTradeCommand { get; set; }
@@ -67,7 +71,6 @@ namespace PortfolioAce.ViewModels
         public ICommand ShowFundInitialisationCommand { get; set; }
         public ICommand ShowNewInvestorActionCommand { get; set; }
         public ICommand ShowNavSummaryCommand { get; set; }
-        public ICommand PositionDetailCommand { get; set; }
 
         private DateTime _asOfDate;
         public DateTime asOfDate
@@ -89,7 +92,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(LockedNav));
                 OnPropertyChanged(nameof(NavValuation));
                 OnPropertyChanged(nameof(dgFundClients));
-                OnPropertyChanged(nameof(testPositions));
+                OnPropertyChanged(nameof(groupedPositions));
             }
         }
 
@@ -102,21 +105,6 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-
-        private SecurityPositionValuation _dtPositionObject;
-        public SecurityPositionValuation dtPositionObject
-        {
-            // This object will open a window that will display the position information such as local currency metrics, open lots etc..
-            get
-            {
-                return _dtPositionObject;
-            }
-            set
-            {
-                _dtPositionObject = value;
-                OnPropertyChanged(nameof(dtPositionObject));
-            }
-        }
 
 
         private Dictionary<(string, DateTime), decimal> _priceTable;
@@ -168,7 +156,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(LockedNav));
                 OnPropertyChanged(nameof(NavValuation));
                 OnPropertyChanged(nameof(dgFundClients));
-                OnPropertyChanged(nameof(testPositions));
+                OnPropertyChanged(nameof(groupedPositions));
             }
         }
 
@@ -288,44 +276,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashHoldings));
             }
         }
-        /*
-        private List<SecurityPositionValuation> _dgFundPositions;
-        public List<SecurityPositionValuation> dgFundPositions
-        {
-            get
-            {
-                // This is temporary for now
-                if (_currentFund != null)
-                {
-                    List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
-                    List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
-                    
-                    foreach(CalculatedSecurityPosition position in allPositions)
-                    {
-                        SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, _priceTable, _asOfDate, _currentFund.BaseCurrency);
-                        valuedPositions.Add(valuedPosition);
-                    }
-                    return valuedPositions;
-                }
-                else
-                {
-                    return new List<SecurityPositionValuation>();
-                }
-            }
-            set
-            {
-                List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
-                List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
-                foreach (CalculatedSecurityPosition position in allPositions)
-                {
-                    SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, _priceTable, _asOfDate, _currentFund.BaseCurrency);
-                    valuedPositions.Add(valuedPosition);
-                }
-                
-                _dgFundPositions = valuedPositions;
-                OnPropertyChanged(nameof(dgFundPositions));
-            }
-        }*/
+
         public List<SecurityPositionValuation> dgFundPositions
         {
             get
@@ -348,8 +299,8 @@ namespace PortfolioAce.ViewModels
                 }
             }
         }
-        private ListCollectionView _testPositions;
-        public ListCollectionView testPositions
+        private ListCollectionView _groupedPositions;
+        public ListCollectionView groupedPositions
         {
             get
             {
@@ -361,52 +312,11 @@ namespace PortfolioAce.ViewModels
             {
                 ListCollectionView cv = new ListCollectionView(dgFundPositions);
                 cv.GroupDescriptions.Add(new PropertyGroupDescription("Position.security.AssetClass"));
-                _testPositions = cv;
-                OnPropertyChanged(nameof(testPositions));
+                _groupedPositions = cv;
+                OnPropertyChanged(nameof(groupedPositions));
             }
         }
-        /*
-        private ListCollectionView _testPositions;
-        public ListCollectionView testPositions
-        {
-            get
-            {
-                // This is temporary for now
-                if (_currentFund != null)
-                {
-                    List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
-                    List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
 
-                    foreach (CalculatedSecurityPosition position in allPositions)
-                    {
-                        SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, _priceTable, _asOfDate, _currentFund.BaseCurrency);
-                        valuedPositions.Add(valuedPosition);
-                    }
-                    ListCollectionView cv = new ListCollectionView(valuedPositions);
-                    cv.GroupDescriptions.Add(new PropertyGroupDescription("Position.security.AssetClass"));
-                    return cv;
-                }
-                else
-                {
-                    return new ListCollectionView(new List<SecurityPositionValuation>());
-                }
-            }
-            set
-            {
-                List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
-                List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
-                foreach (CalculatedSecurityPosition position in allPositions)
-                {
-                    SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, _priceTable, _asOfDate, _currentFund.BaseCurrency);
-                    valuedPositions.Add(valuedPosition);
-                }
-                ListCollectionView cv = new ListCollectionView(valuedPositions);
-                cv.GroupDescriptions.Add(new PropertyGroupDescription("Position.security.AssetClass"));
-                _testPositions = cv;
-                OnPropertyChanged(nameof(testPositions));
-            }
-        }
-        */
 
         private List<TransactionsBO> _dgFundTrades;
         public List<TransactionsBO> dgFundTrades
@@ -449,6 +359,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashBook));
             }
         }
+
 
         private List<TransferAgencyBO> _dgFundTA;
         public List<TransferAgencyBO> dgFundTA
@@ -500,18 +411,6 @@ namespace PortfolioAce.ViewModels
                 viewModel.CloseAction = new Action(() => view.Close());
             }
             view.ShowDialog();
-        }
-
-        public void OpenEditModalWindow()
-        {
-            // Not ready yet..
-            Console.WriteLine(_dtPositionObject);
-        }
-
-        public void ViewPositionDetails()
-        {
-            // This will be a window at some point..
-            MessageBox.Show($"Name: {_dtPositionObject.Position.security.Symbol} Quantity: {_dtPositionObject.Position.NetQuantity} ");
         }
     }
 }

@@ -70,21 +70,57 @@
             </StackPanel>
             <TabControl DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignTabControl}" Background="LightGray" >
                 <TabItem Header="Positions">
-                    <DataGrid Name="dgPositions" ColumnWidth="*" VerticalScrollBarVisibility="Auto" 
-                              RowBackground="GhostWhite" AlternatingRowBackground="White"
-                              ItemsSource="{Binding Path=dgFundPositions}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding Path=dtPositionObject, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGrid ColumnWidth="*" RowBackground="GhostWhite" AlternatingRowBackground="White" VerticalScrollBarVisibility="Auto" 
+                              AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=groupedPositions}">
+                        <DataGrid.GroupStyle>
+                            <GroupStyle>
+                                <GroupStyle.ContainerStyle>
+                                    <Style TargetType="{x:Type GroupItem}">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate x:Name="currentGroup" TargetType="{x:Type GroupItem}">
+                                                    <Expander IsExpanded="True" BorderThickness="1,1,1,5" Background="#d1d1d1" BorderBrush="White">
+                                                        <Expander.Header>
+                                                            <DockPanel>
+                                                                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
+                                                                    <TextBlock Margin="5,0,0,0" FontWeight="Bold" Text="{Binding Path=Name.Name}"/>
+                                                                    <TextBlock Margin="50,0,0,0" FontWeight="Bold" Text="No. of Positions: "/>
+                                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount, Mode=OneWay}"/>
+                                                                    <TextBlock Margin="50,0,0,0" FontWeight="Bold" Text="{Binding Path=., RelativeSource={RelativeSource AncestorType={x:Type GroupItem}}, Converter={StaticResource positionSumConverter}}"/>
+                                                                </StackPanel>
+                                                            </DockPanel>
+                                                        </Expander.Header>
+                                                        <Expander.Content>
+                                                            <ItemsPresenter />
+                                                        </Expander.Content>
+                                                    </Expander>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GroupStyle.ContainerStyle>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Asset Class" Binding="{Binding Position.security.AssetClass.Name}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Position.security.SecurityName}" Width="SizeToCells" />
                             <DataGridTextColumn Header="Symbol" Binding="{Binding Position.security.Symbol}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Position.NetQuantity, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Avg Cost" Binding="{Binding Position.AverageCost, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Current Price" Binding="{Binding price, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Realised PnL" Binding="{Binding Position.RealisedPnL, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Unrealised PnL" Binding="{Binding unrealisedPnl, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Total PnL" Binding="{Binding TotalPnL, StringFormat=N2}" Width="SizeToCells"/>
                             <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Position.security.Currency.Symbol}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Custodian" Binding="{Binding Position.custodian.Name}" Width="*"/>
+                            <DataGridTemplateColumn Header="Crud Ops">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.PositionDetailsCommand}"
+                                            CommandParameter="{Binding}"
+                                            Content="open lots" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
@@ -149,54 +185,6 @@
                             <DataGridTextColumn Header="Action Date" Binding="{Binding TransactionDate, StringFormat={}{0:dd/MM/yyyy}}" />
                             <DataGridTextColumn Header="Action Settle Date" Binding="{Binding TransactionSettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                         </DataGrid.Columns>
-                    </DataGrid>
-                </TabItem>
-                <TabItem Header="Test Positions">
-                    <DataGrid ColumnWidth="*" RowBackground="GhostWhite" AlternatingRowBackground="White" VerticalScrollBarVisibility="Auto" 
-                              AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=testPositions}">
-                        <DataGrid.GroupStyle>
-                            <GroupStyle>
-                                <GroupStyle.ContainerStyle>
-                                    <Style TargetType="{x:Type GroupItem}">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate x:Name="currentGroup" TargetType="{x:Type GroupItem}">
-                                                    <Expander IsExpanded="True" BorderThickness="1,1,1,5" Background="#adadad">
-                                                        <Expander.Header>
-                                                            <DockPanel>
-                                                                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
-                                                                    <TextBlock Margin="5,0,0,0" FontWeight="Bold" Text="{Binding Path=Name.Name}"/>
-                                                                    <TextBlock Margin="50,0,0,0" FontWeight="Bold" Text="No. of Positions:"/>
-                                                                    <TextBlock FontWeight="Bold" Text="{Binding Path=ItemCount, Mode=OneWay}"/>
-                                                                    <TextBlock Margin="50,0,0,0" FontWeight="Bold" Text="{Binding Path=., RelativeSource={RelativeSource AncestorType={x:Type GroupItem}}, Converter={StaticResource positionSumConverter}}"/>
-                                                                </StackPanel>
-                                                            </DockPanel>
-                                                        </Expander.Header>
-                                                        <Expander.Content>
-                                                            <ItemsPresenter/>
-                                                        </Expander.Content>
-                                                    </Expander>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </GroupStyle.ContainerStyle>
-                            </GroupStyle>
-                        </DataGrid.GroupStyle>
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Position.security.SecurityName}" Width="SizeToCells" />
-                            <DataGridTextColumn Header="Symbol" Binding="{Binding Position.security.Symbol}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Quantity" Binding="{Binding Position.NetQuantity, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Avg Cost" Binding="{Binding Position.AverageCost, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Current Price" Binding="{Binding price, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Total PnL" Binding="{Binding TotalPnL, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding Position.security.Currency.Symbol}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding Position.custodian.Name}" Width="*"/>
-                        </DataGrid.Columns>
-                        <DataGrid.InputBindings>
-                            <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding PositionDetailCommand}"/>
-                        </DataGrid.InputBindings>
                     </DataGrid>
                 </TabItem>
             </TabControl>
