@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels
@@ -88,6 +89,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(LockedNav));
                 OnPropertyChanged(nameof(NavValuation));
                 OnPropertyChanged(nameof(dgFundClients));
+                OnPropertyChanged(nameof(testPositions));
             }
         }
 
@@ -166,6 +168,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(LockedNav));
                 OnPropertyChanged(nameof(NavValuation));
                 OnPropertyChanged(nameof(dgFundClients));
+                OnPropertyChanged(nameof(testPositions));
             }
         }
 
@@ -285,7 +288,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundCashHoldings));
             }
         }
-
+        /*
         private List<SecurityPositionValuation> _dgFundPositions;
         public List<SecurityPositionValuation> dgFundPositions
         {
@@ -322,7 +325,88 @@ namespace PortfolioAce.ViewModels
                 _dgFundPositions = valuedPositions;
                 OnPropertyChanged(nameof(dgFundPositions));
             }
+        }*/
+        public List<SecurityPositionValuation> dgFundPositions
+        {
+            get
+            {
+                if (_currentFund != null)
+                {
+                    List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
+                    List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
+
+                    foreach (CalculatedSecurityPosition position in allPositions)
+                    {
+                        SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, _priceTable, _asOfDate, _currentFund.BaseCurrency);
+                        valuedPositions.Add(valuedPosition);
+                    }
+                    return valuedPositions;
+                }
+                else
+                {
+                    return new List<SecurityPositionValuation>();
+                }
+            }
         }
+        private ListCollectionView _testPositions;
+        public ListCollectionView testPositions
+        {
+            get
+            {
+                ListCollectionView cv = new ListCollectionView(dgFundPositions);
+                cv.GroupDescriptions.Add(new PropertyGroupDescription("Position.security.AssetClass"));
+                return cv;
+            }
+            set
+            {
+                ListCollectionView cv = new ListCollectionView(dgFundPositions);
+                cv.GroupDescriptions.Add(new PropertyGroupDescription("Position.security.AssetClass"));
+                _testPositions = cv;
+                OnPropertyChanged(nameof(testPositions));
+            }
+        }
+        /*
+        private ListCollectionView _testPositions;
+        public ListCollectionView testPositions
+        {
+            get
+            {
+                // This is temporary for now
+                if (_currentFund != null)
+                {
+                    List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
+                    List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
+
+                    foreach (CalculatedSecurityPosition position in allPositions)
+                    {
+                        SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, _priceTable, _asOfDate, _currentFund.BaseCurrency);
+                        valuedPositions.Add(valuedPosition);
+                    }
+                    ListCollectionView cv = new ListCollectionView(valuedPositions);
+                    cv.GroupDescriptions.Add(new PropertyGroupDescription("Position.security.AssetClass"));
+                    return cv;
+                }
+                else
+                {
+                    return new ListCollectionView(new List<SecurityPositionValuation>());
+                }
+            }
+            set
+            {
+                List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
+                List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
+                foreach (CalculatedSecurityPosition position in allPositions)
+                {
+                    SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, _priceTable, _asOfDate, _currentFund.BaseCurrency);
+                    valuedPositions.Add(valuedPosition);
+                }
+                ListCollectionView cv = new ListCollectionView(valuedPositions);
+                cv.GroupDescriptions.Add(new PropertyGroupDescription("Position.security.AssetClass"));
+                _testPositions = cv;
+                OnPropertyChanged(nameof(testPositions));
+            }
+        }
+        */
 
         private List<TransactionsBO> _dgFundTrades;
         public List<TransactionsBO> dgFundTrades

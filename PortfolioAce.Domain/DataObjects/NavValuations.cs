@@ -85,6 +85,7 @@ namespace PortfolioAce.Domain.DataObjects
         public CalculatedSecurityPosition Position { get; set; }
         public decimal MarketValueLocal { get; set; }
         public decimal MarketValueBase { get; set; }
+        public decimal TotalPnL { get; set; }
         public decimal unrealisedPnl { get; set; }
         public decimal unrealisedPnLPercent { get; set; }
         public decimal price { get; set; }
@@ -126,6 +127,7 @@ namespace PortfolioAce.Domain.DataObjects
             this.MarketValueLocal = Math.Round(position.NetQuantity * price, 2);
             this.MarketValueBase = Math.Round(this.MarketValueLocal * fxRate, 2);
             this.unrealisedPnl = Math.Round(position.NetQuantity * (this.price - position.AverageCost) * multiplierPnL, 2);
+            this.TotalPnL = this.unrealisedPnl + position.RealisedPnL;
         }
     }
     public class CashPositionValuation
