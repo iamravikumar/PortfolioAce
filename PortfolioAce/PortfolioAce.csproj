@@ -24,7 +24,6 @@
     <None Remove="Resources\portfolioace_logo2_hd.png" />
     <None Remove="Resources\portfolioace_logo2_icon.ico" />
     <None Remove="Resources\portfolioace_logo_icon.ico" />
-    <None Remove="Resources\PortfolioAce_logo_with_text.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -89,9 +88,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\portfolioace_logo_icon.ico">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\PortfolioAce_logo_with_text.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
