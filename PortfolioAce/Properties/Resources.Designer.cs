@@ -213,6 +213,16 @@ namespace PortfolioAce.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] PortfolioAce_logo_with_text {
+            get {
+                object obj = ResourceManager.GetObject("PortfolioAce_logo_with_text", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] portfolioace_logo2_hd {
             get {
                 object obj = ResourceManager.GetObject("portfolioace_logo2_hd", resourceCulture);

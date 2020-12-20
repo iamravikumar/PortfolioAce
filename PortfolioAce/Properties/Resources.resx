@@ -169,4 +169,7 @@
   <data name="portfolioace_logo_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\portfolioace_logo_icon.ico;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="PortfolioAce_logo_with_text" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PortfolioAce_logo_with_text.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
