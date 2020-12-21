@@ -43,7 +43,6 @@ namespace PortfolioAce.ViewModels
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
             _currentFund = (_lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
             _asOfDate = DateTime.Today; // Changed to the day i have a price for.
-            _priceTable = staticReferences.GetPriceTable(_asOfDate); // to save space i can look just for asofdate OR use all securities under particular fund
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
             
@@ -93,6 +92,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(NavValuation));
                 OnPropertyChanged(nameof(dgFundClients));
                 OnPropertyChanged(nameof(groupedPositions));
+                OnPropertyChanged(nameof(priceTable));
             }
         }
 
@@ -107,12 +107,12 @@ namespace PortfolioAce.ViewModels
 
 
 
-        private Dictionary<(string, DateTime), decimal> _priceTable;
+        //private Dictionary<(string, DateTime), decimal> _priceTable;
         public Dictionary<(string, DateTime), decimal> priceTable
         {
             get
             {
-                return _priceTable;
+                return _staticReferences.GetPriceTable(_asOfDate);
             }
         }
         
@@ -229,7 +229,7 @@ namespace PortfolioAce.ViewModels
                     List<CashPositionValuation> valuedCashPositions = new List<CashPositionValuation>();
                     foreach(CalculatedCashPosition cashPosition in cashPositions)
                     {
-                        CashPositionValuation valuedCashPosition = new CashPositionValuation(cashPosition, _priceTable, _asOfDate, _currentFund.BaseCurrency);
+                        CashPositionValuation valuedCashPosition = new CashPositionValuation(cashPosition, priceTable, _asOfDate, _currentFund.BaseCurrency);
                         valuedCashPositions.Add(valuedCashPosition);
                     }
                     return valuedCashPositions;
@@ -268,7 +268,7 @@ namespace PortfolioAce.ViewModels
 
                     foreach (CalculatedSecurityPosition position in allPositions)
                     {
-                        SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, _priceTable, _asOfDate, _currentFund.BaseCurrency);
+                        SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, priceTable, _asOfDate, _currentFund.BaseCurrency);
                         valuedPositions.Add(valuedPosition);
                     }
                     return valuedPositions;
