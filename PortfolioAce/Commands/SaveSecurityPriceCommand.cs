@@ -36,6 +36,10 @@ namespace PortfolioAce.Commands
                 SecuritiesDIM security = _priceService.GetSecurityInfo(_sysSecurityPricesVM.Symbol);
                 await _priceService.AddDailyPrices(security);
             }
+            catch(ArgumentOutOfRangeException argError)
+            {
+                MessageBox.Show("Your API Key might not be valid. Please investigate", "Error");
+            }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
