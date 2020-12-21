@@ -219,7 +219,6 @@ namespace PortfolioAce.ViewModels
             }
         }
         
-        private List<CashPositionValuation> _dgFundCashHoldings;
         public List<CashPositionValuation> dgFundCashHoldings
         {
             get
@@ -240,21 +239,8 @@ namespace PortfolioAce.ViewModels
                     return new List<CashPositionValuation>();
                 }
             }
-            set
-            {
-                List<CalculatedCashPosition> cashPositions = _portfolioService.GetAllCashBalances(_currentFund, _asOfDate);
-                List<CashPositionValuation> valuedCashPositions = new List<CashPositionValuation>();
-                foreach (CalculatedCashPosition cashPosition in cashPositions)
-                {
-                    CashPositionValuation valuedCashPosition = new CashPositionValuation(cashPosition, _priceTable, _asOfDate, _currentFund.BaseCurrency);
-                    valuedCashPositions.Add(valuedCashPosition);
-                }
-                _dgFundCashHoldings = valuedCashPositions;
-                OnPropertyChanged(nameof(dgFundCashHoldings));
-            }
         }
 
-        private List<ClientHolding> _dgFundClients;
         public List<ClientHolding> dgFundClients
         {
             get
@@ -268,12 +254,6 @@ namespace PortfolioAce.ViewModels
                 {
                     return new List<ClientHolding>();
                 }
-            }
-            set
-            {
-                List<ClientHolding> allClientHoldings = _portfolioService.GetAllClientHoldings(_currentFund, _asOfDate);
-                _dgFundClients = allClientHoldings;
-                OnPropertyChanged(nameof(dgFundCashHoldings));
             }
         }
 
@@ -308,17 +288,9 @@ namespace PortfolioAce.ViewModels
                 cv.GroupDescriptions.Add(new PropertyGroupDescription("Position.security.AssetClass"));
                 return cv;
             }
-            set
-            {
-                ListCollectionView cv = new ListCollectionView(dgFundPositions);
-                cv.GroupDescriptions.Add(new PropertyGroupDescription("Position.security.AssetClass"));
-                _groupedPositions = cv;
-                OnPropertyChanged(nameof(groupedPositions));
-            }
         }
 
 
-        private List<TransactionsBO> _dgFundTrades;
         public List<TransactionsBO> dgFundTrades
         {
             get
@@ -329,17 +301,8 @@ namespace PortfolioAce.ViewModels
                                                             .OrderBy(t=>t.TradeDate)
                                                             .ToList() : null;
             }
-            set
-            {
-                _dgFundTrades = _currentFund.Transactions
-                                            .Where(t => t.TransactionType.TypeClass.ToString() == "SecurityTrade" && t.TradeDate<= _asOfDate)
-                                            .OrderBy(t => t.TradeDate)
-                                            .ToList();
-                OnPropertyChanged(nameof(dgFundTrades));
-            }
         }
 
-        private List<TransactionsBO> _dgFundCashBook;
         public List<TransactionsBO> dgFundCashBook
         {
             get
@@ -350,18 +313,9 @@ namespace PortfolioAce.ViewModels
                                                             .OrderBy(t => t.TradeDate)
                                                             .ToList() : null;
             }
-            set
-            {
-                _dgFundCashBook = _currentFund.Transactions
-                                              .Where(t=>t.TradeDate<=_asOfDate)
-                                              .OrderBy(t => t.TradeDate)
-                                              .ToList();
-                OnPropertyChanged(nameof(dgFundCashBook));
-            }
         }
 
 
-        private List<TransferAgencyBO> _dgFundTA;
         public List<TransferAgencyBO> dgFundTA
         {
             get
@@ -370,14 +324,6 @@ namespace PortfolioAce.ViewModels
                                                             .Where(ta=>ta.TransactionDate<=_asOfDate)
                                                             .OrderBy(ta => ta.TransactionDate)
                                                             .ToList() : null;
-            }
-            set
-            {
-                _dgFundTA = _currentFund.TransferAgent
-                                        .Where(ta=>ta.TransactionDate<=_asOfDate)
-                                        .OrderBy(ta => ta.TransactionDate)
-                                        .ToList();
-                OnPropertyChanged(nameof(dgFundTA));
             }
         }
 

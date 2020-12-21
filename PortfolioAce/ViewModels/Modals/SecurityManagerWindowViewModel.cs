@@ -104,17 +104,11 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        private List<SecuritiesDIM> _dgSecurities;
         public List<SecuritiesDIM> dgSecurities
         {
             get
             {
                 return _adminService.GetAllSecurities();
-            }
-            set
-            {
-                _dgSecurities = _adminService.GetAllSecurities();
-                OnPropertyChanged(nameof(dgSecurities));
             }
         }
 

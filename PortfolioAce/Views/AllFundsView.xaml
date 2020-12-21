@@ -71,7 +71,7 @@
             <TabControl DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignTabControl}" Background="LightGray" >
                 <TabItem Header="Positions">
                     <DataGrid ColumnWidth="*" RowBackground="GhostWhite" AlternatingRowBackground="White" VerticalScrollBarVisibility="Auto" 
-                              AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=groupedPositions}">
+                              AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=groupedPositions, UpdateSourceTrigger=PropertyChanged}">
                         <DataGrid.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.ContainerStyle>
@@ -125,7 +125,7 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Cash Holdings">
-                    <DataGrid Name="dgCashHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgFundCashHoldings}" 
+                    <DataGrid Name="dgCashHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgFundCashHoldings, UpdateSourceTrigger=PropertyChanged}" 
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
@@ -138,7 +138,7 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Trade History">
-                    <DataGrid Name="dgTradeHistory" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTrades}" 
+                    <DataGrid Name="dgTradeHistory" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTrades, UpdateSourceTrigger=PropertyChanged}" 
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
@@ -157,7 +157,7 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Cash Book">
-                    <DataGrid Name="dgCashBook" ColumnWidth="*" ItemsSource="{Binding Path=dgFundCashBook}" 
+                    <DataGrid Name="dgCashBook" ColumnWidth="*" ItemsSource="{Binding Path=dgFundCashBook, UpdateSourceTrigger=PropertyChanged}" 
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
@@ -172,7 +172,7 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Issuance">
-                    <DataGrid Name="dgSubsAndReds" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTA}" 
+                    <DataGrid Name="dgSubsAndReds" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTA, UpdateSourceTrigger=PropertyChanged}" 
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
