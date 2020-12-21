@@ -16,7 +16,7 @@ namespace PortfolioAce.Domain.Models.FactTables
         public decimal Units { get; set; }
         [Required]
         public decimal AverageCost { get; set; }
-        [Required]
+        
         public decimal? HighWaterMark { get; set; }
         [Required]
         public decimal NetValuation { get; set; }
