@@ -224,7 +224,10 @@ namespace PortfolioAce.EFCore.Services
                         HighWaterMark = clientHolding.Holding.Investor.HighWaterMark,
                         ManagementFeesAccrued = clientHolding.ManagementFeesAccrued,
                         Units = clientHolding.Holding.Units,
-                        PerformanceFeesAccrued = clientHolding.PerformanceFeesAccrued
+                        PerformanceFeesAccrued = clientHolding.PerformanceFeesAccrued,
+                        HoldingDate=asOfDate,
+                        FundId=fundId,
+                        InvestorId=clientHolding.Holding.Investor.InvestorId
                     };
                     newHoldings.Add(newHolding);
                 }
