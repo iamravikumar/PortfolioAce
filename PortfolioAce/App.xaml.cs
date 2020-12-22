@@ -56,10 +56,8 @@ namespace PortfolioAce
                 })
                 .ConfigureServices((context, services) =>
                 {
-                    // Add API Services here
-                    string apiKeyAV = "demo";
-                    string apiKeyFMP = "demo";
-                    services.AddSingleton<DataConnectionFactory>(new DataConnectionFactory(apiKeyAV, apiKeyFMP));
+                    // Add API Service here
+                    services.AddSingleton<DataConnectionFactory>(new DataConnectionFactory());
 
                     string connectionString = "Data Source=PortfolioAce.db";
                     Action<DbContextOptionsBuilder> configureDbContext = db => db.UseSqlite(connectionString);
@@ -67,7 +65,6 @@ namespace PortfolioAce
                     services.AddSingleton<PortfolioAceDbContextFactory>(new PortfolioAceDbContextFactory(configureDbContext));
 
                     services.AddSingleton<IPortfolioAceViewModelAbstractFactory, PortfolioAceViewModelAbstractFactory>();
-                    //services.AddSingleton<PortfolioAceDbContextFactory>();
 
 
                     // Add Business Services here

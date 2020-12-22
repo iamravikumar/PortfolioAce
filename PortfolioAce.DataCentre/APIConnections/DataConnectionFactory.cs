@@ -6,22 +6,18 @@ namespace PortfolioAce.DataCentre.APIConnections
 {
     public class DataConnectionFactory
     {
-        private readonly string _apiKeyAV;
-        private readonly string _apiKeyFMP;
-        public DataConnectionFactory(string apiKeyAV="",string apiKeyFMP="")
+        public DataConnectionFactory()
         {
-            _apiKeyAV = apiKeyAV;
-            _apiKeyFMP = apiKeyFMP;
         }
 
-        public AlphaVantageConnection CreateAlphaVantageClient()
+        public AlphaVantageConnection CreateAlphaVantageClient(string apiKeyAV)
         {
-            return new AlphaVantageConnection(_apiKeyAV);
+            return new AlphaVantageConnection(apiKeyAV);
         }
 
-        public FMPConnection CreateFMPCleint()
+        public FMPConnection CreateFMPCleint(string apiKeyFMP)
         {
-            return new FMPConnection(_apiKeyFMP);
+            return new FMPConnection(apiKeyFMP);
         }
     }
 }

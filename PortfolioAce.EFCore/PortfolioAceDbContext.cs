@@ -15,6 +15,7 @@ namespace PortfolioAce.EFCore
     {
         public DbSet<Fund> Funds { get; set; }
         public DbSet<SecurityPriceStore> SecurityPriceData { get; set; }
+        public DbSet<ApplicationSettings> AppSettings { get; set; }
 
         // Back Office Models
         public DbSet<TransferAgencyBO> TransferAgent { get; set; }

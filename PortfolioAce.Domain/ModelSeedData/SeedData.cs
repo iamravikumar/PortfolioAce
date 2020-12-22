@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models.Dimensions;
+﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -65,6 +66,10 @@ namespace PortfolioAce.Domain.ModelSeedData
 
         public readonly CustodiansDIM[] SeedCustodians = new CustodiansDIM[]{
             new CustodiansDIM{CustodianId=1, Name="Default", Symbol="Default"}
+        };
+        public readonly ApplicationSettings[] SeedSettings = new ApplicationSettings[]{
+            new ApplicationSettings{SettingId=1, SettingName="AlphaVantageAPI", Description="Alpha Vantage API Key", SettingValue="demo"},
+            new ApplicationSettings{SettingId=2, SettingName="FMPrepAPI", Description="Financial Modelling Prep API Key", SettingValue="demo"}
         };
     }
 }

@@ -27,7 +27,8 @@ namespace PortfolioAce.EFCore.Services.PriceServices
             // This is for Equity Prices
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                AlphaVantageConnection avConn = _dataFactory.CreateAlphaVantageClient();
+                string avKey = context.AppSettings.Where(ap => ap.SettingName == "AlphaVantageAPI").First().SettingValue;
+                AlphaVantageConnection avConn = _dataFactory.CreateAlphaVantageClient(avKey);
                 string uri = GenerateURI(security);
                 var allPrices = await avConn.GetAsync<List<AVSecurityPriceData>>(uri);
                 HashSet<DateTime> existingDates = context.SecurityPriceData.Where(spd => spd.Security.Symbol == security.Symbol).Select(spd => spd.Date).ToHashSet();
