@@ -130,11 +130,38 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
             }
         }
 
-        public AccountingPeriodsDIM GetPeriod(DateTime dateTime, int fundId)
+        public AccountingPeriodsDIM GetPeriod(DateTime previousDate, int fundId)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Periods.Where(p => p.AccountingDate == dateTime && p.FundId == fundId).FirstOrDefault();
+                return context.Periods.Where(p => p.AccountingDate == previousDate && p.FundId == fundId).FirstOrDefault();
+            }
+        }
+
+        public bool PreviousPeriodLocked(DateTime previousPeriodDate, int fundId)
+        {
+            // check if the previous period is locked or not
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                List<AccountingPeriodsDIM> prevPeriods =  context.Periods.Where(p => p.AccountingDate < previousPeriodDate && p.FundId == fundId).OrderBy(p=>p.AccountingDate).ToList();
+                if (prevPeriods.Count == 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    return (prevPeriods[prevPeriods.Count - 1].isLocked);
+                }
+            }
+        }
+
+        public DateTime GetMostRecentLockedDate(int fundId)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                // Defaults to today..
+                AccountingPeriodsDIM periodDate = context.Periods.Where(p => p.FundId == fundId && p.isLocked).OrderBy(p => p.AccountingDate).LastOrDefault();
+                return (periodDate != null) ? periodDate.AccountingDate : DateTime.Today;
             }
         }
     }

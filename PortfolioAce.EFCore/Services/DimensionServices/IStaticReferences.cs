@@ -27,5 +27,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         TransactionTypeDIM GetTransactionType(string typeName);
         CustodiansDIM GetCustodian(string typeName);
         AccountingPeriodsDIM GetPeriod(DateTime dateTime, int fundId);
+        public bool PreviousPeriodLocked(DateTime dateTime, int fundId);
+        public DateTime GetMostRecentLockedDate(int fundId);
     }
 }

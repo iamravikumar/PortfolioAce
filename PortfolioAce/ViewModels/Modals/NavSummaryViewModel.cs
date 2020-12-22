@@ -148,8 +148,10 @@ namespace PortfolioAce.ViewModels.Modals
                 }
                 else
                 {
+                    // i need to check if the previous period is locked or not..
                     bool isWeekend = (AsOfDate.DayOfWeek == DayOfWeek.Saturday || AsOfDate.DayOfWeek == DayOfWeek.Sunday); // you can't lock nav on weekend
-                    return (UnvaluedPositions == 0 && !period.isLocked && !isWeekend);
+                    bool isPreviousPeriodLocked = _staticReferences.PreviousPeriodLocked(AsOfDate, _navValuation.fund.FundId); // you can't lock nav if the previous period is locked.
+                    return (UnvaluedPositions == 0 && !period.isLocked && !isWeekend && isPreviousPeriodLocked);
                 }
             }
         }
