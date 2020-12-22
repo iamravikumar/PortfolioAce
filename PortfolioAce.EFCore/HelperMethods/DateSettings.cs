@@ -14,7 +14,7 @@ namespace PortfolioAce.EFCore.HelperMethods
             List<DateTime> allDates = new List<DateTime>();
             while (newDate < endDate)
             {
-                if (newDate.DayOfWeek != DayOfWeek.Saturday || newDate.DayOfWeek != newDate.DayOfWeek)
+                if (newDate.DayOfWeek != DayOfWeek.Saturday && newDate.DayOfWeek != DayOfWeek.Sunday)
                 {
                     allDates.Add(newDate);
                 }
