@@ -91,6 +91,14 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public decimal PerformanceFeeAmount
+        {
+            get
+            {
+                return _navValuation.PerformanceFeeAmount;
+            }
+        }
+
         public List<SecurityPositionValuation> dgSecurityPositions
         {
             get

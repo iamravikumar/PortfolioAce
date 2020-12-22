@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         xmlns:src="clr-namespace:PortfolioAce.Models"
         mc:Ignorable="d"
-        Title="Nav Summary" Height="525" Width="675">
+        Title="Nav Summary" Height="595" Width="775">
     <Window.Resources>
         <src:InvertVisibilityConverter x:Key="invertVisibilityConverter"/>
     </Window.Resources>
@@ -47,6 +47,11 @@
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
                         <Run FontWeight="Bold" Text="Accrued Management Fee: "/>
                         <Run Text="{Binding ManagementFeeAmount, StringFormat=N2, Mode=OneWay}"/>
+                        <Run Text="{Binding BaseCurrency, Mode=OneWay}"/>
+                </TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
+                        <Run FontWeight="Bold" Text="Accrued Performance Fee: "/>
+                        <Run Text="{Binding PerformanceFeeAmount, StringFormat=N2, Mode=OneWay}"/>
                         <Run Text="{Binding BaseCurrency, Mode=OneWay}"/>
                 </TextBlock>
                 <TextBlock Visibility="{Binding ValuedMessage, Converter={StaticResource invertVisibilityConverter}}">

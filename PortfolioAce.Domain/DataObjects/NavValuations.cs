@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.FactTables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,12 @@ namespace PortfolioAce.Domain.DataObjects
         // ONE MORE THING... There might be a potential big bug. If there is a Sub/Red that is not final Do i include the class but dont increase the SharesOutstanding
         // What i do is calculate the NAV price then mint the new units and amend the tranfer angency
         // i.e. there is a not final 50k subscription. i calculate the NAV price then set a units and price for that subscription.. this will cause the nav to stay the same and i can incorporate it..
+        
+        // performance fees will have to be calculated monthly for now.
+        
         public Fund fund { get; set; }
         public decimal ManagementFeeAmount { get; set; }
+        public decimal PerformanceFeeAmount { get; set; }
         public List<SecurityPositionValuation> SecurityPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
         public List<CashPositionValuation> CashPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
         public List<ClientHoldingValuation> ClientHoldings { get; set; }
@@ -67,14 +72,65 @@ namespace PortfolioAce.Domain.DataObjects
             {
                 this.ManagementFeeAmount = (GrossAssetValue * fund.ManagementFee) / accrualPeriods; // this will then be weighted on the investors..
             }
-            this.NetAssetValue = GrossAssetValue - this.ManagementFeeAmount;
-            this.NetAssetValuePerShare = Math.Round(this.NetAssetValue / this.SharesOutstanding, 5);
-            foreach(ClientHolding holding in clientHoldings)
+            this.NetAssetValue = GrossAssetValue - this.ManagementFeeAmount; // this is the NAV after management fees.
+            this.NetAssetValuePerShare = this.NetAssetValue / this.SharesOutstanding; // NAV per share after management fees
+
+            NAVPriceStoreFACT performancePeriodFact = fund.NavPrices.Where(np => np.FinalisedDate.Month == AsOfDate.Month).OrderBy(np => np.FinalisedDate).FirstOrDefault(); //price at beginning of month
+            decimal performancePeriodStartPrice = (performancePeriodFact==null)?this.NetAssetValuePerShare:performancePeriodFact.NAVPrice; // if theres no price at the beginning of month this value is the beginning of month... 
+
+            decimal totalPerfFee = decimal.Zero;
+            foreach (ClientHolding holding in clientHoldings)
             {
+                decimal holdingWeighting = holding.Units / this.SharesOutstanding;
+                decimal perfFee = decimal.Zero;
+                decimal perfStartPrice;
+                // This section determines the start price to use for the performance fee.
+                if (holding.Investor.HighWaterMark == null)
+                {
+                    perfStartPrice = performancePeriodStartPrice;
+                }
+                else if (holding.Investor.HighWaterMark > this.NetAssetValuePerShare)
+                {
+                    perfStartPrice = this.NetAssetValue; // AKA no performance
+                }
+                else
+                {
+                    perfStartPrice = (decimal)holding.Investor.HighWaterMark;
+                }
+                //6/5 20%. how caculate gain...
+                decimal gainPercent = (this.NetAssetValuePerShare / perfStartPrice) - 1;
+                decimal gainValue = (this.NetAssetValuePerShare * holding.Units) - (perfStartPrice * holding.Units);
+
+
+                //hurdle calc
+                if (fund.HurdleType == "None")
+                {
+                    perfFee = gainValue * (fund.PerformanceFee / 12); // by 12 since the fee is payable monthly for now...
+                }
+                else if (fund.HurdleType== "Soft" && gainPercent >= fund.HurdleRate)
+                {
+                    perfFee = gainValue * (fund.PerformanceFee / 12);
+                }
+                else if(fund.HurdleType == "Hard" && gainPercent > fund.HurdleRate)
+                {
+                    decimal gainPercentWithHurdle = gainPercent - fund.HurdleRate;
+
+                    decimal gainWithHurdle = (this.NetAssetValuePerShare * holding.Units) - (perfStartPrice * holding.Units * (1+fund.HurdleRate));
+                    perfFee = gainWithHurdle * (fund.PerformanceFee / 12);
+                }
+
+                totalPerfFee += perfFee;
+
                 ClientHoldingValuation holdingValued = new ClientHoldingValuation(holding, this.GrossAssetValuePerShare);
-                holdingValued.ApplyManagementFee(Math.Round((holding.Units / this.SharesOutstanding) *this.ManagementFeeAmount,2)); // this is the weighted average fee
+                holdingValued.ApplyManagementFee(Math.Round(holdingWeighting * this.ManagementFeeAmount,2)); // this is the weighted average fee
+                holdingValued.ApplyPerformanceFee(Math.Round(perfFee, 2));
                 this.ClientHoldings.Add(holdingValued);
             }
+
+            this.PerformanceFeeAmount = totalPerfFee;
+            this.NetAssetValue = this.NetAssetValue - totalPerfFee;
+            this.NetAssetValuePerShare = Math.Round(this.NetAssetValue / this.SharesOutstanding, 5);
+
         }
     }
 
