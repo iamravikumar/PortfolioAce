@@ -84,7 +84,9 @@ namespace PortfolioAce.EFCore
                 seedData.SeedTransactionTypes);
             modelBuilder.Entity<SecuritiesDIM>().HasData(
                 seedData.seedSecuritisedCash);
-            
+            modelBuilder.Entity<SecuritiesDIM>().HasData(
+                seedData.SeedSettings);
+
             base.OnModelCreating(modelBuilder);
         }
 
