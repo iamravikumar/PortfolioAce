@@ -42,7 +42,7 @@ namespace PortfolioAce.ViewModels
             List<Fund> allFunds = fundService.GetAllFunds();
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
             _currentFund = (_lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
-            _asOfDate = DateTime.Today; // Changed to the day i have a price for.
+            _asOfDate = (_currentFund != null)?staticReferences.GetMostRecentLockedDate(_currentFund.FundId):DateTime.Today;
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
             
