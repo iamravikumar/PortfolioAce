@@ -12,6 +12,7 @@
     <None Remove="Resources\icons8-AddInvestor-24.png" />
     <None Remove="Resources\icons8-all-funds-view-24.png" />
     <None Remove="Resources\icons8-all-securities24.png" />
+    <None Remove="Resources\icons8-connection-16.png" />
     <None Remove="Resources\icons8-device-manager-24.png" />
     <None Remove="Resources\icons8-exit-24.png" />
     <None Remove="Resources\icons8-fx-rates-24.png" />
@@ -52,6 +53,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\icons8-all-securities24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-connection-16.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\icons8-device-manager-24.png">

@@ -4,9 +4,120 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Windows"
+        xmlns:components="clr-namespace:PortfolioAce.Models.Components"
         mc:Ignorable="d"
-        Title="Settings" Height="240" Width="320">
+        Title="PortfolioAce Settings" Height="250" Width="450" ResizeMode="NoResize"  WindowStyle="ToolWindow">
     <Grid>
-        
+        <Grid.Resources>
+            <!-- HERE i can set properties for all similar objects in the grid i.e. textboxes-->
+            <Style TargetType="TextBox">
+                <Setter Property="Margin" Value="2" />
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="TextBox">
+                            <StackPanel>
+                                <Border Padding="{TemplateBinding Padding}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="3">
+                                    <ScrollViewer x:Name="PART_ContentHost" />
+                                </Border>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="PasswordBox">
+                <Setter Property="Margin" Value="2" />
+                <Setter Property="Padding" Value="2" />
+                <Setter Property="Background" Value="White"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="PasswordBox">
+                            <StackPanel>
+                                <Border Padding="{TemplateBinding Padding}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="3">
+                                    <ScrollViewer x:Name="PART_ContentHost" />
+                                </Border>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TabControl TabStripPlacement="Left" Grid.Row="0" Grid.Column="0">
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Grid Name="Panel">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Panel" Property="Background" Value="#dedede" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Panel" Property="Background" Value="White" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="General">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="89*"/>
+                        <ColumnDefinition Width="217*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Connections "/>
+                        <Image Width="12" Source="/PortfolioAce;component/Resources\icons8-connection-16.png" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="AlphaVantage API Key" FontWeight="Bold" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    <components:BindablePasswordBox Password="{Binding AlphaVantageKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"/>
+                    <Button Grid.Row="1" Grid.Column="5" Content="Show" FontSize="9" Width="55" Height="20" Style="{DynamicResource MaterialDesignFlatLightBgButton}" Margin="0,0,0,25"/>
+                    <Label Content="FMPrep API Key" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+                    <components:BindablePasswordBox Password="{Binding FMPrepKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"/>
+                    <Button Grid.Row="2" Grid.Column="5" Content="Show" FontSize="9" Width="55" Height="20" Style="{DynamicResource MaterialDesignFlatLightBgButton}" Margin="0,0,0,25"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
