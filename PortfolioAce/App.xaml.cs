@@ -21,6 +21,7 @@ using PortfolioAce.EFCore;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.EFCore.Services.PriceServices;
+using PortfolioAce.EFCore.Services.SettingServices;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;
@@ -78,6 +79,7 @@ namespace PortfolioAce
                     services.AddSingleton<ITransferAgencyService, TransferAgencyService>();
                     services.AddSingleton<IPriceService, PriceService>();
                     services.AddSingleton<IStaticReferences, StaticReferences>();
+                    services.AddSingleton<ISettingService, SettingService>();
 
                     // Add viewmodels here
                     services.AddSingleton<HomeViewModel>();

@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
+using PortfolioAce.EFCore.Services.SettingServices;
 using PortfolioAce.Models;
 using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;
@@ -37,15 +38,17 @@ namespace PortfolioAce.Navigation
         private IAdminService _adminService;
         private IStaticReferences _staticReferences;
         private ITransferAgencyService _investorService;
+        private ISettingService _settingService;
 
         public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IFundService fundService, ITransferAgencyService investorService,
-            IAdminService adminService, IStaticReferences staticReferences)
+            IAdminService adminService, ISettingService settingService, IStaticReferences staticReferences)
         {
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
             _fundService = fundService;
             _adminService = adminService;
             _staticReferences = staticReferences;
             _investorService = investorService;
+            _settingService = settingService;
             // I can make these commands reusable
             ShowSettingsCommand = new ActionCommand(ShowSettingsWindow);
             ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
@@ -82,10 +85,14 @@ namespace PortfolioAce.Navigation
         public void ShowSettingsWindow()
         {
             Window view = new SettingsWindow();
-            ViewModelWindowBase viewModel = new SettingsWindowViewModel();
+            ViewModelWindowBase viewModel = new SettingsWindowViewModel(_settingService);
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (viewModel.CloseAction == null)
+            {
+                viewModel.CloseAction = new Action(() => view.Close());
+            }
             view.ShowDialog();
         }
 
