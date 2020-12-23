@@ -15,7 +15,7 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="25*"/>
             <ColumnDefinition Width="357*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -107,17 +107,18 @@
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Position.NetQuantity, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Avg Cost" Binding="{Binding Position.AverageCost, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Current Price" Binding="{Binding price, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Total PnL" Binding="{Binding TotalPnL, StringFormat=N2}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Total PnL" Binding="{Binding TotalPnL, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Position.security.Currency.Symbol}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding Position.custodian.Name}" Width="*"/>
-                            <DataGridTemplateColumn Header="Crud Ops">
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding Position.custodian.Name}" Width="SizeToCells"/>
+                            <DataGridTemplateColumn Header="Crud Ops" Width="SizeToHeader">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button
+                                        <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" 
                                             Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.PositionDetailsCommand}"
-                                            CommandParameter="{Binding}"
-                                            Content="open lots" />
+                                            CommandParameter="{Binding}">
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-positionBreakdown-24.png"/>
+                                        </Button>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
@@ -142,17 +143,31 @@
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Type"  Binding="{Binding TransactionType.TypeName}"/>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Security.SecurityName}" />
-                            <DataGridTextColumn Header="Symbol" Binding="{Binding Security.Symbol}"/>
-                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}"/>
-                            <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=N2}"/>
-                            <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount, StringFormat=N2}"/>
-                            <DataGridTextColumn Header="Commission" Binding="{Binding Fees}"/>
-                            <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}"/>
-                            <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}"/>
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}"/>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" Width="*"/>
+                            <DataGridTextColumn Header="Type"  Binding="{Binding TransactionType.TypeName}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Security.SecurityName}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding Security.Symbol}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=N2}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Commission" Binding="{Binding Fees}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" Width="SizeToHeader"/>
+                            <DataGridTemplateColumn Header="Crud Ops" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}">
+                                                <Image Source="/PortfolioAce;component/Resources\icons8-editTrade-24.png"/>
+                                            </Button> <!-- Edit -->
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" Margin="5,0,0,0">
+                                                <Image Source="/PortfolioAce;component/Resources\icons8-deleteTrade-24.png"/>
+                                            </Button> <!-- Delete  (which deactivates the trade) -->
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

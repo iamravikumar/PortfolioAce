@@ -9,6 +9,6 @@ namespace PortfolioAce.EFCore.Services.SettingServices
     {
         Dictionary<string, ApplicationSettings> GetAllSettings();
 
-        void UpdateAPIKeys(string alphaVantageKeyValue, string FMPKeyValue);
+        void UpdateAPIKeys(string alphaVantageKeyValue, string FMPKeyValue); // I should implement Hashed API Keys
     }
 }
