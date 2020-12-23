@@ -22,5 +22,21 @@ namespace PortfolioAce.EFCore.Services.SettingServices
                 return context.AppSettings.ToDictionary(s => s.SettingName);
             }
         }
+
+        public void UpdateAPIKeys(string alphaVantageKeyValue, string FMPKeyValue)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                ApplicationSettings AvKey = context.AppSettings.Where(ap=>ap.SettingName== "AlphaVantageAPI").First();
+                ApplicationSettings FMPKey = context.AppSettings.Where(ap=>ap.SettingName== "FMPrepAPI").First();
+
+                AvKey.SettingValue = alphaVantageKeyValue;
+                FMPKey.SettingValue = FMPKeyValue;
+
+                context.Update(AvKey);
+                context.Update(FMPKey);
+                context.SaveChanges();
+            }
+        }
     }
 }

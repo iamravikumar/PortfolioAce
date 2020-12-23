@@ -8,5 +8,7 @@ namespace PortfolioAce.EFCore.Services.SettingServices
     public interface ISettingService
     {
         Dictionary<string, ApplicationSettings> GetAllSettings();
+
+        void UpdateAPIKeys(string alphaVantageKeyValue, string FMPKeyValue);
     }
 }

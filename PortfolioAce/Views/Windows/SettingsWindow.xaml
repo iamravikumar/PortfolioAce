@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PortfolioAce.Views.Windows"
         xmlns:components="clr-namespace:PortfolioAce.Models.Components"
         mc:Ignorable="d"
-        Title="PortfolioAce Settings" Height="250" Width="500" ResizeMode="NoResize"  WindowStyle="ToolWindow">
+        Title="PortfolioAce Settings" Height="300" Width="500" ResizeMode="NoResize"  WindowStyle="ToolWindow">
     <Grid>
         <Grid.Resources>
             <!-- HERE i can set properties for all similar objects in the grid i.e. textboxes-->
@@ -81,7 +81,7 @@
                     </Setter>
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="General">
+            <TabItem Header="General" FontSize="16">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="89*"/>
@@ -92,7 +92,7 @@
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Connections "/>
+                        <TextBlock Text="Connections " FontSize="16"/>
                         <Image Width="12" Source="/PortfolioAce;component/Resources\icons8-connection-16.png" Margin="0,2,0,0"/>
                     </StackPanel>
                 </TabItem.Header>
@@ -112,11 +112,11 @@
                     </Grid.RowDefinitions>
                     <Label Content="AlphaVantage API Key" FontWeight="Bold" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
                     <components:BindablePasswordBox Password="{Binding AlphaVantageKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2"/>
-                    <Button Grid.Row="1" Grid.Column="5" Content="Show" FontSize="9" Width="55" Height="20" Style="{DynamicResource MaterialDesignFlatLightBgButton}" Margin="0,0,0,25" Command="{Binding ShowAlphaVantageKeyCommand}"/>
+                    <Button Grid.Row="1" Grid.Column="5" Content="Show" FontSize="9" Width="55" Height="20" Style="{DynamicResource MaterialDesignFlatLightBgButton}" Margin="0,0,0,35" Command="{Binding ShowAlphaVantageKeyCommand}"/>
                     <Label Content="FMPrep API Key" FontWeight="Bold" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
                     <components:BindablePasswordBox Password="{Binding FMPrepKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2"/>
-                    <Button Grid.Row="2" Grid.Column="5" Content="Show" FontSize="9" Width="55" Height="20" Style="{DynamicResource MaterialDesignFlatLightBgButton}" Margin="0,0,0,25" Command="{Binding ShowFMPKeyCommand}"/>
-                    <Button Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Content="Apply Changes" FontSize="10" Width="100" Style="{DynamicResource MaterialDesignFlatMidBgButton}" IsEnabled="{Binding enableUpdateSetting}"/>
+                    <Button Grid.Row="2" Grid.Column="5" Content="Show" FontSize="9" Width="55" Height="20" Style="{DynamicResource MaterialDesignFlatLightBgButton}" Margin="0,0,0,35" Command="{Binding ShowFMPKeyCommand}"/>
+                    <Button Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Content="Apply Changes" FontSize="10" Width="100" Style="{DynamicResource MaterialDesignFlatMidBgButton}" IsEnabled="{Binding enableUpdateSetting}" Command="{Binding ApplyConnectionSettingsCommand}"/>
                 </Grid>
             </TabItem>
         </TabControl>

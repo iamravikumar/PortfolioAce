@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models;
+﻿using PortfolioAce.Commands;
+using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services.SettingServices;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Modals;
@@ -16,6 +17,9 @@ namespace PortfolioAce.ViewModels.Windows
         private Dictionary<string, ApplicationSettings> _settingsTable;
         public SettingsWindowViewModel(ISettingService settingService)
         {
+            ApplyConnectionSettingsCommand = new ApplyConnectionSettingsCommand(this, settingService);
+
+
             _settingService = settingService;
             _settingsTable = settingService.GetAllSettings();
 
@@ -29,6 +33,8 @@ namespace PortfolioAce.ViewModels.Windows
             ShowAlphaVantageKeyCommand = new ActionCommand(ShowAlphaVantageKey);
             ShowFMPKeyCommand = new ActionCommand(ShowFMPKey);
         }
+
+        public ICommand ApplyConnectionSettingsCommand { get; set; }
 
         private readonly string _storedAVKey;
         private readonly string _storedFMPKey;

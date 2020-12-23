@@ -21,5 +21,10 @@ namespace PortfolioAce.Views.Windows
         {
             InitializeComponent();
         }
+
+        private void BindablePasswordBox_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
