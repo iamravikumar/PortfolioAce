@@ -57,18 +57,38 @@
                     <DatePicker SelectedDate="{Binding Path=asOfDate, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </StackPanel>
-            <StackPanel DockPanel.Dock="Left" Margin="30,0,0,0">
-                <Button Margin="20,10,0,0" Width="210" Command="{Binding ShowNewInvestorActionCommand}">Investor Manager...</Button>
-                <Button Margin="20,10,0,0" Width="210" Command="{Binding ShowNavSummaryCommand}" IsEnabled="{Binding }">Finalise NAV</Button>
-            </StackPanel>
+            <Grid DockPanel.Dock="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <StackPanel DockPanel.Dock="Left" Margin="30,0,0,0" Orientation="Horizontal" Grid.Row="3">
+                    <Button Margin="0,0,0,0" Content="Add Security Trade" FontSize="12" Command="{Binding ShowNewTradeCommand}" Style="{DynamicResource MaterialDesignFlatLightBgButton}"/>
+                    <Button Margin="5,0,0,0" Content="Add Cash Trade" FontSize="12" Command="{Binding ShowNewCashTradeCommand}" Style="{DynamicResource MaterialDesignFlatLightBgButton}"/>
+                    <Button Margin="5,0,0,0" Command="{Binding ShowNewInvestorActionCommand}" Content="Investor Actions..." FontSize="12" Style="{DynamicResource MaterialDesignFlatLightBgButton}"/>
+                    <Button Margin="5,0,0,0" Style="{DynamicResource MaterialDesignFlatLightBgButton}">
+                        <Image Source="/PortfolioAce;component/Resources\icons8-graph-24.png"/>
+                        <Button.ToolTip>
+                            <TextBlock Text="{Binding CurrentFund.Symbol, StringFormat={}{0} Performance and NAV History}"/>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Margin="5,0,0,0" Style="{DynamicResource MaterialDesignFlatLightBgButton}">
+                        <Image Source="/PortfolioAce;component/Resources\icons8-info-24.png"/>
+                        <Button.ToolTip>
+                            <TextBlock Text="{Binding CurrentFund.Symbol, StringFormat={}{0} Properties}"/>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Margin="5,0,0,0" Command="{Binding ShowNavSummaryCommand}" IsEnabled="{Binding }" Content="Finalise NAV" FontSize="12" Style="{DynamicResource MaterialDesignFlatMidBgButton}"/>
+                </StackPanel>
+            </Grid>
         </DockPanel>
         <Border BorderBrush="Silver" BorderThickness="1" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding ShowWidget}"/>
         <DockPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Margin="2" Visibility="{Binding ShowWidget}">
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <Button Margin="1,0,3,0" Command="{Binding ShowNewTradeCommand}" Style="{DynamicResource MaterialDesignRaisedLightButton}">Add Trade</Button>
-                <Button Margin="0,0,3,0" Command="{Binding ShowNewCashTradeCommand}" Style="{DynamicResource MaterialDesignRaisedLightButton}">Add Cash Trade</Button>
-            </StackPanel>
-            <TabControl DockPanel.Dock="Bottom" Style="{StaticResource MaterialDesignTabControl}" Background="LightGray" >
+            <TabControl DockPanel.Dock="Top" Style="{StaticResource MaterialDesignTabControl}" Background="LightGray" >
                 <TabItem Header="Positions">
                     <DataGrid ColumnWidth="*" RowBackground="GhostWhite" AlternatingRowBackground="White" VerticalScrollBarVisibility="Auto" 
                               AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=groupedPositions, UpdateSourceTrigger=PropertyChanged}">
