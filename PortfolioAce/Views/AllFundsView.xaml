@@ -161,13 +161,13 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}">
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" IsEnabled="{Binding isLocked, Converter={StaticResource invertBoolConverter}}">
                                                 <Button.ToolTip>
                                                     <TextBlock Text="Edit Trade"/>
                                                 </Button.ToolTip>
                                                 <Image Source="/PortfolioAce;component/Resources\icons8-editTrade-24.png"/>
                                             </Button> <!-- Edit -->
-                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" Margin="5,0,0,0">
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" Margin="5,0,0,0" IsEnabled="{Binding isLocked, Converter={StaticResource invertBoolConverter}}">
                                                 <Button.ToolTip>
                                                     <TextBlock Text="Delete Trade"/>
                                                 </Button.ToolTip>

@@ -63,6 +63,10 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     _validationErrors.AddError(nameof(FundSymbol), $"The Symbol '{_fundSymbol}' already exists");
                 }
+                if (_fundSymbol.Length > 8)
+                {
+                    _validationErrors.AddError(nameof(FundSymbol), $"The Symbol cannot contain more 8 characters");
+                }
                 OnPropertyChanged(nameof(FundSymbol));
             }
         }
