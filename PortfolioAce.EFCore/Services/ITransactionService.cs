@@ -10,6 +10,9 @@ namespace PortfolioAce.EFCore.Services
     public interface ITransactionService
     {
         Task<TransactionsBO> CreateTransaction(TransactionsBO transaction);
+        Task<TransactionsBO> UpdateTransaction(TransactionsBO transaction);
+
+        void DeleteTransaction(TransactionsBO transaction);
         SecuritiesDIM GetSecurityInfo(string symbol);
         bool SecurityExists(string symbol);
         TransactionTypeDIM GetTradeType(string name);

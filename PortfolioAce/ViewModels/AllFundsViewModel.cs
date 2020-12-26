@@ -48,6 +48,10 @@ namespace PortfolioAce.ViewModels
             
             ShowNewTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
                 OpenModalWindow, typeof(AddTradeWindow), typeof(AddTradeWindowViewModel), _transactionService, _staticReferences);
+
+            ShowEditTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
+                OpenEditTradeWindow, typeof(EditTradeWindow), typeof(EditTradeWindowViewModel), _transactionService, _staticReferences);
+
             ShowNewCashTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
                 OpenModalWindow, typeof(AddCashTradeWindow), typeof(AddCashTradeWindowViewModel), _transactionService, _staticReferences);
             ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
@@ -65,6 +69,7 @@ namespace PortfolioAce.ViewModels
         public ICommand PositionDetailsCommand { get; set; }
         public ICommand SelectFundCommand { get; set; }
         public ICommand ShowNewTradeCommand { get; set; }
+        public ICommand ShowEditTradeCommand { get; set; }
         public ICommand ShowNewCashTradeCommand { get; set; }
 
         public ICommand ShowFundInitialisationCommand { get; set; }
@@ -303,6 +308,20 @@ namespace PortfolioAce.ViewModels
             }
         }
 
+        private TransactionsBO _selectedTransaction;
+        public TransactionsBO selectedTransaction
+        {
+            get
+            {
+                return _selectedTransaction;
+            }
+            set
+            {
+                _selectedTransaction = value;
+                OnPropertyChanged(nameof(selectedTransaction));
+            }
+        }
+
         public List<TransactionsBO> dgFundCashBook
         {
             get
@@ -348,6 +367,22 @@ namespace PortfolioAce.ViewModels
             // This is temporary
             Window view = (Window)Activator.CreateInstance(windowType);
             ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, NavValuation, myService, myService2);
+
+            view.DataContext = viewModel;
+            view.Owner = Application.Current.MainWindow;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (viewModel.CloseAction == null)
+            {
+                viewModel.CloseAction = new Action(() => view.Close());
+            }
+            view.ShowDialog();
+        }
+
+        public void OpenEditTradeWindow(Type windowType, Type viewModelType, object myService, object myService2)
+        {
+            // This is temporary
+            Window view = (Window)Activator.CreateInstance(windowType);
+            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2,_selectedTransaction);
 
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;

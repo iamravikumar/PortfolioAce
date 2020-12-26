@@ -1,10 +1,8 @@
 ﻿using PortfolioAce.Commands;
-using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
-using PortfolioAce.Navigation;
-using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,37 +13,35 @@ using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
-    public class AddTradeWindowViewModel: ViewModelWindowBase, INotifyDataErrorInfo
+    public class EditTradeWindowViewModel : ViewModelWindowBase, INotifyDataErrorInfo
     {
-        private Fund _fund;
+        private TransactionsBO _transaction;
         private ITransactionService _transactionService;
         private IStaticReferences _staticReferences;
-
         private readonly ValidationErrors _validationErrors;
-        public AddTradeWindowViewModel(ITransactionService transactionService, IStaticReferences staticReferences, Fund fund)
+        private DateTime _launchDate;
+        public EditTradeWindowViewModel(ITransactionService transactionService, IStaticReferences staticReferences, TransactionsBO transaction)
         {
-            AddTradeCommand = new AddTradeCommand(this, transactionService);
             _transactionService = transactionService;
-            _fund = fund;
+            _transaction = transaction;
             _staticReferences = staticReferences;
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
-            _tradeDate = DateExtentions.InitialDate();
-            _settleDate = DateExtentions.InitialDate();
-            _custodian = cmbCustodians[0];
-        }
+            _tradeType = transaction.TransactionType.TypeName.ToString();
+            _symbol = transaction.Security.Symbol;
+            _quantity = transaction.Quantity;
+            _price = transaction.Price;
+            _tradeAmount = transaction.TradeAmount;
+            _tradeCurrency = transaction.Currency.Symbol.ToString();
+            _tradeDate = transaction.TradeDate;
+            _settleDate = transaction.SettleDate;
+            _commission = transaction.Fees;
+            _custodian = transaction.Custodian.Name;
+            _launchDate = transaction.Fund.LaunchDate;
 
-        public int FundId
-        {
-            get
-            {
-                return _fund.FundId;
-            }
-            private set
-            {
-
-            }
+            EditTradeCommand = new EditTradeCommand(this, transactionService, transaction);
         }
+        public ICommand EditTradeCommand { get; set; }
 
         private string _tradeType;
         public string TradeType
@@ -53,11 +49,6 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 return _tradeType;
-            }
-            set
-            {
-                _tradeType = value;
-                OnPropertyChanged(nameof(TradeType));
             }
         }
 
@@ -67,28 +58,6 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 return _symbol;
-            }
-            set
-            {
-                _symbol = value;
-                _validationErrors.ClearErrors(nameof(Symbol));
-                if (!_transactionService.SecurityExists(_symbol))
-                {
-                    _validationErrors.AddError(nameof(Symbol), $"The Security '{_symbol}' does not exist");
-                }
-                else
-                {
-                    string assetClass = _transactionService.GetSecurityInfo(Symbol).AssetClass.Name.ToString();
-                    if(assetClass == "Cash")
-                    {
-                        _validationErrors.AddError(nameof(Symbol), $"Cash purchases/sales not yet supported");
-                    }
-                }
-                // I can check the Database for the value,
-                // and if it exists prefill the currency field
-                // if not raise exception
-                OnPropertyChanged(nameof(Symbol));
-                OnPropertyChanged(nameof(TradeCurrency));
             }
         }
 
@@ -116,22 +85,22 @@ namespace PortfolioAce.ViewModels.Modals
             }
             set
             {
-                _price= value;
+                _price = value;
                 _validationErrors.ClearErrors(nameof(Price));
-                if(_price < 0)
+                if (_price < 0)
                 {
                     _validationErrors.AddError(nameof(Price), "The price cannot be a negative number");
                 }
 
                 OnPropertyChanged(nameof(Price));
-                OnPropertyChanged(nameof(TradeAmount)); 
+                OnPropertyChanged(nameof(TradeAmount));
             }
         }
 
         private decimal _tradeAmount;
         public decimal TradeAmount
         {
-            
+
             get
             {
                 if (TradeType == "Trade")
@@ -144,7 +113,7 @@ namespace PortfolioAce.ViewModels.Modals
             }
             set
             {
-                if(TradeType == "Corporate Action")
+                if (TradeType == "Corporate Action")
                 {
                     _tradeAmount = value;
                 }
@@ -152,24 +121,12 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        private string _tradeCurrency;
         public string TradeCurrency
         {
             get
             {
-                //this should be based on the security symbol
-                if (Symbol == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    var res = _transactionService.GetSecurityInfo(Symbol);
-                    return (res != null) ? res.Currency.Symbol.ToString() : null;
-                }
-            }
-            private set
-            {
-
+                return _tradeCurrency;
             }
         }
 
@@ -189,7 +146,7 @@ namespace PortfolioAce.ViewModels.Modals
                     _validationErrors.AddError(nameof(Commission), "The commission cannot be a negative number");
                 }
                 OnPropertyChanged(nameof(Commission));
-                OnPropertyChanged(nameof(TradeAmount)); 
+                OnPropertyChanged(nameof(TradeAmount));
             }
         }
 
@@ -208,7 +165,7 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     _validationErrors.AddError(nameof(TradeDate), "Your trades can't be booked on weekends");
                 }
-                if (_tradeDate < _fund.LaunchDate)
+                if (_tradeDate < _launchDate)
                 {
                     // validation not showing at the moment because it is bound to TextBox at the moment
                     _validationErrors.AddError(nameof(TradeDate), "You cannot trade before the funds launch date.");
@@ -217,7 +174,7 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     _settleDate = _tradeDate;
                 }
-                
+
                 OnPropertyChanged(nameof(TradeDate));
                 OnPropertyChanged(nameof(SettleDate));
                 // include on property changed for settle date here if trade date< settle date.
@@ -264,14 +221,6 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public DateTime CreatedDate
-        {
-            get
-            {
-                return DateTime.Now;
-                //return _staticReferences.GetAllTradeTypes().Select(tt=>tt.TypeName).ToList();
-            }
-        }
         public DateTime LastModifiedDate
         {
             get
@@ -279,21 +228,6 @@ namespace PortfolioAce.ViewModels.Modals
                 return DateTime.Now;
             }
         }
-        public bool isActive
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public bool isLocked
-        {
-            get
-            {
-                return false;
-            }
-        }
-
 
         public List<string> cmbTradeType
         {
@@ -310,8 +244,6 @@ namespace PortfolioAce.ViewModels.Modals
                 return _staticReferences.GetAllCustodians().Select(c => c.Name.ToString()).ToList();
             }
         }
-
-        public ICommand AddTradeCommand { get; set; }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 

@@ -162,7 +162,7 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Trade History">
-                    <DataGrid Name="dgTradeHistory" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTrades, UpdateSourceTrigger=PropertyChanged}" 
+                    <DataGrid Name="dgTradeHistory" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTrades, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding selectedTransaction}"
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
@@ -181,7 +181,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" IsEnabled="{Binding isLocked, Converter={StaticResource invertBoolConverter}}">
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" IsEnabled="{Binding isLocked, Converter={StaticResource invertBoolConverter}}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowEditTradeCommand}">
                                                 <Button.ToolTip>
                                                     <TextBlock Text="Edit Trade"/>
                                                 </Button.ToolTip>

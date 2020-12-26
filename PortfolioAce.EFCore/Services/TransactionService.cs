@@ -29,6 +29,17 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public void DeleteTransaction(TransactionsBO transaction)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                transaction.isActive = false;
+                context.Transactions.Update(transaction);
+                context.SaveChangesAsync();
+                
+            }
+        }
+
         public CustodiansDIM GetCustodian(string name)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
@@ -58,6 +69,16 @@ namespace PortfolioAce.EFCore.Services
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return (context.Securities.Where(s => s.Symbol == symbol).FirstOrDefault() != null);
+            }
+        }
+
+        public async Task<TransactionsBO> UpdateTransaction(TransactionsBO transaction)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                EntityEntry<TransactionsBO> res = context.Transactions.Update(transaction);
+                await context.SaveChangesAsync();
+                return res.Entity;
             }
         }
     }
