@@ -52,6 +52,8 @@ namespace PortfolioAce.ViewModels
             ShowEditTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
                 OpenEditTradeWindow, typeof(EditTradeWindow), typeof(EditTradeWindowViewModel), _transactionService, _staticReferences);
 
+            ShowDeleteTradeCommand = new ActionCommand(DeleteTradeDialog);
+
             ShowNewCashTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
                 OpenModalWindow, typeof(AddCashTradeWindow), typeof(AddCashTradeWindowViewModel), _transactionService, _staticReferences);
             ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
@@ -70,6 +72,7 @@ namespace PortfolioAce.ViewModels
         public ICommand SelectFundCommand { get; set; }
         public ICommand ShowNewTradeCommand { get; set; }
         public ICommand ShowEditTradeCommand { get; set; }
+        public ICommand ShowDeleteTradeCommand { get; set; }
         public ICommand ShowNewCashTradeCommand { get; set; }
 
         public ICommand ShowFundInitialisationCommand { get; set; }
@@ -382,7 +385,7 @@ namespace PortfolioAce.ViewModels
         {
             // This is temporary
             Window view = (Window)Activator.CreateInstance(windowType);
-            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2,_selectedTransaction);
+            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _selectedTransaction);
 
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
@@ -392,6 +395,28 @@ namespace PortfolioAce.ViewModels
                 viewModel.CloseAction = new Action(() => view.Close());
             }
             view.ShowDialog();
+        }
+
+        public void DeleteTradeDialog()
+        {
+            string n = Environment.NewLine;
+            string secSymbol = _selectedTransaction.Security.Symbol;
+            string secName = _selectedTransaction.Security.SecurityName;
+            decimal quantity = _selectedTransaction.Quantity;
+            decimal price = _selectedTransaction.Price;
+
+            string message = $"Are you sure you want to delete the following Trade:{n}Security: {secName} ({secSymbol}){n}Quantity: {quantity}{n}Price: {price}";
+            MessageBoxResult result =  MessageBox.Show(message, "Delete Trade", button: MessageBoxButton.YesNoCancel);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    _transactionService.DeleteTransaction(selectedTransaction);
+                    break;
+                case MessageBoxResult.No:
+                    break;
+                case MessageBoxResult.Cancel:
+                    break;
+            }
         }
     }
 }

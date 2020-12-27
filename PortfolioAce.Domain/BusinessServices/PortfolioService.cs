@@ -15,7 +15,7 @@ namespace PortfolioAce.Domain.BusinessServices
         public List<CalculatedCashPosition> GetAllCashBalances(Fund fund, DateTime asOfDate)
         {
             List<TransactionsBO> allTrades = fund.Transactions
-                                                 .Where(t=>t.TradeDate<=asOfDate)
+                                                 .Where(t=>t.TradeDate<=asOfDate && t.isActive)
                                                  .OrderBy(t => t.TradeDate)
                                                  .ToList();
             Dictionary<(CurrenciesDIM, CustodiansDIM), List<TransactionsBO>> tradeDict = new Dictionary<(CurrenciesDIM, CustodiansDIM), List<TransactionsBO>>();

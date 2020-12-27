@@ -187,7 +187,7 @@
                                                 </Button.ToolTip>
                                                 <Image Source="/PortfolioAce;component/Resources\icons8-editTrade-24.png"/>
                                             </Button> <!-- Edit -->
-                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" Margin="5,0,0,0" IsEnabled="{Binding isLocked, Converter={StaticResource invertBoolConverter}}">
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" Margin="5,0,0,0" IsEnabled="{Binding isLocked, Converter={StaticResource invertBoolConverter}}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowDeleteTradeCommand}">
                                                 <Button.ToolTip>
                                                     <TextBlock Text="Delete Trade"/>
                                                 </Button.ToolTip>
