@@ -6,6 +6,7 @@ using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
@@ -152,6 +153,25 @@ namespace PortfolioAce.ViewModels.Modals
                     bool isWeekend = (AsOfDate.DayOfWeek == DayOfWeek.Saturday || AsOfDate.DayOfWeek == DayOfWeek.Sunday); // you can't lock nav on weekend
                     bool isPreviousPeriodLocked = _staticReferences.PreviousPeriodLocked(AsOfDate, _navValuation.fund.FundId); // you can't lock nav if the previous period is locked.
                     return (UnvaluedPositions == 0 && !period.isLocked && !isWeekend && isPreviousPeriodLocked);
+                }
+            }
+        }
+
+        public bool EnableUnlockNav
+        {
+            get
+            {
+                // and the accounting period is not locked AND the prior accounting period is not locked....
+                List<AccountingPeriodsDIM> periods = _staticReferences.GetAllFundPeriods(_navValuation.fund.FundId);
+                AccountingPeriodsDIM period =periods.Where(p=>p.AccountingDate==AsOfDate).FirstOrDefault();
+                AccountingPeriodsDIM futurePeriods = periods.Where(p => p.AccountingDate > AsOfDate && p.isLocked).FirstOrDefault();
+                if(period != null && futurePeriods ==null)
+                {
+                    return period.isLocked;
+                }
+                else
+                {
+                    return false;
                 }
             }
         }

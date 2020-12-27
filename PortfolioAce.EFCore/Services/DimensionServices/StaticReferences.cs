@@ -164,5 +164,13 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
                 return (periodDate != null) ? periodDate.AccountingDate : DateTime.Today;
             }
         }
+
+        public List<AccountingPeriodsDIM> GetAllFundPeriods(int fundId)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Periods.Where(p=>p.FundId==fundId).ToList();
+            }
+        }
     }
 }

@@ -9,6 +9,7 @@
         Title="Nav Summary" Height="595" Width="775">
     <Window.Resources>
         <src:InvertVisibilityConverter x:Key="invertVisibilityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -62,6 +63,13 @@
                         <Run Text="All positions are valued!"/>
                 </TextBlock>
             </StackPanel>
+        </DockPanel>
+        <DockPanel Grid.Row="0" Grid.Column="2" LastChildFill="False">
+            <Label DockPanel.Dock="Bottom" FontSize="16" Visibility="{Binding EnableUnlockNav, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Hyperlink Command="" >
+                    <TextBlock Text="Unlock Nav"/>
+                </Hyperlink>
+            </Label>
         </DockPanel>
         <DockPanel Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2" Margin="2">
             <TabControl DockPanel.Dock="Top" Style="{StaticResource MaterialDesignTabControl}" Background="LightGray" >
