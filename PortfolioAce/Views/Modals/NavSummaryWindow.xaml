@@ -66,7 +66,7 @@
         </DockPanel>
         <DockPanel Grid.Row="0" Grid.Column="2" LastChildFill="False">
             <Label DockPanel.Dock="Bottom" FontSize="16" Visibility="{Binding EnableUnlockNav, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Hyperlink Command="" >
+                <Hyperlink Command="{Binding UnlockNavCommand}" >
                     <TextBlock Text="Unlock Nav"/>
                 </Hyperlink>
             </Label>

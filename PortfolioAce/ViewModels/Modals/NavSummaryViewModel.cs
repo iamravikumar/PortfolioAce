@@ -25,8 +25,18 @@ namespace PortfolioAce.ViewModels.Modals
             _investorService = investorService;
             _staticReferences = staticReferences;
             LockNavCommand = new LockNavCommand(this, _navValuation, _investorService);
+            UnlockNavCommand = new UnlockNavCommand(this, _investorService);
         }
         public ICommand LockNavCommand { get; set; }
+        public ICommand UnlockNavCommand { get; set; }
+
+        public int FundId
+        {
+            get
+            {
+                return _navValuation.fund.FundId;
+            }
+        }
 
         public string FundName
         {

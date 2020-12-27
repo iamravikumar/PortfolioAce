@@ -245,6 +245,11 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public void UnlockNav(DateTime asOfDate, int fundId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<TransferAgencyBO> UpdateInvestorAction(TransferAgencyBO investorAction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
