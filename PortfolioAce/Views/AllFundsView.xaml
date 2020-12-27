@@ -11,7 +11,9 @@
     <UserControl.Resources>
         <src:InvertBoolConverter x:Key="invertBoolConverter"/>
         <src:InvertVisibilityConverter x:Key="invertVisibilityConverter"/>
+        <src:InvertBoolToVisibilityConverter x:Key="invertBoolToVisibilityConverter"/>
         <srcGC:PositionMVGroupConverter x:Key="positionSumConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -181,18 +183,30 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" IsEnabled="{Binding isLocked, Converter={StaticResource invertBoolConverter}}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowEditTradeCommand}">
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" IsEnabled="{Binding isLocked, Converter={StaticResource invertBoolConverter}}" 
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowEditTradeCommand}"
+                                                    Visibility="{Binding isActive, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                 <Button.ToolTip>
                                                     <TextBlock Text="Edit Trade"/>
                                                 </Button.ToolTip>
                                                 <Image Source="/PortfolioAce;component/Resources\icons8-editTrade-24.png"/>
                                             </Button> <!-- Edit -->
-                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" Margin="5,0,0,0" IsEnabled="{Binding isLocked, Converter={StaticResource invertBoolConverter}}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowDeleteTradeCommand}">
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" Margin="5,0,0,0" IsEnabled="{Binding isLocked, Converter={StaticResource invertBoolConverter}}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowDeleteTradeCommand}"
+                                                    Visibility="{Binding isActive, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                 <Button.ToolTip>
                                                     <TextBlock Text="Delete Trade"/>
                                                 </Button.ToolTip>
                                                 <Image Source="/PortfolioAce;component/Resources\icons8-deleteTrade-24.png"/>
                                             </Button> <!-- Delete  (which deactivates the trade) -->
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowRestoreTradeCommand}"
+                                                    Visibility="{Binding isActive, Converter={StaticResource invertBoolToVisibilityConverter}}">
+                                                <Button.ToolTip>
+                                                    <TextBlock Text="Restore Trade"/>
+                                                </Button.ToolTip>
+                                                <Image Source="/PortfolioAce;component/Resources\icons8-undo-24.png"/>
+                                            </Button>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>

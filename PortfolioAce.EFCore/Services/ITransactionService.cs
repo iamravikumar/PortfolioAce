@@ -13,6 +13,7 @@ namespace PortfolioAce.EFCore.Services
         Task<TransactionsBO> UpdateTransaction(TransactionsBO transaction);
 
         void DeleteTransaction(TransactionsBO transaction);
+        void RestoreTransaction(TransactionsBO transaction);
         SecuritiesDIM GetSecurityInfo(string symbol);
         bool SecurityExists(string symbol);
         TransactionTypeDIM GetTradeType(string name);

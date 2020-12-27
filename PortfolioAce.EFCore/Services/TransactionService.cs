@@ -36,7 +36,6 @@ namespace PortfolioAce.EFCore.Services
                 transaction.isActive = false;
                 context.Transactions.Update(transaction);
                 context.SaveChangesAsync();
-                
             }
         }
 
@@ -61,6 +60,16 @@ namespace PortfolioAce.EFCore.Services
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.TransactionTypes.Where(t => ((string)(object)t.TypeName) == name).FirstOrDefault();
+            }
+        }
+
+        public void RestoreTransaction(TransactionsBO transaction)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                transaction.isActive = true;
+                context.Transactions.Update(transaction);
+                context.SaveChangesAsync();
             }
         }
 

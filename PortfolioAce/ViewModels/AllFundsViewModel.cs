@@ -54,6 +54,8 @@ namespace PortfolioAce.ViewModels
 
             ShowDeleteTradeCommand = new ActionCommand(DeleteTradeDialog);
 
+            ShowRestoreTradeCommand = new ActionCommand(RestoreTradeDialog);
+
             ShowNewCashTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
                 OpenModalWindow, typeof(AddCashTradeWindow), typeof(AddCashTradeWindowViewModel), _transactionService, _staticReferences);
             ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
@@ -72,6 +74,7 @@ namespace PortfolioAce.ViewModels
         public ICommand SelectFundCommand { get; set; }
         public ICommand ShowNewTradeCommand { get; set; }
         public ICommand ShowEditTradeCommand { get; set; }
+        public ICommand ShowRestoreTradeCommand { get; set; }
         public ICommand ShowDeleteTradeCommand { get; set; }
         public ICommand ShowNewCashTradeCommand { get; set; }
 
@@ -406,7 +409,7 @@ namespace PortfolioAce.ViewModels
             decimal price = _selectedTransaction.Price;
 
             string message = $"Are you sure you want to delete the following Trade:{n}Security: {secName} ({secSymbol}){n}Quantity: {quantity}{n}Price: {price}";
-            MessageBoxResult result =  MessageBox.Show(message, "Delete Trade", button: MessageBoxButton.YesNoCancel);
+            MessageBoxResult result =  MessageBox.Show(message, "Delete Trade", button: MessageBoxButton.YesNo);
             switch (result)
             {
                 case MessageBoxResult.Yes:
@@ -414,7 +417,27 @@ namespace PortfolioAce.ViewModels
                     break;
                 case MessageBoxResult.No:
                     break;
-                case MessageBoxResult.Cancel:
+            }
+        }
+
+        public void RestoreTradeDialog()
+        {
+            DateTime tradeDate = _selectedTransaction.TradeDate;
+            int tradeFundId = _selectedTransaction.FundId;
+            MessageBoxResult result = MessageBox.Show("Are you sure that you want to restore this trade?", "Restore Trade", button: MessageBoxButton.YesNo);
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    if (!_staticReferences.GetPeriod(tradeDate, tradeFundId).isLocked)
+                    {
+                        _transactionService.RestoreTransaction(selectedTransaction);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"To Restore this trade the period of {tradeDate.ToString("dd-MM-yyyy")} must be unlocked", "Unable to Restore");
+                    }
+                    break;
+                case MessageBoxResult.No:
                     break;
             }
         }

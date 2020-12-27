@@ -26,6 +26,7 @@
     <None Remove="Resources\icons8-NAVnotFinalised-24.png" />
     <None Remove="Resources\icons8-positionBreakdown-24.png" />
     <None Remove="Resources\icons8-services-24.png" />
+    <None Remove="Resources\icons8-undo-24.png" />
     <None Remove="Resources\portfolioace logo.png" />
     <None Remove="Resources\portfolioace_logo2_hd.png" />
     <None Remove="Resources\portfolioace_logo2_icon.ico" />
@@ -100,6 +101,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\icons8-services-24.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-undo-24.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\portfolioace logo.png">
