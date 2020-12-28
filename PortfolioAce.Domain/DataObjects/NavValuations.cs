@@ -101,23 +101,26 @@ namespace PortfolioAce.Domain.DataObjects
                 decimal gainPercent = (this.NetAssetValuePerShare / perfStartPrice) - 1;
                 decimal gainValue = (this.NetAssetValuePerShare * holding.Units) - (perfStartPrice * holding.Units);
 
+                if (gainPercent > 0)
+                {
+                    //hurdle calc
+                    if (fund.HurdleType == "None")
+                    {
+                        perfFee = gainValue * (fund.PerformanceFee / 12); // by 12 since the fee is payable monthly for now...
+                    }
+                    else if (fund.HurdleType == "Soft" && gainPercent >= fund.HurdleRate)
+                    {
+                        perfFee = gainValue * (fund.PerformanceFee / 12);
+                    }
+                    else if (fund.HurdleType == "Hard" && gainPercent > fund.HurdleRate)
+                    {
+                        decimal gainPercentWithHurdle = gainPercent - fund.HurdleRate;
 
-                //hurdle calc
-                if (fund.HurdleType == "None")
-                {
-                    perfFee = gainValue * (fund.PerformanceFee / 12); // by 12 since the fee is payable monthly for now...
+                        decimal gainWithHurdle = (this.NetAssetValuePerShare * holding.Units) - (perfStartPrice * holding.Units * (1 + fund.HurdleRate));
+                        perfFee = gainWithHurdle * (fund.PerformanceFee / 12);
+                    }
                 }
-                else if (fund.HurdleType== "Soft" && gainPercent >= fund.HurdleRate)
-                {
-                    perfFee = gainValue * (fund.PerformanceFee / 12);
-                }
-                else if(fund.HurdleType == "Hard" && gainPercent > fund.HurdleRate)
-                {
-                    decimal gainPercentWithHurdle = gainPercent - fund.HurdleRate;
 
-                    decimal gainWithHurdle = (this.NetAssetValuePerShare * holding.Units) - (perfStartPrice * holding.Units * (1+fund.HurdleRate));
-                    perfFee = gainWithHurdle * (fund.PerformanceFee / 12);
-                }
 
                 totalPerfFee += perfFee;
 
