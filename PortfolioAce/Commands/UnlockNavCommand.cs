@@ -31,8 +31,17 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                _investorService.UnlockNav(_navValuationVM.AsOfDate, _navValuationVM.FundId);
-                _navValuationVM.CloseAction();
+                string message = "Are you sure that you want to unlock this period? This action is not reversible.";
+                MessageBoxResult result = MessageBox.Show(message, "Unlock Period", button: MessageBoxButton.YesNo);
+                switch (result)
+                {
+                    case MessageBoxResult.Yes:
+                        _investorService.UnlockNav(_navValuationVM.AsOfDate, _navValuationVM.FundId);
+                        _navValuationVM.CloseAction();
+                        break;
+                    case MessageBoxResult.No:
+                        break;
+                }
             }
             catch (Exception e)
             {

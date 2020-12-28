@@ -247,7 +247,44 @@ namespace PortfolioAce.EFCore.Services
 
         public void UnlockNav(DateTime asOfDate, int fundId)
         {
-            throw new NotImplementedException();
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+
+                Fund fund = context.Funds.Find(fundId);
+                AccountingPeriodsDIM period = context.Periods.Where(p => p.FundId == fund.FundId && p.AccountingDate == asOfDate).FirstOrDefault();
+                period.isLocked = false;
+
+                context.Periods.Update(period);
+
+                List<TransactionsBO> allTransactions;
+                if(fund.NAVFrequency == "Daily")
+                {
+                    allTransactions = context.Transactions.Where(t=>t.FundId==fund.FundId && t.TradeDate== asOfDate).ToList();
+                }
+                else
+                {
+                    allTransactions = context.Transactions.Where(t => t.FundId == fund.FundId && t.TradeDate.Month == asOfDate.Month).ToList();
+                }
+
+                foreach (TransactionsBO transaction in allTransactions)
+                {
+                    transaction.isLocked = false;
+                }
+                context.Transactions.UpdateRange(allTransactions);
+
+                NAVPriceStoreFACT navPrice = context.NavPriceData.Where(npd => npd.FinalisedDate == asOfDate && npd.FundId== fund.FundId).FirstOrDefault();
+                context.NavPriceData.Remove(navPrice);
+
+                List<PositionFACT> storedPositions = context.Positions.Where(p=>p.PositionDate==asOfDate && p.FundId==fund.FundId).ToList();
+
+                context.Positions.RemoveRange(storedPositions);
+
+                List<InvestorHoldingsFACT> storedHoldings = context.InvestorHoldings.Where(i=>i.HoldingDate==asOfDate && i.FundId==fund.FundId).ToList();
+                context.InvestorHoldings.RemoveRange(storedHoldings);
+
+
+                context.SaveChanges();
+            }
         }
 
         public async Task<TransferAgencyBO> UpdateInvestorAction(TransferAgencyBO investorAction)
