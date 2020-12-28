@@ -78,7 +78,7 @@
                             <TextBlock Text="{Binding CurrentFund.Symbol, StringFormat={}{0} Performance and NAV History}"/>
                         </Button.ToolTip>
                     </Button>
-                    <Button Margin="5,0,0,0" Style="{DynamicResource MaterialDesignFlatLightBgButton}">
+                    <Button Margin="5,0,0,0" Style="{DynamicResource MaterialDesignFlatLightBgButton}" Command="{Binding ShowFundPropertiesCommand}">
                         <Image Source="/PortfolioAce;component/Resources\icons8-info-24.png"/>
                         <Button.ToolTip>
                             <TextBlock Text="{Binding CurrentFund.Symbol, StringFormat={}{0} Properties}"/>

@@ -64,6 +64,9 @@ namespace PortfolioAce.ViewModels
                 OpenModalWindow, typeof(FundInitialisationWindow), typeof(FundInitialisationWindowViewModel), _investorService, _staticReferences);
             ShowNavSummaryCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
                 OpenNavSummaryWindow, typeof(NavSummaryWindow),typeof(NavSummaryViewModel), _investorService, _staticReferences);
+            ShowFundPropertiesCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
+                OpenModalWindow, typeof(FundPropertiesWindow), typeof(FundPropertiesViewModel), _investorService, _staticReferences);
+
 
             PositionDetailsCommand = new PositionDetailsCommand();
 
@@ -77,7 +80,7 @@ namespace PortfolioAce.ViewModels
         public ICommand ShowRestoreTradeCommand { get; set; }
         public ICommand ShowDeleteTradeCommand { get; set; }
         public ICommand ShowNewCashTradeCommand { get; set; }
-
+        public ICommand ShowFundPropertiesCommand { get; set; }
         public ICommand ShowFundInitialisationCommand { get; set; }
         public ICommand ShowNewInvestorActionCommand { get; set; }
         public ICommand ShowNavSummaryCommand { get; set; }
