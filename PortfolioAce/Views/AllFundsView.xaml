@@ -72,7 +72,7 @@
                     <Button Margin="0,0,0,0" Content="Add Security Trade" FontSize="12" Command="{Binding ShowNewTradeCommand}" Style="{DynamicResource MaterialDesignFlatLightBgButton}"/>
                     <Button Margin="5,0,0,0" Content="Add Cash Trade" FontSize="12" Command="{Binding ShowNewCashTradeCommand}" Style="{DynamicResource MaterialDesignFlatLightBgButton}"/>
                     <Button Margin="5,0,0,0" Command="{Binding ShowNewInvestorActionCommand}" Content="Investor Actions..." FontSize="12" Style="{DynamicResource MaterialDesignFlatLightBgButton}"/>
-                    <Button Margin="5,0,0,0" Style="{DynamicResource MaterialDesignFlatLightBgButton}">
+                    <Button Margin="5,0,0,0" Style="{DynamicResource MaterialDesignFlatLightBgButton}" IsEnabled="{Binding EnableFundDataMetrics}" Command="{Binding ShowFundMetricsCommand}">
                         <Image Source="/PortfolioAce;component/Resources\icons8-graph-24.png"/>
                         <Button.ToolTip>
                             <TextBlock Text="{Binding CurrentFund.Symbol, StringFormat={}{0} Performance and NAV History}"/>

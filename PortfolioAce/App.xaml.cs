@@ -20,6 +20,7 @@ using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
+using PortfolioAce.EFCore.Services.FactTableServices;
 using PortfolioAce.EFCore.Services.PriceServices;
 using PortfolioAce.EFCore.Services.SettingServices;
 using PortfolioAce.Navigation;
@@ -80,6 +81,7 @@ namespace PortfolioAce
                     services.AddSingleton<IPriceService, PriceService>();
                     services.AddSingleton<IStaticReferences, StaticReferences>();
                     services.AddSingleton<ISettingService, SettingService>();
+                    services.AddSingleton<IFactTableService, FactTableService>();
 
                     // Add viewmodels here
                     services.AddSingleton<HomeViewModel>();
@@ -88,7 +90,8 @@ namespace PortfolioAce
                         services.GetRequiredService<ITransactionService>(),
                          services.GetRequiredService<IPortfolioService>(),
                          services.GetRequiredService<ITransferAgencyService>(),
-                         services.GetRequiredService<IStaticReferences>())); // this is how i can pass in my repositories
+                         services.GetRequiredService<IStaticReferences>(),
+                         services.GetRequiredService<IFactTableService>())); // this is how i can pass in my repositories
                     services.AddSingleton<SystemFXRatesViewModel>();
                     services.AddSingleton<SystemSecurityPricesViewModel>(services => new SystemSecurityPricesViewModel(
                         services.GetRequiredService<IPriceService>()));

@@ -7,6 +7,7 @@ using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
+using PortfolioAce.EFCore.Services.FactTableServices;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Modals;
 using PortfolioAce.ViewModels.Windows;
@@ -29,15 +30,18 @@ namespace PortfolioAce.ViewModels
         private IPortfolioService _portfolioService;
         private IStaticReferences _staticReferences;
         private ITransactionService _transactionService;
+        private IFactTableService _factTableService;
         public AllFundsViewModel(IFundService fundService,
             ITransactionService transactionService, IPortfolioService portfolioService,
-            ITransferAgencyService investorService, IStaticReferences staticReferences)
+            ITransferAgencyService investorService, IStaticReferences staticReferences,
+            IFactTableService factTableService)
         {
             _fundService = fundService;
             _investorService = investorService;
             _portfolioService = portfolioService;
             _transactionService = transactionService;
             _staticReferences = staticReferences;
+            _factTableService = factTableService;
 
             List<Fund> allFunds = fundService.GetAllFunds();
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
@@ -66,6 +70,8 @@ namespace PortfolioAce.ViewModels
                 OpenNavSummaryWindow, typeof(NavSummaryWindow),typeof(NavSummaryViewModel), _investorService, _staticReferences);
             ShowFundPropertiesCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
                 OpenModalWindow, typeof(FundPropertiesWindow), typeof(FundPropertiesViewModel), _investorService, _staticReferences);
+            ShowFundMetricsCommand = new ActionCommand<Type, Type, IFactTableService, IStaticReferences>(
+                OpenModalWindow, typeof(FundMetricsWindow), typeof(FundMetricsViewModel), _factTableService, _staticReferences);
 
 
             PositionDetailsCommand = new PositionDetailsCommand();
@@ -84,6 +90,7 @@ namespace PortfolioAce.ViewModels
         public ICommand ShowFundInitialisationCommand { get; set; }
         public ICommand ShowNewInvestorActionCommand { get; set; }
         public ICommand ShowNavSummaryCommand { get; set; }
+        public ICommand ShowFundMetricsCommand { get; set; }
 
         private DateTime _asOfDate;
         public DateTime asOfDate
@@ -103,6 +110,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgFundTA));
                 OnPropertyChanged(nameof(CurrentNavPrice));
                 OnPropertyChanged(nameof(LockedNav));
+                OnPropertyChanged(nameof(EnableFundDataMetrics));
                 OnPropertyChanged(nameof(NavValuation));
                 OnPropertyChanged(nameof(dgFundClients));
                 OnPropertyChanged(nameof(groupedPositions));
@@ -168,6 +176,7 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(CurrentNavPrice));
                 OnPropertyChanged(nameof(ShowWidget));
                 OnPropertyChanged(nameof(LockedNav));
+                OnPropertyChanged(nameof(EnableFundDataMetrics));
                 OnPropertyChanged(nameof(NavValuation));
                 OnPropertyChanged(nameof(dgFundClients));
                 OnPropertyChanged(nameof(groupedPositions));
@@ -218,6 +227,24 @@ namespace PortfolioAce.ViewModels
             }
             private set
             {
+            }
+        }
+
+        public bool EnableFundDataMetrics
+        {
+            // true = this will put a green tick is the nav is locked which means the price and amount you see are finalised...
+            // false = this will put a red cross if the nav is unlocked which means the price you see is not yet final
+            get
+            {
+                if (_currentFund != null)
+                {
+                    AccountingPeriodsDIM period = _currentFund.NavPrices.Where(np => np.NAVPeriod.AccountingDate == _asOfDate).Select(np => np.NAVPeriod).FirstOrDefault();
+                    if (period != null)
+                    {
+                        return (period.isLocked);
+                    }
+                }
+                return false;
             }
         }
 
