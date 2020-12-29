@@ -1,5 +1,6 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
+using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services.DimensionServices;
@@ -27,34 +28,61 @@ namespace PortfolioAce.ViewModels.Modals
             Load();
         }
 
+
+
+
         public ChartValues<decimal> NavPriceLineChartYAxis { get; set; }
         public string[] NavPriceLineChartXAxis { get; set; }
 
         public SeriesCollection PieChartData { get; set; }
 
 
+        public SeriesCollection RowChartData { get; set; }
 
+        public string[] RowChartDataLabel { get; set; }
+        public Func<double, string> Formatter { get; set; }
 
         public async Task Load()
         {
+            // Line Chart
             IEnumerable<NAVPriceStoreFACT> navPrices = _fund.NavPrices.Where(np=>np.FinalisedDate<=_asOfDate).OrderBy(np => np.FinalisedDate);
             NavPriceLineChartYAxis = new ChartValues<decimal>(navPrices.Select(np => np.NAVPrice));
             NavPriceLineChartXAxis = navPrices.Select(np => np.FinalisedDate.ToString("dd/MM/yyyy")).ToArray();
 
-            // TODO Make A DataObject that can handle this. Building the PieChart Data
-            List<PositionFACT> activePositions = _factTableService.GetAllStoredPositions(_asOfDate, _fund.FundId, onlyActive: true);
-
             
-
+            List<PositionFACT> activePositions = _factTableService.GetAllStoredPositions(_asOfDate, _fund.FundId, onlyActive: true);
+            
+            // Pie Chart
             decimal totalMV = activePositions.Sum(ap => ap.MarketValue);
             Dictionary<string, decimal> MarketValByAssetClass = activePositions
-                                                                   .GroupBy(ap=>ap.AssetClass.Name.ToString())
-                                                                   .ToDictionary(g=>g.Key, g=>Math.Round(g.Sum(v=>v.MarketValue)/totalMV,2));
+                                                                   .GroupBy(ap => ap.AssetClass.Name.ToString())
+                                                                   .ToDictionary(g => g.Key, g => Math.Round(g.Sum(v => v.MarketValue) / totalMV, 2));
             PieChartData = new SeriesCollection();
-            foreach(KeyValuePair<string, decimal> kvp in MarketValByAssetClass)
+            foreach (KeyValuePair<string, decimal> kvp in MarketValByAssetClass)
             {
                 PieChartData.Add(new PieSeries { Title = kvp.Key, Values = new ChartValues<decimal> { kvp.Value }, DataLabels = true });
             };
+
+
+            // Row Chart Table
+            List<PositionFactPerformance> positionPerformances = new List<PositionFactPerformance>();
+            foreach(PositionFACT position in activePositions)
+            {
+                PositionFactPerformance performance = new PositionFactPerformance(position);
+                positionPerformances.Add(performance);
+            }
+
+            IEnumerable<PositionFactPerformance> positionPerformancesTopFivePercent = positionPerformances.OrderByDescending(pp => pp.GainPercent).Take(5);
+
+            ChartValues<decimal> rowChartValues = new ChartValues<decimal>(positionPerformancesTopFivePercent.Select(pp => pp.GainPercent));
+            RowChartDataLabel = positionPerformancesTopFivePercent.Select(pp => pp.Position.Security.SecurityName).ToArray();
+            RowChartData = new SeriesCollection { new RowSeries { Title = "Market Value", Values = rowChartValues, DataLabels=true} };
+            Formatter = value => value.ToString("P2");
+
+
+
+
+
 
         }
     }

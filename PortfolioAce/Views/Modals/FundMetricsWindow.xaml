@@ -17,9 +17,9 @@
                 <RowDefinition/>
                 <RowDefinition/> 
             </Grid.RowDefinitions>
-            <lvc:CartesianChart Grid.Row="0" Grid.Column="0">
+            <lvc:CartesianChart Grid.Row="0" Grid.Column="0" Hoverable="True">
                 <lvc:CartesianChart.Series>
-                    <lvc:LineSeries Title="Fund Performance" Values="{Binding NavPriceLineChartYAxis}"/>
+                    <lvc:LineSeries Title="Nav Price" Values="{Binding NavPriceLineChartYAxis}"/>
                 </lvc:CartesianChart.Series>
                 <lvc:CartesianChart.AxisX>
                     <lvc:Axis Title="Date" Labels="{Binding NavPriceLineChartXAxis}" FontSize="12"/>
@@ -28,17 +28,14 @@
                     <lvc:Axis Title="Nav per share"/>
                 </lvc:CartesianChart.AxisY>
             </lvc:CartesianChart>
-            <lvc:PieChart Grid.Row="1" Grid.Column="0" Series="{Binding PieChartData}" InnerRadius="50" LegendLocation="Bottom" Hoverable="False">
+            <lvc:PieChart Grid.Row="1" Grid.Column="0" Series="{Binding PieChartData}" InnerRadius="50" LegendLocation="Bottom" Hoverable="True">
             </lvc:PieChart>
-            <lvc:CartesianChart Grid.Row="1" Grid.Column="1">
-                <lvc:CartesianChart.Series>
-                    <lvc:RowSeries Title="Best Performing Positions"/>
-                </lvc:CartesianChart.Series>
+            <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Series="{Binding RowChartData}" Hoverable="True">
                 <lvc:CartesianChart.AxisX>
-                    <lvc:Axis Title="Salesman"/>
+                    <lvc:Axis Title="Percentage" LabelFormatter="{Binding Formatter}"/>
                 </lvc:CartesianChart.AxisX>
                 <lvc:CartesianChart.AxisY>
-                    <lvc:Axis Title="Sold Apps"/>
+                    <lvc:Axis Title="Security Name" Labels="{Binding RowChartDataLabel}"/>
                 </lvc:CartesianChart.AxisY>
             </lvc:CartesianChart>
         </Grid>
