@@ -17,6 +17,33 @@
                 <RowDefinition/>
                 <RowDefinition/> 
             </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0" Grid.Column="1">
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  Style="{StaticResource MaterialDesignBody2TextBlock}" HorizontalAlignment="Center">
+                        <Run FontWeight="Bold" FontSize="16" Text="{Binding FundName, Mode=OneWay}"/>
+                        <Run FontWeight="Bold" FontSize="12" Text="as of"/>
+                        <Run FontWeight="Bold" FontSize="12" Text="{Binding asOfDate, Mode=OneWay, StringFormat={}{0:dd/MM/yyyy}}"/>
+                    </TextBlock>
+                    <Label Content="MTD Performance:" Grid.Row="1"/>
+                    <Label Content="N/A" Grid.Row="1" Grid.Column="1"/>
+                    <Label Content="ITD Performance:" Grid.Row="2"/>
+                    <Label Content="N/A" Grid.Row="2" Grid.Column="1"/>
+                    <Label Content="No. of Positions:" Grid.Row="3"/>
+                    <Label Content="{Binding PositionCount, Mode=OneWay}" Grid.Row="3" Grid.Column="1"/>
+                </Grid>
+            </DockPanel>
             <lvc:CartesianChart Grid.Row="0" Grid.Column="0" Hoverable="True">
                 <lvc:CartesianChart.Series>
                     <lvc:LineSeries Title="Nav Price" Values="{Binding NavPriceLineChartYAxis}"/>

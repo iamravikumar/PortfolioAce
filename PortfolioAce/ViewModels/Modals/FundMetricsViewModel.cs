@@ -28,7 +28,23 @@ namespace PortfolioAce.ViewModels.Modals
             Load();
         }
 
+        public string FundName
+        {
+            get
+            {
+                return _fund.FundName;
+            }
+        }
 
+        public DateTime asOfDate
+        {
+            get
+            {
+                return _asOfDate;
+            }
+        }
+
+        public int PositionCount { get; set; }
 
 
         public ChartValues<decimal> NavPriceLineChartYAxis { get; set; }
@@ -51,7 +67,7 @@ namespace PortfolioAce.ViewModels.Modals
 
             
             List<PositionFACT> activePositions = _factTableService.GetAllStoredPositions(_asOfDate, _fund.FundId, onlyActive: true);
-            
+            PositionCount = activePositions.Count;
             // Pie Chart
             decimal totalMV = activePositions.Sum(ap => ap.MarketValue);
             Dictionary<string, decimal> MarketValByAssetClass = activePositions
