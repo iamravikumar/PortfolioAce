@@ -71,7 +71,7 @@ namespace PortfolioAce.ViewModels
             ShowFundPropertiesCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
                 OpenModalWindow, typeof(FundPropertiesWindow), typeof(FundPropertiesViewModel), _investorService, _staticReferences);
             ShowFundMetricsCommand = new ActionCommand<Type, Type, IFactTableService, IStaticReferences>(
-                OpenModalWindow, typeof(FundMetricsWindow), typeof(FundMetricsViewModel), _factTableService, _staticReferences);
+                OpenMetricsWindow, typeof(FundMetricsWindow), typeof(FundMetricsViewModel), _factTableService, _staticReferences);
 
 
             PositionDetailsCommand = new PositionDetailsCommand();
@@ -388,6 +388,22 @@ namespace PortfolioAce.ViewModels
             Window view = (Window)Activator.CreateInstance(windowType);
             ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _currentFund);
             
+            view.DataContext = viewModel;
+            view.Owner = Application.Current.MainWindow;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (viewModel.CloseAction == null)
+            {
+                viewModel.CloseAction = new Action(() => view.Close());
+            }
+            view.ShowDialog();
+        }
+
+        public void OpenMetricsWindow(Type windowType, Type viewModelType, object myService, object myService2)
+        {
+            int fundId = _currentFund.FundId;
+            Window view = (Window)Activator.CreateInstance(windowType);
+            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _currentFund, _asOfDate);
+
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
             view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
