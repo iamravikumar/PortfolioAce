@@ -8,10 +8,11 @@
              xmlns:local="clr-namespace:PortfolioAce.Views"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
-    <Grid>
+    <Grid Background="AliceBlue">
+        <!--
         <Grid.Background>
             <ImageBrush ImageSource="/PortfolioAce;component/Resources\portfolioace_logo2_hd.png" Stretch="None"/>
-        </Grid.Background>
+        </Grid.Background> -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -23,30 +24,34 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="White" BorderBrush="DarkGray" BorderThickness="1">
+        <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
+            <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="Welcome To PortfolioAce" Style="{DynamicResource MaterialDesignHeadline3TextBlock}"/>
+            <TextBlock DockPanel.Dock="Top" Text="View Your Funds" HorizontalAlignment="Center"/>
+        </DockPanel>
+        <DataGrid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White" BorderBrush="DarkGray" BorderThickness="1" Margin="10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Fund Name"/>
                 <DataGridTextColumn Header="Fund Symbol"/>
                 <DataGridTextColumn Header="NAV Price"/>
                 <DataGridTextColumn Header="Net Asset Value"/>
                 <DataGridTextColumn Header="Currency"/>
-                <DataGridTextColumn Header="Price As of"/>
+                <DataGridTextColumn Header="Price Date"/>
                 <!--Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}"-->
             </DataGrid.Columns>
         </DataGrid>
-        <!--
-        <materialDesign:Card Padding="32" Margin="16">
-            <DataGrid>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Fund Name"/>
-                    <DataGridTextColumn Header="Fund Symbol"/>
-                    <DataGridTextColumn Header="NAV Price"/>
-                    <DataGridTextColumn Header="Net Asset Value"/>
-                    <DataGridTextColumn Header="Currency"/>
-                    <DataGridTextColumn Header="Price As of"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </materialDesign:Card> -->
-
+        <materialDesign:Card Grid.Row="2" Padding="32" Margin="16">
+            <TextBlock Text="You can reach out to me on these avenues (Github, Youtube, Linkedin) If you want to say thanks you can give me a star on GitHub"/>
+        </materialDesign:Card>
+        <lvc:CartesianChart Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Hoverable="True">
+            <lvc:CartesianChart.Series>
+                <lvc:LineSeries Title="Nav Price" Values="{Binding NavPriceLineChartYAxis}"/>
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Date" Labels="{Binding NavPriceLineChartXAxis}" FontSize="12"/>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Nav per share"/>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
     </Grid>
 </UserControl>
