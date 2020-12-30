@@ -37,9 +37,9 @@
                         <Run FontWeight="Bold" FontSize="12" Text="{Binding asOfDate, Mode=OneWay, StringFormat={}{0:dd/MM/yyyy}}"/>
                     </TextBlock>
                     <Label Content="MTD Performance:" Grid.Row="1"/>
-                    <Label Content="N/A" Grid.Row="1" Grid.Column="1"/>
+                    <Label Content="{Binding MonthToDatePerformance}" Grid.Row="1" Grid.Column="1"/>
                     <Label Content="ITD Performance:" Grid.Row="2"/>
-                    <Label Content="N/A" Grid.Row="2" Grid.Column="1"/>
+                    <Label Content="{Binding InceptionToDatePerformance}" Grid.Row="2" Grid.Column="1"/>
                     <Label Content="No. of Positions:" Grid.Row="3"/>
                     <Label Content="{Binding PositionCount, Mode=OneWay}" Grid.Row="3" Grid.Column="1"/>
                 </Grid>

@@ -36,6 +36,28 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public string InceptionToDatePerformance
+        {
+            get
+            {
+                List<NAVPriceStoreFACT> orderedPrices = _fund.NavPrices.Where(np=>np.FinalisedDate<=asOfDate).OrderBy(np => np.FinalisedDate).ToList();
+                decimal startPrice = orderedPrices[0].NAVPrice;
+                decimal endPrice = orderedPrices[orderedPrices.Count - 1].NAVPrice;
+                return Math.Round((endPrice/startPrice)-1,2).ToString("P2");
+            }
+        }
+
+        public string MonthToDatePerformance
+        {
+            get
+            {
+                List<NAVPriceStoreFACT> orderedPrices = _fund.NavPrices.Where(np=>np.FinalisedDate.Month==asOfDate.Month && np.FinalisedDate<=asOfDate).OrderBy(np => np.FinalisedDate).ToList();
+                decimal startPrice = orderedPrices[0].NAVPrice;
+                decimal endPrice = orderedPrices[orderedPrices.Count - 1].NAVPrice;
+                return Math.Round((endPrice / startPrice) - 1, 2).ToString("P2");
+            }
+        }
+
         public DateTime asOfDate
         {
             get
