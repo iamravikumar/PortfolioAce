@@ -43,7 +43,8 @@ namespace PortfolioAce.ViewModels.Modals
                 List<NAVPriceStoreFACT> orderedPrices = _fund.NavPrices.Where(np=>np.FinalisedDate<=asOfDate).OrderBy(np => np.FinalisedDate).ToList();
                 decimal startPrice = orderedPrices[0].NAVPrice;
                 decimal endPrice = orderedPrices[orderedPrices.Count - 1].NAVPrice;
-                return Math.Round((endPrice/startPrice)-1,2).ToString("P2");
+                decimal performance = (endPrice / startPrice) - 1;
+                return String.Format("{0:P2}", performance);
             }
         }
 
@@ -54,7 +55,8 @@ namespace PortfolioAce.ViewModels.Modals
                 List<NAVPriceStoreFACT> orderedPrices = _fund.NavPrices.Where(np=>np.FinalisedDate.Month==asOfDate.Month && np.FinalisedDate<=asOfDate).OrderBy(np => np.FinalisedDate).ToList();
                 decimal startPrice = orderedPrices[0].NAVPrice;
                 decimal endPrice = orderedPrices[orderedPrices.Count - 1].NAVPrice;
-                return Math.Round((endPrice / startPrice) - 1, 2).ToString("P2");
+                decimal performance = (endPrice / startPrice) - 1;
+                return String.Format("{0:P2}", performance);
             }
         }
 
