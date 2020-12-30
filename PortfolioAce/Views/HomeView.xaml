@@ -2,11 +2,51 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:PortfolioAce.Views"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
     <Grid>
-        <Image Source="/PortfolioAce;component/Resources\portfolioace_logo2_hd.png"/>
+        <Grid.Background>
+            <ImageBrush ImageSource="/PortfolioAce;component/Resources\portfolioace_logo2_hd.png" Stretch="None"/>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Background="White" BorderBrush="DarkGray" BorderThickness="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Fund Name"/>
+                <DataGridTextColumn Header="Fund Symbol"/>
+                <DataGridTextColumn Header="NAV Price"/>
+                <DataGridTextColumn Header="Net Asset Value"/>
+                <DataGridTextColumn Header="Currency"/>
+                <DataGridTextColumn Header="Price As of"/>
+                <!--Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}"-->
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--
+        <materialDesign:Card Padding="32" Margin="16">
+            <DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Fund Name"/>
+                    <DataGridTextColumn Header="Fund Symbol"/>
+                    <DataGridTextColumn Header="NAV Price"/>
+                    <DataGridTextColumn Header="Net Asset Value"/>
+                    <DataGridTextColumn Header="Currency"/>
+                    <DataGridTextColumn Header="Price As of"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </materialDesign:Card> -->
+
     </Grid>
 </UserControl>
