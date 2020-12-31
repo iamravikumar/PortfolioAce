@@ -68,15 +68,22 @@ namespace PortfolioAce.ViewModels
         public ChartValues<decimal> NavPriceLineChartYAxis { get; set; }
         public string[] NavPriceLineChartXAxis { get; set; }
 
+
+
+
         public async Task Load(int fundId)
         {
             if (NavPriceLineChartYAxis!= null)
             {
-                NavPriceLineChartYAxis.Clear();
+               NavPriceLineChartYAxis.Clear();
+                NavPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.NAVPrice)));
+            }
+            else
+            {
+                NavPriceLineChartYAxis = new ChartValues<decimal>(dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.NAVPrice));
+                NavPriceLineChartXAxis = dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.FinalisedDate.ToString("dd/MM/yyyy")).ToArray();
             }
 
-            NavPriceLineChartYAxis = new ChartValues<decimal>(dgAllNavPrices.Where(np=>np.FundId==fundId).Select(np => np.NAVPrice));
-            NavPriceLineChartXAxis = dgAllNavPrices.Where(np=> np.FundId == fundId).Select(np => np.FinalisedDate.ToString("dd/MM/yyyy")).ToArray();
             
         }
     }
