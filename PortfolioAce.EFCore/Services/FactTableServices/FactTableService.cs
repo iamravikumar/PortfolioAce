@@ -35,8 +35,17 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
                         .Include(p => p.Security)
                         .ToList();
                 }
+            }
+        }
 
-
+        public List<NAVPriceStoreFACT> GetAllNAVPrices()
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.NavPriceData
+                        .OrderBy(np => np.FinalisedDate)
+                        .Include(np=>np.Fund)
+                        .ToList();
             }
         }
     }

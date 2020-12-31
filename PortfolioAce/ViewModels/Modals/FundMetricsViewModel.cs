@@ -118,12 +118,6 @@ namespace PortfolioAce.ViewModels.Modals
             RowChartDataLabel = positionPerformancesTopFivePercent.Select(pp => pp.Position.Security.SecurityName).ToArray();
             RowChartData = new SeriesCollection { new RowSeries { Title = "Market Value", Values = rowChartValues, DataLabels=true} };
             Formatter = value => value.ToString("P2");
-
-
-
-
-
-
         }
     }
 }

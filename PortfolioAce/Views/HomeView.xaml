@@ -26,17 +26,17 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
             <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="Welcome To PortfolioAce" Style="{DynamicResource MaterialDesignHeadline3TextBlock}"/>
-            <TextBlock DockPanel.Dock="Top" Text="View Your Funds" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignHeadline6TextBlock}"/>
+            <TextBlock DockPanel.Dock="Top" Text="Version 0.9.0 beta" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignHeadline6TextBlock}"/>
         </DockPanel>
-        <DataGrid Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White" BorderBrush="DarkGray" BorderThickness="1" Margin="10">
+        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White" BorderBrush="DarkGray" 
+                  BorderThickness="1" Margin="10" ItemsSource="{Binding dgLatestNavPrices}" SelectedItem="{Binding selectedPrice,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Fund Name"/>
-                <DataGridTextColumn Header="Fund Symbol"/>
-                <DataGridTextColumn Header="NAV Price"/>
-                <DataGridTextColumn Header="Net Asset Value"/>
-                <DataGridTextColumn Header="Currency"/>
-                <DataGridTextColumn Header="Price Date"/>
-                <!--Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}"-->
+                <DataGridTextColumn Header="Fund Name" Binding="{Binding Fund.FundName}" Width="SizeToCells"/>
+                <DataGridTextColumn Header="Fund Symbol" Binding="{Binding Fund.Symbol}" Width="SizeToHeader"/>
+                <DataGridTextColumn Header="NAV Price" Binding="{Binding NAVPrice}" Width="SizeToCells"/>
+                <DataGridTextColumn Header="Net Asset Value" Binding="{Binding NetAssetValue, StringFormat=N2}" Width="SizeToCells"/>
+                <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" Width="SizeToHeader"/>
+                <DataGridTextColumn Header="Price Date" Binding="{Binding FinalisedDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="2">
@@ -81,24 +81,26 @@
                             <StackPanel Orientation="Horizontal">
                                 <Button
                                         Style="{DynamicResource MaterialDesignFlatButton}"
-                                        HorizontalAlignment="Left">
+                                        HorizontalAlignment="Left"
+                                        Click="Onclick_RamonGithub">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Github"/>
                                         <TextBlock
                                                 Margin="8 0 0 0"
                                                 VerticalAlignment="Center"
-                                                Text="GitHub"/>
+                                                Text="GitHub" Foreground="#828282"/>
                                     </StackPanel>
                                 </Button>
                                 <Button
                                         Style="{DynamicResource MaterialDesignFlatButton}"
-                                        HorizontalAlignment="Right">
+                                        HorizontalAlignment="Right"
+                                        Click="Onclick_RamonLinkedin">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Linkedin"/>
                                         <TextBlock
                                                 Margin="8 0 0 0"
                                                 VerticalAlignment="Center"
-                                                Text="Linkedin"/>
+                                                Text="Linkedin" Foreground="#78b7ff"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -114,13 +116,14 @@
                             <StackPanel Orientation="Horizontal">
                                 <Button
                                         Style="{DynamicResource MaterialDesignFlatButton}"
-                                        HorizontalAlignment="Left">
+                                        HorizontalAlignment="Left"
+                                        Click="Onclick_RamonYoutube">
                                     <StackPanel Orientation="Horizontal">
                                         <materialDesign:PackIcon Kind="Youtube"/>
                                         <TextBlock
                                                 Margin="8 0 0 0"
                                                 VerticalAlignment="Center"
-                                                Text="Youtube"/>
+                                                Text="Youtube" Foreground="#ff8080"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -131,7 +134,7 @@
         </StackPanel>
         <lvc:CartesianChart Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Hoverable="True">
             <lvc:CartesianChart.Series>
-                <lvc:LineSeries Title="Nav Price" Values="{Binding NavPriceLineChartYAxis}"/>
+                <lvc:LineSeries Title="{Binding selectedPrice.Fund.Symbol, StringFormat={}{0} Nav Per Share}" Values="{Binding NavPriceLineChartYAxis}"/>
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="Date" Labels="{Binding NavPriceLineChartXAxis}" FontSize="12"/>

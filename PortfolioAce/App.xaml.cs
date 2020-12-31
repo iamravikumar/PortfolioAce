@@ -84,7 +84,8 @@ namespace PortfolioAce
                     services.AddSingleton<IFactTableService, FactTableService>();
 
                     // Add viewmodels here
-                    services.AddSingleton<HomeViewModel>();
+                    services.AddSingleton<HomeViewModel>(services => new HomeViewModel(
+                        services.GetRequiredService<IFactTableService>()));
                     services.AddSingleton<AllFundsViewModel>(services => new AllFundsViewModel(
                         services.GetRequiredService<IFundService>(),
                         services.GetRequiredService<ITransactionService>(),
