@@ -10,7 +10,7 @@ namespace PortfolioAce.EFCore.Services
     public interface ITransactionService
     {
         Task<TransactionsBO> CreateTransaction(TransactionsBO transaction);
-        Task<TransactionsBO> UpdateTransaction(TransactionsBO transaction);
+        void UpdateTransaction(TransactionsBO transaction);
 
         void DeleteTransaction(TransactionsBO transaction);
         void RestoreTransaction(TransactionsBO transaction);

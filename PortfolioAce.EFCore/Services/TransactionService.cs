@@ -81,13 +81,12 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public async Task<TransactionsBO> UpdateTransaction(TransactionsBO transaction)
+        public void UpdateTransaction(TransactionsBO transaction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                EntityEntry<TransactionsBO> res = context.Transactions.Update(transaction);
-                await context.SaveChangesAsync();
-                return res.Entity;
+                context.Transactions.Update(transaction);
+                context.SaveChanges();
             }
         }
     }

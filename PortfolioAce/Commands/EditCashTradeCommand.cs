@@ -30,7 +30,7 @@ namespace PortfolioAce.Commands
             return true; // true for now
         }
 
-        public async void Execute(object parameter)
+        public void Execute(object parameter)
         {
             try
             {
@@ -38,12 +38,16 @@ namespace PortfolioAce.Commands
                 TransactionTypeDIM tradeType = _transactionService.GetTradeType(_editCashTradeWindowVM.CashType);
                 CustodiansDIM custodian = _transactionService.GetCustodian(_editCashTradeWindowVM.Custodian);
                 _transaction.Comment = _editCashTradeWindowVM.Notes;
+                _transaction.TradeAmount = _editCashTradeWindowVM.CashAmount;
                 _transaction.LastModified = _editCashTradeWindowVM.LastModifiedDate;
                 _transaction.TransactionTypeId = tradeType.TransactionTypeId;
+                _transaction.TransactionType = tradeType;
                 _transaction.CustodianId = custodian.CustodianId;
+                _transaction.Custodian = custodian;
                 _transaction.TradeDate = _editCashTradeWindowVM.TradeDate;
                 _transaction.SettleDate = _editCashTradeWindowVM.SettleDate;
-                await _transactionService.UpdateTransaction(_transaction);
+
+                _transactionService.UpdateTransaction(_transaction);
                 _editCashTradeWindowVM.CloseAction();
             }
             catch (Exception e)
