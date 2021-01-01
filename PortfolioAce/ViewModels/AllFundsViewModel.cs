@@ -62,6 +62,8 @@ namespace PortfolioAce.ViewModels
 
             ShowNewCashTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
                 OpenModalWindow, typeof(AddCashTradeWindow), typeof(AddCashTradeWindowViewModel), _transactionService, _staticReferences);
+            ShowEditCashTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
+                OpenEditTradeWindow, typeof(EditCashTradeWindow), typeof(EditCashTradeWindowViewModel), _transactionService, _staticReferences);
             ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
                 OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorService, _staticReferences);
             ShowFundInitialisationCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
@@ -86,6 +88,7 @@ namespace PortfolioAce.ViewModels
         public ICommand ShowRestoreTradeCommand { get; set; }
         public ICommand ShowDeleteTradeCommand { get; set; }
         public ICommand ShowNewCashTradeCommand { get; set; }
+        public ICommand ShowEditCashTradeCommand { get; set; }
         public ICommand ShowFundPropertiesCommand { get; set; }
         public ICommand ShowFundInitialisationCommand { get; set; }
         public ICommand ShowNewInvestorActionCommand { get; set; }
@@ -364,7 +367,7 @@ namespace PortfolioAce.ViewModels
             {
                 // all Transactions ordered by date... 
                 return (_currentFund != null) ? _currentFund.Transactions
-                                                            .Where(t=>t.TradeDate<=_asOfDate && t.isActive)
+                                                            .Where(t=>t.TradeDate<=_asOfDate)
                                                             .OrderBy(t => t.TradeDate)
                                                             .ToList() : null;
             }
@@ -449,17 +452,36 @@ namespace PortfolioAce.ViewModels
         public void DeleteTradeDialog()
         {
             string n = Environment.NewLine;
-            string secSymbol = _selectedTransaction.Security.Symbol;
-            string secName = _selectedTransaction.Security.SecurityName;
-            decimal quantity = _selectedTransaction.Quantity;
-            decimal price = _selectedTransaction.Price;
-
-            string message = $"Are you sure you want to delete the following Trade:{n}Security: {secName} ({secSymbol}){n}Quantity: {quantity}{n}Price: {price}";
+            string message;
+            DateTime tradeDate = _selectedTransaction.TradeDate;
+            int tradeFundId = _selectedTransaction.FundId;
+            if (!_selectedTransaction.isCashTransaction)
+            {
+                string secSymbol = _selectedTransaction.Security.Symbol;
+                string secName = _selectedTransaction.Security.SecurityName;
+                decimal quantity = _selectedTransaction.Quantity;
+                decimal price = _selectedTransaction.Price;
+                message = $"Are you sure you want to delete the following Trade:{n}Security: {secName} ({secSymbol}){n}Quantity: {quantity}{n}Price: {price}";
+            }
+            else
+            {
+                string tradeType = _selectedTransaction.TransactionType.TypeName.ToString(); 
+                string cashSymbol = _selectedTransaction.Currency.Symbol.ToString();
+                decimal amount = _selectedTransaction.TradeAmount;
+                message = $"Are you sure you want to delete the following Trade:{n}Type:{tradeType}{n}Security: {cashSymbol}{n}Transaction Amount: {amount}{n}";
+            }
             MessageBoxResult result =  MessageBox.Show(message, "Delete Trade", button: MessageBoxButton.YesNo);
             switch (result)
             {
                 case MessageBoxResult.Yes:
-                    _transactionService.DeleteTransaction(selectedTransaction);
+                    if (!_staticReferences.GetPeriod(tradeDate, tradeFundId).isLocked)
+                    {
+                        _transactionService.DeleteTransaction(selectedTransaction);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"To Delete this trade the period of {tradeDate.ToString("dd-MM-yyyy")} must be unlocked", "Unable to Restore");
+                    }
                     break;
                 case MessageBoxResult.No:
                     break;

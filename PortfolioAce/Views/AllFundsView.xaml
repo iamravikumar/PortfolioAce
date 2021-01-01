@@ -12,6 +12,7 @@
         <src:InvertBoolConverter x:Key="invertBoolConverter"/>
         <src:InvertVisibilityConverter x:Key="invertVisibilityConverter"/>
         <src:InvertBoolToVisibilityConverter x:Key="invertBoolToVisibilityConverter"/>
+        <src:MultiValueBoolToInvisibilityConverter x:Key="mvbConverter"/>
         <srcGC:PositionMVGroupConverter x:Key="positionSumConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
@@ -216,16 +217,60 @@
                 </TabItem>
                 <TabItem Header="Cash Book">
                     <DataGrid Name="dgCashBook" ColumnWidth="*" ItemsSource="{Binding Path=dgFundCashBook, UpdateSourceTrigger=PropertyChanged}" 
-                              RowBackground="GhostWhite" AlternatingRowBackground="White"
-                              VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                              RowBackground="GhostWhite" AlternatingRowBackground="White" SelectedItem="{Binding selectedTransaction}"
+                              VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Type" Binding="{Binding TransactionType.TypeName}" />
-                            <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TradeAmount, StringFormat=N2}" />
-                            <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}"/>
-                            <DataGridTextColumn Header="Settle Date"  Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}"/>
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}"/>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" />
-                            <DataGridTextColumn Header="Comment" Width="*" Binding="{Binding Comment}"/>
+                            <DataGridTextColumn Header="Type" Binding="{Binding TransactionType.TypeName}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TradeAmount, StringFormat=N2}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Settle Date"  Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="SizeToCells"/>
+                            <DataGridTemplateColumn Header="Crud Ops">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" IsEnabled="{Binding isActive}" 
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowEditCashTradeCommand}">
+                                                <Button.Visibility>
+                                                    <MultiBinding Converter="{StaticResource mvbConverter}">
+                                                        <Binding Path="isActive" />
+                                                        <Binding Path="isCashTransaction" />
+                                                    </MultiBinding>
+                                                </Button.Visibility>
+                                                <Button.ToolTip>
+                                                    <TextBlock Text="Edit Trade"/>
+                                                </Button.ToolTip>
+                                                <Image Source="/PortfolioAce;component/Resources\icons8-editTrade-24.png"/>
+                                            </Button>
+                                            <!-- Edit cash trade -->
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" Margin="5,0,0,0" IsEnabled="{Binding isActive}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowDeleteTradeCommand}">
+                                                <Button.Visibility>
+                                                    <MultiBinding Converter="{StaticResource mvbConverter}">
+                                                        <Binding Path="isActive" />
+                                                        <Binding Path="isCashTransaction" />
+                                                    </MultiBinding>
+                                                </Button.Visibility>
+                                                <Button.ToolTip>
+                                                    <TextBlock Text="Delete Trade"/>
+                                                </Button.ToolTip>
+                                                <Image Source="/PortfolioAce;component/Resources\icons8-deleteTrade-24.png"/>
+                                            </Button>
+                                            <!-- Delete  (which deactivates the trade) -->
+                                            <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" Margin="5,0,0,0" IsEnabled="{Binding isActive, Converter={StaticResource invertBoolConverter}}"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowRestoreTradeCommand}"
+                                                    Visibility="{Binding isCashTransaction, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <Button.ToolTip>
+                                                    <TextBlock Text="Restore Trade"/>
+                                                </Button.ToolTip>
+                                                <Image Source="/PortfolioAce;component/Resources\icons8-undo-24.png"/>
+                                            </Button>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
