@@ -1,4 +1,5 @@
 ﻿using LiveCharts;
+using LiveCharts.Wpf;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
@@ -50,6 +51,14 @@ namespace PortfolioAce.ViewModels
             }
         }
 
+        public HashSet<string> AllFundSymbols
+        {
+            get
+            {
+                return dgAllNavPrices.Select(np => np.Fund.Symbol).ToHashSet();
+            }
+        }
+
         private NAVPriceStoreFACT _selectedPrice;
         public NAVPriceStoreFACT selectedPrice
         {
@@ -69,7 +78,10 @@ namespace PortfolioAce.ViewModels
         public string[] NavPriceLineChartXAxis { get; set; }
 
 
+        public SeriesCollection RowChartData { get; set; }
 
+        public string[] RowChartDataLabel { get; set; }
+        public Func<double, string> Formatter { get; set; }
 
         public async Task Load(int fundId)
         {
@@ -83,6 +95,24 @@ namespace PortfolioAce.ViewModels
                 NavPriceLineChartYAxis = new ChartValues<decimal>(dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.NAVPrice));
                 NavPriceLineChartXAxis = dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.FinalisedDate.ToString("dd/MM/yyyy")).ToArray();
             }
+
+            ChartValues<decimal> rowChartValues = new ChartValues<decimal>();
+            RowChartDataLabel = new string[AllFundSymbols.Count];
+
+            // RowChartData
+            int counter = 0;
+            foreach (string fundSymbol in AllFundSymbols) 
+            {
+                List<NAVPriceStoreFACT> allFundPrices = dgAllNavPrices.Where(np => np.Fund.Symbol==fundSymbol).OrderBy(np => np.FinalisedDate).ToList();
+                decimal startPrice = allFundPrices[0].NAVPrice;
+                decimal endPrice = allFundPrices[allFundPrices.Count - 1].NAVPrice;
+                decimal performance = (endPrice / startPrice) - 1;
+                rowChartValues.Add(performance);
+                RowChartDataLabel[counter] = fundSymbol;
+                counter += 1;
+            }
+            RowChartData = new SeriesCollection { new RowSeries { Title = "ITD Performance", Values = rowChartValues, DataLabels = true } };
+            Formatter = value => value.ToString("P2");
         }
     }
 }

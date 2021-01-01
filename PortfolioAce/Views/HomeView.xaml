@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:PortfolioAce.Views"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
-    <Grid Background="AliceBlue">
+    <Grid Background="#f5ffff">
         <!--
         <Grid.Background>
             <ImageBrush ImageSource="/PortfolioAce;component/Resources\portfolioace_logo2_hd.png" Stretch="None"/>
@@ -141,6 +141,14 @@
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
                 <lvc:Axis Title="Nav per share" Foreground="Black"/>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Series="{Binding RowChartData}" Hoverable="True" Margin="20">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="ITD Performance" LabelFormatter="{Binding Formatter}" Foreground="Black"/>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Fund Symbol" Labels="{Binding RowChartDataLabel}" Foreground="Black"/>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
     </Grid>
