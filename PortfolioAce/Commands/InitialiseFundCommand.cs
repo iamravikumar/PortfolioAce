@@ -97,6 +97,7 @@ namespace PortfolioAce.Commands
                             Fees = decimal.Zero,
                             isActive = true,
                             isLocked = true,
+                            isCashTransaction=false,
                             FundId = updateFund.FundId,
                             TransactionTypeId = tradeType.TransactionTypeId,
                             CurrencyId = security.CurrencyId,

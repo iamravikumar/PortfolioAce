@@ -51,6 +51,7 @@ namespace PortfolioAce.Commands
                     Fees = _addTradeWindowVM.Commission,
                     isActive = _addTradeWindowVM.isActive,
                     isLocked = _addTradeWindowVM.isLocked,
+                    isCashTransaction= false,
                     FundId = _addTradeWindowVM.FundId,
                     TransactionTypeId = tradeType.TransactionTypeId,
                     CurrencyId = security.CurrencyId,

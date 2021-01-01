@@ -42,6 +42,9 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         [Required]
         public bool isLocked { get; set; } // if true then this trade cannot be edited or deleted unless the trade is unlocked
 
+        [Required]
+        public bool isCashTransaction { get; set; } // I use this to determine whether cashbook trades can be edited or not.
+
         [DataType(DataType.MultilineText)]
         public string Comment { get; set; }
 

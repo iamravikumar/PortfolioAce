@@ -83,8 +83,6 @@ namespace PortfolioAce.ViewModels
                 NavPriceLineChartYAxis = new ChartValues<decimal>(dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.NAVPrice));
                 NavPriceLineChartXAxis = dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.FinalisedDate.ToString("dd/MM/yyyy")).ToArray();
             }
-
-            
         }
     }
 }

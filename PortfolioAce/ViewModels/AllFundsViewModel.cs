@@ -364,7 +364,7 @@ namespace PortfolioAce.ViewModels
             {
                 // all Transactions ordered by date... 
                 return (_currentFund != null) ? _currentFund.Transactions
-                                                            .Where(t=>t.TradeDate<=_asOfDate)
+                                                            .Where(t=>t.TradeDate<=_asOfDate && t.isActive)
                                                             .OrderBy(t => t.TradeDate)
                                                             .ToList() : null;
             }
