@@ -5,44 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         mc:Ignorable="d"
-        Title="{Binding Path=FundSymbol, StringFormat='{}{0} Properties'}" Height="400" Width="410" WindowStyle="ToolWindow">
+        Title="{Binding Path=FundSymbol, StringFormat='{}{0} Properties'}" Height="400" Width="500" WindowStyle="ToolWindow">
     <Border Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3" Margin="3">
-        <Grid Margin="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Content="{Binding Title}" FontWeight="Bold" FontSize="20" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignLabel}"/>
-            <Label Grid.Row="2" Content="Base Currency:"/>
-            <Label Grid.Row="2" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding BaseCurrency}" Margin="5,0,0,0"/>
-            <Label Grid.Row="3" Content="Fund Launch Date:"/>
-            <Label Grid.Row="3" Grid.Column="1" FontWeight="Bold"  FontSize="14" Content="{Binding LaunchDate}" Margin="5,0,0,0"/>
-            <Label Grid.Row="4" Content="Minimum Investment:"/>
-            <Label Grid.Row="4" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding MinimumInvestment, StringFormat=N2}" Margin="5,0,0,0"/>
-            <Label Grid.Row="5" Content="Management Fee Rate:"/>
-            <Label Grid.Row="5" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding ManagementFeeRate}" Margin="5,0,0,0"/>
-            <Label Grid.Row="6" Content="Performance Fee Rate:"/>
-            <Label Grid.Row="6" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding PerformanceFeeRate}" Margin="5,0,0,0"/>
-            <Label Grid.Row="7" Content="Hurdle:"/>
-            <Label Grid.Row="7" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding HurdleInfo}" Margin="5,0,0,0"/>
-            <Label Grid.Row="8" Content="High-Water Mark:"/>
-            <Label Grid.Row="8" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding HighWaterMark}" Margin="5,0,0,0"/>
-            <Label Grid.Row="9" Content="NAV Frequency:"/>
-            <Label Grid.Row="9" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding NavFrequency}" Margin="5,0,0,0"/>
-        </Grid>
+        <TabControl  Style="{StaticResource MaterialDesignAppBarTabControl}" Background="LightGray">
+            <TabItem Header="Properties">
+                <Grid Margin="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Content="{Binding Title}" FontWeight="Bold" FontSize="20" HorizontalContentAlignment="Center" Style="{DynamicResource MaterialDesignLabel}"/>
+                    <Label Grid.Row="2" Content="Base Currency:"/>
+                    <Label Grid.Row="2" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding BaseCurrency}" Margin="5,0,0,0"/>
+                    <Label Grid.Row="3" Content="Fund Launch Date:"/>
+                    <Label Grid.Row="3" Grid.Column="1" FontWeight="Bold"  FontSize="14" Content="{Binding LaunchDate}" Margin="5,0,0,0"/>
+                    <Label Grid.Row="4" Content="Minimum Investment:"/>
+                    <Label Grid.Row="4" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding MinimumInvestment, StringFormat=N2}" Margin="5,0,0,0"/>
+                    <Label Grid.Row="5" Content="Management Fee Rate:"/>
+                    <Label Grid.Row="5" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding ManagementFeeRate}" Margin="5,0,0,0"/>
+                    <Label Grid.Row="6" Content="Performance Fee Rate:"/>
+                    <Label Grid.Row="6" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding PerformanceFeeRate}" Margin="5,0,0,0"/>
+                    <Label Grid.Row="7" Content="Hurdle:"/>
+                    <Label Grid.Row="7" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding HurdleInfo}" Margin="5,0,0,0"/>
+                    <Label Grid.Row="8" Content="High-Water Mark:"/>
+                    <Label Grid.Row="8" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding HighWaterMark}" Margin="5,0,0,0"/>
+                    <Label Grid.Row="9" Content="NAV Frequency:"/>
+                    <Label Grid.Row="9" Grid.Column="1" FontWeight="Bold" FontSize="14" Content="{Binding NavFrequency}" Margin="5,0,0,0"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Nav Prices">
+                <DataGrid ColumnWidth="*" ItemsSource="{Binding Path=dgNavPrices, UpdateSourceTrigger=PropertyChanged}" 
+                          RowBackground="GhostWhite" AlternatingRowBackground="White"
+                          VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Date"  Binding="{Binding FinalisedDate, StringFormat={}{0:dd/MM/yyyy}}"/>
+                        <DataGridTextColumn Header="Price" Binding="{Binding NAVPrice,StringFormat=N4}"/>
+                        <DataGridTextColumn Header="Shares Outstanding" Binding="{Binding SharesOutstanding,StringFormat=N4}"/>
+                        <DataGridTextColumn Header="Net Asset Value" Binding="{Binding NetAssetValue,StringFormat=N2}"/>
+                        <DataGridTextColumn Header="Currency" Binding="{Binding Currency}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Periods">
+                <DataGrid ColumnWidth="*" ItemsSource="{Binding Path=dgNavPeriods, UpdateSourceTrigger=PropertyChanged}" 
+                          RowBackground="GhostWhite" AlternatingRowBackground="White"
+                          VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Date"  Binding="{Binding AccountingDate, StringFormat={}{0:dd/MM/yyyy}}"/>
+                        <DataGridTextColumn Header="Is Locked?" Binding="{Binding isLocked}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
     </Border>
 </Window>

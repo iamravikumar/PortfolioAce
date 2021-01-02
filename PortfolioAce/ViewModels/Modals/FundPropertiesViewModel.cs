@@ -1,20 +1,24 @@
 ﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
+using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
+using PortfolioAce.EFCore.Services.FactTableServices;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace PortfolioAce.ViewModels.Modals
 {
     public class FundPropertiesViewModel:ViewModelWindowBase
     {
-        private ITransferAgencyService _investorService;
+        private IFactTableService _factTableService;
         private IStaticReferences _staticReferences;
         private Fund _fund;
-        public FundPropertiesViewModel(ITransferAgencyService investorService, IStaticReferences staticReferences, Fund fund)
+        public FundPropertiesViewModel(IFactTableService factTableService, IStaticReferences staticReferences, Fund fund)
         {
-            _investorService = investorService;
+            _factTableService = factTableService;
             _staticReferences = staticReferences;
             _fund = fund;
         }
@@ -98,5 +102,25 @@ namespace PortfolioAce.ViewModels.Modals
                 return _fund.NAVFrequency;
             }
         }
+
+        public ObservableCollection<NAVPriceStoreFACT> dgNavPrices
+        {
+            get
+            {
+                List<NAVPriceStoreFACT> navPrices = _factTableService.GetAllFundNAVPrices(_fund.FundId);
+                return new ObservableCollection<NAVPriceStoreFACT>(navPrices);
+            }
+        }
+
+        public ObservableCollection<AccountingPeriodsDIM> dgNavPeriods
+        {
+            get
+            {
+                List<AccountingPeriodsDIM> periods = _staticReferences.GetAllFundPeriods(_fund.FundId);
+                return new ObservableCollection<AccountingPeriodsDIM>(periods);
+            }
+        }
+
+
     }
 }

@@ -134,7 +134,7 @@
                             <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Position.security.Currency.Symbol}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Custodian" Binding="{Binding Position.custodian.Name}" Width="SizeToCells"/>
-                            <DataGridTemplateColumn Header="Crud Ops" Width="SizeToHeader">
+                            <DataGridTemplateColumn Header="" Width="SizeToCells">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" 
@@ -180,7 +180,7 @@
                             <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
                             <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" Width="SizeToHeader"/>
-                            <DataGridTemplateColumn Header="Crud Ops" Width="*">
+                            <DataGridTemplateColumn Header="" Width="SizeToCells">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -227,7 +227,7 @@
                             <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" Width="SizeToHeader" />
                             <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="SizeToCells"/>
-                            <DataGridTemplateColumn Header="Crud Ops">
+                            <DataGridTemplateColumn Header="" Width="SizeToCells">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">

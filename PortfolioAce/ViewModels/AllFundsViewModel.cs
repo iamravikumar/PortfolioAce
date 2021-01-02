@@ -70,8 +70,8 @@ namespace PortfolioAce.ViewModels
                 OpenModalWindow, typeof(FundInitialisationWindow), typeof(FundInitialisationWindowViewModel), _investorService, _staticReferences);
             ShowNavSummaryCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
                 OpenNavSummaryWindow, typeof(NavSummaryWindow),typeof(NavSummaryViewModel), _investorService, _staticReferences);
-            ShowFundPropertiesCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
-                OpenModalWindow, typeof(FundPropertiesWindow), typeof(FundPropertiesViewModel), _investorService, _staticReferences);
+            ShowFundPropertiesCommand = new ActionCommand<Type, Type, IFactTableService, IStaticReferences>(
+                OpenModalWindow, typeof(FundPropertiesWindow), typeof(FundPropertiesViewModel), _factTableService, _staticReferences);
             ShowFundMetricsCommand = new ActionCommand<Type, Type, IFactTableService, IStaticReferences>(
                 OpenMetricsWindow, typeof(FundMetricsWindow), typeof(FundMetricsViewModel), _factTableService, _staticReferences);
 
@@ -468,7 +468,7 @@ namespace PortfolioAce.ViewModels
                 string tradeType = _selectedTransaction.TransactionType.TypeName.ToString(); 
                 string cashSymbol = _selectedTransaction.Currency.Symbol.ToString();
                 decimal amount = _selectedTransaction.TradeAmount;
-                message = $"Are you sure you want to delete the following Trade:{n}Type:{tradeType}{n}Security: {cashSymbol}{n}Transaction Amount: {amount}{n}";
+                message = $"Are you sure you want to delete the following Trade:{n}Type: {tradeType}{n}Security: {cashSymbol}{n}Transaction Amount: {amount}{n}";
             }
             MessageBoxResult result =  MessageBox.Show(message, "Delete Trade", button: MessageBoxButton.YesNo);
             switch (result)

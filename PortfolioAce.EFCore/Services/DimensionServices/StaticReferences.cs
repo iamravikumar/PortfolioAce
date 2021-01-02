@@ -169,7 +169,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Periods.Where(p=>p.FundId==fundId).ToList();
+                return context.Periods.Where(p=>p.FundId==fundId).OrderBy(p=>p.AccountingDate).ToList();
             }
         }
     }

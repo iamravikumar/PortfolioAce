@@ -9,5 +9,7 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
     {
         List<PositionFACT> GetAllStoredPositions(DateTime date, int FundId, bool onlyActive=false);
         List<NAVPriceStoreFACT> GetAllNAVPrices();
+
+        List<NAVPriceStoreFACT> GetAllFundNAVPrices(int fundId);
     }
 }
