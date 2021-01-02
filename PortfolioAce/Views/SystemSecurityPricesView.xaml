@@ -42,7 +42,7 @@
         </DataGrid>
         <DockPanel Grid.Row="2" LastChildFill="False">
             <WrapPanel DockPanel.Dock="Top">
-                <TextBlock Text="Security: " FontWeight="Bold" />
+                <TextBlock Text="Security: " FontWeight="Bold" Margin="0,6,0,0"/>
                 <ComboBox ItemsSource="{Binding cmbSecurities}" Margin="10,0,0,0" SelectedItem="{Binding Path=Symbol, UpdateSourceTrigger=PropertyChanged}" Width="100" MaxWidth="100" >
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -51,7 +51,18 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </WrapPanel>
+            <StackPanel DockPanel.Dock="Top" Margin="5,10,0,0" Orientation="Vertical">
+                <TextBlock Text="{Binding SecurityInfo.AssetClass.Name}" Style="{DynamicResource MaterialDesignBody2TextBlock}"/>
+                <TextBlock Text="{Binding SecurityInfo.SecurityName}"/>
+                <TextBlock Text="{Binding SecurityInfo.Currency.Symbol}"/>
+                <TextBlock Text="{Binding SecurityInfo.ISIN}"/>
+            </StackPanel>
         </DockPanel>
-        <Button Grid.Row="2" Grid.Column="1" Command="{Binding SaveSecurityPriceCommand}"  Margin="0,5,0,0" >Store Prices</Button>
+        <Button Grid.Row="2" Grid.Column="1" Command="{Binding SaveSecurityPriceCommand}" Style="{DynamicResource MaterialDesignFlatDarkBgButton}"
+                Margin="0,5,0,0" Content="Update Prices from API" Width="200">
+            <Button.ToolTip>
+                <TextBlock Text="Checks AlphaVantage for the latest prices for this ticker and saves new prices to the DataBase"/>
+            </Button.ToolTip>
+        </Button>
     </Grid>
 </UserControl>

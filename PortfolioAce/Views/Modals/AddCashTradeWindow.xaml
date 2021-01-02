@@ -92,7 +92,7 @@
             </ComboBox>
             <Label Grid.Row="7">Notes:</Label>
             <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" AcceptsReturn="True"/>
-            <Button Command="{Binding AddCashTradeCommand}" Grid.Row="8" Grid.Column="1" Margin="0,5,0,0" IsEnabled="{Binding CanCreate}">Add Cash Trade</Button>
+            <Button Command="{Binding AddCashTradeCommand}" Grid.Row="8" Grid.Column="1" Margin="0,5,0,0" IsEnabled="{Binding CanCreate}" Content="Add Cash Trade" Style="{DynamicResource MaterialDesignFlatMidBgButton}"/>
         </Grid>
     </Border>
 </Window>

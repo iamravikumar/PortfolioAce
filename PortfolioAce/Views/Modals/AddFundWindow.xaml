@@ -175,7 +175,7 @@
             </ComboBox>
             <Label Grid.Row="11" FontWeight="Bold">Launch Date:</Label>
             <DatePicker Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=FundLaunch, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Command="{Binding AddFundCommand}" Grid.Row="12" Grid.Column="1" Margin="0,10,0,0" IsEnabled="{Binding CanCreate}">Create Fund</Button>
+            <Button Command="{Binding AddFundCommand}" Grid.Row="12" Grid.Column="1" Margin="0,10,0,0" IsEnabled="{Binding CanCreate}" Content="Create Fund" Style="{DynamicResource MaterialDesignFlatMidBgButton}"/> 
         </Grid>
     </Border>
 </Window>

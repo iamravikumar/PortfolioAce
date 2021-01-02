@@ -155,6 +155,6 @@
                 </TabItem>
             </TabControl>
         </DockPanel>
-        <Button Grid.Column="1" Grid.Row="3" Content="Lock NAV" IsEnabled="{Binding EnableLockNav}" Command="{Binding LockNavCommand}"/>
+        <Button Grid.Column="1" Grid.Row="3" Content="Lock NAV" IsEnabled="{Binding EnableLockNav}" Command="{Binding LockNavCommand}" Style="{DynamicResource MaterialDesignFlatMidBgButton}" Width="150"/>
     </Grid>
 </Window>

@@ -73,8 +73,8 @@
             <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" Content="{Binding TargetFund.BaseCurrency}"></Label>
             <Label Grid.Row="3">Initial Fund Price</Label>
             <TextBox Text="{Binding NavPrice, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Button Command="{Binding InitialiseFundCommand}" Grid.Row="4" Grid.Column="1" Margin="0,5,0,0">Initialise Fund</Button>
-            <Label Grid.Row="5" Grid.ColumnSpan="2">Add your initial investors below</Label>
+            <Button Command="{Binding InitialiseFundCommand}" Grid.Row="4" Grid.Column="1" Margin="0,5,0,0" Content="Initialise Fund" Style="{DynamicResource MaterialDesignFlatMidBgButton}"/> 
+            <Label Grid.Row="5" Grid.ColumnSpan="2">Insert your initial investors below:</Label>
             <DataGrid Name="dgSeedingInvestors" Grid.Row="6" Grid.ColumnSpan="3" CanUserDeleteRows="True" CanUserAddRows="True" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding Path=dgSeedingInvestors, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
                     <DataGridComboBoxColumn Header="Investor" ItemsSource="{Binding Source={StaticResource InvestorsCVS}}" SelectedValueBinding="{Binding InvestorId}" DisplayMemberPath="FullName" SelectedValuePath="InvestorId"/>

@@ -74,7 +74,8 @@
                     <TextBox Text="{Binding MobileNumber, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
                     <Label Grid.Row="6">Native Language</Label>
                     <TextBox Text="{Binding NativeLanguage, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-                    <Button Command="{Binding AddInvestorCommand}" Grid.Row="7" Grid.Column="1" Margin="0,10,0,0" IsEnabled="{Binding CanCreate}">Add Investor</Button>
+                    <Button Command="{Binding AddInvestorCommand}" Grid.Row="7" Grid.Column="1" Margin="0,10,0,0" 
+                            Style="{DynamicResource MaterialDesignFlatMidBgButton}" IsEnabled="{Binding CanCreate}" Content="Add Investor"/> 
                 </Grid>
             </TabItem>
             <TabItem Header="All Investors">

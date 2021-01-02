@@ -34,7 +34,7 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                HashSet<string> pricedSecuritySymbols = _priceService.GetAllPricedSecuritySymbols();
+                HashSet<string> pricedSecuritySymbols = _priceService.GetAllSecuritySymbols();
                 return new ObservableCollection<string>(pricedSecuritySymbols);
             }
         }
@@ -63,7 +63,6 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgSecurityPrices));
                 Load();
                 OnPropertyChanged(nameof(SecurityPriceLineChartXAxis));
-
             }
         }
 
