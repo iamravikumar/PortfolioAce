@@ -77,5 +77,21 @@ namespace PortfolioAce.EFCore.Services.PriceServices
                 return context.Securities.Where(s => s.Symbol == symbol).Include(s => s.Currency).Include(s => s.AssetClass).FirstOrDefault();
             }
         }
+
+        public HashSet<string> GetAllPricedSecuritySymbols()
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.SecurityPriceData.Select(spd=>spd.Security.Symbol).ToHashSet();
+            }
+        }
+
+        public List<SecurityPriceStore> GetSecurityPrices(string symbol)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.SecurityPriceData.Where(spd => spd.Security.Symbol == symbol).OrderBy(spd=>spd.Date).ToList();
+            }
+        }
     }
 }

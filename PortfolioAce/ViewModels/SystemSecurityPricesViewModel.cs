@@ -1,9 +1,14 @@
-﻿using PortfolioAce.Commands;
+﻿using LiveCharts;
+using PortfolioAce.Commands;
 using PortfolioAce.DataCentre.DeserialisedObjects;
+using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services.PriceServices;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -18,9 +23,30 @@ namespace PortfolioAce.ViewModels
         {
             _priceService = priceService;
             SaveSecurityPriceCommand = new SaveSecurityPriceCommand(this, priceService);
+            SecurityPriceLineChartYAxis = new ChartValues<decimal>();
+            SecurityPriceLineChartXAxis = new string[1];
         }
 
         public ICommand SaveSecurityPriceCommand { get; set; }
+
+
+        public ObservableCollection<string> cmbSecurities
+        {
+            get
+            {
+                HashSet<string> pricedSecuritySymbols = _priceService.GetAllPricedSecuritySymbols();
+                return new ObservableCollection<string>(pricedSecuritySymbols);
+            }
+        }
+
+        public ObservableCollection<SecurityPriceStore> dgSecurityPrices
+        {
+            get
+            {
+                List<SecurityPriceStore> securityPrices = _priceService.GetSecurityPrices(_symbol);
+                return new ObservableCollection<SecurityPriceStore>(securityPrices);
+            }
+        }
 
         private string _symbol;
         public string Symbol
@@ -33,21 +59,45 @@ namespace PortfolioAce.ViewModels
             {
                 _symbol = value;
                 OnPropertyChanged(nameof(Symbol));
+                OnPropertyChanged(nameof(SecurityInfo));
+                OnPropertyChanged(nameof(dgSecurityPrices));
+                Load();
+                OnPropertyChanged(nameof(SecurityPriceLineChartXAxis));
+
             }
         }
 
-        /*
-         * I have to make the task async and await the service itself.
-        public async Task<List<AVSecurityPriceData>> P()
+        public SecuritiesDIM SecurityInfo
         {
-            var x = await _priceService.GetPrices("IBM");
-            foreach(var i in x)
+            get
             {
-                Debug.WriteLine(i.Close);
+                return _priceService.GetSecurityInfo(_symbol);
             }
-            return x;
         }
-        */
+
+        private string[] _SecurityPriceLineChartXAxis;
+        public string[] SecurityPriceLineChartXAxis
+        {
+            get
+            {
+                return _SecurityPriceLineChartXAxis;
+            }
+            set
+            {
+                _SecurityPriceLineChartXAxis = value;
+                OnPropertyChanged(nameof(SecurityPriceLineChartXAxis));
+            }
+        }
+
+        public ChartValues<decimal> SecurityPriceLineChartYAxis { get; set; }
+
+
+        public async Task Load()
+        {
+            SecurityPriceLineChartYAxis.Clear();
+            SecurityPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgSecurityPrices.Select(sp=>sp.ClosePrice)));
+            _SecurityPriceLineChartXAxis = dgSecurityPrices.Select(sp => sp.Date.ToString("dd/MM/yyyy")).ToArray();
+        }
 
     }
 }
