@@ -71,11 +71,25 @@ namespace PortfolioAce.ViewModels
                 _selectedPrice = value;
                 Load(_selectedPrice.FundId);
                 OnPropertyChanged(nameof(selectedPrice));
+                OnPropertyChanged(nameof(NavPriceLineChartXAxis));
             }
         }
 
         public ChartValues<decimal> NavPriceLineChartYAxis { get; set; }
-        public string[] NavPriceLineChartXAxis { get; set; }
+
+        private string[] _NavPriceLineChartXAxis;
+        public string[] NavPriceLineChartXAxis
+        {
+            get
+            {
+                return _NavPriceLineChartXAxis;
+            }
+            set
+            {
+                _NavPriceLineChartXAxis = value;
+                OnPropertyChanged(nameof(NavPriceLineChartXAxis));
+            }
+        }
 
 
         public SeriesCollection RowChartData { get; set; }
@@ -88,13 +102,13 @@ namespace PortfolioAce.ViewModels
             if (NavPriceLineChartYAxis!= null)
             {
                NavPriceLineChartYAxis.Clear();
-                NavPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.NAVPrice)));
+               NavPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.NAVPrice)));
             }
             else
             {
                 NavPriceLineChartYAxis = new ChartValues<decimal>(dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.NAVPrice));
-                NavPriceLineChartXAxis = dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.FinalisedDate.ToString("dd/MM/yyyy")).ToArray();
             }
+            _NavPriceLineChartXAxis = dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.FinalisedDate.ToString("dd/MM/yyyy")).ToArray();
 
             ChartValues<decimal> rowChartValues = new ChartValues<decimal>();
             RowChartDataLabel = new string[AllFundSymbols.Count];

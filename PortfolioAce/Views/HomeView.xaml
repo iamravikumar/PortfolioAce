@@ -8,7 +8,7 @@
              xmlns:local="clr-namespace:PortfolioAce.Views"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
-    <Grid Background="#f5ffff">
+    <Grid Background="#FDFDFD">
         <!--
         <Grid.Background>
             <ImageBrush ImageSource="/PortfolioAce;component/Resources\portfolioace_logo2_hd.png" Stretch="None"/>

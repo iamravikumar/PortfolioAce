@@ -23,7 +23,7 @@ namespace PortfolioAce.ViewModels
         {
             _priceService = priceService;
             SaveSecurityPriceCommand = new SaveSecurityPriceCommand(this, priceService);
-            SecurityPriceLineChartYAxis = new ChartValues<decimal>();
+            SecurityPriceLineChartYAxis = new ChartValues<decimal> { 1,1,1,1,1};
             SecurityPriceLineChartXAxis = new string[1];
         }
 
