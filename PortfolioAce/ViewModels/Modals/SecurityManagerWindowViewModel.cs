@@ -7,6 +7,7 @@ using PortfolioAce.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -104,11 +105,13 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public List<SecuritiesDIM> dgSecurities
+
+        public ObservableCollection<SecuritiesDIM> dgSecurities
         {
             get
             {
-                return _adminService.GetAllSecurities();
+                List<SecuritiesDIM> securities = _adminService.GetAllSecurities();
+                return new ObservableCollection<SecuritiesDIM>(securities);
             }
         }
 
