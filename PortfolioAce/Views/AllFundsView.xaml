@@ -94,7 +94,7 @@
             <TabControl DockPanel.Dock="Top" Style="{StaticResource MaterialDesignTabControl}" Background="LightGray" >
                 <TabItem Header="Positions">
                     <DataGrid ColumnWidth="*" RowBackground="GhostWhite" AlternatingRowBackground="White" VerticalScrollBarVisibility="Auto" 
-                              AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=groupedPositions, UpdateSourceTrigger=PropertyChanged}">
+                              AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=groupedPositions, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding selectedPosition}">
                         <DataGrid.GroupStyle>
                             <GroupStyle>
                                 <GroupStyle.ContainerStyle>
@@ -138,8 +138,7 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" 
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.PositionDetailsCommand}"
-                                            CommandParameter="{Binding}">
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowPositionDetailsCommand}">
                                             <Button.ToolTip>
                                                 <TextBlock Text="{Binding Position.security.Symbol, StringFormat={}Position Breakdown for {0}}"/>
                                             </Button.ToolTip>

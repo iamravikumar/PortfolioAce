@@ -92,7 +92,8 @@ namespace PortfolioAce
                          services.GetRequiredService<IPortfolioService>(),
                          services.GetRequiredService<ITransferAgencyService>(),
                          services.GetRequiredService<IStaticReferences>(),
-                         services.GetRequiredService<IFactTableService>())); // this is how i can pass in my repositories
+                         services.GetRequiredService<IFactTableService>(),
+                         services.GetRequiredService<IPriceService>())); // this is how i can pass in my repositories
                     services.AddSingleton<SystemFXRatesViewModel>();
                     services.AddSingleton<SystemSecurityPricesViewModel>(services => new SystemSecurityPricesViewModel(
                         services.GetRequiredService<IPriceService>()));

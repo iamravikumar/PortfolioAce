@@ -8,6 +8,7 @@ using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.EFCore.Services.FactTableServices;
+using PortfolioAce.EFCore.Services.PriceServices;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Modals;
 using PortfolioAce.ViewModels.Windows;
@@ -31,10 +32,11 @@ namespace PortfolioAce.ViewModels
         private IStaticReferences _staticReferences;
         private ITransactionService _transactionService;
         private IFactTableService _factTableService;
+        private IPriceService _priceService;
         public AllFundsViewModel(IFundService fundService,
             ITransactionService transactionService, IPortfolioService portfolioService,
             ITransferAgencyService investorService, IStaticReferences staticReferences,
-            IFactTableService factTableService)
+            IFactTableService factTableService, IPriceService priceService)
         {
             _fundService = fundService;
             _investorService = investorService;
@@ -42,6 +44,7 @@ namespace PortfolioAce.ViewModels
             _transactionService = transactionService;
             _staticReferences = staticReferences;
             _factTableService = factTableService;
+            _priceService = priceService;
 
             List<Fund> allFunds = fundService.GetAllFunds();
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
@@ -76,12 +79,13 @@ namespace PortfolioAce.ViewModels
                 OpenMetricsWindow, typeof(FundMetricsWindow), typeof(FundMetricsViewModel), _factTableService, _staticReferences);
 
 
-            PositionDetailsCommand = new PositionDetailsCommand();
+            ShowPositionDetailsCommand = new ActionCommand<Type, Type, IPriceService, IStaticReferences>(
+                OpenPositionDetailWindow, typeof(PositionDetailWindow), typeof(PositionDetailWindowViewModel), _priceService, _staticReferences);
 
 
         }
 
-        public ICommand PositionDetailsCommand { get; set; }
+        public ICommand ShowPositionDetailsCommand { get; set; }
         public ICommand SelectFundCommand { get; set; }
         public ICommand ShowNewTradeCommand { get; set; }
         public ICommand ShowEditTradeCommand { get; set; }
@@ -361,6 +365,20 @@ namespace PortfolioAce.ViewModels
             }
         }
 
+        private SecurityPositionValuation _selectedPosition;
+        public SecurityPositionValuation selectedPosition
+        {
+            get
+            {
+                return _selectedPosition;
+            }
+            set
+            {
+                _selectedPosition = value;
+                OnPropertyChanged(nameof(selectedPosition));
+            }
+        }
+
         public List<TransactionsBO> dgFundCashBook
         {
             get
@@ -438,6 +456,22 @@ namespace PortfolioAce.ViewModels
             // This is temporary
             Window view = (Window)Activator.CreateInstance(windowType);
             ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _selectedTransaction);
+
+            view.DataContext = viewModel;
+            view.Owner = Application.Current.MainWindow;
+            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (viewModel.CloseAction == null)
+            {
+                viewModel.CloseAction = new Action(() => view.Close());
+            }
+            view.ShowDialog();
+        }
+
+        public void OpenPositionDetailWindow(Type windowType, Type viewModelType, object myService, object myService2)
+        {
+            // This is temporary
+            Window view = (Window)Activator.CreateInstance(windowType);
+            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _selectedPosition);
 
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
