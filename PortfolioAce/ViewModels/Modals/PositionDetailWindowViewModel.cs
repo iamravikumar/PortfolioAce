@@ -1,9 +1,15 @@
-﻿using PortfolioAce.Domain.DataObjects;
+﻿using LiveCharts;
+using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services.DimensionServices;
+using PortfolioAce.EFCore.Services.FactTableServices;
 using PortfolioAce.EFCore.Services.PriceServices;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PortfolioAce.ViewModels.Modals
 {
@@ -11,17 +17,27 @@ namespace PortfolioAce.ViewModels.Modals
     {
 
         // I need the actual position, take the static references)
-        private IStaticReferences _staticReferences;
+        private IFactTableService _factTableService;
         private IPriceService _priceService;
         
-        public PositionDetailWindowViewModel(IPriceService priceService, IStaticReferences staticReferences,
-           SecurityPositionValuation valuedPosition)
+        public PositionDetailWindowViewModel(IPriceService priceService, IFactTableService factTableService,
+           SecurityPositionValuation valuedPosition, Fund fund)
         {
-            _staticReferences = staticReferences;
+            _factTableService = factTableService;
             _priceService = priceService;
             _valuedPosition = valuedPosition;
-            _PositionOpenLots = _valuedPosition.Position.GetOpenLots();
+            PositionOpenLots = _valuedPosition.Position.GetOpenLots();
+            Title = $"{_valuedPosition.Position.security.SecurityName} ({_valuedPosition.Position.security.Symbol})";
+            FundName = fund.FundName;
+
+            List<PositionFACT> positionHistory = _factTableService.GetAllFundStoredPositions(fund.FundId, valuedPosition.Position.security.SecurityId);
+            PositionPriceLineChartYAxis = new ChartValues<decimal>(positionHistory.Select(ph=> ph.RealisedPnl+ph.UnrealisedPnl));
+            PositionPriceLineChartXAxis = positionHistory.Select(ph => ph.PositionDate.ToString("dd/MM/yyyy")).ToArray();
         }
+
+        public ChartValues<decimal> PositionPriceLineChartYAxis { get; set; }
+        public string[] PositionPriceLineChartXAxis { get; set; }
+
 
         private SecurityPositionValuation _valuedPosition;
         public SecurityPositionValuation TargetPosition
@@ -31,14 +47,9 @@ namespace PortfolioAce.ViewModels.Modals
                 return _valuedPosition;
             }
         }
+        public List<OpenLots> PositionOpenLots { get; set; }
 
-        private List<OpenLots> _PositionOpenLots;
-        public List<OpenLots> PositionOpenLots
-        {
-            get
-            {
-                return _PositionOpenLots;
-            }
-        }
+        public string Title { get; set; }
+        public string FundName { get; set; }
     }
 }

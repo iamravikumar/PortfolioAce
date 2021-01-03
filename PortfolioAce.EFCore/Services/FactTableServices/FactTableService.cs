@@ -59,5 +59,16 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
                         .ToList();
             }
         }
+
+        public List<PositionFACT> GetAllFundStoredPositions(int fundId, int securityId)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Positions
+                            .Where(p => p.FundId==fundId && p.SecurityId == securityId)
+                            .ToList();
+            }
+
+        }
     }
 }

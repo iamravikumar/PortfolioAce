@@ -35,46 +35,46 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  Style="{StaticResource MaterialDesignBody2TextBlock}" HorizontalAlignment="Center" Text="Name (Ticker)" FontWeight="Bold"/>
-                    <Label Content="Quantity:" Grid.Row="1"/>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"  Style="{StaticResource MaterialDesignBody2TextBlock}" HorizontalAlignment="Center" Text="{Binding Title}" FontWeight="Bold"/>
+                    <Label Content="Quantity:" Grid.Row="1" FontWeight="Bold"/>
                     <Label Content="{Binding TargetPosition.Position.NetQuantity, StringFormat=N2}" Grid.Row="1" Grid.Column="1"/>
-                    <Label Content="Average Cost:" Grid.Row="2"/>
+                    <Label Content="Average Cost:" Grid.Row="2" FontWeight="Bold"/>
                     <Label Content="{Binding TargetPosition.Position.AverageCost, StringFormat=N2}" Grid.Row="2" Grid.Column="1"/>
-                    <Label Content="Unrealised Pnl:" Grid.Row="3"/>
+                    <Label Content="Unrealised Pnl:" Grid.Row="3" FontWeight="Bold"/>
                     <Label Content="{Binding TargetPosition.unrealisedPnl, StringFormat=N2, Mode=OneWay}" Grid.Row="3" Grid.Column="1"/>
-                    <Label Content="Realised Pnl:" Grid.Row="4"/>
+                    <Label Content="Realised Pnl:" Grid.Row="4" FontWeight="Bold"/>
                     <Label Content="{Binding TargetPosition.Position.RealisedPnL, StringFormat=N2, Mode=OneWay}" Grid.Row="4" Grid.Column="1"/>
-                    <Label Content="FX Rate:" Grid.Row="5"/>
+                    <Label Content="FX Rate:" Grid.Row="5" FontWeight="Bold"/>
                     <Label Content="{Binding TargetPosition.fxRate, Mode=OneWay, StringFormat=N2}" Grid.Row="5" Grid.Column="1"/>
-                    <Label Content="Base Market Value:" Grid.Row="6"/>
+                    <Label Content="Base Market Value:" Grid.Row="6" FontWeight="Bold"/>
                     <Label Content="{Binding TargetPosition.MarketValueBase, StringFormat=N2, Mode=OneWay}" Grid.Row="6" Grid.Column="1"/>
-                    <Label Content="Custodian:" Grid.Row="7"/>
+                    <Label Content="Custodian:" Grid.Row="7" FontWeight="Bold"/>
                     <Label Content="{Binding TargetPosition.Position.custodian.Name, Mode=OneWay}" Grid.Row="7" Grid.Column="1"/>
-                    <Label Content="Fund:" Grid.Row="8"/>
-                    <Label Content="{Binding PositionCount, Mode=OneWay}" Grid.Row="8" Grid.Column="1"/>
+                    <Label Content="Fund:" Grid.Row="8" FontWeight="Bold"/>
+                    <Label Content="{Binding FundName, Mode=OneWay}" Grid.Row="8" Grid.Column="1"/>
                 </Grid>
             </DockPanel>
             <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1">
-                <TextBlock DockPanel.Dock="Top" Text="Open Lots" Style="{DynamicResource MaterialDesignOverlineTextBlock}"/>
-                <DataGrid ColumnWidth="*" VerticalScrollBarVisibility="Auto" Margin="2"
+                <TextBlock DockPanel.Dock="Top" Text="Open Lots" Style="{DynamicResource MaterialDesignOverlineTextBlock}" FontWeight="Bold"/>
+                <DataGrid ColumnWidth="*" ItemsSource="{Binding Path=PositionOpenLots}" VerticalScrollBarVisibility="Auto" Margin="2"
                       RowBackground="GhostWhite" AlternatingRowBackground="White" DockPanel.Dock="Top"
-                      AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Path=PositionOpenLots}">
+                      AutoGenerateColumns="False" IsReadOnly="True" >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Date" Binding="{Binding date, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
-                        <DataGridTextColumn Header="Quantity" Binding="{Binding quantity, StringFormat=N2}"  Width="SizeToHeader"/>
+                        <DataGridTextColumn Header="Date" Binding="{Binding date, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
+                        <DataGridTextColumn Header="Quantity" Binding="{Binding quantity}"  Width="SizeToHeader"/>
                         <DataGridTextColumn Header="Cost Price" Binding="{Binding price, StringFormat=N2}" Width="SizeToHeader"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>
             <lvc:CartesianChart Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Hoverable="True" Margin="0,5,0,0">
                 <lvc:CartesianChart.Series>
-                    <lvc:LineSeries Title="Performance" Values="{Binding NavPriceLineChartYAxis}"/>
+                    <lvc:LineSeries Title="Total PnL" Values="{Binding PositionPriceLineChartYAxis}" Fill="#dbbdff" Stroke="#180036"/>
                 </lvc:CartesianChart.Series>
                 <lvc:CartesianChart.AxisX>
-                    <lvc:Axis Title="Date" Labels="{Binding NavPriceLineChartXAxis}" FontSize="12"/>
+                    <lvc:Axis Title="Date" Labels="{Binding PositionPriceLineChartXAxis}" FontSize="12" Foreground="Black"/>
                 </lvc:CartesianChart.AxisX>
                 <lvc:CartesianChart.AxisY>
-                    <lvc:Axis Title="Performance"/>
+                    <lvc:Axis Title="Performance" Foreground="Black"/>
                 </lvc:CartesianChart.AxisY>
             </lvc:CartesianChart>
         </Grid>

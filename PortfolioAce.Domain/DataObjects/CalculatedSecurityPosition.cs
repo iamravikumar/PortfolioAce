@@ -238,9 +238,9 @@ namespace PortfolioAce.Domain.DataObjects
 
     public class OpenLots
     {
-        public DateTime date;
-        public decimal quantity;
-        public decimal price;
+        public DateTime date { get; set; }
+        public decimal quantity { get; set; }
+        public decimal price { get; set; }
         public OpenLots(DateTime date, decimal quantity, decimal price)
         {
             this.date = date;

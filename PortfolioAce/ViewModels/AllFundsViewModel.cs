@@ -79,8 +79,8 @@ namespace PortfolioAce.ViewModels
                 OpenMetricsWindow, typeof(FundMetricsWindow), typeof(FundMetricsViewModel), _factTableService, _staticReferences);
 
 
-            ShowPositionDetailsCommand = new ActionCommand<Type, Type, IPriceService, IStaticReferences>(
-                OpenPositionDetailWindow, typeof(PositionDetailWindow), typeof(PositionDetailWindowViewModel), _priceService, _staticReferences);
+            ShowPositionDetailsCommand = new ActionCommand<Type, Type, IPriceService, IFactTableService>(
+                OpenPositionDetailWindow, typeof(PositionDetailWindow), typeof(PositionDetailWindowViewModel), _priceService, _factTableService);
 
 
         }
@@ -471,7 +471,7 @@ namespace PortfolioAce.ViewModels
         {
             // This is temporary
             Window view = (Window)Activator.CreateInstance(windowType);
-            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _selectedPosition);
+            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _selectedPosition, _currentFund);
 
             view.DataContext = viewModel;
             view.Owner = Application.Current.MainWindow;
