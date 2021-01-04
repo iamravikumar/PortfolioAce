@@ -7,7 +7,7 @@
              xmlns:nav="clr-namespace:PortfolioAce.Navigation"
              mc:Ignorable="d" d:DesignWidth="800" Height="auto">
     <DockPanel>
-        <Menu DockPanel.Dock="Top" Background="GhostWhite">
+        <Menu DockPanel.Dock="Top" Background="GhostWhite" Style="{DynamicResource MaterialDesignMenu}">
             <MenuItem Header="_File">
                 <MenuItem Header="Home" Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.Home}">
                     <MenuItem.Icon>

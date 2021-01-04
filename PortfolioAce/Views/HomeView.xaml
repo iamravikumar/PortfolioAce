@@ -84,11 +84,11 @@
                                         HorizontalAlignment="Left"
                                         Click="Onclick_RamonGithub">
                                     <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Github"/>
+                                        <Image Source="/PortfolioAce;component/Resources\icons8-github-48.png"/>
                                         <TextBlock
                                                 Margin="8 0 0 0"
                                                 VerticalAlignment="Center"
-                                                Text="GitHub" Foreground="#828282"/>
+                                                Text="GitHub" Foreground="#2e2e2e"/>
                                     </StackPanel>
                                 </Button>
                                 <Button
@@ -96,11 +96,11 @@
                                         HorizontalAlignment="Right"
                                         Click="Onclick_RamonLinkedin">
                                     <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Linkedin"/>
+                                        <Image Source="/PortfolioAce;component/Resources\icons8-linkedin-48.png"/>
                                         <TextBlock
                                                 Margin="8 0 0 0"
                                                 VerticalAlignment="Center"
-                                                Text="Linkedin" Foreground="#78b7ff"/>
+                                                Text="Linkedin" Foreground="#1f75ff"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -119,11 +119,11 @@
                                         HorizontalAlignment="Left"
                                         Click="Onclick_RamonYoutube">
                                     <StackPanel Orientation="Horizontal">
-                                        <materialDesign:PackIcon Kind="Youtube"/>
+                                        <Image Source="/PortfolioAce;component/Resources\icons8-youtube-48.png"/>
                                         <TextBlock
                                                 Margin="8 0 0 0"
                                                 VerticalAlignment="Center"
-                                                Text="Youtube" Foreground="#ff8080"/>
+                                                Text="YouTube" Foreground="#db1200"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

@@ -148,6 +148,9 @@
   <data name="icons8_fx_rates_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-fx-rates-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="icons8_github_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-github-48.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="icons8_graph_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-graph-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -159,6 +162,9 @@
   </data>
   <data name="icons8_info_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-info-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icons8_linkedin_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-linkedin-48.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icons8_NAVFinalised_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-NAVFinalised-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -174,6 +180,9 @@
   </data>
   <data name="icons8_undo_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-undo-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icons8_youtube_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-youtube-48.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="portfolioace_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\portfolioace logo.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
