@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public interface ITransferAgencyService
+    public interface ITransferAgencyService:IBaseService
     {
         Task<TransferAgencyBO> GetInvestorActionById(int id);
         Task<TransferAgencyBO> CreateInvestorAction(TransferAgencyBO investorAction);

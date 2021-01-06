@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PortfolioAce.EFCore.Services.SettingServices
 {
-    public interface ISettingService
+    public interface ISettingService:IBaseService
     {
         Dictionary<string, ApplicationSettings> GetAllSettings();
 

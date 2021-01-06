@@ -403,7 +403,7 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public void OpenModalWindow(Type windowType, Type viewModelType, object myService, object myService2)
+        public void OpenModalWindow(Type windowType, Type viewModelType, IBaseService myService, IBaseService myService2)
         {
             int fundId = _currentFund.FundId;
             Window view = (Window)Activator.CreateInstance(windowType);
@@ -419,7 +419,7 @@ namespace PortfolioAce.ViewModels
             view.ShowDialog();
         }
 
-        public void OpenMetricsWindow(Type windowType, Type viewModelType, object myService, object myService2)
+        public void OpenMetricsWindow(Type windowType, Type viewModelType, IBaseService myService, IBaseService myService2)
         {
             int fundId = _currentFund.FundId;
             Window view = (Window)Activator.CreateInstance(windowType);
@@ -435,7 +435,7 @@ namespace PortfolioAce.ViewModels
             view.ShowDialog();
         }
 
-        public void OpenNavSummaryWindow(Type windowType, Type viewModelType, object myService, object myService2)
+        public void OpenNavSummaryWindow(Type windowType, Type viewModelType, IBaseService myService, IBaseService myService2)
         {
             // This is temporary
             Window view = (Window)Activator.CreateInstance(windowType);
@@ -451,7 +451,7 @@ namespace PortfolioAce.ViewModels
             view.ShowDialog();
         }
 
-        public void OpenEditTradeWindow(Type windowType, Type viewModelType, object myService, object myService2)
+        public void OpenEditTradeWindow(Type windowType, Type viewModelType, IBaseService myService, IBaseService myService2)
         {
             // This is temporary
             Window view = (Window)Activator.CreateInstance(windowType);
@@ -467,7 +467,7 @@ namespace PortfolioAce.ViewModels
             view.ShowDialog();
         }
 
-        public void OpenPositionDetailWindow(Type windowType, Type viewModelType, object myService, object myService2)
+        public void OpenPositionDetailWindow(Type windowType, Type viewModelType, IBaseService myService, IBaseService myService2)
         {
             // This is temporary
             Window view = (Window)Activator.CreateInstance(windowType);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services.DimensionServices
 {
-    public interface IStaticReferences
+    public interface IStaticReferences:IBaseService
     {
         // TODO: This looks like a code smell that needs to be fixed
         List<CurrenciesDIM> GetAllCurrencies();

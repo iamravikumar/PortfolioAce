@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services.PriceServices
 {
-    public interface IPriceService
+    public interface IPriceService:IBaseService
     {
         Task<List<AVSecurityPriceData>> AddDailyPrices(SecuritiesDIM security);
         HashSet<string> GetAllSecuritySymbols();

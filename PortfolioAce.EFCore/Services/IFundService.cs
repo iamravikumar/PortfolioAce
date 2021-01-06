@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public interface IFundService
+    public interface IFundService:IBaseService
     {
         Task<Fund> CreateFund(Fund fund);
         Task<Fund> UpdateFund(Fund fund);

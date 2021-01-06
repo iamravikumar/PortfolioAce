@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public interface IAdminService
+    public interface IAdminService:IBaseService
     {
         // Admin responsibilities. such as adding static security information
         // and prices. 

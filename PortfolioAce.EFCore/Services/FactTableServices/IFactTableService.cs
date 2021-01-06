@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PortfolioAce.EFCore.Services.FactTableServices
 {
-    public interface IFactTableService
+    public interface IFactTableService:IBaseService
     {
         List<PositionFACT> GetAllStoredPositions(DateTime date, int FundId, bool onlyActive=false);
         List<PositionFACT> GetAllFundStoredPositions(int fundId, int securityId);

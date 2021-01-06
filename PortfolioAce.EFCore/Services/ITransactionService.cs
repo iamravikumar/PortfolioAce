@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public interface ITransactionService
+    public interface ITransactionService:IBaseService
     {
         Task<TransactionsBO> CreateTransaction(TransactionsBO transaction);
         void UpdateTransaction(TransactionsBO transaction);
