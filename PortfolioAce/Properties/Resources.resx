@@ -166,11 +166,14 @@
   <data name="icons8_linkedin_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-linkedin-48.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="icons8_NAVFinalised_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icons8-NAVFinalised-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="icons8_locked_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-locked-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="icons8_NAVnotFinalised_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\icons8-NAVnotFinalised-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="icons8_tick_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-tick-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icons8_cross_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-cross-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icons8_positionBreakdown_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-positionBreakdown-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -180,6 +183,9 @@
   </data>
   <data name="icons8_undo_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-undo-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="icons8_unlocked_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\icons8-unlocked-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="icons8_youtube_48" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-youtube-48.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

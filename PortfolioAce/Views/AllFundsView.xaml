@@ -55,8 +55,8 @@
                 </TextBlock>
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>ITD Performance:</Bold> N/A</TextBlock>
                 <StackPanel Orientation="Horizontal">
-                    <Image Source="/PortfolioAce;component/Resources\icons8-NAVFinalised-24.png" Visibility="{Binding LockedNav, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Image Source="/PortfolioAce;component/Resources\icons8-NAVnotFinalised-24.png" Visibility="{Binding LockedNav, Converter={StaticResource invertVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Image Source="/PortfolioAce;component/Resources\icons8-locked-24.png" Visibility="{Binding LockedNav, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Image Source="/PortfolioAce;component/Resources\icons8-unlocked-24.png" Visibility="{Binding LockedNav, Converter={StaticResource invertVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
                     <DatePicker SelectedDate="{Binding Path=asOfDate, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </StackPanel>

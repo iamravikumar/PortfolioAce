@@ -113,6 +113,16 @@ namespace PortfolioAce.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] icons8_cross_24 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_cross_24", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] icons8_deleteTrade_24 {
             get {
                 object obj = ResourceManager.GetObject("icons8_deleteTrade_24", resourceCulture);
@@ -223,19 +233,9 @@ namespace PortfolioAce.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] icons8_NAVFinalised_24 {
+        internal static byte[] icons8_locked_24 {
             get {
-                object obj = ResourceManager.GetObject("icons8_NAVFinalised_24", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] icons8_NAVnotFinalised_24 {
-            get {
-                object obj = ResourceManager.GetObject("icons8_NAVnotFinalised_24", resourceCulture);
+                object obj = ResourceManager.GetObject("icons8_locked_24", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -263,9 +263,29 @@ namespace PortfolioAce.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] icons8_tick_24 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_tick_24", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] icons8_undo_24 {
             get {
                 object obj = ResourceManager.GetObject("icons8_undo_24", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] icons8_unlocked_24 {
+            get {
+                object obj = ResourceManager.GetObject("icons8_unlocked_24", resourceCulture);
                 return ((byte[])(obj));
             }
         }

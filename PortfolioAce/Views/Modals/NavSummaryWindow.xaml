@@ -86,10 +86,10 @@
                                                 <Style TargetType="{x:Type Image}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding IsValuedBase}" Value="true">
-                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-NAVFinalised-24.png"/>
+                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-tick-24.png"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding IsValuedBase}" Value="false">
-                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-NAVnotFinalised-24.png"/>
+                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-cross-24.png"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -119,10 +119,10 @@
                                                 <Style TargetType="{x:Type Image}">
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding IsValuedBase}" Value="true">
-                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-NAVFinalised-24.png"/>
+                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-tick-24.png"/>
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding IsValuedBase}" Value="false">
-                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-NAVnotFinalised-24.png"/>
+                                                            <Setter Property="Source" Value="/PortfolioAce;component/Resources\icons8-cross-24.png"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
