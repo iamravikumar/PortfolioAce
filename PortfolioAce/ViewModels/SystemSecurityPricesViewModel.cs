@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels
@@ -63,6 +64,18 @@ namespace PortfolioAce.ViewModels
                 OnPropertyChanged(nameof(dgSecurityPrices));
                 Load();
                 OnPropertyChanged(nameof(SecurityPriceLineChartXAxis));
+                OnPropertyChanged(nameof(ShowAPIButton));
+            }
+        }
+
+        public Visibility ShowAPIButton
+        {
+            get
+            {
+                return (_symbol != null) ? Visibility.Visible : Visibility.Collapsed;
+            }
+            private set
+            {
             }
         }
 
@@ -97,6 +110,7 @@ namespace PortfolioAce.ViewModels
             SecurityPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgSecurityPrices.Select(sp=>sp.ClosePrice)));
             _SecurityPriceLineChartXAxis = dgSecurityPrices.Select(sp => sp.Date.ToString("dd/MM/yyyy")).ToArray();
         }
+
 
     }
 }
