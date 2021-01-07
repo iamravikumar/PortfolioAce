@@ -46,7 +46,6 @@ namespace PortfolioAce.Commands
                 _transaction.Custodian = custodian;
                 _transaction.TradeDate = _editCashTradeWindowVM.TradeDate;
                 _transaction.SettleDate = _editCashTradeWindowVM.SettleDate;
-
                 _transactionService.UpdateTransaction(_transaction);
                 _editCashTradeWindowVM.CloseAction();
             }
