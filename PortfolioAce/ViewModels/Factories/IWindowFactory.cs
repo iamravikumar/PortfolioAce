@@ -25,5 +25,12 @@ namespace PortfolioAce.ViewModels.Factories
         void CreateFundMetricsWindow(Fund fund, DateTime date);
         void CreatePositionDetailsWindows(SecurityPositionValuation position, Fund fund);
 
+
+        void CreateImportTradesWindow();
+        void CreateSettingsWindow();
+        void CreateNewFundWindow();
+        void CreateNewInvestorWindow();
+        void CreateSecurityManagerWindow();
+        void CreateAboutWindow();
     }
 }

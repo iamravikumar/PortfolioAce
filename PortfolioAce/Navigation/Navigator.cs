@@ -39,9 +39,10 @@ namespace PortfolioAce.Navigation
         private IStaticReferences _staticReferences;
         private ITransferAgencyService _investorService;
         private ISettingService _settingService;
+        private IWindowFactory _windowFactory;
 
         public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IFundService fundService, ITransferAgencyService investorService,
-            IAdminService adminService, ISettingService settingService, IStaticReferences staticReferences)
+            IAdminService adminService, ISettingService settingService, IStaticReferences staticReferences, IWindowFactory windowFactory)
         {
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
             _fundService = fundService;
@@ -49,6 +50,7 @@ namespace PortfolioAce.Navigation
             _staticReferences = staticReferences;
             _investorService = investorService;
             _settingService = settingService;
+            _windowFactory = windowFactory;
             // I can make these commands reusable
             ShowSettingsCommand = new ActionCommand(ShowSettingsWindow);
             ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
@@ -74,76 +76,32 @@ namespace PortfolioAce.Navigation
         }
         public void ShowImportTradesWindow()
         {
-            Window view = new ImportTradesWindow();
-            ViewModelBase viewModel = new ImportTradesViewModel();
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            view.ShowDialog();
+            _windowFactory.CreateImportTradesWindow();
         }
 
         public void ShowSettingsWindow()
         {
-            Window view = new SettingsWindow();
-            ViewModelWindowBase viewModel = new SettingsWindowViewModel(_settingService);
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (viewModel.CloseAction == null)
-            {
-                viewModel.CloseAction = new Action(() => view.Close());
-            }
-            view.ShowDialog();
+            _windowFactory.CreateSettingsWindow();
         }
 
         public void ShowNewFundWindow()
         {
-            Window view = new AddFundWindow();
-            ViewModelWindowBase viewModel = new AddFundWindowViewModel(_fundService, _staticReferences);
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (viewModel.CloseAction == null)
-            {
-                viewModel.CloseAction = new Action(() => view.Close());
-            }
-            
-            view.ShowDialog();
+            _windowFactory.CreateNewFundWindow();
         }
 
         public void ShowNewInvestorWindow()
         {
-            Window view = new AddInvestorWindow();
-            ViewModelWindowBase viewModel = new AddInvestorWindowViewModel(_investorService);
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (viewModel.CloseAction == null)
-            {
-                viewModel.CloseAction = new Action(() => view.Close());
-            }
-
-            view.ShowDialog();
+            _windowFactory.CreateNewInvestorWindow();
         }
 
         public void ShowSecurityManagerWindow()
         {
-            Window view = new SecurityManagerWindow();
-            ViewModelBase viewModel = new SecurityManagerWindowViewModel(_adminService, _staticReferences);
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            view.ShowDialog();
+            _windowFactory.CreateSecurityManagerWindow();
         }
 
         public void ShowAboutWindow()
         {
-            Window view = new AboutWindow();
-            ViewModelBase viewModel = new AboutWindowViewModel();
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            view.ShowDialog();
+            _windowFactory.CreateAboutWindow();
         }
     }
 }

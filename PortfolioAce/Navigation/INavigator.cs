@@ -24,5 +24,7 @@ namespace PortfolioAce.Navigation
         void ShowNewFundWindow();
         void ShowAboutWindow();
         void ShowImportTradesWindow();
+        void ShowNewInvestorWindow();
+        void ShowSecurityManagerWindow();
     }
 }

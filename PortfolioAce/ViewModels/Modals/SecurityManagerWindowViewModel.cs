@@ -15,7 +15,7 @@ using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
-    public class SecurityManagerWindowViewModel : ViewModelBase, INotifyDataErrorInfo
+    public class SecurityManagerWindowViewModel : ViewModelWindowBase, INotifyDataErrorInfo
     {
         private IAdminService _adminService;
         private readonly ValidationErrors _validationErrors;

@@ -71,6 +71,8 @@ namespace PortfolioAce
                         services.GetRequiredService<IFundService>(),
                         services.GetRequiredService<ITransactionService>(),
                          services.GetRequiredService<IPortfolioService>(),
+                         services.GetRequiredService<IAdminService>(),
+                         services.GetRequiredService<ISettingService>(),
                          services.GetRequiredService<ITransferAgencyService>(),
                          services.GetRequiredService<IStaticReferences>(),
                          services.GetRequiredService<IFactTableService>(),
