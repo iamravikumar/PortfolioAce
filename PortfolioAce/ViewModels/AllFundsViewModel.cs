@@ -96,19 +96,7 @@ namespace PortfolioAce.ViewModels
             set
             {
                 _asOfDate = value;
-                OnPropertyChanged(nameof(asOfDate));
-                OnPropertyChanged(nameof(dgFundCashHoldings));
-                OnPropertyChanged(nameof(dgFundPositions));
-                OnPropertyChanged(nameof(dgFundTrades));
-                OnPropertyChanged(nameof(dgFundCashBook));
-                OnPropertyChanged(nameof(dgFundTA));
-                OnPropertyChanged(nameof(CurrentNavPrice));
-                OnPropertyChanged(nameof(LockedNav));
-                OnPropertyChanged(nameof(EnableFundDataMetrics));
-                OnPropertyChanged(nameof(NavValuation));
-                OnPropertyChanged(nameof(dgFundClients));
-                OnPropertyChanged(nameof(groupedPositions));
-                OnPropertyChanged(nameof(priceTable));
+                OnPropertyChanged("");
             }
         }
 
@@ -159,21 +147,7 @@ namespace PortfolioAce.ViewModels
             set
             {
                 _currentFund = value;
-                // all variables pass through here so that they update the view
-                OnPropertyChanged(nameof(CurrentFund));
-                OnPropertyChanged(nameof(dgFundPositions));
-                OnPropertyChanged(nameof(dgFundCashHoldings));
-                OnPropertyChanged(nameof(dgFundTrades));
-                OnPropertyChanged(nameof(dgFundCashBook));
-                OnPropertyChanged(nameof(dgFundTA));
-                OnPropertyChanged(nameof(IsInitialised));
-                OnPropertyChanged(nameof(CurrentNavPrice));
-                OnPropertyChanged(nameof(ShowWidget));
-                OnPropertyChanged(nameof(LockedNav));
-                OnPropertyChanged(nameof(EnableFundDataMetrics));
-                OnPropertyChanged(nameof(NavValuation));
-                OnPropertyChanged(nameof(dgFundClients));
-                OnPropertyChanged(nameof(groupedPositions));
+                OnPropertyChanged(""); // This updates all onproperty changed properties
             }
         }
 
