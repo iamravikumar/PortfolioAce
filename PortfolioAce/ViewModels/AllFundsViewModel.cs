@@ -367,31 +367,37 @@ namespace PortfolioAce.ViewModels
         public void OpenNewTradeWindow()
         {
             _windowFactory.CreateNewTradeWindow(_currentFund);
+            OnPropertyChanged("");
         }
 
         public void OpenEditTradeWindow()
         {
             _windowFactory.CreateEditTradeWindow(_selectedTransaction);
+            OnPropertyChanged("");
         }
 
         public void OpenNewCashTradeWindow()
         {
             _windowFactory.CreateNewCashTradeWindow(_currentFund);
+            OnPropertyChanged("");
         }
 
         public void OpenEditCashTradeWindow()
         {
             _windowFactory.CreateEditCashTradeWindow(_selectedTransaction);
+            OnPropertyChanged("");
         }
 
         public void OpenInvestorActionWindow()
         {
             _windowFactory.CreateNewInvestorActionWindow(_currentFund);
+            OnPropertyChanged("");
         }
 
         public void OpenFundInitialisationWindow()
         {
             _windowFactory.CreateFundInitialisationWindow(_currentFund);
+            OnPropertyChanged("");
         }
 
         public void OpenMetricsWindow()
