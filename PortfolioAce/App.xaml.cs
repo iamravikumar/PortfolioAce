@@ -67,6 +67,14 @@ namespace PortfolioAce
                     services.AddSingleton<PortfolioAceDbContextFactory>(new PortfolioAceDbContextFactory(configureDbContext));
 
                     services.AddSingleton<IPortfolioAceViewModelAbstractFactory, PortfolioAceViewModelAbstractFactory>();
+                    services.AddSingleton<IWindowFactory, WindowFactory>(services => new WindowFactory(
+                        services.GetRequiredService<IFundService>(),
+                        services.GetRequiredService<ITransactionService>(),
+                         services.GetRequiredService<IPortfolioService>(),
+                         services.GetRequiredService<ITransferAgencyService>(),
+                         services.GetRequiredService<IStaticReferences>(),
+                         services.GetRequiredService<IFactTableService>(),
+                         services.GetRequiredService<IPriceService>()));
 
 
                     // Add Business Services here
@@ -93,7 +101,8 @@ namespace PortfolioAce
                          services.GetRequiredService<ITransferAgencyService>(),
                          services.GetRequiredService<IStaticReferences>(),
                          services.GetRequiredService<IFactTableService>(),
-                         services.GetRequiredService<IPriceService>())); // this is how i can pass in my repositories
+                         services.GetRequiredService<IPriceService>(),
+                         services.GetRequiredService<IWindowFactory>())); // this is how i can pass in my repositories
                     services.AddSingleton<SystemFXRatesViewModel>();
                     services.AddSingleton<SystemSecurityPricesViewModel>(services => new SystemSecurityPricesViewModel(
                         services.GetRequiredService<IPriceService>()));

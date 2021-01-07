@@ -10,6 +10,7 @@ using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.EFCore.Services.FactTableServices;
 using PortfolioAce.EFCore.Services.PriceServices;
 using PortfolioAce.Navigation;
+using PortfolioAce.ViewModels.Factories;
 using PortfolioAce.ViewModels.Modals;
 using PortfolioAce.ViewModels.Windows;
 using PortfolioAce.Views.Modals;
@@ -33,10 +34,11 @@ namespace PortfolioAce.ViewModels
         private ITransactionService _transactionService;
         private IFactTableService _factTableService;
         private IPriceService _priceService;
+        private IWindowFactory _windowFactory;
         public AllFundsViewModel(IFundService fundService,
             ITransactionService transactionService, IPortfolioService portfolioService,
             ITransferAgencyService investorService, IStaticReferences staticReferences,
-            IFactTableService factTableService, IPriceService priceService)
+            IFactTableService factTableService, IPriceService priceService, IWindowFactory windowFactory)
         {
             _fundService = fundService;
             _investorService = investorService;
@@ -45,6 +47,7 @@ namespace PortfolioAce.ViewModels
             _staticReferences = staticReferences;
             _factTableService = factTableService;
             _priceService = priceService;
+            _windowFactory = windowFactory;
 
             List<Fund> allFunds = fundService.GetAllFunds();
             _lbFunds = allFunds.Select(f => f.Symbol).ToList();
@@ -71,17 +74,16 @@ namespace PortfolioAce.ViewModels
                 OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorService, _staticReferences);
             ShowFundInitialisationCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
                 OpenModalWindow, typeof(FundInitialisationWindow), typeof(FundInitialisationWindowViewModel), _investorService, _staticReferences);
-            ShowNavSummaryCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
-                OpenNavSummaryWindow, typeof(NavSummaryWindow),typeof(NavSummaryViewModel), _investorService, _staticReferences);
+
             ShowFundPropertiesCommand = new ActionCommand<Type, Type, IFactTableService, IStaticReferences>(
                 OpenModalWindow, typeof(FundPropertiesWindow), typeof(FundPropertiesViewModel), _factTableService, _staticReferences);
             ShowFundMetricsCommand = new ActionCommand<Type, Type, IFactTableService, IStaticReferences>(
                 OpenMetricsWindow, typeof(FundMetricsWindow), typeof(FundMetricsViewModel), _factTableService, _staticReferences);
 
-
             ShowPositionDetailsCommand = new ActionCommand<Type, Type, IPriceService, IFactTableService>(
                 OpenPositionDetailWindow, typeof(PositionDetailWindow), typeof(PositionDetailWindowViewModel), _priceService, _factTableService);
 
+            ShowNavSummaryCommand = new ActionCommand(OpenNavSummaryWindow);
 
         }
 
@@ -435,19 +437,9 @@ namespace PortfolioAce.ViewModels
             view.ShowDialog();
         }
 
-        public void OpenNavSummaryWindow(Type windowType, Type viewModelType, IBaseService myService, IBaseService myService2)
+        public void OpenNavSummaryWindow()
         {
-            // This is temporary
-            Window view = (Window)Activator.CreateInstance(windowType);
-            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, NavValuation, myService, myService2);
-
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (viewModel.CloseAction == null)
-            {
-                viewModel.CloseAction = new Action(() => view.Close());
-            }
+            Window view = _windowFactory.CreateNavSummaryWindow(NavValuation);
             view.ShowDialog();
         }
 
