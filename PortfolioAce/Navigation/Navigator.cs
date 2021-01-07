@@ -21,37 +21,15 @@ namespace PortfolioAce.Navigation
 {
     public class Navigator: ObservableObject, INavigator
     {
-        private ViewModelBase _currentViewModel;
-        public ViewModelBase CurrentViewModel
-        {
-            get
-            {
-                return _currentViewModel;
-            }
-            set
-            {
-                _currentViewModel = value;
-                OnPropertyChanged(nameof(CurrentViewModel));
-            }
-        }
-        private IFundService _fundService;
-        private IAdminService _adminService;
-        private IStaticReferences _staticReferences;
-        private ITransferAgencyService _investorService;
-        private ISettingService _settingService;
+
         private IWindowFactory _windowFactory;
 
-        public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IFundService fundService, ITransferAgencyService investorService,
-            IAdminService adminService, ISettingService settingService, IStaticReferences staticReferences, IWindowFactory windowFactory)
+        public Navigator(IPortfolioAceViewModelAbstractFactory viewModelFactory, IWindowFactory windowFactory)
         {
             UpdateCurrentViewModelCommand = new UpdateCurrentViewModelCommand(this, viewModelFactory);
-            _fundService = fundService;
-            _adminService = adminService;
-            _staticReferences = staticReferences;
-            _investorService = investorService;
-            _settingService = settingService;
+
             _windowFactory = windowFactory;
-            // I can make these commands reusable
+
             ShowSettingsCommand = new ActionCommand(ShowSettingsWindow);
             ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
             ShowSecurityManagerCommand = new ActionCommand(ShowSecurityManagerWindow);
@@ -69,6 +47,20 @@ namespace PortfolioAce.Navigation
         public ICommand ShowImportTradesCommand { get; }
         public ICommand ShowSecurityManagerCommand { get; set; }
         public ICommand ShowNewInvestorCommand { get; set; }
+
+        private ViewModelBase _currentViewModel;
+        public ViewModelBase CurrentViewModel
+        {
+            get
+            {
+                return _currentViewModel;
+            }
+            set
+            {
+                _currentViewModel = value;
+                OnPropertyChanged(nameof(CurrentViewModel));
+            }
+        }
 
         public void CloseApplication()
         {

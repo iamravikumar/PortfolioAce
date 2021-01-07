@@ -70,7 +70,6 @@ namespace PortfolioAce
                     services.AddSingleton<IWindowFactory, WindowFactory>(services => new WindowFactory(
                         services.GetRequiredService<IFundService>(),
                         services.GetRequiredService<ITransactionService>(),
-                         services.GetRequiredService<IPortfolioService>(),
                          services.GetRequiredService<IAdminService>(),
                          services.GetRequiredService<ISettingService>(),
                          services.GetRequiredService<ITransferAgencyService>(),
@@ -100,10 +99,7 @@ namespace PortfolioAce
                         services.GetRequiredService<IFundService>(),
                         services.GetRequiredService<ITransactionService>(),
                          services.GetRequiredService<IPortfolioService>(),
-                         services.GetRequiredService<ITransferAgencyService>(),
                          services.GetRequiredService<IStaticReferences>(),
-                         services.GetRequiredService<IFactTableService>(),
-                         services.GetRequiredService<IPriceService>(),
                          services.GetRequiredService<IWindowFactory>())); // this is how i can pass in my repositories
                     services.AddSingleton<SystemFXRatesViewModel>();
                     services.AddSingleton<SystemSecurityPricesViewModel>(services => new SystemSecurityPricesViewModel(

@@ -10,9 +10,7 @@ namespace PortfolioAce.ViewModels.Factories
 {
     public interface IWindowFactory
     {
-        // Firstly this wouldnt need to take service as parameters and the window/viewmodels
-        // i need to figure out how to
-        // This replaces the previous commands I can't use generics here because different services are required...
+        // I can't use generics here because different viewmodels require different services...
         void CreateNewTradeWindow(Fund fund);
         void CreateEditTradeWindow(TransactionsBO securityTrade);
         void CreateNewCashTradeWindow(Fund fund);

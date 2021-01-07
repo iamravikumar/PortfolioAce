@@ -22,7 +22,6 @@ namespace PortfolioAce.ViewModels.Factories
     {
         private IFundService _fundService;
         private ITransferAgencyService _investorService;
-        private IPortfolioService _portfolioService;
         private IStaticReferences _staticReferences;
         private ITransactionService _transactionService;
         private IFactTableService _factTableService;
@@ -31,14 +30,13 @@ namespace PortfolioAce.ViewModels.Factories
         private ISettingService _settingService;
 
         public WindowFactory(IFundService fundService,
-            ITransactionService transactionService, IPortfolioService portfolioService,
+            ITransactionService transactionService,
             IAdminService adminService, ISettingService settingService,
             ITransferAgencyService investorService, IStaticReferences staticReferences,
             IFactTableService factTableService, IPriceService priceService)
         {
             _fundService = fundService;
             _investorService = investorService;
-            _portfolioService = portfolioService;
             _transactionService = transactionService;
             _adminService = adminService;
             _settingService = settingService;

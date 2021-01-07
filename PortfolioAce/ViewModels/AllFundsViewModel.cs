@@ -28,25 +28,19 @@ namespace PortfolioAce.ViewModels
     public class AllFundsViewModel : ViewModelBase
     {
         private IFundService _fundService;
-        private ITransferAgencyService _investorService;
         private IPortfolioService _portfolioService;
         private IStaticReferences _staticReferences;
         private ITransactionService _transactionService;
-        private IFactTableService _factTableService;
-        private IPriceService _priceService;
         private IWindowFactory _windowFactory;
+
         public AllFundsViewModel(IFundService fundService,
             ITransactionService transactionService, IPortfolioService portfolioService,
-            ITransferAgencyService investorService, IStaticReferences staticReferences,
-            IFactTableService factTableService, IPriceService priceService, IWindowFactory windowFactory)
+            IStaticReferences staticReferences, IWindowFactory windowFactory)
         {
             _fundService = fundService;
-            _investorService = investorService;
             _portfolioService = portfolioService;
             _transactionService = transactionService;
             _staticReferences = staticReferences;
-            _factTableService = factTableService;
-            _priceService = priceService;
             _windowFactory = windowFactory;
 
             List<Fund> allFunds = fundService.GetAllFunds();
