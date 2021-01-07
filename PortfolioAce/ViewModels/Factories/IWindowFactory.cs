@@ -1,4 +1,6 @@
 ﻿using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,17 +13,17 @@ namespace PortfolioAce.ViewModels.Factories
         // Firstly this wouldnt need to take service as parameters and the window/viewmodels
         // i need to figure out how to
         // This replaces the previous commands I can't use generics here because different services are required...
-        Window CreateNewTradeWindow();
-        Window CreateEditTradeWindow();
-        Window CreateNewCashTradeWindow();
-        Window CreateEditCashTradeWindow();
-        Window CreateNewInvestorActionWindow();
+        void CreateNewTradeWindow(Fund fund);
+        void CreateEditTradeWindow(TransactionsBO securityTrade);
+        void CreateNewCashTradeWindow(Fund fund);
+        void CreateEditCashTradeWindow(TransactionsBO cashTrade);
+        void CreateNewInvestorActionWindow(Fund fund);
         
-        Window CreateFundInitialisationWindow();
-        Window CreateNavSummaryWindow(NavValuations navValuation);
-        Window CreateFundPropertiesWindow();
-        Window CreateFundMetricsWindow();
-        Window CreatePositionDetailsWindows();
+        void CreateFundInitialisationWindow(Fund fund);
+        void CreateNavSummaryWindow(NavValuations navValuation);
+        void CreateFundPropertiesWindow(Fund fund);
+        void CreateFundMetricsWindow(Fund fund, DateTime date);
+        void CreatePositionDetailsWindows(SecurityPositionValuation position, Fund fund);
 
     }
 }

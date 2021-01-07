@@ -55,33 +55,24 @@ namespace PortfolioAce.ViewModels
             _asOfDate = (_currentFund != null)?staticReferences.GetMostRecentLockedDate(_currentFund.FundId):DateTime.Today;
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
-            
-            ShowNewTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
-                OpenModalWindow, typeof(AddTradeWindow), typeof(AddTradeWindowViewModel), _transactionService, _staticReferences);
 
-            ShowEditTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
-                OpenEditTradeWindow, typeof(EditTradeWindow), typeof(EditTradeWindowViewModel), _transactionService, _staticReferences);
+            ShowNewTradeCommand = new ActionCommand(OpenNewTradeWindow);
+
+            ShowEditTradeCommand = new ActionCommand(OpenEditTradeWindow);
 
             ShowDeleteTradeCommand = new ActionCommand(DeleteTradeDialog);
 
             ShowRestoreTradeCommand = new ActionCommand(RestoreTradeDialog);
 
-            ShowNewCashTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
-                OpenModalWindow, typeof(AddCashTradeWindow), typeof(AddCashTradeWindowViewModel), _transactionService, _staticReferences);
-            ShowEditCashTradeCommand = new ActionCommand<Type, Type, ITransactionService, IStaticReferences>(
-                OpenEditTradeWindow, typeof(EditCashTradeWindow), typeof(EditCashTradeWindowViewModel), _transactionService, _staticReferences);
-            ShowNewInvestorActionCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
-                OpenModalWindow, typeof(InvestorActionsWindow), typeof(InvestorActionViewModel), _investorService, _staticReferences);
-            ShowFundInitialisationCommand = new ActionCommand<Type, Type, ITransferAgencyService, IStaticReferences>(
-                OpenModalWindow, typeof(FundInitialisationWindow), typeof(FundInitialisationWindowViewModel), _investorService, _staticReferences);
+            ShowNewCashTradeCommand = new ActionCommand(OpenNewCashTradeWindow);
+            ShowEditCashTradeCommand = new ActionCommand(OpenEditCashTradeWindow);
+            ShowNewInvestorActionCommand = new ActionCommand(OpenInvestorActionWindow);
+            ShowFundInitialisationCommand = new ActionCommand(OpenFundInitialisationWindow);
+            ShowFundPropertiesCommand = new ActionCommand(OpenFundPropertiesWindow);
 
-            ShowFundPropertiesCommand = new ActionCommand<Type, Type, IFactTableService, IStaticReferences>(
-                OpenModalWindow, typeof(FundPropertiesWindow), typeof(FundPropertiesViewModel), _factTableService, _staticReferences);
-            ShowFundMetricsCommand = new ActionCommand<Type, Type, IFactTableService, IStaticReferences>(
-                OpenMetricsWindow, typeof(FundMetricsWindow), typeof(FundMetricsViewModel), _factTableService, _staticReferences);
+            ShowFundMetricsCommand = new ActionCommand(OpenMetricsWindow);
 
-            ShowPositionDetailsCommand = new ActionCommand<Type, Type, IPriceService, IFactTableService>(
-                OpenPositionDetailWindow, typeof(PositionDetailWindow), typeof(PositionDetailWindowViewModel), _priceService, _factTableService);
+            ShowPositionDetailsCommand = new ActionCommand(OpenPositionDetailWindow);
 
             ShowNavSummaryCommand = new ActionCommand(OpenNavSummaryWindow);
 
@@ -405,74 +396,55 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public void OpenModalWindow(Type windowType, Type viewModelType, IBaseService myService, IBaseService myService2)
+        public void OpenNewTradeWindow()
         {
-            int fundId = _currentFund.FundId;
-            Window view = (Window)Activator.CreateInstance(windowType);
-            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _currentFund);
-            
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (viewModel.CloseAction == null)
-            {
-                viewModel.CloseAction = new Action(() => view.Close());
-            }
-            view.ShowDialog();
+            _windowFactory.CreateNewTradeWindow(_currentFund);
         }
 
-        public void OpenMetricsWindow(Type windowType, Type viewModelType, IBaseService myService, IBaseService myService2)
+        public void OpenEditTradeWindow()
         {
-            int fundId = _currentFund.FundId;
-            Window view = (Window)Activator.CreateInstance(windowType);
-            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _currentFund, _asOfDate);
+            _windowFactory.CreateEditTradeWindow(_selectedTransaction);
+        }
 
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (viewModel.CloseAction == null)
-            {
-                viewModel.CloseAction = new Action(() => view.Close());
-            }
-            view.ShowDialog();
+        public void OpenNewCashTradeWindow()
+        {
+            _windowFactory.CreateNewCashTradeWindow(_currentFund);
+        }
+
+        public void OpenEditCashTradeWindow()
+        {
+            _windowFactory.CreateEditCashTradeWindow(_selectedTransaction);
+        }
+
+        public void OpenInvestorActionWindow()
+        {
+            _windowFactory.CreateNewInvestorActionWindow(_currentFund);
+        }
+
+        public void OpenFundInitialisationWindow()
+        {
+            _windowFactory.CreateFundInitialisationWindow(_currentFund);
+        }
+
+        public void OpenMetricsWindow()
+        {
+            _windowFactory.CreateFundMetricsWindow(_currentFund, _asOfDate);
+        }
+
+        public void OpenFundPropertiesWindow()
+        {
+            _windowFactory.CreateFundPropertiesWindow(_currentFund);
         }
 
         public void OpenNavSummaryWindow()
         {
-            Window view = _windowFactory.CreateNavSummaryWindow(NavValuation);
-            view.ShowDialog();
+            _windowFactory.CreateNavSummaryWindow(NavValuation);
         }
 
-        public void OpenEditTradeWindow(Type windowType, Type viewModelType, IBaseService myService, IBaseService myService2)
+
+        public void OpenPositionDetailWindow()
         {
-            // This is temporary
-            Window view = (Window)Activator.CreateInstance(windowType);
-            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _selectedTransaction);
-
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (viewModel.CloseAction == null)
-            {
-                viewModel.CloseAction = new Action(() => view.Close());
-            }
-            view.ShowDialog();
-        }
-
-        public void OpenPositionDetailWindow(Type windowType, Type viewModelType, IBaseService myService, IBaseService myService2)
-        {
-            // This is temporary
-            Window view = (Window)Activator.CreateInstance(windowType);
-            ViewModelWindowBase viewModel = (ViewModelWindowBase)Activator.CreateInstance(viewModelType, myService, myService2, _selectedPosition, _currentFund);
-
-            view.DataContext = viewModel;
-            view.Owner = Application.Current.MainWindow;
-            view.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (viewModel.CloseAction == null)
-            {
-                viewModel.CloseAction = new Action(() => view.Close());
-            }
-            view.ShowDialog();
+            _windowFactory.CreatePositionDetailsWindows(_selectedPosition, _currentFund);
         }
 
         public void DeleteTradeDialog()

@@ -1,5 +1,7 @@
 ﻿using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.EFCore.Services.FactTableServices;
@@ -49,63 +51,84 @@ namespace PortfolioAce.ViewModels.Factories
             return view;
         }
 
-
-        public Window CreateEditCashTradeWindow()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Window CreateEditTradeWindow()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Window CreateInvestorActionWindow()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Window CreateNewCashTradeWindow()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Window CreateNewInvestorActionWindow()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Window CreateNewTradeWindow()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Window CreateFundInitialisationWindow()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Window CreateFundMetricsWindow()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Window CreateFundPropertiesWindow()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Window CreateNavSummaryWindow(NavValuations navValuation)
+        public void CreateNavSummaryWindow(NavValuations navValuation)
         {
             Window view = new NavSummaryWindow();
             ViewModelWindowBase viewModel = new NavSummaryViewModel(navValuation, _investorService, _staticReferences);
-            return ApplyWindowAttributes(view, viewModel);
+            view = ApplyWindowAttributes(view, viewModel);
+            view.Show();
         }
 
-        public Window CreatePositionDetailsWindows()
+        public void CreateNewTradeWindow(Fund fund)
         {
-            throw new NotImplementedException();
+            Window view = new AddTradeWindow();
+            ViewModelWindowBase viewModel = new AddTradeWindowViewModel(_transactionService, _staticReferences, fund);
+            view = ApplyWindowAttributes(view, viewModel);
+            view.Show();
         }
 
+        public void CreateEditTradeWindow(TransactionsBO securityTrade)
+        {
+            Window view = new EditTradeWindow();
+            ViewModelWindowBase viewModel = new EditTradeWindowViewModel(_transactionService, _staticReferences,securityTrade);
+            view = ApplyWindowAttributes(view, viewModel);
+            view.Show();
+        }
+
+        public void CreateNewCashTradeWindow(Fund fund)
+        {
+            Window view = new AddCashTradeWindow();
+            ViewModelWindowBase viewModel = new AddCashTradeWindowViewModel(_transactionService, _staticReferences, fund);
+            view = ApplyWindowAttributes(view, viewModel);
+            view.Show();
+        }
+
+        public void CreateEditCashTradeWindow(TransactionsBO cashTrade)
+        {
+            Window view = new EditCashTradeWindow();
+            ViewModelWindowBase viewModel = new EditCashTradeWindowViewModel(_transactionService, _staticReferences, cashTrade);
+            view = ApplyWindowAttributes(view, viewModel);
+            view.Show();
+        }
+
+        public void CreateNewInvestorActionWindow(Fund fund)
+        {
+            Window view = new InvestorActionsWindow();
+            ViewModelWindowBase viewModel = new InvestorActionViewModel(_investorService, _staticReferences, fund);
+            view = ApplyWindowAttributes(view, viewModel);
+            view.Show();
+        }
+
+        public void CreateFundInitialisationWindow(Fund fund)
+        {
+            Window view = new FundInitialisationWindow();
+            ViewModelWindowBase viewModel = new InvestorActionViewModel(_investorService, _staticReferences, fund);
+            view = ApplyWindowAttributes(view, viewModel);
+            view.Show();
+        }
+
+        public void CreateFundPropertiesWindow(Fund fund)
+        {
+            Window view = new FundPropertiesWindow();
+            ViewModelWindowBase viewModel = new FundPropertiesViewModel(_factTableService, _staticReferences,fund);
+            view = ApplyWindowAttributes(view, viewModel);
+            view.Show();
+        }
+
+        public void CreateFundMetricsWindow(Fund fund, DateTime date)
+        {
+            Window view = new FundMetricsWindow();
+            ViewModelWindowBase viewModel = new FundMetricsViewModel(_factTableService, _staticReferences, fund, date);
+            view = ApplyWindowAttributes(view, viewModel);
+            view.Show();
+        }
+
+        public void CreatePositionDetailsWindows(SecurityPositionValuation position, Fund fund)
+        {
+            Window view = new PositionDetailWindow();
+            ViewModelWindowBase viewModel = new PositionDetailWindowViewModel(_priceService, _factTableService, position, fund);
+            view = ApplyWindowAttributes(view, viewModel);
+            view.Show();
+        }
     }
 }
