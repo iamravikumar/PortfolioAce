@@ -33,8 +33,9 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
+                TransactionsBO originalTransaction = context.Transactions.First(t => t.TransactionId == transaction.TransactionId);
                 transaction.isActive = false;
-                context.Transactions.Update(transaction);
+                context.Entry(originalTransaction).CurrentValues.SetValues(transaction);
                 context.SaveChangesAsync();
             }
         }
@@ -85,7 +86,8 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                context.Transactions.Update(transaction);
+                TransactionsBO originalTransaction = context.Transactions.First(t=>t.TransactionId==transaction.TransactionId);
+                context.Entry(originalTransaction).CurrentValues.SetValues(transaction);
                 context.SaveChanges();
             }
         }
