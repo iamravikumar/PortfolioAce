@@ -18,25 +18,27 @@ namespace PortfolioAce.Domain.BusinessServices
                                                  .Where(t=>t.TradeDate<=asOfDate && t.isActive)
                                                  .OrderBy(t => t.TradeDate)
                                                  .ToList();
-            Dictionary<(CurrenciesDIM, CustodiansDIM), List<TransactionsBO>> tradeDict = new Dictionary<(CurrenciesDIM, CustodiansDIM), List<TransactionsBO>>();
+            Dictionary<(string, string), List<TransactionsBO>> cashTradesByCurrencyAndCustodian = new Dictionary<(string, string), List<TransactionsBO>>();
             foreach (TransactionsBO trade in allTrades)
             {
-                ValueTuple<CurrenciesDIM, CustodiansDIM> groupKey = (trade.Currency, trade.Custodian); // this allows me to group transactions by security AND custodian
-                if (!tradeDict.ContainsKey(groupKey))
+                ValueTuple<string, string> groupKey = (trade.Currency.Symbol, trade.Custodian.Name); // this allows me to group transactions by security AND custodian
+                if (!cashTradesByCurrencyAndCustodian.ContainsKey(groupKey))
                 {
-                    tradeDict[groupKey] = new List<TransactionsBO> { trade };
+                    cashTradesByCurrencyAndCustodian[groupKey] = new List<TransactionsBO> { trade };
                 }
                 else
                 {
-                    tradeDict[groupKey].Add(trade);
+                    cashTradesByCurrencyAndCustodian[groupKey].Add(trade);
                 }
             }
 
             List<CalculatedCashPosition> allBalances = new List<CalculatedCashPosition>();
 
-            foreach (KeyValuePair<(CurrenciesDIM, CustodiansDIM), List<TransactionsBO>> Kvp in tradeDict)
+            foreach (KeyValuePair<(string, string), List<TransactionsBO>> Kvp in cashTradesByCurrencyAndCustodian)
             {
-                CalculatedCashPosition balance = new CalculatedCashPosition(Kvp.Key.Item1, Kvp.Key.Item2);
+                CurrenciesDIM currency = Kvp.Value[0].Currency;
+                CustodiansDIM custodian =Kvp.Value[0].Custodian;
+                CalculatedCashPosition balance = new CalculatedCashPosition(currency, custodian);
                 balance.AddTransactions(Kvp.Value);
                 allBalances.Add(balance);
             }
@@ -81,25 +83,27 @@ namespace PortfolioAce.Domain.BusinessServices
                                                  .OrderBy(t => t.TradeDate)
                                                  .ToList();
 
-            Dictionary<(SecuritiesDIM, CustodiansDIM), List<TransactionsBO>> tradeDict = new Dictionary<(SecuritiesDIM, CustodiansDIM), List<TransactionsBO>>(); 
+            Dictionary<(string, string), List<TransactionsBO>> tradesBySecurityAndCustodian = new Dictionary<(string, string), List<TransactionsBO>>(); 
             foreach (TransactionsBO trade in allTrades)
             {
-                ValueTuple<SecuritiesDIM, CustodiansDIM> groupKey = (trade.Security, trade.Custodian); // this allows me to group transactions by security AND custodian
-                if (!tradeDict.ContainsKey(groupKey))
+                ValueTuple<string, string> groupKey = (trade.Security.Symbol, trade.Custodian.Name); // this allows me to group transactions by security AND custodian
+                if (!tradesBySecurityAndCustodian.ContainsKey(groupKey))
                 {
-                    tradeDict[groupKey] = new List<TransactionsBO> { trade };
+                    tradesBySecurityAndCustodian[groupKey] = new List<TransactionsBO> { trade };
                 }
                 else
                 {
-                    tradeDict[groupKey].Add(trade);
+                    tradesBySecurityAndCustodian[groupKey].Add(trade);
                 }
             }
 
             List<CalculatedSecurityPosition> allPositions = new List<CalculatedSecurityPosition>();
 
-            foreach(KeyValuePair<(SecuritiesDIM, CustodiansDIM), List<TransactionsBO>> Kvp in tradeDict)
+            foreach(KeyValuePair<(string, string), List<TransactionsBO>> Kvp in tradesBySecurityAndCustodian)
             {
-                CalculatedSecurityPosition position = new CalculatedSecurityPosition(Kvp.Key.Item1, Kvp.Key.Item2);
+                SecuritiesDIM security = Kvp.Value[0].Security;
+                CustodiansDIM custodian = Kvp.Value[0].Custodian;
+                CalculatedSecurityPosition position = new CalculatedSecurityPosition(security, custodian);
                 position.AddTransactions(Kvp.Value);
                 allPositions.Add(position);
             }

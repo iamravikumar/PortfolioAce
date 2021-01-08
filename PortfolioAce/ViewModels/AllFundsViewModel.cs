@@ -449,6 +449,7 @@ namespace PortfolioAce.ViewModels
                     if (!_staticReferences.GetPeriod(tradeDate, tradeFundId).isLocked)
                     {
                         _transactionService.DeleteTransaction(selectedTransaction);
+                        OnPropertyChanged("");
                     }
                     else
                     {
@@ -471,6 +472,7 @@ namespace PortfolioAce.ViewModels
                     if (!_staticReferences.GetPeriod(tradeDate, tradeFundId).isLocked)
                     {
                         _transactionService.RestoreTransaction(selectedTransaction);
+                        OnPropertyChanged("");
                     }
                     else
                     {
