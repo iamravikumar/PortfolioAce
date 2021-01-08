@@ -108,7 +108,7 @@ namespace PortfolioAce.ViewModels.Factories
         public void CreateFundInitialisationWindow(Fund fund)
         {
             Window view = new FundInitialisationWindow();
-            ViewModelWindowBase viewModel = new InvestorActionViewModel(_investorService, _staticReferences, fund);
+            ViewModelWindowBase viewModel = new FundInitialisationWindowViewModel(_investorService, _staticReferences, fund);
             view = ApplyWindowAttributes(view, viewModel);
             view.ShowDialog();
         }
