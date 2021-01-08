@@ -45,6 +45,18 @@ namespace PortfolioAce.Domain.BusinessServices
             return allBalances;
         }
 
+        public List<CashPositionValuation> GetAllValuedCashBalances(Fund fund, DateTime asOfDate, Dictionary<(string, DateTime), decimal> priceTable)
+        {
+            List<CalculatedCashPosition> allCashPositions = GetAllCashBalances(fund, asOfDate);
+            List<CashPositionValuation> valuedCashPositions = new List<CashPositionValuation>();
+            foreach (CalculatedCashPosition cashPosition in allCashPositions)
+            {
+                CashPositionValuation valuedCashPosition = new CashPositionValuation(cashPosition, priceTable, asOfDate, fund.BaseCurrency);
+                valuedCashPositions.Add(valuedCashPosition);
+            }
+            return valuedCashPositions;
+        }
+
         public List<ClientHolding> GetAllClientHoldings(Fund fund, DateTime asOfDate)
         {
             List<TransferAgencyBO> allActions = fund.TransferAgent.Where(t => t.IsNavFinal && t.TransactionDate <= asOfDate)
@@ -109,6 +121,19 @@ namespace PortfolioAce.Domain.BusinessServices
             }
 
             return allPositions;
+        }
+
+        public List<SecurityPositionValuation> GetAllValuedSecurityPositions(Fund fund, DateTime asOfDate, Dictionary<(string, DateTime), decimal> priceTable)
+        {
+            List<CalculatedSecurityPosition> allPositions = GetAllSecurityPositions(fund, asOfDate);
+            List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
+
+            foreach (CalculatedSecurityPosition position in allPositions)
+            {
+                SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, priceTable, asOfDate, fund.BaseCurrency);
+                valuedPositions.Add(valuedPosition);
+            }
+            return valuedPositions;
         }
     }
 }

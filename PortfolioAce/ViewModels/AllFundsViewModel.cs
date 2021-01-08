@@ -225,14 +225,7 @@ namespace PortfolioAce.ViewModels
             {
                 if(_currentFund != null)
                 {
-                    List<CalculatedCashPosition> cashPositions = _portfolioService.GetAllCashBalances(_currentFund, _asOfDate);
-                    List<CashPositionValuation> valuedCashPositions = new List<CashPositionValuation>();
-                    foreach(CalculatedCashPosition cashPosition in cashPositions)
-                    {
-                        CashPositionValuation valuedCashPosition = new CashPositionValuation(cashPosition, priceTable, _asOfDate, _currentFund.BaseCurrency);
-                        valuedCashPositions.Add(valuedCashPosition);
-                    }
-                    return valuedCashPositions;
+                    return _portfolioService.GetAllValuedCashBalances(_currentFund, _asOfDate, priceTable);
                 }
                 else
                 {
@@ -263,15 +256,7 @@ namespace PortfolioAce.ViewModels
             {
                 if (_currentFund != null)
                 {
-                    List<CalculatedSecurityPosition> allPositions = _portfolioService.GetAllSecurityPositions(_currentFund, _asOfDate);
-                    List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
-
-                    foreach (CalculatedSecurityPosition position in allPositions)
-                    {
-                        SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, priceTable, _asOfDate, _currentFund.BaseCurrency);
-                        valuedPositions.Add(valuedPosition);
-                    }
-                    return valuedPositions;
+                    return _portfolioService.GetAllValuedSecurityPositions(_currentFund, _asOfDate, priceTable);
                 }
                 else
                 {
