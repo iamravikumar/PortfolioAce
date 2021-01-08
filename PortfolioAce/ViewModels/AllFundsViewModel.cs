@@ -373,7 +373,7 @@ namespace PortfolioAce.ViewModels
         public void OpenFundInitialisationWindow()
         {
             _windowFactory.CreateFundInitialisationWindow(_currentFund);
-            OnPropertyChanged("");
+            SelectFundCommand.Execute(_currentFund.Symbol);
         }
 
         public void OpenMetricsWindow()
@@ -389,6 +389,7 @@ namespace PortfolioAce.ViewModels
         public void OpenNavSummaryWindow()
         {
             _windowFactory.CreateNavSummaryWindow(NavValuation);
+            SelectFundCommand.Execute(_currentFund.Symbol);
         }
 
 
