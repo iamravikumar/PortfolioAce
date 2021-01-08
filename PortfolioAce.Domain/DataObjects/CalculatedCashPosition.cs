@@ -33,7 +33,7 @@ namespace PortfolioAce.Domain.DataObjects
 
         public void AddTransaction(TransactionsBO transaction)
         {
-            if (transaction.Currency.Symbol.ToString() != this.currency.Symbol.ToString())
+            if (transaction.Currency.Symbol != this.currency.Symbol)
             {
                 throw new InvalidOperationException("The transaction currency does not match the currency of this position");
             }

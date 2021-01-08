@@ -306,7 +306,7 @@ namespace PortfolioAce.ViewModels
             {
                 // Transactions filtered for just security trades
                 return (_currentFund != null) ? _currentFund.Transactions
-                                                            .Where(t => t.TransactionType.TypeClass.ToString() == "SecurityTrade" && t.TradeDate <= _asOfDate)
+                                                            .Where(t => t.TransactionType.TypeClass == "SecurityTrade" && t.TradeDate <= _asOfDate)
                                                             .OrderBy(t=>t.TradeDate)
                                                             .ToList() : null;
             }
@@ -437,8 +437,8 @@ namespace PortfolioAce.ViewModels
             }
             else
             {
-                string tradeType = _selectedTransaction.TransactionType.TypeName.ToString(); 
-                string cashSymbol = _selectedTransaction.Currency.Symbol.ToString();
+                string tradeType = _selectedTransaction.TransactionType.TypeName; 
+                string cashSymbol = _selectedTransaction.Currency.Symbol;
                 decimal amount = _selectedTransaction.TradeAmount;
                 message = $"Are you sure you want to delete the following Trade:{n}Type: {tradeType}{n}Security: {cashSymbol}{n}Transaction Amount: {amount}{n}";
             }

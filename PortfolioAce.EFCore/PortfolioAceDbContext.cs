@@ -46,26 +46,6 @@ namespace PortfolioAce.EFCore
         // I can use on model creating to seed data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Enum converters
-            modelBuilder.Entity<CurrenciesDIM>()
-                .Property(c => c.Name)
-                .HasConversion<string>();
-            modelBuilder.Entity<CurrenciesDIM>()
-                .Property(c => c.Symbol)
-                .HasConversion<string>();
-            modelBuilder.Entity<TransactionTypeDIM>()
-                .Property(t=>t.TypeClass)
-                .HasConversion<string>();
-            modelBuilder.Entity<TransactionTypeDIM>()
-                .Property(t => t.TypeName)
-                .HasConversion<string>();
-            modelBuilder.Entity<TransactionTypeDIM>()
-                .Property(t => t.Direction)
-                .HasConversion<string>();
-            modelBuilder.Entity<AssetClassDIM>()
-                .Property(a => a.Name)
-                .HasConversion<string>();
-
             // Initial Seed Data for dimensions
             SeedData seedData = new SeedData();
             modelBuilder.Entity<AssetClassDIM>().HasData(

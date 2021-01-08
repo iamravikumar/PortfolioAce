@@ -73,7 +73,7 @@ namespace PortfolioAce.ViewModels.Modals
                 string direction = "None";
                 if(_cashType != null)
                 {
-                    direction = _staticReferences.GetTransactionType(_cashType).Direction.ToString();
+                    direction = _staticReferences.GetTransactionType(_cashType).Direction;
                 }
 
                 if (direction == "Inflow")
@@ -256,7 +256,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass.ToString() == "CashTrade").Select(t => t.TypeName.ToString()).ToList();
+                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass == "CashTrade").Select(t => t.TypeName).ToList();
             }
         }
 
@@ -264,7 +264,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllCurrencies().Select(c=>c.Symbol.ToString()).ToList();
+                return _staticReferences.GetAllCurrencies().Select(c=>c.Symbol).ToList();
             }
         }
 
@@ -272,7 +272,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllCustodians().Select(c => c.Name.ToString()).ToList();
+                return _staticReferences.GetAllCustodians().Select(c => c.Name).ToList();
             }
         }
 

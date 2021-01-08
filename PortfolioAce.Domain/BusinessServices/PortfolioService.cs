@@ -77,7 +77,7 @@ namespace PortfolioAce.Domain.BusinessServices
         public List<CalculatedSecurityPosition> GetAllSecurityPositions(Fund fund, DateTime asOfDate)
         {
             List<TransactionsBO> allTrades = fund.Transactions
-                                                 .Where(t => t.isActive && t.TransactionType.TypeClass.ToString() == "SecurityTrade" && t.TradeDate<=asOfDate)
+                                                 .Where(t => t.isActive && t.TransactionType.TypeClass == "SecurityTrade" && t.TradeDate<=asOfDate)
                                                  .OrderBy(t => t.TradeDate)
                                                  .ToList();
 

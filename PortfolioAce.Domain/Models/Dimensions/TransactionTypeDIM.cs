@@ -12,38 +12,10 @@ namespace PortfolioAce.Domain.Models.Dimensions
         [Key]
         public int TransactionTypeId { get; set; }
         [Required]
-        public TranTypes TypeName { get; set; } 
+        public string TypeName { get; set; } 
         [Required]
-        public TranClasses TypeClass { get; set; } 
+        public string TypeClass { get; set; } 
         [Required]
-        public TranDirection Direction { get; set; }
-    }
-
-    public enum TranTypes
-    {
-        Trade,
-        Coupon,
-        Dividends,
-        Income,
-        Expense,
-        Deposit,
-        Withdrawal,
-        Interest,
-        ManagementFee,
-        PerformanceFee,
-        Miscellaneous
-    }
-
-    public enum TranClasses
-    {
-        SecurityTrade,
-        CashTrade
-    }
-
-    public enum TranDirection
-    {
-        Inflow,
-        Outflow,
-        None
+        public string Direction { get; set; }
     }
 }

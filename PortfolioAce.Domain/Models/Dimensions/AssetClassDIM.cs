@@ -12,14 +12,6 @@ namespace PortfolioAce.Domain.Models.Dimensions
         [Key]
         public int AssetClassId { get; set; }
         [Required]
-        public AssetClass Name { get; set; }
-    }
-
-    public enum AssetClass
-    {
-        Equity,
-        Cash,
-        Cryptocurrency,
-        FX
+        public string Name { get; set; }
     }
 }

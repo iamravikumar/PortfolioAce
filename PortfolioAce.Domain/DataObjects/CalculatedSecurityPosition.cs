@@ -42,7 +42,7 @@ namespace PortfolioAce.Domain.DataObjects
         public void AddTransaction(TransactionsBO transaction)
         {
 
-            if (transaction.Security.SecurityName != this.security.SecurityName || transaction.Security.Currency.Symbol.ToString() != this.security.Currency.Symbol.ToString())
+            if (transaction.Security.SecurityName != this.security.SecurityName || transaction.Security.Currency.Symbol != this.security.Currency.Symbol)
             {
                 throw new InvalidOperationException("The transaction ticker does not match the ticker of this position");
             }
@@ -63,7 +63,7 @@ namespace PortfolioAce.Domain.DataObjects
 
             decimal quantityRef = transaction.Quantity; // a reference to the transaction quantity so it doesn't get manipulated
 
-            if (transaction.TransactionType.TypeName.ToString() == "CorporateAction")
+            if (transaction.TransactionType.TypeName == "CorporateAction")
             {
                 NetQuantity += quantityRef;
                 RealisedPnL += transaction.TradeAmount;

@@ -161,7 +161,7 @@ namespace PortfolioAce.Domain.DataObjects
             // these are temporary but i used this to make sure its valued..
             bool hasFxValue;
             bool hasSecurityValue;
-            if (position.security.Currency.Symbol.ToString() == FundBaseCurrency)
+            if (position.security.Currency.Symbol == FundBaseCurrency)
             {
                 hasFxValue = true;
                 this.fxRate = decimal.One;
@@ -204,7 +204,7 @@ namespace PortfolioAce.Domain.DataObjects
             this.AsOfDate = asOfDate;
             // this is for cash holdings I can get the valuation in base currency
             this.CashPosition = cashPosition;
-            if (cashPosition.currency.Symbol.ToString() == FundBaseCurrency)
+            if (cashPosition.currency.Symbol == FundBaseCurrency)
             {
                 IsValuedBase = true;
                 this.fxRate = decimal.One;

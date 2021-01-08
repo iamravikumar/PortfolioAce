@@ -27,12 +27,12 @@ namespace PortfolioAce.ViewModels.Modals
             _staticReferences = staticReferences;
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
-            _tradeType = transaction.TransactionType.TypeName.ToString();
+            _tradeType = transaction.TransactionType.TypeName;
             _symbol = transaction.Security.Symbol;
             _quantity = transaction.Quantity;
             _price = transaction.Price;
             _tradeAmount = transaction.TradeAmount;
-            _tradeCurrency = transaction.Currency.Symbol.ToString();
+            _tradeCurrency = transaction.Currency.Symbol;
             _tradeDate = transaction.TradeDate;
             _settleDate = transaction.SettleDate;
             _commission = transaction.Fees;
@@ -233,7 +233,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass.ToString() == "SecurityTrade").Select(t => t.TypeName.ToString()).ToList();
+                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass == "SecurityTrade").Select(t => t.TypeName).ToList();
             }
         }
 
@@ -241,7 +241,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllCustodians().Select(c => c.Name.ToString()).ToList();
+                return _staticReferences.GetAllCustodians().Select(c => c.Name).ToList();
             }
         }
 

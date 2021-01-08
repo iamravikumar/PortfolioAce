@@ -10,36 +10,36 @@ namespace PortfolioAce.Domain.ModelSeedData
     public class SeedData
     {
         public readonly CurrenciesDIM[] SeedCurrencies = new CurrenciesDIM[] {
-            new CurrenciesDIM {CurrencyId=1, Name=ISOName.PoundSterling, Symbol=ISOSymbol.GBP},
-            new CurrenciesDIM {CurrencyId=2, Name=ISOName.Euro, Symbol=ISOSymbol.EUR},
-            new CurrenciesDIM {CurrencyId=3, Name=ISOName.UnitedStatesDollar, Symbol=ISOSymbol.USD},
-            new CurrenciesDIM {CurrencyId=4, Name=ISOName.JapaneseYen, Symbol=ISOSymbol.JPY},
-            new CurrenciesDIM {CurrencyId=5, Name=ISOName.IndianRupee, Symbol=ISOSymbol.INR},
-            new CurrenciesDIM {CurrencyId=6, Name=ISOName.SwissFranc, Symbol=ISOSymbol.CHF},
-            new CurrenciesDIM {CurrencyId=7, Name=ISOName.CanadianDollar, Symbol=ISOSymbol.CAD},
-            new CurrenciesDIM {CurrencyId=8, Name=ISOName.AustralianDollar, Symbol=ISOSymbol.AUD}
+            new CurrenciesDIM {CurrencyId=1, Name="PoundSterling", Symbol="GBP"},
+            new CurrenciesDIM {CurrencyId=2, Name="Euro", Symbol="EUR"},
+            new CurrenciesDIM {CurrencyId=3, Name="UnitedStatesDollar", Symbol="USD"},
+            new CurrenciesDIM {CurrencyId=4, Name="JapaneseYen", Symbol="JPY"},
+            new CurrenciesDIM {CurrencyId=5, Name="IndianRupee", Symbol="INR"},
+            new CurrenciesDIM {CurrencyId=6, Name="SwissFranc", Symbol="CHF"},
+            new CurrenciesDIM {CurrencyId=7, Name="CanadianDollar", Symbol="CAD"},
+            new CurrenciesDIM {CurrencyId=8, Name="AustralianDollar", Symbol="AUD"}
         };
 
         public readonly TransactionTypeDIM[] SeedTransactionTypes = new TransactionTypeDIM[]
         {
-            new TransactionTypeDIM {TransactionTypeId=1, TypeName=TranTypes.Trade, TypeClass=TranClasses.SecurityTrade, Direction=TranDirection.None},
-            new TransactionTypeDIM {TransactionTypeId=2, TypeName=TranTypes.Coupon, TypeClass=TranClasses.SecurityTrade, Direction=TranDirection.None},
-            new TransactionTypeDIM {TransactionTypeId=3, TypeName=TranTypes.Dividends, TypeClass=TranClasses.SecurityTrade, Direction=TranDirection.None},
-            new TransactionTypeDIM {TransactionTypeId=4, TypeName=TranTypes.Income, TypeClass=TranClasses.CashTrade, Direction=TranDirection.Inflow},
-            new TransactionTypeDIM {TransactionTypeId=5, TypeName=TranTypes.Expense, TypeClass=TranClasses.CashTrade, Direction=TranDirection.Outflow},
-            new TransactionTypeDIM {TransactionTypeId=6, TypeName=TranTypes.Deposit, TypeClass=TranClasses.CashTrade, Direction=TranDirection.Inflow},
-            new TransactionTypeDIM {TransactionTypeId=7, TypeName=TranTypes.Withdrawal, TypeClass=TranClasses.CashTrade, Direction=TranDirection.Outflow},
-            new TransactionTypeDIM {TransactionTypeId=8, TypeName=TranTypes.Interest, TypeClass=TranClasses.CashTrade, Direction=TranDirection.None},
-            new TransactionTypeDIM {TransactionTypeId=9, TypeName=TranTypes.ManagementFee, TypeClass=TranClasses.CashTrade, Direction=TranDirection.Outflow},
-            new TransactionTypeDIM {TransactionTypeId=10, TypeName=TranTypes.PerformanceFee, TypeClass=TranClasses.CashTrade, Direction=TranDirection.Outflow},
-            new TransactionTypeDIM {TransactionTypeId=11, TypeName=TranTypes.Miscellaneous, TypeClass=TranClasses.CashTrade, Direction=TranDirection.None}
+            new TransactionTypeDIM {TransactionTypeId=1, TypeName="Trade", TypeClass="SecurityTrade", Direction="None"},
+            new TransactionTypeDIM {TransactionTypeId=2, TypeName="Coupon", TypeClass="SecurityTrade", Direction="None"},
+            new TransactionTypeDIM {TransactionTypeId=3, TypeName="Dividends", TypeClass="SecurityTrade", Direction="None"},
+            new TransactionTypeDIM {TransactionTypeId=4, TypeName="Income", TypeClass="CashTrade", Direction="Inflow"},
+            new TransactionTypeDIM {TransactionTypeId=5, TypeName="Expense", TypeClass="CashTrade", Direction="Outflow"},
+            new TransactionTypeDIM {TransactionTypeId=6, TypeName="Deposit", TypeClass="CashTrade", Direction="Inflow"},
+            new TransactionTypeDIM {TransactionTypeId=7, TypeName="Withdrawal", TypeClass="CashTrade", Direction="Outflow"},
+            new TransactionTypeDIM {TransactionTypeId=8, TypeName="Interest", TypeClass="CashTrade", Direction="None"},
+            new TransactionTypeDIM {TransactionTypeId=9, TypeName="ManagementFee", TypeClass="CashTrade", Direction="Outflow"},
+            new TransactionTypeDIM {TransactionTypeId=10, TypeName="PerformanceFee", TypeClass="CashTrade", Direction="Outflow"},
+            new TransactionTypeDIM {TransactionTypeId=11, TypeName="Miscellaneous", TypeClass="CashTrade", Direction="None"}
         };
 
         public readonly AssetClassDIM[] SeedAssetClasses = new AssetClassDIM[]{
-            new AssetClassDIM {AssetClassId=1, Name=AssetClass.Equity},
-            new AssetClassDIM {AssetClassId=2, Name=AssetClass.Cryptocurrency},
-            new AssetClassDIM {AssetClassId=3, Name=AssetClass.FX},
-            new AssetClassDIM {AssetClassId=4, Name=AssetClass.Cash},
+            new AssetClassDIM {AssetClassId=1, Name="Equity"},
+            new AssetClassDIM {AssetClassId=2, Name="Cryptocurrency"},
+            new AssetClassDIM {AssetClassId=3, Name="FX"},
+            new AssetClassDIM {AssetClassId=4, Name="Cash"},
         };
 
         public readonly SecuritiesDIM[] seedSecuritisedCash = new SecuritiesDIM[]

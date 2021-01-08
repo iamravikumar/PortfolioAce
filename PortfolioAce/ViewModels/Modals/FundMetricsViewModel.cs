@@ -95,7 +95,7 @@ namespace PortfolioAce.ViewModels.Modals
             // Pie Chart
             decimal totalMV = activePositions.Sum(ap => ap.MarketValue);
             Dictionary<string, decimal> MarketValByAssetClass = activePositions
-                                                                   .GroupBy(ap => ap.AssetClass.Name.ToString())
+                                                                   .GroupBy(ap => ap.AssetClass.Name)
                                                                    .ToDictionary(g => g.Key, g => Math.Round(g.Sum(v => v.MarketValue) / totalMV, 2));
             PieChartData = new SeriesCollection();
             foreach (KeyValuePair<string, decimal> kvp in MarketValByAssetClass)

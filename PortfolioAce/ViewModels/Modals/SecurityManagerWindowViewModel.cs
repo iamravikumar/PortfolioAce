@@ -119,7 +119,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllAssetClasses().Select(ac => ac.Name.ToString()).ToList();
+                return _staticReferences.GetAllAssetClasses().Select(ac => ac.Name).ToList();
             }
         }
 
@@ -127,7 +127,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllCurrencies().Select(c => c.Symbol.ToString()).ToList();
+                return _staticReferences.GetAllCurrencies().Select(c => c.Symbol).ToList();
             }
         }
 

@@ -78,7 +78,7 @@ namespace PortfolioAce.ViewModels.Modals
                 }
                 else
                 {
-                    string assetClass = _transactionService.GetSecurityInfo(Symbol).AssetClass.Name.ToString();
+                    string assetClass = _transactionService.GetSecurityInfo(Symbol).AssetClass.Name;
                     if(assetClass == "Cash")
                     {
                         _validationErrors.AddError(nameof(Symbol), $"Cash purchases/sales not yet supported");
@@ -164,7 +164,7 @@ namespace PortfolioAce.ViewModels.Modals
                 else
                 {
                     var res = _transactionService.GetSecurityInfo(Symbol);
-                    return (res != null) ? res.Currency.Symbol.ToString() : null;
+                    return (res != null) ? res.Currency.Symbol : null;
                 }
             }
             private set
@@ -299,7 +299,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass.ToString() == "SecurityTrade").Select(t => t.TypeName.ToString()).ToList();
+                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass == "SecurityTrade").Select(t => t.TypeName).ToList();
             }
         }
 
@@ -307,7 +307,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllCustodians().Select(c => c.Name.ToString()).ToList();
+                return _staticReferences.GetAllCustodians().Select(c => c.Name).ToList();
             }
         }
 

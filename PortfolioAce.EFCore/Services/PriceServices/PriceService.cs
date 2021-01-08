@@ -48,7 +48,7 @@ namespace PortfolioAce.EFCore.Services.PriceServices
         }
         private string GenerateURI(SecuritiesDIM security)
         {
-            string assetClass = security.AssetClass.Name.ToString();
+            string assetClass = security.AssetClass.Name;
             string symbol = security.Symbol;
             string uri;
             

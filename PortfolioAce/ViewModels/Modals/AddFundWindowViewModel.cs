@@ -277,7 +277,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllCurrencies().Select(c => c.Symbol.ToString()).ToList();
+                return _staticReferences.GetAllCurrencies().Select(c => c.Symbol).ToList();
             }
         }
 
