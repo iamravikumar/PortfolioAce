@@ -44,7 +44,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Custodians.Where(c => ((string)(object)c.Name) == name).FirstOrDefault();
+                return context.Custodians.Where(c => (c.Name) == name).FirstOrDefault();
             }
         }
 
@@ -60,7 +60,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.TransactionTypes.Where(t => ((string)(object)t.TypeName) == name).FirstOrDefault();
+                return context.TransactionTypes.Where(t => (t.TypeName) == name).FirstOrDefault();
             }
         }
 
