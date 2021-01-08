@@ -24,8 +24,18 @@ namespace PortfolioAce.ViewModels
         {
             _priceService = priceService;
             SaveSecurityPriceCommand = new SaveSecurityPriceCommand(this, priceService);
-            SecurityPriceLineChartYAxis = new ChartValues<decimal> { 1,1,1,1,1};
-            SecurityPriceLineChartXAxis = new string[1];
+
+            if (cmbSecurities.Count != 0)
+            {
+                _symbol = cmbSecurities[0];
+                SecurityPriceLineChartYAxis = new ChartValues<decimal>(dgSecurityPrices.Select(sp => sp.ClosePrice));
+                _SecurityPriceLineChartXAxis = dgSecurityPrices.Select(sp => sp.Date.ToString("dd/MM/yyyy")).ToArray();
+            }
+            else
+            {
+                SecurityPriceLineChartYAxis = new ChartValues<decimal> { 1, 1, 1, 1, 1 };
+                SecurityPriceLineChartXAxis = new string[1];
+            }
         }
 
         public ICommand SaveSecurityPriceCommand { get; set; }
@@ -35,7 +45,7 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                HashSet<string> pricedSecuritySymbols = _priceService.GetAllSecuritySymbols();
+                List<string> pricedSecuritySymbols = _priceService.GetAllSecuritySymbols();
                 return new ObservableCollection<string>(pricedSecuritySymbols);
             }
         }

@@ -78,11 +78,11 @@ namespace PortfolioAce.EFCore.Services.PriceServices
             }
         }
 
-        public HashSet<string> GetAllSecuritySymbols()
+        public List<string> GetAllSecuritySymbols()
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.Where(s=> (string)(object)s.AssetClass.Name !="Cash").Select(s=>s.Symbol).ToHashSet();
+                return context.Securities.Where(s=> s.AssetClass.Name !="Cash").OrderBy(s=>s.Symbol).Select(s=>s.Symbol).Distinct().ToList();
             }
         }
 
