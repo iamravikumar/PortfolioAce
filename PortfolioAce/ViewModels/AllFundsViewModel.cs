@@ -142,7 +142,7 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return (_currentFund != null)?_currentFund:null;
+                return _currentFund;
             }
             set
             {
@@ -367,7 +367,7 @@ namespace PortfolioAce.ViewModels
         public void OpenNewTradeWindow()
         {
             _windowFactory.CreateNewTradeWindow(_currentFund);
-            OnPropertyChanged("");
+            SelectFundCommand.Execute(_currentFund.Symbol);
         }
 
         public void OpenEditTradeWindow()
@@ -379,7 +379,7 @@ namespace PortfolioAce.ViewModels
         public void OpenNewCashTradeWindow()
         {
             _windowFactory.CreateNewCashTradeWindow(_currentFund);
-            OnPropertyChanged("");
+            SelectFundCommand.Execute(_currentFund.Symbol);
         }
 
         public void OpenEditCashTradeWindow()
