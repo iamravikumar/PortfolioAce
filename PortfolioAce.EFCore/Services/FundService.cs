@@ -105,6 +105,14 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public List<string> GetAllFundSymbols()
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Funds.Select(f => f.Symbol).ToList();
+            }
+        }
+
         public Fund GetFund(string fundSymbol)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())

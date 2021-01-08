@@ -43,9 +43,7 @@ namespace PortfolioAce.ViewModels
             _staticReferences = staticReferences;
             _windowFactory = windowFactory;
 
-            List<Fund> allFunds = fundService.GetAllFunds();
-            _lbFunds = allFunds.Select(f => f.Symbol).ToList();
-            _currentFund = (_lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
+            _currentFund = (lbFunds.Count != 0) ? _fundService.GetFund(lbFunds[0]) : null;
             _asOfDate = (_currentFund != null)?staticReferences.GetMostRecentLockedDate(_currentFund.FundId):DateTime.Today;
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
@@ -122,18 +120,11 @@ namespace PortfolioAce.ViewModels
         
 
         // List box click should have a command and that command changes the fields displayed on the right of the allfundsview.
-        private List<string> _lbFunds;
         public List<string> lbFunds
         {
             get
             {
-                return _lbFunds;
-            }
-            set
-            {
-                List<Fund> allFunds = _fundService.GetAllFunds();
-                _lbFunds = allFunds.Select(f => f.Symbol).ToList();
-                OnPropertyChanged(nameof(lbFunds));
+                return _fundService.GetAllFundSymbols();
             }
         }
 

@@ -222,7 +222,7 @@
                             <DataGridTextColumn Header="Type" Binding="{Binding TransactionType.TypeName}" Width="SizeToCells"/>
                             <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TradeAmount, StringFormat=N2}" Width="SizeToHeader" />
                             <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Settle Date"  Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Settle Date"  Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
                             <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" Width="SizeToHeader" />
                             <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="SizeToCells"/>

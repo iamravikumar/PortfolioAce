@@ -13,6 +13,7 @@ namespace PortfolioAce.EFCore.Services
         Task<Fund> DeleteFund(int id);
         bool FundExists(string fundSymbol);
         List<Fund> GetAllFunds();
+        List<string> GetAllFundSymbols();
         Fund GetFund(string fundSymbol);
     }
 }
