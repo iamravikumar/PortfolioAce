@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.DataObjects.PositionData;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.EFCore.Services;
@@ -129,7 +130,7 @@ namespace PortfolioAce.ViewModels.Factories
             view.ShowDialog();
         }
 
-        public void CreatePositionDetailsWindows(SecurityPositionValuation position, Fund fund)
+        public void CreatePositionDetailsWindows(ValuedSecurityPosition position, Fund fund)
         {
             Window view = new PositionDetailWindow();
             ViewModelWindowBase viewModel = new PositionDetailWindowViewModel(_priceService, _factTableService, position, fund);

@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.DataObjects.PositionData;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
@@ -12,6 +13,11 @@ namespace PortfolioAce.Domain.BusinessServices
 {
     public class PortfolioService : IPortfolioService
     {
+        private readonly PositionDataAbstractFactory _positionFactory = new PositionDataAbstractFactory();
+        public PortfolioService()
+        {
+        }
+
         public List<CalculatedCashPosition> GetAllCashBalances(Fund fund, DateTime asOfDate)
         {
             List<TransactionsBO> allTrades = fund.Transactions
@@ -115,22 +121,23 @@ namespace PortfolioAce.Domain.BusinessServices
             {
                 SecuritiesDIM security = Kvp.Value[0].Security;
                 CustodiansDIM custodian = Kvp.Value[0].Custodian;
-                CalculatedSecurityPosition position = new CalculatedSecurityPosition(security, custodian);
-                position.AddTransactions(Kvp.Value);
+                CalculatedSecurityPosition position= _positionFactory.CreateSecurityPosition(security, custodian);
+                position.AddTransactionRange(Kvp.Value);
                 allPositions.Add(position);
             }
 
             return allPositions;
         }
 
-        public List<SecurityPositionValuation> GetAllValuedSecurityPositions(Fund fund, DateTime asOfDate, Dictionary<(string, DateTime), decimal> priceTable)
+        public List<ValuedSecurityPosition> GetAllValuedSecurityPositions(Fund fund, DateTime asOfDate, Dictionary<(string, DateTime), decimal> priceTable)
         {
+            // SecurityPositionValuation
             List<CalculatedSecurityPosition> allPositions = GetAllSecurityPositions(fund, asOfDate);
-            List<SecurityPositionValuation> valuedPositions = new List<SecurityPositionValuation>();
+            List<ValuedSecurityPosition> valuedPositions = new List<ValuedSecurityPosition>();
 
             foreach (CalculatedSecurityPosition position in allPositions)
             {
-                SecurityPositionValuation valuedPosition = new SecurityPositionValuation(position, priceTable, asOfDate, fund.BaseCurrency);
+                ValuedSecurityPosition valuedPosition = _positionFactory.CreateValuedSecurityPosition(position, priceTable, asOfDate, fund.BaseCurrency);
                 valuedPositions.Add(valuedPosition);
             }
             return valuedPositions;

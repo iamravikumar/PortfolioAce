@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.DataObjects.PositionData;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
@@ -110,7 +111,7 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public List<SecurityPositionValuation> dgSecurityPositions
+        public List<ValuedSecurityPosition> dgSecurityPositions
         {
             get
             {

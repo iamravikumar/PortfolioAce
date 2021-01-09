@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.DataObjects.PositionData;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
@@ -172,16 +173,16 @@ namespace PortfolioAce.EFCore.Services
                 context.NavPriceData.Add(newNavPrice);
 
                 List<PositionFACT> newPositions = new List<PositionFACT>();
-                foreach (SecurityPositionValuation secPosition in navValuations.SecurityPositions)
+                foreach (ValuedSecurityPosition secPosition in navValuations.SecurityPositions)
                 {
                     PositionFACT newPosition = new PositionFACT
                     {
                         PositionDate = secPosition.AsOfDate,
-                        SecurityId=secPosition.Position.security.SecurityId,
-                        AssetClassId=secPosition.Position.security.AssetClassId,
+                        SecurityId=secPosition.Position.Security.SecurityId,
+                        AssetClassId=secPosition.Position.Security.AssetClassId,
                         FundId=fundId,
                         AverageCost=secPosition.Position.AverageCost,
-                        CurrencyId=secPosition.Position.security.CurrencyId,
+                        CurrencyId=secPosition.Position.Security.CurrencyId,
                         MarketValue=secPosition.MarketValueBase,
                         Price=secPosition.price,
                         Quantity=secPosition.Position.NetQuantity,

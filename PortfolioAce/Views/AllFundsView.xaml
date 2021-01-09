@@ -125,22 +125,22 @@
                             </GroupStyle>
                         </DataGrid.GroupStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Position.security.SecurityName}" Width="SizeToCells" />
-                            <DataGridTextColumn Header="Symbol" Binding="{Binding Position.security.Symbol}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Position.Security.SecurityName}" Width="SizeToCells" />
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding Position.Security.Symbol}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Position.NetQuantity, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Avg Cost" Binding="{Binding Position.AverageCost, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Current Price" Binding="{Binding price, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Total PnL" Binding="{Binding TotalPnL, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding Position.security.Currency.Symbol}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding Position.custodian.Name}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Position.Security.Currency.Symbol}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding Position.Custodian.Name}" Width="SizeToCells"/>
                             <DataGridTemplateColumn Header="" Width="SizeToCells">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Style="{DynamicResource MaterialDesignFlatDarkBgButton}" 
                                             Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:AllFundsView}},Path=DataContext.ShowPositionDetailsCommand}" Height="24">
                                             <Button.ToolTip>
-                                                <TextBlock Text="{Binding Position.security.Symbol, StringFormat={}Position Breakdown for {0}}"/>
+                                                <TextBlock Text="{Binding Position.Security.Symbol, StringFormat={}Position Breakdown for {0}}"/>
                                             </Button.ToolTip>
                                             <Image Source="/PortfolioAce;component/Resources\icons8-moreDetails-24.png"/>
                                         </Button>

@@ -1,6 +1,7 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.BusinessServices;
 using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.DataObjects.PositionData;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
@@ -250,7 +251,7 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public List<SecurityPositionValuation> dgFundPositions
+        public List<ValuedSecurityPosition> dgFundPositions
         {
             get
             {
@@ -260,7 +261,7 @@ namespace PortfolioAce.ViewModels
                 }
                 else
                 {
-                    return new List<SecurityPositionValuation>();
+                    return new List<ValuedSecurityPosition>();
                 }
             }
         }
@@ -270,7 +271,7 @@ namespace PortfolioAce.ViewModels
             get
             {
                 ListCollectionView cv = new ListCollectionView(dgFundPositions);
-                cv.GroupDescriptions.Add(new PropertyGroupDescription("Position.security.AssetClass"));
+                cv.GroupDescriptions.Add(new PropertyGroupDescription("Position.Security.AssetClass"));
                 return cv;
             }
         }
@@ -302,8 +303,8 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        private SecurityPositionValuation _selectedPosition;
-        public SecurityPositionValuation selectedPosition
+        private ValuedSecurityPosition _selectedPosition;
+        public ValuedSecurityPosition selectedPosition
         {
             get
             {

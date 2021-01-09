@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models.BackOfficeModels;
+﻿using PortfolioAce.Domain.DataObjects.PositionData;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

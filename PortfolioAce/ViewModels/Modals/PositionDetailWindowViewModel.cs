@@ -1,5 +1,6 @@
 ﻿using LiveCharts;
 using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.DataObjects.PositionData;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services.DimensionServices;
@@ -21,16 +22,16 @@ namespace PortfolioAce.ViewModels.Modals
         private IPriceService _priceService;
         
         public PositionDetailWindowViewModel(IPriceService priceService, IFactTableService factTableService,
-           SecurityPositionValuation valuedPosition, Fund fund)
+           ValuedSecurityPosition valuedPosition, Fund fund)
         {
             _factTableService = factTableService;
             _priceService = priceService;
             _valuedPosition = valuedPosition;
-            PositionOpenLots = _valuedPosition.Position.GetOpenLots();
-            Title = $"{_valuedPosition.Position.security.SecurityName} ({_valuedPosition.Position.security.Symbol})";
+            PositionOpenLots = _valuedPosition.Position.OpenLots.ToList();
+            Title = $"{_valuedPosition.Position.Security.SecurityName} ({_valuedPosition.Position.Security.Symbol})";
             FundName = fund.FundName;
 
-            List<PositionFACT> positionHistory = _factTableService.GetAllFundStoredPositions(fund.FundId, valuedPosition.Position.security.SecurityId);
+            List<PositionFACT> positionHistory = _factTableService.GetAllFundStoredPositions(fund.FundId, valuedPosition.Position.Security.SecurityId);
             PositionPriceLineChartYAxis = new ChartValues<decimal>(positionHistory.Select(ph=> ph.RealisedPnl+ph.UnrealisedPnl));
             PositionPriceLineChartXAxis = positionHistory.Select(ph => ph.PositionDate.ToString("dd/MM/yyyy")).ToArray();
         }
@@ -39,8 +40,8 @@ namespace PortfolioAce.ViewModels.Modals
         public string[] PositionPriceLineChartXAxis { get; set; }
 
 
-        private SecurityPositionValuation _valuedPosition;
-        public SecurityPositionValuation TargetPosition
+        private ValuedSecurityPosition _valuedPosition;
+        public ValuedSecurityPosition TargetPosition
         {
             get
             {

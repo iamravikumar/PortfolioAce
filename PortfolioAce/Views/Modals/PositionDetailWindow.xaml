@@ -49,7 +49,7 @@
                     <Label Content="Base Market Value:" Grid.Row="6" FontWeight="Bold"/>
                     <Label Content="{Binding TargetPosition.MarketValueBase, StringFormat=N2, Mode=OneWay}" Grid.Row="6" Grid.Column="1"/>
                     <Label Content="Custodian:" Grid.Row="7" FontWeight="Bold"/>
-                    <Label Content="{Binding TargetPosition.Position.custodian.Name, Mode=OneWay}" Grid.Row="7" Grid.Column="1"/>
+                    <Label Content="{Binding TargetPosition.Position.Custodian.Name, Mode=OneWay}" Grid.Row="7" Grid.Column="1"/>
                     <Label Content="Fund:" Grid.Row="8" FontWeight="Bold"/>
                     <Label Content="{Binding FundName, Mode=OneWay}" Grid.Row="8" Grid.Column="1"/>
                 </Grid>

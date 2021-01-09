@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models;
+﻿using PortfolioAce.Domain.DataObjects.PositionData;
+using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.FactTables;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace PortfolioAce.Domain.DataObjects
         public Fund fund { get; set; }
         public decimal ManagementFeeAmount { get; set; }
         public decimal PerformanceFeeAmount { get; set; }
-        public List<SecurityPositionValuation> SecurityPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
+        public List<ValuedSecurityPosition> SecurityPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
         public List<CashPositionValuation> CashPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
         public List<ClientHoldingValuation> ClientHoldings { get; set; }
         public DateTime AsOfDate { get; set; }
@@ -31,7 +32,7 @@ namespace PortfolioAce.Domain.DataObjects
         public decimal NetAssetValuePerShare { get; set; }
         public decimal GrossAssetValuePerShare { get; set; }
         public int UnvaluedPositions { get; set; } // number of positions that do not have a price...
-        public NavValuations(List<SecurityPositionValuation> securityPositions, List<CashPositionValuation> cashPositions, List<ClientHolding> clientHoldings,
+        public NavValuations(List<ValuedSecurityPosition> securityPositions, List<CashPositionValuation> cashPositions, List<ClientHolding> clientHoldings,
             DateTime asOfDate, Fund fund)
         {
             this.SecurityPositions = securityPositions;
@@ -137,58 +138,7 @@ namespace PortfolioAce.Domain.DataObjects
         }
     }
 
-    public class SecurityPositionValuation
-    {
-        // This is perfect but i need to use a strategy pattern to implement it..
-        // see https://stackoverflow.com/a/21369859/12148778
-        public CalculatedSecurityPosition Position { get; set; }
-        public decimal MarketValueLocal { get; set; }
-        public decimal MarketValueBase { get; set; }
-        public decimal TotalPnL { get; set; }
-        public decimal unrealisedPnl { get; set; }
-        public decimal unrealisedPnLPercent { get; set; }
-        public decimal price { get; set; }
-        public decimal fxRate { get; set; }
-        public DateTime AsOfDate { get; set; }
-        public bool IsValuedBase { get; set; } // This determines whether fxRates and Market prices are available on this date...
 
-        //public decimal TotalPnl {get;} this is unrealised *base
-        public SecurityPositionValuation(CalculatedSecurityPosition position, Dictionary<(string, DateTime), decimal> priceTable, DateTime asOfDate, string FundBaseCurrency)
-        {
-            this.Position = position;
-            this.AsOfDate = asOfDate;
-
-            // these are temporary but i used this to make sure its valued..
-            bool hasFxValue;
-            bool hasSecurityValue;
-            if (position.security.Currency.Symbol == FundBaseCurrency)
-            {
-                hasFxValue = true;
-                this.fxRate = decimal.One;
-            }
-            else
-            {
-                string fxSymbol = $"{position.security.Currency}{FundBaseCurrency}";
-                ValueTuple<string, DateTime> tableKeyFx = (fxSymbol, asOfDate);
-                hasFxValue = priceTable.ContainsKey(tableKeyFx);
-                this.fxRate = (priceTable.ContainsKey(tableKeyFx)) ? priceTable[tableKeyFx] : decimal.One;
-            }
-
-            ValueTuple<string, DateTime> tableKeySecurity = (position.security.Symbol, asOfDate);
-            hasSecurityValue = priceTable.ContainsKey(tableKeySecurity);
-            this.price = priceTable.ContainsKey(tableKeySecurity) ? priceTable[tableKeySecurity] : decimal.Zero;
-
-            this.IsValuedBase = (hasFxValue && hasSecurityValue);
-
-            int multiplierPnL = (position.NetQuantity >= 0) ? 1 : -1;
-
-            // raise exception if no fx rate is found.. (This might not be useful because USDUSD shouldnt be found...)
-            this.MarketValueLocal = Math.Round(position.NetQuantity * price, 2);
-            this.MarketValueBase = Math.Round(this.MarketValueLocal * fxRate, 2);
-            this.unrealisedPnl = Math.Round(position.NetQuantity * (this.price - position.AverageCost) * multiplierPnL, 2);
-            this.TotalPnL = this.unrealisedPnl + position.RealisedPnL;
-        }
-    }
     public class CashPositionValuation
     {
         public CalculatedCashPosition CashPosition { get; set; }

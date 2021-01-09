@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.DataObjects.PositionData;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -18,7 +19,7 @@ namespace PortfolioAce.Models.GroupConverters
 
             foreach (var sec in collectionViewGroup.Items)
             {
-                SecurityPositionValuation position = sec as SecurityPositionValuation;
+                ValuedSecurityPosition position = sec as ValuedSecurityPosition;
                 sum += position.MarketValueBase;
             }
             string sumString = sum.ToString("N2");

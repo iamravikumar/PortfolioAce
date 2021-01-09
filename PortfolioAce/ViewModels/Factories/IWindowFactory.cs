@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Domain.DataObjects;
+using PortfolioAce.Domain.DataObjects.PositionData;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using System;
@@ -21,7 +22,7 @@ namespace PortfolioAce.ViewModels.Factories
         void CreateNavSummaryWindow(NavValuations navValuation);
         void CreateFundPropertiesWindow(Fund fund);
         void CreateFundMetricsWindow(Fund fund, DateTime date);
-        void CreatePositionDetailsWindows(SecurityPositionValuation position, Fund fund);
+        void CreatePositionDetailsWindows(ValuedSecurityPosition position, Fund fund);
 
 
         void CreateImportTradesWindow();
