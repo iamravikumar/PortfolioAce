@@ -18,11 +18,11 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             {
                 //"Equity, Cryptocurrency, FX"
                 case "Equity":
-                    return new CalculatedEquityPosition(security, custodian);
+                    return new EquityPosition(security, custodian);
                 case "Cryptocurrency":
-                    return new CalculatedCryptoPosition(security, custodian);
+                    return new CryptoPosition(security, custodian);
                 case "FX":
-                    return new CalculatedFXPosition(security, custodian);
+                    return new FXPosition(security, custodian);
                 default:
                     throw new ArgumentException("The asset class is not implemented", "assetClass");
             }

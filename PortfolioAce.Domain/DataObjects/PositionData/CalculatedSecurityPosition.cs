@@ -20,7 +20,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
         public abstract void AddTransactionRange(List<TransactionsBO> transactions);
     }
 
-    public class CalculatedEquityPosition : CalculatedSecurityPosition
+    public class EquityPosition : CalculatedSecurityPosition
     {
         private decimal _averageCost;
         private decimal _netQuantity;
@@ -44,7 +44,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         public override Queue<OpenLots> OpenLots{get{ return _openLots; }}
 
-        public CalculatedEquityPosition(SecuritiesDIM security, CustodiansDIM custodian)
+        public EquityPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
             this.Security = security;
             this.Custodian = custodian;
@@ -235,7 +235,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
     }
 
 
-    public class CalculatedCryptoPosition : CalculatedSecurityPosition
+    public class CryptoPosition : CalculatedSecurityPosition
     {
         private decimal _averageCost;
         private decimal _netQuantity;
@@ -257,7 +257,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         public override Queue<OpenLots> OpenLots => throw new NotImplementedException();
 
-        public CalculatedCryptoPosition(SecuritiesDIM security, CustodiansDIM custodian)
+        public CryptoPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
             this.Security = security;
             this.Custodian = custodian;
@@ -275,7 +275,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
         }
     }
 
-    public class CalculatedFXPosition : CalculatedSecurityPosition
+    public class FXPosition : CalculatedSecurityPosition
     {
         private decimal _averageCost;
         private decimal _netQuantity;
@@ -298,7 +298,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         public override Queue<OpenLots> OpenLots => throw new NotImplementedException();
 
-        public CalculatedFXPosition(SecuritiesDIM security, CustodiansDIM custodian)
+        public FXPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
             this.Security = security;
             this.Custodian = custodian;
