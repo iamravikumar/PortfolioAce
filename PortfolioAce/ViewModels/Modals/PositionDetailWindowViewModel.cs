@@ -48,7 +48,7 @@ namespace PortfolioAce.ViewModels.Modals
                 return _valuedPosition;
             }
         }
-        public List<OpenLots> PositionOpenLots { get; set; }
+        public List<TaxLotsOpen> PositionOpenLots { get; set; }
 
         public string Title { get; set; }
         public string FundName { get; set; }

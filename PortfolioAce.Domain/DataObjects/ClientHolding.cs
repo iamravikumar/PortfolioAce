@@ -14,7 +14,7 @@ namespace PortfolioAce.Domain.DataObjects
         public decimal AverageCost { get; set; }
         public decimal RealisedPnL { get; set; }
         public List<TransferAgencyBO> Transactions {get;set;}
-        private Queue<OpenLots> openLots;
+        private Queue<TaxLotsOpen> openLots;
         public ClientHolding(FundInvestorBO investor)
         {
             Investor = investor;
@@ -22,7 +22,7 @@ namespace PortfolioAce.Domain.DataObjects
             AverageCost = 0;
             RealisedPnL = 0;
             Transactions = new List<TransferAgencyBO>();
-            openLots = new Queue<OpenLots>();
+            openLots = new Queue<TaxLotsOpen>();
         }
 
         public void AddClientTransactions(List<TransferAgencyBO> clientTransactions)
@@ -47,7 +47,7 @@ namespace PortfolioAce.Domain.DataObjects
             }
             Transactions.Add(clientTransaction);
             decimal unitsReference = clientTransaction.Units; // a reference to the transaction quantity so it doesn't get manipulated
-            OpenLots lot = new OpenLots(clientTransaction.TransactionDate, unitsReference, clientTransaction.NAVPrice);
+            TaxLotsOpen lot = new TaxLotsOpen(clientTransaction.TransactionDate, unitsReference, clientTransaction.NAVPrice);
             //trades in diff direction to position
             if (unitsReference * Units < 0)
             {
@@ -119,7 +119,7 @@ namespace PortfolioAce.Domain.DataObjects
             decimal result = 0;
             if (this.openLots.Count > 0)
             {
-                foreach (OpenLots lot in this.openLots)
+                foreach (TaxLotsOpen lot in this.openLots)
                 {
                     result += lot.GetTradeValue();
                 }

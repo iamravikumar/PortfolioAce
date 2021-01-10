@@ -15,7 +15,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
         public abstract decimal NetQuantity { get; }
         public abstract decimal RealisedPnL { get; }
         public abstract List<PositionSnapshot> PositionBreakdown { get; }
-        public abstract Queue<OpenLots> OpenLots { get; }
+        public abstract Queue<TaxLotsOpen> OpenLots { get; }
         public abstract void AddTransaction(TransactionsBO transaction);
         public abstract void AddTransactionRange(List<TransactionsBO> transactions);
     }
@@ -27,7 +27,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
         private decimal _realisedPnL;
         private bool _isLong;
         private List<PositionSnapshot> _positionBreakdown;
-        private Queue<OpenLots> _openLots;
+        private Queue<TaxLotsOpen> _openLots;
 
 
         public override SecuritiesDIM Security { get; }
@@ -42,7 +42,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         public override List<PositionSnapshot> PositionBreakdown{get{ return _positionBreakdown; }}
 
-        public override Queue<OpenLots> OpenLots{get{ return _openLots; }}
+        public override Queue<TaxLotsOpen> OpenLots{get{ return _openLots; }}
 
         public EquityPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
@@ -52,7 +52,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             _netQuantity = 0;
             _realisedPnL = 0;
             _positionBreakdown = new List<PositionSnapshot>();
-            _openLots = new Queue<OpenLots>();
+            _openLots = new Queue<TaxLotsOpen>();
 
         }
 
@@ -88,7 +88,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                 return;
             }
 
-            OpenLots lot = new OpenLots(transaction.TradeDate, quantityRef, transaction.Price);
+            TaxLotsOpen lot = new TaxLotsOpen(transaction.TradeDate, quantityRef, transaction.Price);
 
             // make sure a transaction cannot equal zero in my models
             // position has no trades
@@ -152,7 +152,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             decimal result = 0;
             if (_openLots.Count > 0)
             {
-                foreach (OpenLots lot in _openLots)
+                foreach (TaxLotsOpen lot in _openLots)
                 {
                     result += lot.GetTradeValue();
                 }
@@ -164,7 +164,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             return this._positionBreakdown;
         }
 
-        public List<OpenLots> GetOpenLots()
+        public List<TaxLotsOpen> GetOpenLots()
         {
             return _openLots.ToList(); // i MIGHT need to reverse the list.
         }
@@ -242,7 +242,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
         private decimal _realisedPnL;
         private bool _isLong;
         private List<PositionSnapshot> _positionBreakdown;
-        private Queue<OpenLots> _openLots;
+        private Queue<TaxLotsOpen> _openLots;
 
 
         public override SecuritiesDIM Security { get; }
@@ -257,7 +257,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         public override List<PositionSnapshot> PositionBreakdown { get { return _positionBreakdown; } }
 
-        public override Queue<OpenLots> OpenLots { get { return _openLots; } }
+        public override Queue<TaxLotsOpen> OpenLots { get { return _openLots; } }
 
         public CryptoPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
@@ -267,7 +267,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             _netQuantity = 0;
             _realisedPnL = 0;
             _positionBreakdown = new List<PositionSnapshot>();
-            _openLots = new Queue<OpenLots>();
+            _openLots = new Queue<TaxLotsOpen>();
 
         }
 
@@ -303,7 +303,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                 return;
             }
 
-            OpenLots lot = new OpenLots(transaction.TradeDate, quantityRef, transaction.Price);
+            TaxLotsOpen lot = new TaxLotsOpen(transaction.TradeDate, quantityRef, transaction.Price);
 
             // make sure a transaction cannot equal zero in my models
             // position has no trades
@@ -367,7 +367,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             decimal result = 0;
             if (_openLots.Count > 0)
             {
-                foreach (OpenLots lot in _openLots)
+                foreach (TaxLotsOpen lot in _openLots)
                 {
                     result += lot.GetTradeValue();
                 }
@@ -379,7 +379,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             return this._positionBreakdown;
         }
 
-        public List<OpenLots> GetOpenLots()
+        public List<TaxLotsOpen> GetOpenLots()
         {
             return _openLots.ToList(); // i MIGHT need to reverse the list.
         }
@@ -457,7 +457,7 @@ public class FXPosition : CalculatedSecurityPosition
         private decimal _realisedPnL;
         private bool _isLong;
         private List<PositionSnapshot> positionBreakdown;
-        private Queue<OpenLots> openLots;
+        private Queue<TaxLotsOpen> openLots;
 
         public override SecuritiesDIM Security { get; }
 
@@ -471,7 +471,7 @@ public class FXPosition : CalculatedSecurityPosition
 
         public override List<PositionSnapshot> PositionBreakdown => throw new NotImplementedException();
 
-        public override Queue<OpenLots> OpenLots => throw new NotImplementedException();
+        public override Queue<TaxLotsOpen> OpenLots => throw new NotImplementedException();
 
         public FXPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
@@ -517,12 +517,12 @@ public class FXPosition : CalculatedSecurityPosition
         }
     }
 
-    public class OpenLots
+    public class TaxLotsOpen
     {
         public DateTime date { get; set; }
         public decimal quantity { get; set; }
         public decimal price { get; set; }
-        public OpenLots(DateTime date, decimal quantity, decimal price)
+        public TaxLotsOpen(DateTime date, decimal quantity, decimal price)
         {
             this.date = date;
             this.quantity = quantity;
