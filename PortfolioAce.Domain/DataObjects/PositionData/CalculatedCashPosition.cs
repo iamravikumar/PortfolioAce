@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PortfolioAce.Domain.DataObjects
+namespace PortfolioAce.Domain.DataObjects.PositionData
 {
     public class CalculatedCashPosition
     {
