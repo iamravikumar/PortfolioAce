@@ -98,8 +98,8 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Position.security.SecurityName}" Width="SizeToCells" />
-                            <DataGridTextColumn Header="Symbol" Binding="{Binding Position.security.Symbol}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Position.Security.SecurityName}" Width="SizeToCells" />
+                            <DataGridTextColumn Header="Symbol" Binding="{Binding Position.Security.Symbol}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Position.NetQuantity, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Current Price" Binding="{Binding price, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="*"/>

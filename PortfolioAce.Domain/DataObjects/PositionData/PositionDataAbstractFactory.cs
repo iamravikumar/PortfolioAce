@@ -37,7 +37,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                 case "Equity":
                     return new ValuedEquityPosition(position,  priceTable, asOfDate, FundBaseCurrency);
                 case "Cryptocurrency":
-                    return new ValuedCryptoPosition();
+                    return new ValuedCryptoPosition(position, priceTable, asOfDate, FundBaseCurrency);
                 case "FX":
                     return new ValuedFXPosition();
                 default:
