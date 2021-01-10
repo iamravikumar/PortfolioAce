@@ -20,12 +20,14 @@ namespace PortfolioAce.ViewModels.Modals
         private readonly ValidationErrors _validationErrors;
         private IStaticReferences _staticReferences;
         private ITransactionService _transactionService;
+        private DateTime _lastLockedDate;
         public AddCashTradeWindowViewModel(ITransactionService transactionService, IStaticReferences staticReferences, Fund fund)
         {
             AddCashTradeCommand = new AddCashTradeCommand(this, transactionService);
             _fund = fund;
             _transactionService = transactionService;
             _staticReferences = staticReferences;
+            _lastLockedDate = _staticReferences.GetMostRecentLockedDate(fund.FundId);
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             _tradeDate = DateExtentions.InitialDate();
@@ -153,6 +155,10 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     // validation not showing at the moment because it is bound to TextBox at the moment
                     _validationErrors.AddError(nameof(TradeDate), "You cannot book trades before the funds launch date.");
+                }
+                if (_tradeDate <= _lastLockedDate)
+                {
+                    _validationErrors.AddError(nameof(TradeDate), "You cannot book trades on a locked period");
                 }
                 if (_settleDate < _tradeDate)
                 {

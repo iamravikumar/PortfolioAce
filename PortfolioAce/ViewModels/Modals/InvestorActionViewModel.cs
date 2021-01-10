@@ -22,6 +22,7 @@ namespace PortfolioAce.ViewModels.Modals
         private Fund _fund;
         private readonly ValidationErrors _validationErrors;
         private IStaticReferences _staticReferences;
+        private DateTime _lastLockedDate;
 
         public InvestorActionViewModel(ITransferAgencyService investorService, IStaticReferences staticReferences, Fund fund)
         {
@@ -31,6 +32,8 @@ namespace PortfolioAce.ViewModels.Modals
             _staticReferences = staticReferences;
             _tradeDate = DateExtentions.InitialDate();
             _settleDate = DateExtentions.InitialDate();
+            _lastLockedDate = _staticReferences.GetMostRecentLockedDate(fund.FundId);
+
             _isNavFinal = false;
             _TAType = cmbIssueType[0]; // this defaults the type to subscription..
             _validationErrors = new ValidationErrors();
@@ -224,6 +227,10 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     // validation not showing at the moment because it is bound to TextBox at the moment
                     _validationErrors.AddError(nameof(TradeDate), "Your actions can't be booked before funds launch date.");
+                }
+                if (_tradeDate <= _lastLockedDate)
+                {
+                    _validationErrors.AddError(nameof(TradeDate), "You cannot book actions on a locked period");
                 }
                 if (_settleDate < _tradeDate)
                 {
