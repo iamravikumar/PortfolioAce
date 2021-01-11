@@ -121,7 +121,7 @@ namespace PortfolioAce.Domain.DataObjects
             {
                 foreach (TaxLotsOpen lot in this.openLots)
                 {
-                    result += lot.GetTradeValue();
+                    result += lot.LotCost;
                 }
             }
             return result;

@@ -23,16 +23,15 @@ namespace PortfolioAce.Domain.ModelSeedData
         public readonly TransactionTypeDIM[] SeedTransactionTypes = new TransactionTypeDIM[]
         {
             new TransactionTypeDIM {TransactionTypeId=1, TypeName="Trade", TypeClass="SecurityTrade", Direction="None"},
-            new TransactionTypeDIM {TransactionTypeId=2, TypeName="Coupon", TypeClass="SecurityTrade", Direction="None"},
-            new TransactionTypeDIM {TransactionTypeId=3, TypeName="Dividends", TypeClass="SecurityTrade", Direction="None"},
-            new TransactionTypeDIM {TransactionTypeId=4, TypeName="Income", TypeClass="CashTrade", Direction="Inflow"},
-            new TransactionTypeDIM {TransactionTypeId=5, TypeName="Expense", TypeClass="CashTrade", Direction="Outflow"},
-            new TransactionTypeDIM {TransactionTypeId=6, TypeName="Deposit", TypeClass="CashTrade", Direction="Inflow"},
-            new TransactionTypeDIM {TransactionTypeId=7, TypeName="Withdrawal", TypeClass="CashTrade", Direction="Outflow"},
-            new TransactionTypeDIM {TransactionTypeId=8, TypeName="Interest", TypeClass="CashTrade", Direction="None"},
-            new TransactionTypeDIM {TransactionTypeId=9, TypeName="ManagementFee", TypeClass="CashTrade", Direction="Outflow"},
-            new TransactionTypeDIM {TransactionTypeId=10, TypeName="PerformanceFee", TypeClass="CashTrade", Direction="Outflow"},
-            new TransactionTypeDIM {TransactionTypeId=11, TypeName="Miscellaneous", TypeClass="CashTrade", Direction="None"}
+            new TransactionTypeDIM {TransactionTypeId=2, TypeName="Dividends", TypeClass="SecurityTrade", Direction="None"},
+            new TransactionTypeDIM {TransactionTypeId=3, TypeName="Income", TypeClass="CashTrade", Direction="Inflow"},
+            new TransactionTypeDIM {TransactionTypeId=4, TypeName="Expense", TypeClass="CashTrade", Direction="Outflow"},
+            new TransactionTypeDIM {TransactionTypeId=5, TypeName="Deposit", TypeClass="CashTrade", Direction="Inflow"},
+            new TransactionTypeDIM {TransactionTypeId=6, TypeName="Withdrawal", TypeClass="CashTrade", Direction="Outflow"},
+            new TransactionTypeDIM {TransactionTypeId=7, TypeName="Interest", TypeClass="CashTrade", Direction="None"},
+            new TransactionTypeDIM {TransactionTypeId=8, TypeName="ManagementFee", TypeClass="CashTrade", Direction="Outflow"},
+            new TransactionTypeDIM {TransactionTypeId=9, TypeName="PerformanceFee", TypeClass="CashTrade", Direction="Outflow"},
+            new TransactionTypeDIM {TransactionTypeId=10, TypeName="Miscellaneous", TypeClass="CashTrade", Direction="None"}
         };
 
         public readonly AssetClassDIM[] SeedAssetClasses = new AssetClassDIM[]{

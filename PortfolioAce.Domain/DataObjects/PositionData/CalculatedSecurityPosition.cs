@@ -2,6 +2,7 @@
 using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -9,13 +10,14 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 {
     public abstract class CalculatedSecurityPosition
     {
+        // Calculations follow the FIFO methodology. I can eventually expand on this to inside follow LIFO (using a stack instead of a queue)
         public abstract SecuritiesDIM Security{ get; }
         public abstract CustodiansDIM Custodian { get; }
         public abstract decimal AverageCost { get; }
         public abstract decimal NetQuantity { get; }
         public abstract decimal RealisedPnL { get; }
         public abstract List<PositionSnapshot> PositionBreakdown { get; }
-        public abstract Queue<TaxLotsOpen> OpenLots { get; }
+        public abstract List<TaxLotsOpen> OpenLots { get; }
         public abstract void AddTransaction(TransactionsBO transaction);
         public abstract void AddTransactionRange(List<TransactionsBO> transactions);
     }
@@ -34,15 +36,15 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         public override CustodiansDIM Custodian { get; }
 
-        public override decimal AverageCost { get { return _averageCost; } }
+        public override decimal AverageCost { get { return Math.Round(_averageCost,2); } }
 
         public override decimal NetQuantity{get{ return _netQuantity; }}
 
-        public override decimal RealisedPnL{get{ return _realisedPnL; }}
+        public override decimal RealisedPnL{get{ return Math.Round(_realisedPnL,2); }}
 
         public override List<PositionSnapshot> PositionBreakdown{get{ return _positionBreakdown; }}
 
-        public override Queue<TaxLotsOpen> OpenLots{get{ return _openLots; }}
+        public override List<TaxLotsOpen> OpenLots{get{ return _openLots.ToList(); }}
 
         public EquityPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
@@ -54,6 +56,14 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             _positionBreakdown = new List<PositionSnapshot>();
             _openLots = new Queue<TaxLotsOpen>();
 
+        }
+
+        public override void AddTransactionRange(List<TransactionsBO> transactions)
+        {
+            foreach (TransactionsBO transaction in transactions)
+            {
+                this.AddTransaction(transaction);
+            }
         }
 
         public override void AddTransaction(TransactionsBO transaction)
@@ -69,7 +79,6 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                 throw new InvalidOperationException("These transactions belongs to a different custodian");
             }
 
-            // raise an error if the if this transaction occurs earlier than the most recent transaction.
             if (_positionBreakdown.Count > 0)
             {
                 if (_positionBreakdown[_positionBreakdown.Count - 1].date > transaction.TradeDate)
@@ -78,28 +87,31 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                 }
             }
 
+            if (transaction.TransactionType.TypeName == "Trade")
+            {
+                AddTradeEvent(transaction);
+            }
+            else
+            {
+                AddCorporateActionEvent(transaction);
+            }
+        }
+
+        private void AddTradeEvent(TransactionsBO transaction)
+        {
+            // I need to ignore/prevent trades where quantity = 0
+
             decimal quantityRef = transaction.Quantity; // a reference to the transaction quantity so it doesn't get manipulated
 
-            if (transaction.TransactionType.TypeName == "CorporateAction")
-            {
-                _netQuantity += quantityRef;
-                _realisedPnL += transaction.TradeAmount;
-                // to breakdown before return
-                return;
-            }
 
             TaxLotsOpen lot = new TaxLotsOpen(transaction.TradeDate, quantityRef, transaction.Price);
 
-            // make sure a transaction cannot equal zero in my models
-            // position has no trades
-            // used to be (quantityRef * NetQuantity == 0) but if the net quantity is zero then this will always be true
-            // and i need to ignore trades where the transaction.quantity is zero;
             if (_netQuantity == 0)
             {
                 _isLong = (quantityRef >= 0);
             }
 
-            //trades in diff direction to position
+            // this means the trade is not in the same direction as the quantity
             else if (quantityRef * _netQuantity < 0)
             {
                 while (_openLots.Count > 0 && quantityRef != 0)
@@ -131,57 +143,49 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                 _openLots.Enqueue(lot);
             }
             UpdatePosition(transaction);
-            // i need to update position regardless, 
-            // i need update the closed lots regardless(give it another name like trade summary), 
-            // if transaction.Quantity!=0 need to push the lots)
-
-            //when all said and done, net position should equal total open lots
+            Debug.Assert(_netQuantity == _openLots.Sum(s => s.quantity));
         }
 
-        public override void AddTransactionRange(List<TransactionsBO> transactions)
+        private void AddCorporateActionEvent(TransactionsBO transaction)
         {
-            foreach (TransactionsBO transaction in transactions)
+            if (transaction.TransactionType.TypeName == "Dividends")
             {
-                this.AddTransaction(transaction);
-            }
-        }
-
-
-        public decimal GetTotalTradeValue()
-        {
-            decimal result = 0;
-            if (_openLots.Count > 0)
-            {
-                foreach (TaxLotsOpen lot in _openLots)
+                if (transaction.Quantity == 0)
                 {
-                    result += lot.GetTradeValue();
+                    // cash dividend
+                    _realisedPnL += transaction.TradeAmount;
+                }
+                else
+                {
+                    // stock dividend
+                    TaxLotsOpen dividendLot = new TaxLotsOpen(transaction.TradeDate, transaction.Quantity, transaction.Price);
+                    _openLots.Enqueue(dividendLot);
+                    UpdatePosition(transaction);
                 }
             }
-            return result;
-        }
-        public List<PositionSnapshot> GetBreakdown()
-        {
-            return this._positionBreakdown;
+            else
+            {
+                throw new NotImplementedException();
+            }
+            Debug.Assert(_netQuantity == _openLots.Sum(s => s.quantity));
         }
 
-        public List<TaxLotsOpen> GetOpenLots()
-        {
-            return _openLots.ToList(); // i MIGHT need to reverse the list.
-        }
 
         private void UpdatePosition(TransactionsBO transaction)
         {
             _netQuantity = _openLots.Sum(lots => lots.quantity);
-            if (transaction.Quantity == 0 && _openLots.Count > 0)
-            {
-                _averageCost = _openLots.Peek().price; //i believe this might need refactoring for certain edgecases i.e. going from long to short.
-            }
-            else
-            {
-                _averageCost = Math.Round(GetAverageCost(), 2);
-            }
-            CheckDirection();
+            _averageCost = CalculateWeightedAverageCost();
             AppendBreakdown(transaction.TradeDate);
+
+            // If the position changes direction it gets updated here. i.e. long to short from a single trade.
+            if (_netQuantity < 0 && _isLong)
+            {
+                _isLong = false;
+            }
+            else if (_netQuantity > 0 && !_isLong)
+            {
+                _isLong = true;
+            }
         }
 
         private void AppendBreakdown(DateTime tradeDate)
@@ -206,31 +210,17 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                     this._positionBreakdown.Add(snapshot);
                 }
             }
-
         }
 
-        private decimal GetAverageCost()
+        private decimal CalculateWeightedAverageCost()
         {
             if (_netQuantity == 0)
             {
                 return Decimal.Zero;
             }
-            decimal totalTradeValue = GetTotalTradeValue();
-
-            return totalTradeValue / _netQuantity;
-        }
-
-        private void CheckDirection()
-        {
-            // if we flip position pnl might need to be reset. except for inception to date...
-            if (_netQuantity < 0 && _isLong)
-            {
-                _isLong = false;
-            }
-            else if (_netQuantity > 0 && !_isLong)
-            {
-                _isLong = true;
-            }
+            decimal totalCost = _openLots.Sum(ol => ol.LotCost);
+            decimal weightedCost = _openLots.Sum(ol => (ol.LotCost / totalCost) * ol.price);
+            return weightedCost;
         }
     }
 
@@ -257,7 +247,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         public override List<PositionSnapshot> PositionBreakdown { get { return _positionBreakdown; } }
 
-        public override Queue<TaxLotsOpen> OpenLots { get { return _openLots; } }
+        public override List<TaxLotsOpen> OpenLots { get { return _openLots.ToList(); } }
 
         public CryptoPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
@@ -369,7 +359,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             {
                 foreach (TaxLotsOpen lot in _openLots)
                 {
-                    result += lot.GetTradeValue();
+                    result += lot.LotCost;
                 }
             }
             return result;
@@ -450,7 +440,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
     }
 
 
-public class FXPosition : CalculatedSecurityPosition
+    public class FXPosition : CalculatedSecurityPosition
     {
         private decimal _averageCost;
         private decimal _netQuantity;
@@ -471,7 +461,7 @@ public class FXPosition : CalculatedSecurityPosition
 
         public override List<PositionSnapshot> PositionBreakdown => throw new NotImplementedException();
 
-        public override Queue<TaxLotsOpen> OpenLots => throw new NotImplementedException();
+        public override List<TaxLotsOpen> OpenLots => throw new NotImplementedException();
 
         public FXPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
@@ -522,17 +512,18 @@ public class FXPosition : CalculatedSecurityPosition
         public DateTime date { get; set; }
         public decimal quantity { get; set; }
         public decimal price { get; set; }
+        public decimal LotCost
+        {
+            get
+            {
+                return quantity * price;
+            }
+        }
         public TaxLotsOpen(DateTime date, decimal quantity, decimal price)
         {
             this.date = date;
             this.quantity = quantity;
             this.price = price;
         }
-
-        public decimal GetTradeValue()
-        {
-            return this.quantity * this.price;
-        }
     }
-
 }
