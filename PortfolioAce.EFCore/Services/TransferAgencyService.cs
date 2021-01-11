@@ -191,9 +191,9 @@ namespace PortfolioAce.EFCore.Services
                     };
                     newPositions.Add(newPosition);
                 }
-                foreach(CashPositionValuation cashPosition in navValuations.CashPositions)
+                foreach(ValuedCashPosition cashPosition in navValuations.CashPositions)
                 {
-                    string currencySecSymbol = $"{cashPosition.CashPosition.currency.Symbol}c";
+                    string currencySecSymbol = $"{cashPosition.CashPosition.Currency.Symbol}c";
                     SecuritiesDIM securitisedCash = context.Securities.Where(s => s.Symbol == currencySecSymbol).Include(s => s.AssetClass).FirstOrDefault();
 
                     PositionFACT newPosition = new PositionFACT
@@ -203,10 +203,10 @@ namespace PortfolioAce.EFCore.Services
                         AssetClassId = securitisedCash.AssetClassId,
                         FundId = fundId,
                         AverageCost = 1,
-                        CurrencyId = cashPosition.CashPosition.currency.CurrencyId,
+                        CurrencyId = cashPosition.CashPosition.Currency.CurrencyId,
                         MarketValue = cashPosition.MarketValueBase,
                         Price = cashPosition.fxRate,
-                        Quantity = cashPosition.CashPosition.AccountBalance,
+                        Quantity = cashPosition.CashPosition.NetQuantity,
                         RealisedPnl = 0,
                         UnrealisedPnl = 0
                     };

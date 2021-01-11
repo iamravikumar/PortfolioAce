@@ -220,17 +220,17 @@ namespace PortfolioAce.ViewModels
             }
         }
         
-        public List<CashPositionValuation> dgFundCashHoldings
+        public List<ValuedCashPosition> dgFundCashHoldings
         {
             get
             {
                 if(_currentFund != null)
                 {
-                    return _portfolioService.GetAllValuedCashBalances(_currentFund, _asOfDate, priceTable);
+                    return _portfolioService.GetAllValuedCashPositions(_currentFund, _asOfDate, priceTable);
                 }
                 else
                 {
-                    return new List<CashPositionValuation>();
+                    return new List<ValuedCashPosition>();
                 }
             }
         }

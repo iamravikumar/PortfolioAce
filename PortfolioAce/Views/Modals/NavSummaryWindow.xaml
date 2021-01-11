@@ -131,9 +131,9 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding CashPosition.currency.Symbol}" Width="SizeToHeader" />
-                            <DataGridTextColumn Header="Balance" Binding="{Binding CashPosition.AccountBalance, StringFormat=N2}" Width="SizeToCells" />
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding CashPosition.custodian.Name}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Currency" Binding="{Binding CashPosition.Currency.Symbol}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Balance" Binding="{Binding CashPosition.NetQuantity, StringFormat=N2}" Width="SizeToCells" />
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding CashPosition.Custodian.Name}" Width="SizeToHeader" />
                             <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>

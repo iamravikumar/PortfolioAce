@@ -8,7 +8,7 @@ using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects.PositionData
 {
-    public abstract class CalculatedSecurityPosition
+    public abstract class CalculatedSecurityPosition:CalculatedPosition
     {
         // Calculations follow the FIFO methodology. I can eventually expand on this to inside follow LIFO (using a stack instead of a queue)
         public abstract SecuritiesDIM Security{ get; }

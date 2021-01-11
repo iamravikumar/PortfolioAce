@@ -18,12 +18,14 @@ namespace PortfolioAce.Domain.BusinessServices
         {
         }
 
-        public List<CalculatedCashPosition> GetAllCashBalances(Fund fund, DateTime asOfDate)
+
+
+        public List<CalculatedCashPosition> GetAllCashPositions(Fund fund, DateTime asOfDate)
         {
             List<TransactionsBO> allTrades = fund.Transactions
-                                                 .Where(t=>t.TradeDate<=asOfDate && t.isActive)
-                                                 .OrderBy(t => t.TradeDate)
-                                                 .ToList();
+                                     .Where(t => t.TradeDate <= asOfDate && t.isActive)
+                                     .OrderBy(t => t.TradeDate)
+                                     .ToList();
             Dictionary<(string, string), List<TransactionsBO>> cashTradesByCurrencyAndCustodian = new Dictionary<(string, string), List<TransactionsBO>>();
             foreach (TransactionsBO trade in allTrades)
             {
@@ -38,30 +40,31 @@ namespace PortfolioAce.Domain.BusinessServices
                 }
             }
 
-            List<CalculatedCashPosition> allBalances = new List<CalculatedCashPosition>();
+            List<CalculatedCashPosition> allCashPositions = new List<CalculatedCashPosition>();
 
             foreach (KeyValuePair<(string, string), List<TransactionsBO>> Kvp in cashTradesByCurrencyAndCustodian)
             {
                 CurrenciesDIM currency = Kvp.Value[0].Currency;
-                CustodiansDIM custodian =Kvp.Value[0].Custodian;
-                CalculatedCashPosition balance = new CalculatedCashPosition(currency, custodian);
-                balance.AddTransactions(Kvp.Value);
-                allBalances.Add(balance);
+                CustodiansDIM custodian = Kvp.Value[0].Custodian;
+                CalculatedCashPosition balance = _positionFactory.CreateCashPosition(currency, custodian);
+                balance.AddTransactionRange(Kvp.Value);
+                allCashPositions.Add(balance);
             }
-            return allBalances;
+            return allCashPositions;
         }
 
-        public List<CashPositionValuation> GetAllValuedCashBalances(Fund fund, DateTime asOfDate, Dictionary<(string, DateTime), decimal> priceTable)
+        public List<ValuedCashPosition> GetAllValuedCashPositions(Fund fund, DateTime asOfDate, Dictionary<(string, DateTime), decimal> priceTable)
         {
-            List<CalculatedCashPosition> allCashPositions = GetAllCashBalances(fund, asOfDate);
-            List<CashPositionValuation> valuedCashPositions = new List<CashPositionValuation>();
+            List<CalculatedCashPosition> allCashPositions = GetAllCashPositions(fund, asOfDate);
+            List<ValuedCashPosition> valuedCashPositions = new List<ValuedCashPosition>();
             foreach (CalculatedCashPosition cashPosition in allCashPositions)
             {
-                CashPositionValuation valuedCashPosition = new CashPositionValuation(cashPosition, priceTable, asOfDate, fund.BaseCurrency);
+                ValuedCashPosition valuedCashPosition = _positionFactory.CreateValuedCashPosition(cashPosition, priceTable, asOfDate, fund.BaseCurrency);
                 valuedCashPositions.Add(valuedCashPosition);
             }
             return valuedCashPositions;
         }
+
 
         public List<ClientHolding> GetAllClientHoldings(Fund fund, DateTime asOfDate)
         {
@@ -141,6 +144,28 @@ namespace PortfolioAce.Domain.BusinessServices
                 valuedPositions.Add(valuedPosition);
             }
             return valuedPositions;
+        }
+
+
+        public List<ValuedPosition> GetAllValuedPosiitons(Fund fund, DateTime asOfDate, Dictionary<(string, DateTime), decimal> priceTable)
+        {
+            List<ValuedPosition> allValuedPositions = new List<ValuedPosition>();
+            List<CalculatedSecurityPosition> allSecurityPositions = GetAllSecurityPositions(fund, asOfDate);
+
+            foreach (CalculatedSecurityPosition position in allSecurityPositions)
+            {
+                ValuedPosition valuedPosition = _positionFactory.CreateValuedSecurityPosition(position, priceTable, asOfDate, fund.BaseCurrency);
+                allValuedPositions.Add(valuedPosition);
+            }
+
+            List<CalculatedCashPosition> allCashPositions = GetAllCashPositions(fund, asOfDate);
+            foreach(CalculatedCashPosition cashPosition in allCashPositions)
+            {
+                ValuedPosition valuedCashPosition = _positionFactory.CreateValuedCashPosition(cashPosition, priceTable, asOfDate, fund.BaseCurrency);
+                allValuedPositions.Add(valuedCashPosition);
+            }
+
+            return allValuedPositions;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects.PositionData
 {
-    public abstract class ValuedSecurityPosition
+    public abstract class ValuedSecurityPosition:ValuedPosition
     {
         public abstract CalculatedSecurityPosition Position { get; set; }
         public abstract decimal MarketValueLocal { get; set; }

@@ -154,9 +154,9 @@
                     <DataGrid Name="dgCashHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgFundCashHoldings, UpdateSourceTrigger=PropertyChanged}" 
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding CashPosition.currency.Symbol}" Width="100" />
-                            <DataGridTextColumn Header="Balance" Binding="{Binding CashPosition.AccountBalance, StringFormat=N2}" Width="150" />
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding CashPosition.custodian.Name}" Width="150" />
+                            <DataGridTextColumn Header="Currency" Binding="{Binding CashPosition.Currency.Symbol}" Width="100" />
+                            <DataGridTextColumn Header="Balance" Binding="{Binding CashPosition.NetQuantity, StringFormat=N2}" Width="150" />
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding CashPosition.Custodian.Name}" Width="150" />
                             <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="150" />
                             <DataGridTextColumn Header="As Of (Date)" Binding="{Binding CashPosition.AsOfDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                         </DataGrid.Columns>

@@ -23,7 +23,7 @@ namespace PortfolioAce.Domain.DataObjects
         public decimal ManagementFeeAmount { get; set; }
         public decimal PerformanceFeeAmount { get; set; }
         public List<ValuedSecurityPosition> SecurityPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
-        public List<CashPositionValuation> CashPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
+        public List<ValuedCashPosition> CashPositions { get; set; } // when i put this in a datagrid i can check what is fullyvalued from what isn't
         public List<ClientHoldingValuation> ClientHoldings { get; set; }
         public DateTime AsOfDate { get; set; }
         public decimal NetAssetValue { get; set; }
@@ -32,7 +32,7 @@ namespace PortfolioAce.Domain.DataObjects
         public decimal NetAssetValuePerShare { get; set; }
         public decimal GrossAssetValuePerShare { get; set; }
         public int UnvaluedPositions { get; set; } // number of positions that do not have a price...
-        public NavValuations(List<ValuedSecurityPosition> securityPositions, List<CashPositionValuation> cashPositions, List<ClientHolding> clientHoldings,
+        public NavValuations(List<ValuedSecurityPosition> securityPositions, List<ValuedCashPosition> cashPositions, List<ClientHolding> clientHoldings,
             DateTime asOfDate, Fund fund)
         {
             this.SecurityPositions = securityPositions;
@@ -139,36 +139,6 @@ namespace PortfolioAce.Domain.DataObjects
     }
 
 
-    public class CashPositionValuation
-    {
-        public CalculatedCashPosition CashPosition { get; set; }
-        public decimal fxRate { get; set; }
-        public decimal MarketValueBase { get; set; }
-        public bool IsValuedBase { get; set; } // This determines whether fxRates and Market prices are available on this date...
-        public DateTime AsOfDate { get; set; }
-
-        // Investigate.. you can have unrealised cash on cash balances...
-        public CashPositionValuation(CalculatedCashPosition cashPosition, Dictionary<(string, DateTime), decimal> priceTable, DateTime asOfDate, string FundBaseCurrency)
-        {
-
-            this.AsOfDate = asOfDate;
-            // this is for cash holdings I can get the valuation in base currency
-            this.CashPosition = cashPosition;
-            if (cashPosition.currency.Symbol == FundBaseCurrency)
-            {
-                IsValuedBase = true;
-                this.fxRate = decimal.One;
-            }
-            else
-            {
-                string fxSymbol = $"{cashPosition.currency}{FundBaseCurrency}";
-                ValueTuple<string, DateTime> tableKeyFx = (fxSymbol, asOfDate);
-                this.IsValuedBase = priceTable.ContainsKey(tableKeyFx);
-                this.fxRate = (priceTable.ContainsKey(tableKeyFx)) ? priceTable[tableKeyFx] : decimal.One;
-            }
-            this.MarketValueBase = Math.Round(this.CashPosition.AccountBalance * fxRate, 2);
-        }
-    }
     public class ClientHoldingValuation
     {
         public ClientHolding Holding { get; set; }

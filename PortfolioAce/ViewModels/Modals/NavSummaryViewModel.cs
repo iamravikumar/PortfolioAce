@@ -119,7 +119,7 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public List<CashPositionValuation> dgCashPositions
+        public List<ValuedCashPosition> dgCashPositions
         {
             get
             {

@@ -11,6 +11,17 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
         {
         }
 
+        public CalculatedCashPosition CreateCashPosition(CurrenciesDIM currency, CustodiansDIM custodian)
+        {
+            return new LiquidCashPosition(currency, custodian);
+        }
+
+        public ValuedCashPosition CreateValuedCashPosition(CalculatedCashPosition cashPosition, Dictionary<(string, DateTime), decimal> priceTable, DateTime asOfDate, string FundBaseCurrency)
+        {
+            return new ValuedLiquidCashPosition(cashPosition, priceTable, asOfDate, FundBaseCurrency);
+        }
+
+
         public CalculatedSecurityPosition CreateSecurityPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
             string assetClass = security.AssetClass.Name;
@@ -24,7 +35,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                 case "FX":
                     return new FXPosition(security, custodian);
                 default:
-                    throw new ArgumentException("The asset class is not implemented", "assetClass");
+                    throw new ArgumentException("The asset class is not implemented as a security", "assetClass");
             }
         }
 
@@ -41,7 +52,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                 case "FX":
                     return new ValuedFXPosition();
                 default:
-                    throw new ArgumentException("The asset class is not implemented", "assetClass");
+                    throw new ArgumentException("The asset class is not implemented as a security", "assetClass");
             }
         }
     }

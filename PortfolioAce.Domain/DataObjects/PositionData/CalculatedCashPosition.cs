@@ -7,48 +7,62 @@ using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects.PositionData
 {
-    public class CalculatedCashPosition
-    {
-        public CurrenciesDIM currency { get; }
-        public CustodiansDIM custodian { get; }
-        public DateTime? AsOfDate { get; set; }
-        public decimal AccountBalance {get;set;}
 
-        public CalculatedCashPosition(CurrenciesDIM currency, CustodiansDIM custodian)
+    public abstract class CalculatedCashPosition : CalculatedPosition
+    {
+        public abstract CurrenciesDIM Currency { get; }
+        public abstract CustodiansDIM Custodian { get; }
+        public abstract DateTime? AsOfDate { get; }
+        public abstract decimal NetQuantity { get; }
+
+        public abstract void AddTransaction(TransactionsBO transaction);
+        public abstract void AddTransactionRange(List<TransactionsBO> transactions);
+
+    }
+
+    public class LiquidCashPosition : CalculatedCashPosition
+    {
+        private DateTime? _asOfDate;
+        private decimal _balance;
+        public override CurrenciesDIM Currency { get; }
+        public override CustodiansDIM Custodian { get; }
+        public override DateTime? AsOfDate { get { return _asOfDate; }  }
+        public override decimal NetQuantity { get { return _balance; } }
+        
+        public LiquidCashPosition(CurrenciesDIM currency, CustodiansDIM custodian)
         {
-            this.currency = currency;
-            this.custodian = custodian;
-            this.AccountBalance = decimal.Zero;
-            this.AsOfDate = DateTime.MinValue;
+            this.Currency = currency;
+            this.Custodian = custodian;
+            this._balance = decimal.Zero;
+            _asOfDate = DateTime.MinValue;
         }
 
-        public void AddTransactions(List<TransactionsBO> transactions)
+        public override void AddTransactionRange(List<TransactionsBO> transactions)
         {
-            
-            foreach(TransactionsBO transaction in transactions)
+
+            foreach (TransactionsBO transaction in transactions)
             {
                 this.AddTransaction(transaction);
             }
         }
 
-        public void AddTransaction(TransactionsBO transaction)
+        public override void AddTransaction(TransactionsBO transaction)
         {
-            if (transaction.Currency.Symbol != this.currency.Symbol)
+            if (transaction.Currency.Symbol != this.Currency.Symbol)
             {
                 throw new InvalidOperationException("The transaction currency does not match the currency of this position");
             }
 
-            if (transaction.Custodian.Name != this.custodian.Name)
+            if (transaction.Custodian.Name != this.Custodian.Name)
             {
                 throw new InvalidOperationException("These transactions belongs to a different custodian");
             }
 
-            if(this.AsOfDate==null || this.AsOfDate < transaction.TradeDate)
+            if (_asOfDate == null || _asOfDate < transaction.TradeDate)
             {
-                this.AsOfDate = transaction.TradeDate;
+                _asOfDate = transaction.TradeDate;
             }
-            this.AccountBalance += transaction.TradeAmount;
+            _balance += transaction.TradeAmount;
         }
-
     }
 }
