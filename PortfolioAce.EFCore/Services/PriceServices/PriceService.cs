@@ -22,15 +22,14 @@ namespace PortfolioAce.EFCore.Services.PriceServices
         }
 
 
-        public async Task<List<AVSecurityPriceData>> AddDailyPrices(SecuritiesDIM security)
+        public async Task<IEnumerable<AVSecurityPriceData>> AddDailyPrices(SecuritiesDIM security)
         {
             // This is for Equity Prices
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 string avKey = context.AppSettings.Where(ap => ap.SettingName == "AlphaVantageAPI").First().SettingValue;
                 AlphaVantageConnection avConn = _dataFactory.CreateAlphaVantageClient(avKey);
-                string uri = GenerateURI(security);
-                var allPrices = await avConn.GetAsync<List<AVSecurityPriceData>>(uri);
+                IEnumerable<AVSecurityPriceData> allPrices = await avConn.GetPricesAsync(security);
                 HashSet<DateTime> existingDates = context.SecurityPriceData.Where(spd => spd.Security.Symbol == security.Symbol).Select(spd => spd.Date).ToHashSet();
 
                 foreach(AVSecurityPriceData price in allPrices)
@@ -46,29 +45,7 @@ namespace PortfolioAce.EFCore.Services.PriceServices
                 return allPrices;
             }
         }
-        private string GenerateURI(SecuritiesDIM security)
-        {
-            string assetClass = security.AssetClass.Name;
-            string symbol = security.Symbol;
-            string uri;
-            
-            if (assetClass == "FX")
-            {
-                string from_symbol = symbol.Substring(0,3);
-                string to_symbol = symbol.Substring(3);
-                uri = $"function=FX_DAILY&from_symbol={from_symbol}&to_symbol={to_symbol}";
-            }
-            else if (assetClass == "Cryptocurrency")
-            {
-                // This isnt perfect yet I need to figure out how to deserialise the ClosePrice
-                uri = $"function=DIGITAL_CURRENCY_DAILY&symbol={symbol}&market=USD";
-            }
-            else
-            {
-                uri = $"function=TIME_SERIES_DAILY&symbol={symbol}";
-            }
-            return uri;
-        }
+
 
         public SecuritiesDIM GetSecurityInfo(string symbol)
         {

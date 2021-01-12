@@ -1,6 +1,9 @@
-﻿using ServiceStack;
+﻿using PortfolioAce.DataCentre.DeserialisedObjects;
+using PortfolioAce.Domain.Models.Dimensions;
+using ServiceStack;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,15 +19,54 @@ namespace PortfolioAce.DataCentre.APIConnections
             _apiKeyAV = apiKeyAV;            
         }
 
-        public async Task<T> GetAsync<T>(string uri)
+        public async Task<IEnumerable<AVSecurityPriceData>> GetPricesAsync(SecuritiesDIM security)
         {
             // i would use this like Task<List<object>>...
             // This generic method is very flexible because i can manipulate the uri for services to get different types of data...
             // as well as create different types of objects
+            string uri = GenerateURI(security);
             string connection = $"{BASE_ADDRESS_QUERY}/query?apikey={_apiKeyAV}&{uri}&datatype=csv";
             string response = await connection.GetStringFromUrlAsync();
-            T result = response.FromCsv<T>();
+            string assetClass = security.AssetClass.Name;
+            IEnumerable<AVSecurityPriceData> result;// = response.FromCsv<T>();
+
+            if (assetClass == "Cryptocurrency") 
+            {
+                result = response.FromCsv<List<AVCryptoPriceData>>();
+            }
+            else if(assetClass == "FX")
+            {
+                result = response.FromCsv<List<AVFXPriceData>>();
+            }
+            else
+            {
+                result = response.FromCsv<List<AVEquityPriceData>>();
+            }
             return result;
+        }
+
+        private string GenerateURI(SecuritiesDIM security)
+        {
+            string assetClass = security.AssetClass.Name;
+            string symbol = security.Symbol;
+            string uri;
+
+            if (assetClass == "FX")
+            {
+                string from_symbol = symbol.Substring(0, 3);
+                string to_symbol = symbol.Substring(3);
+                uri = $"function=FX_DAILY&from_symbol={from_symbol}&to_symbol={to_symbol}";
+            }
+            else if (assetClass == "Cryptocurrency")
+            {
+                // This isnt perfect yet I need to figure out how to deserialise the ClosePrice
+                uri = $"function=DIGITAL_CURRENCY_DAILY&symbol={symbol}&market=USD";
+            }
+            else
+            {
+                uri = $"function=TIME_SERIES_DAILY&symbol={symbol}";
+            }
+            return uri;
         }
     }
 }
