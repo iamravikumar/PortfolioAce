@@ -9,6 +9,8 @@ namespace PortfolioAce.DataCentre.DeserialisedObjects
     {
         public abstract DateTime TimeStamp { get; set; }
         public abstract decimal Close {get;set;}
+        public string PriceSource { get { return "AlphaVantage"; } }
+
     }
 
     public class AVEquityPriceData:AVSecurityPriceData
