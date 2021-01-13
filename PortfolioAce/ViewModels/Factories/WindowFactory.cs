@@ -185,5 +185,13 @@ namespace PortfolioAce.ViewModels.Factories
             view = ApplyWindowAttributes(view, viewModel);
             view.ShowDialog();
         }
+
+        public void CreateNewFXTradeWindow(Fund fund)
+        {
+            Window view = new AddFXTradeWindow();
+            ViewModelWindowBase viewModel = new AddFXTradeWindowViewModel(_transactionService, _staticReferences, fund);
+            view = ApplyWindowAttributes(view, viewModel);
+            view.ShowDialog();
+        }
     }
 }

@@ -71,6 +71,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel DockPanel.Dock="Left" Margin="30,0,0,0" Orientation="Horizontal" Grid.Row="3">
                     <Button Margin="0,0,0,0" Content="Add Security Trade" FontSize="12" Command="{Binding ShowNewTradeCommand}" Style="{DynamicResource MaterialDesignFlatLightBgButton}"/>
+                    <Button Margin="5,0,0,0" Content="Add FX Trade" FontSize="12" Command="{Binding ShowNewFXTradeCommand}" Style="{DynamicResource MaterialDesignFlatLightBgButton}"/>
                     <Button Margin="5,0,0,0" Content="Add Cash Trade" FontSize="12" Command="{Binding ShowNewCashTradeCommand}" Style="{DynamicResource MaterialDesignFlatLightBgButton}"/>
                     <Button Margin="5,0,0,0" Command="{Binding ShowNewInvestorActionCommand}" Content="Investor Actions..." FontSize="12" Style="{DynamicResource MaterialDesignFlatLightBgButton}"/>
                     <Button Margin="5,0,0,0" Style="{DynamicResource MaterialDesignFlatLightBgButton}" IsEnabled="{Binding EnableFundDataMetrics}" Command="{Binding ShowFundMetricsCommand}">

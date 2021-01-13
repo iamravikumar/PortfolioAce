@@ -14,6 +14,8 @@ namespace PortfolioAce.ViewModels.Factories
         // I can't use generics here because different viewmodels require different services...
         void CreateNewTradeWindow(Fund fund);
         void CreateEditTradeWindow(TransactionsBO securityTrade);
+
+        void CreateNewFXTradeWindow(Fund fund);
         void CreateNewCashTradeWindow(Fund fund);
         void CreateEditCashTradeWindow(TransactionsBO cashTrade);
         void CreateNewInvestorActionWindow(Fund fund);

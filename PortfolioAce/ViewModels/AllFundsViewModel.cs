@@ -57,6 +57,7 @@ namespace PortfolioAce.ViewModels
 
             ShowRestoreTradeCommand = new ActionCommand(RestoreTradeDialog);
 
+            ShowNewFXTradeCommand = new ActionCommand(OpenNewFxTradeWindow);
             ShowNewCashTradeCommand = new ActionCommand(OpenNewCashTradeWindow);
             ShowEditCashTradeCommand = new ActionCommand(OpenEditCashTradeWindow);
             ShowNewInvestorActionCommand = new ActionCommand(OpenInvestorActionWindow);
@@ -77,6 +78,8 @@ namespace PortfolioAce.ViewModels
         public ICommand ShowEditTradeCommand { get; set; }
         public ICommand ShowRestoreTradeCommand { get; set; }
         public ICommand ShowDeleteTradeCommand { get; set; }
+        public ICommand ShowNewFXTradeCommand { get; set; }
+
         public ICommand ShowNewCashTradeCommand { get; set; }
         public ICommand ShowEditCashTradeCommand { get; set; }
         public ICommand ShowFundPropertiesCommand { get; set; }
@@ -351,6 +354,12 @@ namespace PortfolioAce.ViewModels
         {
             _windowFactory.CreateEditTradeWindow(_selectedTransaction);
             OnPropertyChanged("");
+        }
+
+        public void OpenNewFxTradeWindow()
+        {
+            _windowFactory.CreateNewFXTradeWindow(_currentFund);
+            SelectFundCommand.Execute(_currentFund.Symbol);
         }
 
         public void OpenNewCashTradeWindow()
