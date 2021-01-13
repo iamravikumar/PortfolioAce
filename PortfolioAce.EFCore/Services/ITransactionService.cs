@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models.BackOfficeModels;
+﻿using PortfolioAce.Domain.DataObjects.DTOs;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace PortfolioAce.EFCore.Services
     public interface ITransactionService:IBaseService
     {
         Task<TransactionsBO> CreateTransaction(TransactionsBO transaction);
+        Task<TransactionsBO> CreateFXTransaction(ForexDTO fxTransaction);
         void UpdateTransaction(TransactionsBO transaction);
 
         void DeleteTransaction(TransactionsBO transaction);

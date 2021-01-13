@@ -262,7 +262,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass == "CashTrade").Select(t => t.TypeName).ToList();
+                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass == "CashTrade" && t.TypeName!="FXBuy" && t.TypeName!="FXSell").Select(t => t.TypeName).ToList();
             }
         }
 

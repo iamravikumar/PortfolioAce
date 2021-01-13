@@ -31,7 +31,11 @@ namespace PortfolioAce.Domain.ModelSeedData
             new TransactionTypeDIM {TransactionTypeId=7, TypeName="Interest", TypeClass="CashTrade", Direction="None"},
             new TransactionTypeDIM {TransactionTypeId=8, TypeName="ManagementFee", TypeClass="CashTrade", Direction="Outflow"},
             new TransactionTypeDIM {TransactionTypeId=9, TypeName="PerformanceFee", TypeClass="CashTrade", Direction="Outflow"},
-            new TransactionTypeDIM {TransactionTypeId=10, TypeName="Miscellaneous", TypeClass="CashTrade", Direction="None"}
+            new TransactionTypeDIM {TransactionTypeId=10, TypeName="Miscellaneous", TypeClass="CashTrade", Direction="None"},
+            new TransactionTypeDIM {TransactionTypeId=11, TypeName="FXBuy", TypeClass="CashTrade", Direction="Inflow"},
+            new TransactionTypeDIM {TransactionTypeId=12, TypeName="FXSell", TypeClass="CashTrade", Direction="Outflow"},
+            new TransactionTypeDIM {TransactionTypeId=13, TypeName="FXTrade", TypeClass="FXTrade", Direction="None"},
+            new TransactionTypeDIM {TransactionTypeId=14, TypeName="FXTradeCollapse", TypeClass="FXTrade", Direction="None"}
         };
 
         public readonly AssetClassDIM[] SeedAssetClasses = new AssetClassDIM[]{

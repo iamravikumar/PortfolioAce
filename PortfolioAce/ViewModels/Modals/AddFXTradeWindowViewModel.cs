@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models;
+﻿using PortfolioAce.Commands;
+using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
@@ -20,7 +22,6 @@ namespace PortfolioAce.ViewModels.Modals
         private DateTime _lastLockedDate;
         public AddFXTradeWindowViewModel(ITransactionService transactionService, IStaticReferences staticReferences, Fund fund)
         {
-            //AddFXTradeCommand = new AddFXTradeCommand(this, transactionService);
             _fund = fund;
             _transactionService = transactionService;
             _staticReferences = staticReferences;
@@ -29,21 +30,73 @@ namespace PortfolioAce.ViewModels.Modals
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             _tradeDate = DateExtentions.InitialDate();
             _settleDate = DateExtentions.InitialDate();
+            AddFXTradeCommand = new AddFXTradeCommand(this, transactionService);
 
         }
 
-        private decimal _quantity;
-        public decimal Quantity
+        public ICommand AddFXTradeCommand { get; set; }
+
+
+
+        private string _buyCurrency;
+        public string BuyCurrency
         {
             get
             {
-                return _quantity;
+                return _buyCurrency;
             }
             set
             {
-                _quantity = value;
-                OnPropertyChanged(nameof(Quantity));
-                OnPropertyChanged(nameof(TradeAmount));
+                _buyCurrency = value;
+                _validationErrors.ClearErrors(nameof(BuyCurrency));
+                if (_buyCurrency==_sellCurrency)
+                {
+                    _validationErrors.AddError(nameof(BuyCurrency), "You cannot exchange the same currency");
+                }
+                OnPropertyChanged(nameof(BuyCurrency));
+                OnPropertyChanged(nameof(NoteLabel));
+            }
+        }
+
+        private string _sellCurrency;
+        public string SellCurrency
+        {
+            get
+            {
+                return _sellCurrency;
+            }
+            set
+            {
+                _sellCurrency = value;
+                _validationErrors.ClearErrors(nameof(SellCurrency));
+                if (_buyCurrency == _sellCurrency)
+                {
+                    _validationErrors.AddError(nameof(SellCurrency), "You cannot exchange the same currency");
+                }
+                OnPropertyChanged(nameof(SellCurrency));
+                OnPropertyChanged(nameof(NoteLabel));
+                OnPropertyChanged(nameof(SellAmountLabel));
+            }
+        }
+
+        private decimal _buyAmount;
+        public decimal BuyAmount
+        {
+            get
+            {
+                return _buyAmount;
+            }
+            set
+            {
+                _buyAmount = value;
+                _validationErrors.ClearErrors(nameof(BuyAmount));
+                if (_buyAmount < 0)
+                {
+                    _validationErrors.AddError(nameof(BuyAmount), "The buy amount cannot be negative");
+                }
+                OnPropertyChanged(nameof(BuyAmount));
+                OnPropertyChanged(nameof(SellAmount));
+                OnPropertyChanged(nameof(SellAmountLabel));
             }
         }
 
@@ -58,34 +111,44 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _price = value;
                 _validationErrors.ClearErrors(nameof(Price));
-                if (_price < 0)
+                if (_price <= 0)
                 {
                     _validationErrors.AddError(nameof(Price), "The price cannot be a negative number");
                 }
 
                 OnPropertyChanged(nameof(Price));
-                OnPropertyChanged(nameof(TradeAmount));
+                OnPropertyChanged(nameof(SellAmount));
+                OnPropertyChanged(nameof(SellAmountLabel));
+                OnPropertyChanged(nameof(NoteLabel));
+
             }
         }
 
-        private decimal _tradeAmount;
-        public decimal TradeAmount
+        public string SellAmountLabel
         {
-
             get
             {
-
-
-                return _tradeAmount;
-            }
-            set
-            {
-
-                _tradeAmount = value;
-                OnPropertyChanged(nameof(TradeAmount));
+                decimal amount = Math.Round(_sellAmount = _buyAmount * _price * -1, 2);
+                return $"{amount} {_sellCurrency}";
             }
         }
 
+        private decimal _sellAmount;
+        public decimal SellAmount
+        {
+            get
+            {
+               return Math.Round(_sellAmount = _buyAmount * _price * -1, 2);
+            }
+        }
+
+        public string NoteLabel
+        {
+            get
+            {
+                return $"BUY {_buyCurrency}/ SELL {_sellCurrency} @ {_price}. SD {_settleDate.ToString("dd/MM/yy")}";
+            }
+        }
 
         private DateTime _tradeDate;
         public DateTime TradeDate
@@ -141,6 +204,7 @@ namespace PortfolioAce.ViewModels.Modals
                     _validationErrors.AddError(nameof(SettleDate), "The SettleDate cannot take place before the trade date");
                 }
                 OnPropertyChanged(nameof(SettleDate));
+                OnPropertyChanged(nameof(NoteLabel));
             }
         }
 

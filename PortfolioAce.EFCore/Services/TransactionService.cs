@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using PortfolioAce.Domain.DataObjects.DTOs;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
 using System;
@@ -17,6 +18,27 @@ namespace PortfolioAce.EFCore.Services
         public TransactionService(PortfolioAceDbContextFactory contextFactory)
         {
             this._contextFactory = contextFactory;
+        }
+
+        public Task<TransactionsBO> CreateFXTransaction(ForexDTO fxTransaction)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                /* Trade Type is hardcoded to FXTrade
+                 * 
+                 * Steps:
+                 * Create a security if not exist for the FX Forward i.e. symbol USDGBP130121, name USD/GBP 13/01/21, ccy=USD
+                 * Create the Transactions BO object. quantity is buy amount, trade amount=0, 
+                 * Create the collapse trade type=fxtradecollapse
+                 * Create 2 Cash Transactions for the buy and sell legs (type=fxBuy and fxSell)... 
+                 * I need a nullable column for Linked trades. 
+                 * I need a table called LinkedTransactions to allow me to connect these four items together..
+                 * [^basically i create this object and put the ID on all four items.]
+                 * So when it comes to editing i can just grab them all.
+                 * REMEMBER FXTrade is just a REFERENCE. the actual cash movement is on the cash trades.
+                 * */
+                throw new ArgumentException();
+            }
         }
 
         public async Task<TransactionsBO> CreateTransaction(TransactionsBO transaction)
