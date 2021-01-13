@@ -21,14 +21,11 @@ namespace PortfolioAce.DataCentre.APIConnections
 
         public async Task<IEnumerable<AVSecurityPriceData>> GetPricesAsync(SecuritiesDIM security)
         {
-            // i would use this like Task<List<object>>...
-            // This generic method is very flexible because i can manipulate the uri for services to get different types of data...
-            // as well as create different types of objects
             string uri = GenerateURI(security);
             string connection = $"{BASE_ADDRESS_QUERY}/query?apikey={_apiKeyAV}&{uri}&datatype=csv";
             string response = await connection.GetStringFromUrlAsync();
             string assetClass = security.AssetClass.Name;
-            IEnumerable<AVSecurityPriceData> result;// = response.FromCsv<T>();
+            IEnumerable<AVSecurityPriceData> result;
 
             if (assetClass == "Cryptocurrency") 
             {
