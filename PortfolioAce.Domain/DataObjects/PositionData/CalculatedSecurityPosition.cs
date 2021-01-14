@@ -469,13 +469,13 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                 }
             }
 
-            if (transaction.TransactionType.TypeName == "Trade")
+            if (transaction.TransactionType.TypeName == "FXTrade" || transaction.TransactionType.TypeName == "FXTradeCollapse")
             {
                 AddTradeEvent(transaction);
             }
             else
             {
-                throw new InvalidOperationException("Cryptocurrencies do not have corporate action events.");
+                throw new InvalidOperationException("FX Trades do not have corporate action events.");
             }
         }
 

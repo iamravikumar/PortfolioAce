@@ -50,7 +50,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                 case "Cryptocurrency":
                     return new ValuedCryptoPosition(position, priceTable, asOfDate, FundBaseCurrency);
                 case "FX":
-                    return new ValuedFXPosition();
+                    return new ValuedFXPosition(position, priceTable, asOfDate, FundBaseCurrency);
                 default:
                     throw new ArgumentException("The asset class is not implemented as a security", "assetClass");
             }
