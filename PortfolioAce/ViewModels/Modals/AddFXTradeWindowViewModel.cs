@@ -229,34 +229,6 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public DateTime CreatedDate
-        {
-            get
-            {
-                return DateTime.Now;
-            }
-        }
-        public DateTime LastModifiedDate
-        {
-            get
-            {
-                return DateTime.Now;
-            }
-        }
-        public bool isActive
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public bool isLocked
-        {
-            get
-            {
-                return false;
-            }
-        }
 
         private string _custodian;
         public string Custodian
