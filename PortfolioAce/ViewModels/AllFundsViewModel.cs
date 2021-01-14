@@ -443,8 +443,15 @@ namespace PortfolioAce.ViewModels
                 case MessageBoxResult.Yes:
                     if (!_staticReferences.GetPeriod(tradeDate, tradeFundId).isLocked)
                     {
-                        _transactionService.DeleteTransaction(selectedTransaction);
-                        OnPropertyChanged("");
+                        if (_selectedTransaction.Security.AssetClass.Name == "FX")
+                        {
+                            _transactionService.DeleteFXTransaction(_selectedTransaction);
+                        }
+                        else
+                        {
+                            _transactionService.DeleteTransaction(_selectedTransaction); 
+                        }
+                        SelectFundCommand.Execute(_currentFund.Symbol);
                     }
                     else
                     {
@@ -466,8 +473,16 @@ namespace PortfolioAce.ViewModels
                 case MessageBoxResult.Yes:
                     if (!_staticReferences.GetPeriod(tradeDate, tradeFundId).isLocked)
                     {
-                        _transactionService.RestoreTransaction(selectedTransaction);
-                        OnPropertyChanged("");
+                        if (_selectedTransaction.Security.AssetClass.Name == "FX")
+                        {
+                            _transactionService.RestoreFXTransaction(_selectedTransaction);
+                        }
+                        else
+                        {
+                            _transactionService.RestoreTransaction(_selectedTransaction);
+                        }
+
+                        SelectFundCommand.Execute(_currentFund.Symbol);
                     }
                     else
                     {

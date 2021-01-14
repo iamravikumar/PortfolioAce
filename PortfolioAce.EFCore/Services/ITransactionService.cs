@@ -16,6 +16,8 @@ namespace PortfolioAce.EFCore.Services
 
         void DeleteTransaction(TransactionsBO transaction);
         void RestoreTransaction(TransactionsBO transaction);
+        void DeleteFXTransaction(TransactionsBO transaction);
+        void RestoreFXTransaction(TransactionsBO transaction);
         SecuritiesDIM GetSecurityInfo(string symbol);
         bool SecurityExists(string symbol);
         TransactionTypeDIM GetTradeType(string name);

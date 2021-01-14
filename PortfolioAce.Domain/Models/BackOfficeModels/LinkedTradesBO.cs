@@ -11,5 +11,8 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
     {
         [Key]
         public int LinkedTradeId { get; set; }
+
+        public virtual ICollection<TransactionsBO> Transactions { get; set; }
+
     }
 }

@@ -201,6 +201,8 @@ namespace PortfolioAce.ViewModels.Modals
                 }
                 OnPropertyChanged(nameof(TradeDate));
                 OnPropertyChanged(nameof(SettleDate));
+                OnPropertyChanged(nameof(NoteLabel));
+
             }
         }
 

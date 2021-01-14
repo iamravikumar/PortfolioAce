@@ -24,20 +24,6 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                /* Trade Type is hardcoded to FXTrade
-                 * 
-                 * Steps:
-                 * Create a security if not exist for the FX Forward i.e. symbol USDGBP130121, name USD/GBP 13/01/21, ccy=USD
-                 * Create the Transactions BO object. quantity is buy amount, trade amount=0, 
-                 * Create the collapse trade type=fxtradecollapse
-                 * Create 2 Cash Transactions for the buy and sell legs (type=fxBuy and fxSell)... 
-                 * I need a nullable column for Linked trades. 
-                 * I need a table called LinkedTransactions to allow me to connect these four items together..
-                 * [^basically i create this object and put the ID on all four items.]
-                 * So when it comes to editing i can just grab them all.
-                 * REMEMBER FXTrade is just a REFERENCE. the actual cash movement is on the cash trades.
-                 * HIDE FX AND CASH FROM SECURITY MANAGER!!!!
-                 * */
                 SecuritiesDIM fxSecurity = context.Securities.Where(s => s.Symbol == fxTransaction.Symbol).FirstOrDefault();
                 AssetClassDIM assetClass = context.AssetClasses.Where(a => a.Name == "FX").FirstOrDefault();
                 CustodiansDIM custodian = context.Custodians.Where(c => c.Name == fxTransaction.Custodian).FirstOrDefault();
@@ -100,7 +86,6 @@ namespace PortfolioAce.EFCore.Services
                     CreatedDate = DateTime.Now,
                     LastModified = DateTime.Now,
                     LinkedTrades = linkReference
-
                 };
                 EntityEntry<TransactionsBO> res = await context.Transactions.AddAsync(refTransaction);
                 context.Transactions.Add(refTransactionCollapse);
@@ -168,6 +153,22 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public void DeleteFXTransaction(TransactionsBO transaction)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                List<TransactionsBO> linkedTransactions = context.Transactions.Where(t=>t.LinkedTradeId==transaction.LinkedTradeId).ToList();
+                // To DO im not happy with this it needs to be neater
+                foreach(TransactionsBO linkedTransaction in linkedTransactions)
+                {
+                    TransactionsBO tempTransaction = linkedTransaction;
+                    tempTransaction.isActive = false;
+                    context.Entry(linkedTransaction).CurrentValues.SetValues(tempTransaction);
+                }
+                context.SaveChanges();
+            }
+        }
+
         public void DeleteTransaction(TransactionsBO transaction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
@@ -200,6 +201,22 @@ namespace PortfolioAce.EFCore.Services
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.TransactionTypes.Where(t => (t.TypeName) == name).FirstOrDefault();
+            }
+        }
+
+        public void RestoreFXTransaction(TransactionsBO transaction)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                List<TransactionsBO> linkedTransactions = context.Transactions.Where(t => t.LinkedTradeId == transaction.LinkedTradeId).ToList();
+                // To DO im not happy with this it needs to be neater
+                foreach (TransactionsBO linkedTransaction in linkedTransactions)
+                {
+                    TransactionsBO tempTransaction = linkedTransaction;
+                    tempTransaction.isActive = true;
+                    context.Entry(linkedTransaction).CurrentValues.SetValues(tempTransaction);
+                }
+                context.SaveChanges();
             }
         }
 
