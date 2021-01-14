@@ -352,8 +352,16 @@ namespace PortfolioAce.ViewModels
 
         public void OpenEditTradeWindow()
         {
-            _windowFactory.CreateEditTradeWindow(_selectedTransaction);
-            OnPropertyChanged("");
+            if (_selectedTransaction.Security.AssetClass.Name == "FX")
+            {
+                MessageBox.Show("Editing FX Trades are currently not supported", "Information");
+            }
+            else
+            {
+                _windowFactory.CreateEditTradeWindow(_selectedTransaction);
+                OnPropertyChanged("");
+            }
+
         }
 
         public void OpenNewFxTradeWindow()
