@@ -43,7 +43,8 @@ namespace PortfolioAce.Commands
                     SellAmount = _addFXTradeWindowVM.SellAmount,
                     SellCurrency = _addFXTradeWindowVM.SellCurrency,
                     BuyCurrency = _addFXTradeWindowVM.BuyCurrency,
-                    Custodian = _addFXTradeWindowVM.Custodian
+                    Custodian = _addFXTradeWindowVM.Custodian,
+                    FundId = _addFXTradeWindowVM.FundId
                 };
                 
                 await _transactionService.CreateFXTransaction(fxTransaction);

@@ -286,7 +286,7 @@ namespace PortfolioAce.ViewModels
             {
                 // Transactions filtered for just security trades
                 return (_currentFund != null) ? _currentFund.Transactions
-                                                            .Where(t => t.TransactionType.TypeClass == "SecurityTrade" && t.TradeDate <= _asOfDate)
+                                                            .Where(t => (t.TransactionType.TypeClass == "SecurityTrade" || t.TransactionType.TypeName=="FXTrade") && t.TradeDate <= _asOfDate)
                                                             .OrderBy(t=>t.TradeDate)
                                                             .ToList() : null;
             }
@@ -326,7 +326,7 @@ namespace PortfolioAce.ViewModels
             {
                 // all Transactions ordered by date... 
                 return (_currentFund != null) ? _currentFund.Transactions
-                                                            .Where(t=>t.TradeDate<=_asOfDate)
+                                                            .Where(t=>t.TradeDate<=_asOfDate && t.TransactionType.TypeClass!="FXTrade")
                                                             .OrderBy(t => t.TradeDate)
                                                             .ToList() : null;
             }

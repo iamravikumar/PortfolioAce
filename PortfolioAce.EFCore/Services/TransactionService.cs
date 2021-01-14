@@ -20,7 +20,7 @@ namespace PortfolioAce.EFCore.Services
             this._contextFactory = contextFactory;
         }
 
-        public Task<TransactionsBO> CreateFXTransaction(ForexDTO fxTransaction)
+        public async Task<TransactionsBO> CreateFXTransaction(ForexDTO fxTransaction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -36,8 +36,120 @@ namespace PortfolioAce.EFCore.Services
                  * [^basically i create this object and put the ID on all four items.]
                  * So when it comes to editing i can just grab them all.
                  * REMEMBER FXTrade is just a REFERENCE. the actual cash movement is on the cash trades.
+                 * HIDE FX AND CASH FROM SECURITY MANAGER!!!!
                  * */
-                throw new ArgumentException();
+                SecuritiesDIM fxSecurity = context.Securities.Where(s => s.Symbol == fxTransaction.Symbol).FirstOrDefault();
+                AssetClassDIM assetClass = context.AssetClasses.Where(a => a.Name == "FX").FirstOrDefault();
+                CustodiansDIM custodian = context.Custodians.Where(c => c.Name == fxTransaction.Custodian).FirstOrDefault();
+                List<TransactionTypeDIM> transactionTypes = context.TransactionTypes.ToList();
+                List<CurrenciesDIM> currencies = context.Currencies.ToList();
+
+                CurrenciesDIM buyCurrency = context.Currencies.Where(c=>c.Symbol==fxTransaction.BuyCurrency).First();
+                CurrenciesDIM sellCurrency = context.Currencies.Where(c => c.Symbol == fxTransaction.SellCurrency).First();
+                if (fxSecurity == null)
+                {
+                    fxSecurity = new SecuritiesDIM
+                    {
+                        AssetClassId = assetClass.AssetClassId,
+                        CurrencyId = buyCurrency.CurrencyId,
+                        SecurityName = fxTransaction.Name,
+                        Symbol = fxTransaction.Symbol
+                    };
+                    context.Securities.Add(fxSecurity);
+                }
+                // Created LinkedTransactions Here
+
+                TransactionsBO refTransaction = new TransactionsBO
+                {
+                    Security = fxSecurity,
+                    FundId = fxTransaction.FundId,
+                    isActive = true,
+                    isLocked = false,
+                    TradeAmount = 0,
+                    Price = fxTransaction.Price,
+                    Quantity = fxTransaction.BuyAmount,
+                    CurrencyId = buyCurrency.CurrencyId,
+                    TransactionTypeId = transactionTypes.Where(tt => tt.TypeName == "FXTrade").First().TransactionTypeId,
+                    Comment = "",
+                    CustodianId=custodian.CustodianId,
+                    Fees = 0,
+                    isCashTransaction = false,
+                    TradeDate = fxTransaction.TradeDate,
+                    SettleDate = fxTransaction.SettleDate,
+                    CreatedDate = DateTime.Now,
+                    LastModified = DateTime.Now
+                };
+                TransactionsBO refTransactionCollapse = new TransactionsBO
+                {
+                    Security = fxSecurity,
+                    FundId = fxTransaction.FundId,
+                    isActive = true,
+                    isLocked = false,
+                    TradeAmount = 0,
+                    Price = fxTransaction.Price,
+                    Quantity = fxTransaction.BuyAmount*-1,
+                    CurrencyId = buyCurrency.CurrencyId,
+                    TransactionTypeId = transactionTypes.Where(tt => tt.TypeName == "FXTradeCollapse").First().TransactionTypeId,
+                    Comment = "",
+                    CustodianId = custodian.CustodianId,
+                    Fees = 0,
+                    isCashTransaction = false,
+                    TradeDate = fxTransaction.SettleDate,
+                    SettleDate = fxTransaction.SettleDate,
+                    CreatedDate = DateTime.Now,
+                    LastModified = DateTime.Now
+                };
+                EntityEntry<TransactionsBO> res = await context.Transactions.AddAsync(refTransaction);
+                context.Transactions.Add(refTransactionCollapse);
+
+                SecuritiesDIM fxBuySecurity = context.Securities.Where(s => s.Symbol == $"{fxTransaction.BuyCurrency}c").FirstOrDefault();
+                SecuritiesDIM fxSellSecurity = context.Securities.Where(s => s.Symbol == $"{fxTransaction.SellCurrency}c").FirstOrDefault();
+
+                TransactionsBO fxBuyLegCash = new TransactionsBO
+                {
+                    SecurityId = fxBuySecurity.SecurityId,
+                    FundId = fxTransaction.FundId,
+                    isActive = true,
+                    isLocked = false,
+                    TradeAmount = fxTransaction.BuyAmount,
+                    Price = 1,
+                    Quantity = fxTransaction.BuyAmount,
+                    CurrencyId = buyCurrency.CurrencyId,
+                    TransactionTypeId = transactionTypes.Where(tt => tt.TypeName == "FXBuy").First().TransactionTypeId,
+                    Comment = fxTransaction.Description,
+                    CustodianId = custodian.CustodianId,
+                    Fees = 0,
+                    isCashTransaction = false,
+                    TradeDate = fxTransaction.SettleDate,
+                    SettleDate = fxTransaction.SettleDate,
+                    CreatedDate = DateTime.Now,
+                    LastModified = DateTime.Now
+                };
+                TransactionsBO fxSellLegCash = new TransactionsBO
+                {
+                    SecurityId= fxSellSecurity.SecurityId,
+                    FundId = fxTransaction.FundId,
+                    isActive = true,
+                    isLocked = false,
+                    TradeAmount = fxTransaction.SellAmount,
+                    Price = 1,
+                    Quantity = fxTransaction.SellAmount,
+                    CurrencyId = sellCurrency.CurrencyId,
+                    TransactionTypeId = transactionTypes.Where(tt => tt.TypeName == "FXSell").First().TransactionTypeId,
+                    Comment = fxTransaction.Description,
+                    CustodianId = custodian.CustodianId,
+                    Fees = 0,
+                    isCashTransaction = false,
+                    TradeDate = fxTransaction.SettleDate,
+                    SettleDate = fxTransaction.SettleDate,
+                    CreatedDate = DateTime.Now,
+                    LastModified = DateTime.Now
+                };
+                context.Transactions.Add(fxBuyLegCash);
+                context.Transactions.Add(fxSellLegCash);
+
+                context.SaveChangesAsync();
+                return refTransaction;
             }
         }
 

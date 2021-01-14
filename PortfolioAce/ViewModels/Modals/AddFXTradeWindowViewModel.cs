@@ -36,7 +36,13 @@ namespace PortfolioAce.ViewModels.Modals
 
         public ICommand AddFXTradeCommand { get; set; }
 
-
+        public int FundId
+        {
+            get
+            {
+                return _fund.FundId;
+            }
+        }
 
         private string _buyCurrency;
         public string BuyCurrency
