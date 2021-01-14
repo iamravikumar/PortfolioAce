@@ -134,8 +134,16 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                decimal amount = Math.Round(_sellAmount = _buyAmount * _price * -1, 2);
-                return $"{amount} {_sellCurrency}";
+                if (_price != 0)
+                {
+                    decimal amount = Math.Round(_sellAmount = _buyAmount / _price * -1, 2);
+                    return $"{amount} {_sellCurrency}";
+                }
+                else
+                {
+                    return $"0 {_sellCurrency}";
+                }
+                
             }
         }
 
@@ -144,7 +152,14 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-               return Math.Round(_sellAmount = _buyAmount * _price * -1, 2);
+                if (_price != 0)
+                {
+                    return Math.Round(_sellAmount = _buyAmount / _price * -1, 2);
+                }
+                else
+                {
+                    return 0;
+                }
             }
         }
 

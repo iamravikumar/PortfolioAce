@@ -58,7 +58,7 @@ namespace PortfolioAce.EFCore.Services
                     context.Securities.Add(fxSecurity);
                 }
                 // Created LinkedTransactions Here
-
+                LinkedTradesBO linkReference = new LinkedTradesBO();
                 TransactionsBO refTransaction = new TransactionsBO
                 {
                     Security = fxSecurity,
@@ -77,7 +77,8 @@ namespace PortfolioAce.EFCore.Services
                     TradeDate = fxTransaction.TradeDate,
                     SettleDate = fxTransaction.SettleDate,
                     CreatedDate = DateTime.Now,
-                    LastModified = DateTime.Now
+                    LastModified = DateTime.Now,
+                    LinkedTrades=linkReference
                 };
                 TransactionsBO refTransactionCollapse = new TransactionsBO
                 {
@@ -97,7 +98,9 @@ namespace PortfolioAce.EFCore.Services
                     TradeDate = fxTransaction.SettleDate,
                     SettleDate = fxTransaction.SettleDate,
                     CreatedDate = DateTime.Now,
-                    LastModified = DateTime.Now
+                    LastModified = DateTime.Now,
+                    LinkedTrades = linkReference
+
                 };
                 EntityEntry<TransactionsBO> res = await context.Transactions.AddAsync(refTransaction);
                 context.Transactions.Add(refTransactionCollapse);
@@ -123,7 +126,8 @@ namespace PortfolioAce.EFCore.Services
                     TradeDate = fxTransaction.SettleDate,
                     SettleDate = fxTransaction.SettleDate,
                     CreatedDate = DateTime.Now,
-                    LastModified = DateTime.Now
+                    LastModified = DateTime.Now,
+                    LinkedTrades = linkReference
                 };
                 TransactionsBO fxSellLegCash = new TransactionsBO
                 {
@@ -143,7 +147,8 @@ namespace PortfolioAce.EFCore.Services
                     TradeDate = fxTransaction.SettleDate,
                     SettleDate = fxTransaction.SettleDate,
                     CreatedDate = DateTime.Now,
-                    LastModified = DateTime.Now
+                    LastModified = DateTime.Now,
+                    LinkedTrades = linkReference
                 };
                 context.Transactions.Add(fxBuyLegCash);
                 context.Transactions.Add(fxSellLegCash);

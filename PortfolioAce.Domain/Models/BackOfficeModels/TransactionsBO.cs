@@ -55,7 +55,7 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         [ForeignKey("Currency")]
         public int CurrencyId { get; set; }
         public CurrenciesDIM Currency { get; set; }
-        
+
         [ForeignKey("Custodian")]
         public int CustodianId { get; set; }
         public CustodiansDIM Custodian { get; set; }
@@ -66,30 +66,10 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
 
         [ForeignKey("TransactionType")]
         public int TransactionTypeId { get; set; }
-        public TransactionTypeDIM TransactionType { get; set; } //purchase sell income etc.. seperated by security or cash security or cash..
+        public TransactionTypeDIM TransactionType { get; set; }
 
-        /*
-         * Direction (purchase, sell, Income, Expense, Withdrawal, Deposit, dividends, Interest, management fee, perfromance fee, miscellaneous) X
-         * ^ These types will have another column that will be cash or security. This will allow me to differentiate on what should be where
-         * Trade Type (Security or Cash) X
-         * Quantity X
-         * Price X
-         * Transaction Amount X
-         * Comments X
-         * Trade Currency
-         * trade date X
-         * settle date X
-         * created date X
-         * last modified date X
-         * Security I will have to securitise cash i.e. cash as a security will need to be seeded X
-         * isLocked  X 
-         * isActive X
-         * Fees/Commission X
-         *
-         * subs and reds should be recorded here as such. but information such as price and quantity held in a seperate TA screen. effectively anything
-         * that happens in the transfer agent screen will flow into this. think of an order management system or TA system. data from these sources
-         * will directly feed into the back office once finalised..
-         */
-
+        [ForeignKey("LinkedTrades")]
+        public int? LinkedTradeId { get; set; }
+        public LinkedTradesBO LinkedTrades {get;set;}
     }
 }

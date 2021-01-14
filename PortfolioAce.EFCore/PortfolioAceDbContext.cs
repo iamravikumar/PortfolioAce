@@ -21,7 +21,7 @@ namespace PortfolioAce.EFCore
         public DbSet<TransferAgencyBO> TransferAgent { get; set; }
         public DbSet<TransactionsBO> Transactions { get; set; }
         public DbSet<FundInvestorBO> FundInvestor { get; set; }
-
+        public DbSet<LinkedTradesBO> LinkedTrades { get; set; }
         // Dimensions
         public DbSet<SecuritiesDIM> Securities { get; set; }
         public DbSet<AssetClassDIM> AssetClasses { get; set; }
