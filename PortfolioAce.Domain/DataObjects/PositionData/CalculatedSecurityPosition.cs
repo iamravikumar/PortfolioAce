@@ -498,21 +498,16 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             {
                 while (_openLots.Count > 0 && quantityRef != 0)
                 {
-                    decimal pnl;
-                    int multiplier = (_isLong) ? 1 : -1; // this is important because it allows me to calculate pnl taking direction into account.
                     if (Math.Abs(quantityRef) >= Math.Abs(_openLots.Peek().quantity))
                     {
-                        pnl = Math.Abs(_openLots.Peek().quantity) * (transaction.Price - _openLots.Peek().price) * multiplier;
                         quantityRef += _openLots.Peek().quantity;
                         _openLots.Dequeue();
                     }
                     else
                     {
-                        pnl = Math.Abs(quantityRef) * (transaction.Price - _openLots.Peek().price) * multiplier;
                         _openLots.Peek().quantity += quantityRef;
                         quantityRef = 0;
                     }
-                    _realisedPnL += pnl;
                 }
                 if (quantityRef != 0)
                 {
