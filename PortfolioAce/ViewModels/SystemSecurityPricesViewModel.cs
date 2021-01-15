@@ -25,6 +25,7 @@ namespace PortfolioAce.ViewModels
         {
             _priceService = priceService;
             SaveSecurityPriceCommand = new SaveSecurityPriceCommand(this, priceService);
+            SaveManualSecurityPriceCommand = new SaveManualSecurityPriceCommand(this, priceService);
 
             if (cmbSecurities.Count != 0)
             {
@@ -37,12 +38,14 @@ namespace PortfolioAce.ViewModels
             else
             {
                 _securityPrices = new List<SecurityPriceStore>();
+                dgSecurityPrices = new ObservableCollection<PriceContainer>(_securityPrices.Select(sp => new PriceContainer(sp.Date, sp.ClosePrice)));
                 SecurityPriceLineChartYAxis = new ChartValues<decimal> { 1, 1, 1, 1, 1 };
                 SecurityPriceLineChartXAxis = new string[1];
             }
         }
 
         public ICommand SaveSecurityPriceCommand { get; set; }
+        public ICommand SaveManualSecurityPriceCommand { get; set; }
 
 
         public ObservableCollection<string> cmbSecurities

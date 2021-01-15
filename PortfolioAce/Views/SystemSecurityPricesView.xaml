@@ -58,11 +58,19 @@
                 <TextBlock Text="{Binding SecurityInfo.ISIN}"/>
             </StackPanel>
         </DockPanel>
-        <Button Grid.Row="2" Grid.Column="1" Command="{Binding SaveSecurityPriceCommand}" Style="{DynamicResource MaterialDesignFlatDarkBgButton}"
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" Margin="0,5,0,0">
+            <Button Command="{Binding SaveSecurityPriceCommand}" Style="{DynamicResource MaterialDesignFlatDarkBgButton}"
                 Margin="0,5,0,0" Content="Update Prices from API" Width="200" Visibility="{Binding ShowAPIButton, UpdateSourceTrigger=PropertyChanged}" >
-            <Button.ToolTip>
-                <TextBlock Text="Checks AlphaVantage for the latest prices for this ticker and saves new prices to the DataBase"/>
-            </Button.ToolTip>
-        </Button>
+                <Button.ToolTip>
+                    <TextBlock Text="Checks AlphaVantage for the latest prices for this ticker and saves new prices to the DataBase"/>
+                </Button.ToolTip>
+            </Button>
+            <Button Command="{Binding SaveManualSecurityPriceCommand}" Style="{DynamicResource MaterialDesignFlatDarkBgButton}"
+                Margin="0,5,0,0" Content="Update Database" Width="200" >
+                <Button.ToolTip>
+                    <TextBlock Text="Stores any edit and additions made on the price table to the DataBase"/>
+                </Button.ToolTip>
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>
