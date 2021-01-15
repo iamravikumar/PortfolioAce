@@ -120,13 +120,26 @@ namespace PortfolioAce.Domain.BusinessServices
 
             List<CalculatedSecurityPosition> allPositions = new List<CalculatedSecurityPosition>();
 
+            bool includeClosed = false; // this will be a method parameter in the future
             foreach(KeyValuePair<(string, string), List<TransactionsBO>> Kvp in tradesBySecurityAndCustodian)
             {
                 SecuritiesDIM security = Kvp.Value[0].Security;
                 CustodiansDIM custodian = Kvp.Value[0].Custodian;
                 CalculatedSecurityPosition position= _positionFactory.CreateSecurityPosition(security, custodian);
                 position.AddTransactionRange(Kvp.Value);
-                allPositions.Add(position);
+
+                if (includeClosed)
+                {
+                    allPositions.Add(position);
+                }
+                else
+                {
+                    if (position.NetQuantity != 0)
+                    {
+                        allPositions.Add(position);
+                    }
+                }
+                
             }
 
             return allPositions;
