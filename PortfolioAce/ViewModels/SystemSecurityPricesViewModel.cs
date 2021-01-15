@@ -4,6 +4,7 @@ using PortfolioAce.DataCentre.DeserialisedObjects;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services.PriceServices;
+using PortfolioAce.HelperObjects;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,11 +29,14 @@ namespace PortfolioAce.ViewModels
             if (cmbSecurities.Count != 0)
             {
                 _symbol = cmbSecurities[0];
+                _securityPrices = _priceService.GetSecurityPrices(_symbol);
+                dgSecurityPrices = new ObservableCollection<PriceContainer> (_securityPrices.Select(sp => new PriceContainer(sp.Date, sp.ClosePrice)));
                 SecurityPriceLineChartYAxis = new ChartValues<decimal>(dgSecurityPrices.Select(sp => sp.ClosePrice));
                 _SecurityPriceLineChartXAxis = dgSecurityPrices.Select(sp => sp.Date.ToString("dd/MM/yyyy")).ToArray();
             }
             else
             {
+                _securityPrices = new List<SecurityPriceStore>();
                 SecurityPriceLineChartYAxis = new ChartValues<decimal> { 1, 1, 1, 1, 1 };
                 SecurityPriceLineChartXAxis = new string[1];
             }
@@ -50,14 +54,10 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public ObservableCollection<SecurityPriceStore> dgSecurityPrices
-        {
-            get
-            {
-                List<SecurityPriceStore> securityPrices = _priceService.GetSecurityPrices(_symbol);
-                return new ObservableCollection<SecurityPriceStore>(securityPrices);
-            }
-        }
+        private List<SecurityPriceStore> _securityPrices;
+        public ObservableCollection<PriceContainer> dgSecurityPrices { get; set; }
+
+
 
         private string _symbol;
         public string Symbol
@@ -71,8 +71,8 @@ namespace PortfolioAce.ViewModels
                 _symbol = value;
                 OnPropertyChanged(nameof(Symbol));
                 OnPropertyChanged(nameof(SecurityInfo));
-                OnPropertyChanged(nameof(dgSecurityPrices));
                 Load();
+                OnPropertyChanged(nameof(dgSecurityPrices));
                 OnPropertyChanged(nameof(SecurityPriceLineChartXAxis));
                 OnPropertyChanged(nameof(ShowAPIButton));
             }
@@ -117,6 +117,8 @@ namespace PortfolioAce.ViewModels
         public async Task Load()
         {
             SecurityPriceLineChartYAxis.Clear();
+            _securityPrices = _priceService.GetSecurityPrices(_symbol);
+            dgSecurityPrices = new ObservableCollection<PriceContainer>(_securityPrices.Select(sp => new PriceContainer(sp.Date, sp.ClosePrice)));
             SecurityPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgSecurityPrices.Select(sp=>sp.ClosePrice)));
             _SecurityPriceLineChartXAxis = dgSecurityPrices.Select(sp => sp.Date.ToString("dd/MM/yyyy")).ToArray();
         }
