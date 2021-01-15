@@ -68,12 +68,16 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _securitySymbol = value;
+                _avSymbol = value;
+                _fmpSymbol = value;
                 _validationErrors.ClearErrors(nameof(SecuritySymbol));
                 if (_adminService.SecurityExists(_securitySymbol))
                 {
                     _validationErrors.AddError(nameof(SecuritySymbol), $"The Security '{_securitySymbol}' already exist");
                 }
                 OnPropertyChanged(nameof(SecuritySymbol));
+                OnPropertyChanged(nameof(AVSymbol));
+                OnPropertyChanged(nameof(FMPSymbol));
             }
         }
 
@@ -88,6 +92,34 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _currency = value;
                 OnPropertyChanged(nameof(Currency));
+            }
+        }
+
+        private string _avSymbol;
+        public string AVSymbol
+        {
+            get
+            {
+                return _avSymbol;
+            }
+            set
+            {
+                _avSymbol = value;
+                OnPropertyChanged(nameof(AVSymbol));
+            }
+        }
+
+        private string _fmpSymbol;
+        public string FMPSymbol
+        {
+            get
+            {
+                return _fmpSymbol;
+            }
+            set
+            {
+                _fmpSymbol = value;
+                OnPropertyChanged(nameof(FMPSymbol));
             }
         }
 
@@ -110,7 +142,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                List<SecuritiesDIM> securities = _adminService.GetAllSecurities().Where(s=>s.AssetClass.Name != "CASH" && s.AssetClass.Name == "FX").ToList();
+                List<SecuritiesDIM> securities = _adminService.GetAllSecurities().Where(s=>s.AssetClass.Name != "Cash" && s.AssetClass.Name != "FX").ToList();
                 return new ObservableCollection<SecuritiesDIM>(securities);
             }
         }

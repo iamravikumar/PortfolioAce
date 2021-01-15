@@ -82,9 +82,21 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Label Grid.Row="5">ISIN:</Label>
-                    <TextBox Text="{Binding ISIN, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-                    <Button Command="{Binding AddSecurityCommand}" Grid.Row="6" Grid.Column="1" Margin="0,10,0,0" 
+                    <Label Grid.Row="5" Content="AlphaVantage Symbol:">
+                        <Label.ToolTip>
+                            This symbol will be used to get data from AlphaVantage API
+                        </Label.ToolTip>
+                    </Label>
+                    <TextBox Text="{Binding AVSymbol, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+                    <Label Grid.Row="6" Content="FMP Symbol:">
+                        <Label.ToolTip>
+                            This symbol will be used to get data from Financial Modelling Prep API
+                        </Label.ToolTip>
+                    </Label>
+                    <TextBox Text="{Binding FMPSymbol, UpdateSourceTrigger=PropertyChanged}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+                    <Label Grid.Row="7">ISIN:</Label>
+                    <TextBox Text="{Binding ISIN, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+                    <Button Command="{Binding AddSecurityCommand}" Grid.Row="8" Grid.Column="1" Margin="0,10,0,0" 
                             Style="{DynamicResource MaterialDesignFlatMidBgButton}" IsEnabled="{Binding CanCreate}" Content="Add Security"/>
                 </Grid>
             </TabItem>

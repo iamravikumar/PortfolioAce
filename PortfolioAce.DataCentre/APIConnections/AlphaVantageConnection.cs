@@ -45,7 +45,7 @@ namespace PortfolioAce.DataCentre.APIConnections
         private string GenerateURI(SecuritiesDIM security)
         {
             string assetClass = security.AssetClass.Name;
-            string symbol = security.Symbol;
+            string symbol = security.AlphaVantageSymbol;
             string uri;
 
             if (assetClass == "FX")

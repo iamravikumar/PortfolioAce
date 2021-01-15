@@ -15,12 +15,11 @@ namespace PortfolioAce.Domain.Models.Dimensions
         public int SecurityId { get; set; }
         [Required]
         public string Symbol { get; set; }
-
-        // I should include a secondary symbol here specific for AlphaVantage API. This way i can have a custom Symbol above, and a seperate symbol for alphavantage this decouples the application from Alphavantage.
-        /*
-        It doesn't need to be required
+        
+        // These symbols are for pricing purposes...
         public string? AlphaVantageSymbol { get; set; }
-         */
+        public string? FMPSymbol { get; set; }
+
         [Required]
         public string SecurityName { get; set; }
         public string ISIN { get; set; }

@@ -45,6 +45,8 @@ namespace PortfolioAce.Commands
                     Symbol = _SecurityManagerVM.SecuritySymbol,
                     CurrencyId = currency.CurrencyId,
                     SecurityName = _SecurityManagerVM.SecurityName,
+                    AlphaVantageSymbol=_SecurityManagerVM.AVSymbol,
+                    FMPSymbol=_SecurityManagerVM.FMPSymbol,
                     ISIN = _SecurityManagerVM.ISIN
                 };
                 _adminService.AddSecurityInfo(newSecurity);
