@@ -20,6 +20,9 @@ namespace PortfolioAce.Domain.Models
         [Required]
         public decimal ClosePrice { get; set; }
 
+        [Required]
+        public string PriceSource { get; set; }
+
         [ForeignKey("Security")]
         public int SecurityId { get; set; }
         public SecuritiesDIM Security { get; set; }

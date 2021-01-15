@@ -36,7 +36,7 @@ namespace PortfolioAce.EFCore.Services.PriceServices
                 {
                     if (!existingDates.Contains(price.TimeStamp))
                     {
-                        SecurityPriceStore newPrice = new SecurityPriceStore { Date = price.TimeStamp, ClosePrice = price.Close, SecurityId = security.SecurityId};
+                        SecurityPriceStore newPrice = new SecurityPriceStore { Date = price.TimeStamp, ClosePrice = price.Close, SecurityId = security.SecurityId, PriceSource=price.PriceSource};
                         context.SecurityPriceData.Add(newPrice);
                     }
                 }
