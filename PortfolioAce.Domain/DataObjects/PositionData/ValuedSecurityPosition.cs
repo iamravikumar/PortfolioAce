@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects.PositionData
@@ -129,6 +130,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             this.TotalPnL = this.unrealisedPnl + position.RealisedPnL;
         }
     }
+    
     public class ValuedFXPosition : ValuedSecurityPosition
     {
         public override CalculatedSecurityPosition Position { get; set; }
@@ -142,6 +144,44 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
         public override decimal unrealisedPnl { get; set; }
 
         public override decimal unrealisedPnLPercent { get; set; }
+        private string UnderlyingCurrencyPair
+        {
+            get
+            {
+                return Position.Security.Symbol.Substring(0, 6);
+            }
+        }
+        private string UnderlyingBaseCurrency
+        {
+            get
+            {
+                return Position.Security.Symbol.Substring(0, 3);
+            }
+        }
+        private string UnderlyingQuoteCurrency
+        {
+            get
+            {
+                return Position.Security.Symbol.Substring(3, 3);
+            }
+        }
+
+        private DateTime Maturity
+        {
+            get
+            {
+                DateTime maturity = DateTime.ParseExact(Position.Security.Symbol.Substring(6, 6),"ddMMyy", CultureInfo.InvariantCulture);
+                return maturity;
+            }
+        }
+
+        private decimal DeliveryPrice
+        {
+            get
+            {
+                return Position.AverageCost;
+            }
+        }
 
         public override decimal price { get; set; }
         public override decimal fxRate { get; set; }
@@ -151,6 +191,8 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
         {
             this.Position = position;
             this.AsOfDate = asOfDate;
+            // Refactor this all to use fields instead so its clearer
+
 
             // these are temporary but i used this to make sure its valued..
             bool hasFxValue;
@@ -168,10 +210,29 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
                 this.fxRate = (priceTable.ContainsKey(tableKeyFx)) ? priceTable[tableKeyFx] : decimal.One;
             }
 
-            ValueTuple<string, DateTime> tableKeySecurity = (position.Security.Symbol, asOfDate);
-            hasSecurityValue = priceTable.ContainsKey(tableKeySecurity);
+            ValueTuple<string, DateTime> tableKeySecurity = (this.UnderlyingCurrencyPair, asOfDate); // This checks to see if i have the current spot rate...
+            hasSecurityValue = priceTable.ContainsKey(tableKeySecurity);// && priceTable.ContainsKey(tableKeyBaseIR) && priceTable.ContainsKey(tableKeyQuoteIR);
+
+            /*
+            ValueTuple<string, DateTime> tableKeyBaseIR = ($"{this.UnderlyingBaseCurrency}_IRBASE", asOfDate); // This checks to see if i have the base currencys interest rate
+            ValueTuple<string, DateTime> tableKeyQuoteIR = ($"{this.UnderlyingQuoteCurrency}_IRBASE", asOfDate); // This checks to see if i have the quote currencys interest rate
+            // GBP/USD,  buy GBP sell USD (in setup ccy is GBP)
+            // at T we pay USD, we recieve GBP
+
+
+            double yearsToMaturity = (asOfDate.DayOfYear - this.Maturity.DayOfYear)/360; // I assume ACT/360 daycount.
+
+            decimal currentSpot = priceTable[tableKeySecurity];
+            decimal baseIR = priceTable[tableKeyBaseIR];
+            decimal quoteIR = priceTable[tableKeyQuoteIR];
+
+            double basePV = (double)Position.NetQuantity * Math.Exp((double)baseIR*yearsToMaturity);  //rec
+            double quotePV =(double)(Position.NetQuantity*Position.AverageCost) * Math.Exp((double)-quoteIR*yearsToMaturity)*(double)currentSpot; // pay
+            decimal MV =(decimal)(basePV + quotePV); // THIS IS THE MARKET VALUE OF MY FORWARD!!!! I COULD USE THE OTHER FORMULA TO GET THE FORWARD RATE SO I CAN CACULATE UNREALISED PNL...
+            */
             this.price = priceTable.ContainsKey(tableKeySecurity) ? priceTable[tableKeySecurity] : decimal.Zero;
 
+            
             this.IsValuedBase = (hasFxValue && hasSecurityValue);
 
             int multiplierPnL = (position.NetQuantity >= 0) ? 1 : -1;
