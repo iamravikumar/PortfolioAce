@@ -70,5 +70,23 @@ namespace PortfolioAce.EFCore.Services.PriceServices
                 return context.SecurityPriceData.Where(spd => spd.Security.Symbol == symbol).OrderBy(spd=>spd.Date).ToList();
             }
         }
+
+        public void AddManualPrices(List<SecurityPriceStore> prices)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                context.SecurityPriceData.AddRange(prices);
+                context.SaveChanges();
+            }
+        }
+
+        public void UpdateManualPrices(List<SecurityPriceStore> prices)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                context.SecurityPriceData.UpdateRange(prices);
+                context.SaveChanges();
+            }
+        }
     }
 }
