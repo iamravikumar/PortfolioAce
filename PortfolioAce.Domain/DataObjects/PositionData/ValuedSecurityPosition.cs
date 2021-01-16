@@ -211,28 +211,28 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             }
 
             ValueTuple<string, DateTime> tableKeySecurity = (this.UnderlyingCurrencyPair, asOfDate); // This checks to see if i have the current spot rate...
-            hasSecurityValue = priceTable.ContainsKey(tableKeySecurity);// && priceTable.ContainsKey(tableKeyBaseIR) && priceTable.ContainsKey(tableKeyQuoteIR);
 
-            /*
+            
             ValueTuple<string, DateTime> tableKeyBaseIR = ($"{this.UnderlyingBaseCurrency}_IRBASE", asOfDate); // This checks to see if i have the base currencys interest rate
             ValueTuple<string, DateTime> tableKeyQuoteIR = ($"{this.UnderlyingQuoteCurrency}_IRBASE", asOfDate); // This checks to see if i have the quote currencys interest rate
             // GBP/USD,  buy GBP sell USD (in setup ccy is GBP)
             // at T we pay USD, we recieve GBP
 
 
-            double yearsToMaturity = (asOfDate.DayOfYear - this.Maturity.DayOfYear)/360; // I assume ACT/360 daycount.
+            decimal yearsToMaturity = ( this.Maturity.DayOfYear- asOfDate.DayOfYear) /360m; // I assume ACT/360 daycount.
 
             decimal currentSpot = priceTable[tableKeySecurity];
             decimal baseIR = priceTable[tableKeyBaseIR];
             decimal quoteIR = priceTable[tableKeyQuoteIR];
 
-            double basePV = (double)Position.NetQuantity * Math.Exp((double)baseIR*yearsToMaturity);  //rec
-            double quotePV =(double)(Position.NetQuantity*Position.AverageCost) * Math.Exp((double)-quoteIR*yearsToMaturity)*(double)currentSpot; // pay
+            double basePV = (double)Position.NetQuantity * Math.Exp((double)(-baseIR*yearsToMaturity));  //rec
+            double quotePV =(double)-(Position.NetQuantity/Position.AverageCost) * Math.Exp((double)(-quoteIR*yearsToMaturity))*(double)currentSpot; // pay
             decimal MV =(decimal)(basePV + quotePV); // THIS IS THE MARKET VALUE OF MY FORWARD!!!! I COULD USE THE OTHER FORMULA TO GET THE FORWARD RATE SO I CAN CACULATE UNREALISED PNL...
-            */
-            this.price = priceTable.ContainsKey(tableKeySecurity) ? priceTable[tableKeySecurity] : decimal.Zero;
-
             
+            this.price = priceTable.ContainsKey(tableKeySecurity) ? priceTable[tableKeySecurity] : decimal.Zero;
+            hasSecurityValue = priceTable.ContainsKey(tableKeySecurity) && priceTable.ContainsKey(tableKeyBaseIR) && priceTable.ContainsKey(tableKeyQuoteIR);
+
+
             this.IsValuedBase = (hasFxValue && hasSecurityValue);
 
             int multiplierPnL = (position.NetQuantity >= 0) ? 1 : -1;
