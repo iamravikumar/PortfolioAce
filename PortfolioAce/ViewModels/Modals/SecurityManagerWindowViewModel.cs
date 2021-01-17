@@ -151,7 +151,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllAssetClasses().Select(ac => ac.Name).ToList();
+                return _staticReferences.GetAllAssetClasses().Where(ac=>ac.Name!="FXForward").Select(ac => ac.Name).ToList();
             }
         }
 

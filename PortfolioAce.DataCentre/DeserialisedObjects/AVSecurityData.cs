@@ -31,7 +31,9 @@ namespace PortfolioAce.DataCentre.DeserialisedObjects
     [DataContract]
     public class AVFXPriceData:AVSecurityPriceData
     {
+        [DataMember(Name = "timestamp")]
         public override DateTime TimeStamp { get; set; }
+        [DataMember(Name = "close")]
         public override decimal Close { get; set; }
     }
 

@@ -31,11 +31,16 @@ namespace PortfolioAce.EFCore.Services.PriceServices
                 AlphaVantageConnection avConn = _dataFactory.CreateAlphaVantageClient(avKey);
                 IEnumerable<AVSecurityPriceData> allPrices = await avConn.GetPricesAsync(security);
                 HashSet<DateTime> existingDates = context.SecurityPriceData.Where(spd => spd.Security.Symbol == security.Symbol).Select(spd => spd.Date).ToHashSet();
-
-                foreach(AVSecurityPriceData price in allPrices)
+                string assetClass = security.AssetClass.Name;
+                foreach (AVSecurityPriceData price in allPrices)
                 {
                     if (!existingDates.Contains(price.TimeStamp))
                     {
+                        // i should the indirect quote therefore i inverse the price here...
+                        if (assetClass == "FX")
+                        {
+                            price.Close = 1 / price.Close;
+                        }
                         SecurityPriceStore newPrice = new SecurityPriceStore { Date = price.TimeStamp, ClosePrice = price.Close, SecurityId = security.SecurityId, PriceSource=price.PriceSource};
                         context.SecurityPriceData.Add(newPrice);
                     }
