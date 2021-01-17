@@ -352,7 +352,7 @@ namespace PortfolioAce.ViewModels
 
         public void OpenEditTradeWindow()
         {
-            if (_selectedTransaction.Security.AssetClass.Name == "FX")
+            if (_selectedTransaction.Security.AssetClass.Name == "FXForward")
             {
                 MessageBox.Show("Editing FX Trades are currently not supported", "Information");
             }
@@ -443,7 +443,7 @@ namespace PortfolioAce.ViewModels
                 case MessageBoxResult.Yes:
                     if (!_staticReferences.GetPeriod(tradeDate, tradeFundId).isLocked)
                     {
-                        if (_selectedTransaction.Security.AssetClass.Name == "FX")
+                        if (_selectedTransaction.Security.AssetClass.Name == "FXForward")
                         {
                             _transactionService.DeleteFXTransaction(_selectedTransaction);
                         }
@@ -473,7 +473,7 @@ namespace PortfolioAce.ViewModels
                 case MessageBoxResult.Yes:
                     if (!_staticReferences.GetPeriod(tradeDate, tradeFundId).isLocked)
                     {
-                        if (_selectedTransaction.Security.AssetClass.Name == "FX")
+                        if (_selectedTransaction.Security.AssetClass.Name == "FXForward")
                         {
                             _transactionService.RestoreFXTransaction(_selectedTransaction);
                         }

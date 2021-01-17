@@ -25,7 +25,7 @@ namespace PortfolioAce.EFCore.Services
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 SecuritiesDIM fxSecurity = context.Securities.Where(s => s.Symbol == fxTransaction.Symbol).FirstOrDefault();
-                AssetClassDIM assetClass = context.AssetClasses.Where(a => a.Name == "FX").FirstOrDefault();
+                AssetClassDIM assetClass = context.AssetClasses.Where(a => a.Name == "FXForward").FirstOrDefault();
                 CustodiansDIM custodian = context.Custodians.Where(c => c.Name == fxTransaction.Custodian).FirstOrDefault();
                 List<TransactionTypeDIM> transactionTypes = context.TransactionTypes.ToList();
                 List<CurrenciesDIM> currencies = context.Currencies.ToList();

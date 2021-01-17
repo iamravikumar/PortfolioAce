@@ -44,6 +44,7 @@ namespace PortfolioAce.Domain.ModelSeedData
             new AssetClassDIM {AssetClassId=3, Name="FX"},
             new AssetClassDIM {AssetClassId=4, Name="Cash"},
             new AssetClassDIM {AssetClassId=5, Name="InterestRate"},
+            new AssetClassDIM {AssetClassId=6, Name="FXForward"},
         };
 
         public readonly SecuritiesDIM[] seedSecuritisedCash = new SecuritiesDIM[]
@@ -56,6 +57,14 @@ namespace PortfolioAce.Domain.ModelSeedData
             new SecuritiesDIM{SecurityId=6, SecurityName="CASH CHF", Symbol="CHFc", AssetClassId=4, CurrencyId=6},
             new SecuritiesDIM{SecurityId=7, SecurityName="CASH CAD", Symbol="CADc", AssetClassId=4, CurrencyId=7},
             new SecuritiesDIM{SecurityId=8, SecurityName="CASH AUD", Symbol="AUDc", AssetClassId=4, CurrencyId=8},
+            new SecuritiesDIM{SecurityId=9, SecurityName="BOE Base Rate", Symbol="GBP_IRBASE", AssetClassId=5, CurrencyId=1},
+            new SecuritiesDIM{SecurityId=10, SecurityName="ECB Main Refinancing Rate", Symbol="EUR_IRBASE", AssetClassId=5, CurrencyId=2},
+            new SecuritiesDIM{SecurityId=11, SecurityName="Federal Funds Rate", Symbol="USD_IRBASE", AssetClassId=5, CurrencyId=3},
+            new SecuritiesDIM{SecurityId=12, SecurityName="BOJ Mutan Rate", Symbol="JPY_IRBASE", AssetClassId=5, CurrencyId=4},
+            new SecuritiesDIM{SecurityId=13, SecurityName="BOI Repurchase Rate", Symbol="INR_IRBASE", AssetClassId=5, CurrencyId=5},
+            new SecuritiesDIM{SecurityId=14, SecurityName="SNB Policy Rate", Symbol="CHF_IRBASE", AssetClassId=5, CurrencyId=6},
+            new SecuritiesDIM{SecurityId=15, SecurityName="BOC Policy Rate", Symbol="CAD_IRBASE", AssetClassId=5, CurrencyId=7},
+            new SecuritiesDIM{SecurityId=16, SecurityName="RBA Cash Rate Target", Symbol="AUD_IRBASE", AssetClassId=5, CurrencyId=8},
         };
 
         public readonly NavFrequencyDIM[] SeedNavFrequencies = new NavFrequencyDIM[]{

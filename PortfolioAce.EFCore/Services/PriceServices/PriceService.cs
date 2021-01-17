@@ -59,7 +59,7 @@ namespace PortfolioAce.EFCore.Services.PriceServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.Where(s=> s.AssetClass.Name !="Cash" && s.AssetClass.Name!="FX").OrderBy(s=>s.Symbol).Select(s=>s.Symbol).Distinct().ToList();
+                return context.Securities.Where(s=> s.AssetClass.Name !="Cash" && s.AssetClass.Name!="FXForward").OrderBy(s=>s.Symbol).Select(s=>s.Symbol).Distinct().ToList();
             }
         }
 

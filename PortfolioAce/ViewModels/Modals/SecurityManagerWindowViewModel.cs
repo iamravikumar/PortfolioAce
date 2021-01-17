@@ -142,7 +142,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                List<SecuritiesDIM> securities = _adminService.GetAllSecurities().Where(s=>s.AssetClass.Name != "Cash" && s.AssetClass.Name != "FX").ToList();
+                List<SecuritiesDIM> securities = _adminService.GetAllSecurities().Where(s=>s.AssetClass.Name != "Cash" && s.AssetClass.Name != "FXForward").ToList();
                 return new ObservableCollection<SecuritiesDIM>(securities);
             }
         }
