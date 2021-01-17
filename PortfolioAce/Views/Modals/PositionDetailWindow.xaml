@@ -41,7 +41,7 @@
                     <Label Content="Average Cost:" Grid.Row="2" FontWeight="Bold"/>
                     <Label Content="{Binding TargetPosition.Position.AverageCost, StringFormat=N2}" Grid.Row="2" Grid.Column="1"/>
                     <Label Content="Unrealised Pnl:" Grid.Row="3" FontWeight="Bold"/>
-                    <Label Content="{Binding TargetPosition.unrealisedPnl, StringFormat=N2, Mode=OneWay}" Grid.Row="3" Grid.Column="1"/>
+                    <Label Content="{Binding TargetPosition.UnrealisedPnl, StringFormat=N2, Mode=OneWay}" Grid.Row="3" Grid.Column="1"/>
                     <Label Content="Realised Pnl:" Grid.Row="4" FontWeight="Bold"/>
                     <Label Content="{Binding TargetPosition.Position.RealisedPnL, StringFormat=N2, Mode=OneWay}" Grid.Row="4" Grid.Column="1"/>
                     <Label Content="FX Rate:" Grid.Row="5" FontWeight="Bold"/>

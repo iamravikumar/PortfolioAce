@@ -184,10 +184,10 @@ namespace PortfolioAce.EFCore.Services
                         AverageCost=secPosition.Position.AverageCost,
                         CurrencyId=secPosition.Position.Security.CurrencyId,
                         MarketValue=secPosition.MarketValueBase,
-                        Price=secPosition.price,
+                        Price=secPosition.MarketPrice,
                         Quantity=secPosition.Position.NetQuantity,
                         RealisedPnl=secPosition.Position.RealisedPnL,
-                        UnrealisedPnl=secPosition.unrealisedPnl
+                        UnrealisedPnl=secPosition.UnrealisedPnl
                     };
                     newPositions.Add(newPosition);
                 }

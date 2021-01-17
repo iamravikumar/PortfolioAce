@@ -130,7 +130,7 @@
                             <DataGridTextColumn Header="Symbol" Binding="{Binding Position.Security.Symbol}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Position.NetQuantity, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Avg Cost" Binding="{Binding Position.AverageCost, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Current Price" Binding="{Binding price, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Current Price" Binding="{Binding MarketPrice, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Total PnL" Binding="{Binding TotalPnL, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Position.Security.Currency.Symbol}" Width="SizeToHeader"/>

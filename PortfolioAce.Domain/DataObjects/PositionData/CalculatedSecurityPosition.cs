@@ -404,7 +404,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
     }
 
 
-    public class FXPosition : CalculatedSecurityPosition
+    public class FXForwardPosition : CalculatedSecurityPosition
     {
         private decimal _averageCost;
         private decimal _netQuantity;
@@ -428,7 +428,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         public override List<TaxLotsOpen> OpenLots { get { return _openLots.ToList(); } }
 
-        public FXPosition(SecuritiesDIM security, CustodiansDIM custodian)
+        public FXForwardPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {
             this.Security = security;
             this.Custodian = custodian;
