@@ -145,7 +145,7 @@
                               RowBackground="GhostWhite" AlternatingRowBackground="White"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Investor" Binding="{Binding Holding.Investor.Investor.FullName}" Width="SizeToHeader" />
+                            <DataGridTextColumn Header="Investor" Binding="{Binding Holding.Investor.Investor.FullName}" Width="SizeToCells" />
                             <DataGridTextColumn Header="Units" Binding="{Binding Holding.Units, StringFormat=N2}" Width="SizeToCells" />
                             <DataGridTextColumn Header="GAV Price" Binding="{Binding GavPrice, StringFormat=N2}" Width="SizeToHeader" />
                             <DataGridTextColumn Header="Net Value Base" Binding="{Binding NetValuation, StringFormat=N2}" Width="SizeToHeader" />
