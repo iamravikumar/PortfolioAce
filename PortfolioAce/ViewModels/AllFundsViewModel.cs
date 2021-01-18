@@ -390,8 +390,15 @@ namespace PortfolioAce.ViewModels
 
         public void OpenFundInitialisationWindow()
         {
-            _windowFactory.CreateFundInitialisationWindow(_currentFund);
-            SelectFundCommand.Execute(_currentFund.Symbol);
+            if(_currentFund == null)
+            {
+                MessageBox.Show("You need to create a fund first", "Information");
+            }
+            else
+            {
+                _windowFactory.CreateFundInitialisationWindow(_currentFund);
+                SelectFundCommand.Execute(_currentFund.Symbol);
+            }
         }
 
         public void OpenMetricsWindow()
