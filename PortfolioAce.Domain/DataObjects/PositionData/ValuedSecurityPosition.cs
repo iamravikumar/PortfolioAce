@@ -25,7 +25,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         public override decimal MarketValueLocal { get { return _marketPrice * Position.NetQuantity; }  }
 
-        public override decimal MarketValueBase{ get {  return _marketPrice * Position.NetQuantity * _fxRate; } }
+        public override decimal MarketValueBase{ get {  return (_marketPrice * Position.NetQuantity) / _fxRate; } }
 
         public override decimal TotalPnL { get { return UnrealisedPnl + Position.RealisedPnL; } }
 
@@ -84,7 +84,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         public override decimal MarketValueLocal { get { return _marketPrice * Position.NetQuantity; } }
 
-        public override decimal MarketValueBase { get { return _marketPrice * Position.NetQuantity * _fxRate; } }
+        public override decimal MarketValueBase { get { return (_marketPrice * Position.NetQuantity) / _fxRate; } }
 
         public override decimal TotalPnL { get { return UnrealisedPnl + Position.RealisedPnL; } }
 

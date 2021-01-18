@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         xmlns:src="clr-namespace:PortfolioAce.Models"
         mc:Ignorable="d"
-        Title="Nav Summary" Height="595" Width="775">
+        Title="Nav Summary" Height="595" Width="900">
     <Window.Resources>
         <src:InvertVisibilityConverter x:Key="invertVisibilityConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -101,8 +101,10 @@
                             <DataGridTextColumn Header="Name" Binding="{Binding Position.Security.SecurityName}" Width="SizeToCells" />
                             <DataGridTextColumn Header="Symbol" Binding="{Binding Position.Security.Symbol}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Position.NetQuantity, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Current Price" Binding="{Binding price, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="*"/>
+                            <DataGridTextColumn Header="Current Price" Binding="{Binding MarketPrice, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Market Value Local" Binding="{Binding MarketValueLocal, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Local Ccy" Binding="{Binding Position.Security.Currency.Symbol, StringFormat=N2}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
