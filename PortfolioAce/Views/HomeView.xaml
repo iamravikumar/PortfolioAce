@@ -26,7 +26,7 @@
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
             <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="Welcome To PortfolioAce" Style="{DynamicResource MaterialDesignHeadline3TextBlock}" Foreground="#636363"/>
-            <TextBlock DockPanel.Dock="Top" Text="Version 0.9.0 beta" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Foreground="#9c9c9c"/>
+            <TextBlock DockPanel.Dock="Top" Text="Version Pre-alpha" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Foreground="#9c9c9c"/>
         </DockPanel>
         <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White" BorderBrush="DarkGray" 
                   BorderThickness="1" Margin="10" ItemsSource="{Binding dgLatestNavPrices}" SelectedItem="{Binding selectedPrice,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
