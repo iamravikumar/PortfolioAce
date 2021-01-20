@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioAce.EFCore", "Port
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioAce.DataCentre", "PortfolioAce.DataCentre\PortfolioAce.DataCentre.csproj", "{4AD6D68F-ED6E-4056-A05F-0DAC96AEC0CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioAce.Tests", "PortfolioAce.Tests\PortfolioAce.Tests.csproj", "{FA975EB9-1FD1-4004-9275-7A9AD738EC3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{4AD6D68F-ED6E-4056-A05F-0DAC96AEC0CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4AD6D68F-ED6E-4056-A05F-0DAC96AEC0CD}.Release|x86.ActiveCfg = Release|Any CPU
 		{4AD6D68F-ED6E-4056-A05F-0DAC96AEC0CD}.Release|x86.Build.0 = Release|Any CPU
+		{FA975EB9-1FD1-4004-9275-7A9AD738EC3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA975EB9-1FD1-4004-9275-7A9AD738EC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA975EB9-1FD1-4004-9275-7A9AD738EC3A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FA975EB9-1FD1-4004-9275-7A9AD738EC3A}.Debug|x86.Build.0 = Debug|Any CPU
+		{FA975EB9-1FD1-4004-9275-7A9AD738EC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA975EB9-1FD1-4004-9275-7A9AD738EC3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA975EB9-1FD1-4004-9275-7A9AD738EC3A}.Release|x86.ActiveCfg = Release|Any CPU
+		{FA975EB9-1FD1-4004-9275-7A9AD738EC3A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
