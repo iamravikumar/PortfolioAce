@@ -15,10 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IntegrationTests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PortfolioAce.Domain\PortfolioAce.Domain.csproj" />
     <ProjectReference Include="..\PortfolioAce.EFCore\PortfolioAce.EFCore.csproj" />
   </ItemGroup>

@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models.Dimensions;
+﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace PortfolioAce.Tests.HelperClasses
     public static class TestSeeds
     {
 
-        public static void Seed(PortfolioAceDbContext context)
+        public static void SeedPortfolio(PortfolioAceDbContext context)
         {
             CurrenciesDIM[] SeedCurrencies = new CurrenciesDIM[]
             {
@@ -92,7 +93,6 @@ namespace PortfolioAce.Tests.HelperClasses
             {
                     new CustodiansDIM{CustodianId=1, Name="Default", Symbol="Default"}
             };
-
          
             context.Currencies.AddRange(SeedCurrencies);
             context.TransactionTypes.AddRange(SeedTransactionTypes);

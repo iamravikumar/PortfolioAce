@@ -12,38 +12,28 @@ using Xunit;
 
 namespace PortfolioAce.Tests.UnitTests.DataObjectsTests
 {
-    public class PositionTests
+    public class PositionTests:IClassFixture<PortfolioSeedDataFixture>
     {
-        // All databases should have different names.
-        [Fact]
-        public void ADBContextFactory()
-        {
-            Action<DbContextOptionsBuilder> configureDbContext = db => db.UseInMemoryDatabase(databaseName: "ShouldReturnAllCustomers");
 
-            var factory = new PortfolioAceDbContextFactory(configureDbContext);
-            using (PortfolioAceDbContext context = factory.CreateDbContext())
-            {
-                TestSeeds.Seed(context);
-            }
-            IAdminService aService = new AdminService(factory);
-            bool res = aService.SecurityExists("AAPL");
-            Assert.True(res);
+        PortfolioSeedDataFixture fixture;
+
+        public PositionTests(PortfolioSeedDataFixture fixture)
+        {
+            this.fixture = fixture;
         }
 
         [Fact]
-        public void ADBContextFactory2()
+        public void DummyTest()
         {
-            Action<DbContextOptionsBuilder> configureDbContext = db => db.UseInMemoryDatabase(databaseName: "ShouldReturnAllCustomers2");
-
-            var factory = new PortfolioAceDbContextFactory(configureDbContext);
-            using (PortfolioAceDbContext context = factory.CreateDbContext())
-            {
-                TestSeeds.Seed(context);
-            }
-            IAdminService aService = new AdminService(factory);
-            bool res = aService.SecurityExists("AAPL");
-            Assert.True(res);
+            var x = fixture.PortfolioContext.Securities.ToList();
+            Assert.True(true);
         }
 
+        [Fact]
+        public void DummyTest2()
+        {
+            var x = fixture.PortfolioContext.Securities.ToList();
+            Assert.True(true);
+        }
     }
 }
