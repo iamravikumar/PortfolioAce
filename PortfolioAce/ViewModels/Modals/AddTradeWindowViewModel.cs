@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
@@ -76,13 +77,19 @@ namespace PortfolioAce.ViewModels.Modals
                 if (!_transactionService.SecurityExists(_symbol))
                 {
                     _validationErrors.AddError(nameof(Symbol), $"The Security '{_symbol}' does not exist");
+                    _securityName = "";
                 }
                 else
                 {
+                    SecuritiesDIM security = _transactionService.GetSecurityInfo(Symbol);
                     string assetClass = _transactionService.GetSecurityInfo(Symbol).AssetClass.Name;
                     if(assetClass == "Cash")
                     {
                         _validationErrors.AddError(nameof(Symbol), $"Cash purchases/sales not yet supported");
+                    }
+                    else
+                    {
+                        _securityName = security.SecurityName;
                     }
                 }
                 // I can check the Database for the value,
@@ -90,6 +97,7 @@ namespace PortfolioAce.ViewModels.Modals
                 // if not raise exception
                 OnPropertyChanged(nameof(Symbol));
                 OnPropertyChanged(nameof(TradeCurrency));
+                OnPropertyChanged(nameof(SecurityName));
             }
         }
 
@@ -299,6 +307,14 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        private string _securityName;
+        public string SecurityName
+        {
+            get
+            {
+                return _securityName;
+            }
+        }
 
         public List<string> cmbTradeType
         {

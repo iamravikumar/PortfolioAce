@@ -73,6 +73,7 @@
             </ComboBox>
             <Label Grid.Row="2">Symbol:</Label>
             <TextBox Text="{Binding Symbol, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+            <Label Grid.Row="2" Grid.Column="2" Content="{Binding SecurityName, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Grid.Row="3">Quantity:</Label>
             <TextBox Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
             <Label Grid.Row="4">Price:</Label>
