@@ -82,7 +82,7 @@ namespace PortfolioAce.ViewModels.Modals
                 else
                 {
                     SecuritiesDIM security = _transactionService.GetSecurityInfo(Symbol);
-                    string assetClass = _transactionService.GetSecurityInfo(Symbol).AssetClass.Name;
+                    string assetClass = security.AssetClass.Name;
                     if(assetClass == "Cash")
                     {
                         _validationErrors.AddError(nameof(Symbol), $"Cash purchases/sales not yet supported");

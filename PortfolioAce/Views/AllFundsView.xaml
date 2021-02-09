@@ -53,7 +53,10 @@
                         <Run Text="{Binding CurrentNavPrice.NAVPrice, StringFormat=N2}"/>
                         <Run Text="{Binding CurrentNavPrice.Currency}"/>
                 </TextBlock>
-                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}"><Bold>ITD Performance:</Bold> N/A</TextBlock>
+                <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
+                    <Run FontWeight="Bold" Text="ITD Performance: "/>
+                    <Run Text="{Binding ITDPerformance, Mode=OneWay}"/>
+                </TextBlock>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/PortfolioAce;component/Resources\icons8-locked-24.png" Visibility="{Binding LockedNav, UpdateSourceTrigger=PropertyChanged}"/>
                     <Image Source="/PortfolioAce;component/Resources\icons8-unlocked-24.png" Visibility="{Binding LockedNav, Converter={StaticResource invertVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>

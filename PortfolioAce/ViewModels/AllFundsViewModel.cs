@@ -172,6 +172,25 @@ namespace PortfolioAce.ViewModels
             }
         }
 
+        public string ITDPerformance
+        {
+            get
+            {
+                List<NAVPriceStoreFACT> allNavPrices = (_currentFund != null) ? _currentFund.NavPrices.OrderBy(np=>np.FinalisedDate).ToList() : new List<NAVPriceStoreFACT>();
+                if (allNavPrices.Count <= 1)
+                {
+                    return "0";
+                }
+                else
+                {
+                    decimal firstPrice = allNavPrices[0].NAVPrice;
+                    decimal latestPrice = allNavPrices[allNavPrices.Count-1].NAVPrice;
+                    decimal ITD = (latestPrice / firstPrice) - 1;
+                    return String.Format("{0:P2}", ITD);
+                }
+            }
+        }
+
         public Visibility LockedNav
         {
             // true = this will put a green tick is the nav is locked which means the price and amount you see are finalised...
