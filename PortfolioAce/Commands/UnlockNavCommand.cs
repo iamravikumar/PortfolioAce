@@ -36,8 +36,15 @@ namespace PortfolioAce.Commands
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        _investorService.UnlockNav(_navValuationVM.AsOfDate, _navValuationVM.FundId);
-                        _navValuationVM.CloseAction();
+                        if (_navValuationVM.AsOfDate == _navValuationVM.FundLaunchDate)
+                        {
+                            throw new InvalidOperationException("You cannot unlock the initial period.");
+                        }
+                        else
+                        {
+                            _investorService.UnlockNav(_navValuationVM.AsOfDate, _navValuationVM.FundId);
+                            _navValuationVM.CloseAction();
+                        }
                         break;
                     case MessageBoxResult.No:
                         break;

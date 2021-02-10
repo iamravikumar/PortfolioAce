@@ -47,6 +47,14 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public DateTime FundLaunchDate
+        {
+            get
+            {
+                return _navValuation.fund.LaunchDate;
+            }
+        }
+
         public string BaseCurrency
         {
             get
