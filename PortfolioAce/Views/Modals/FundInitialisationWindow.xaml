@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         mc:Ignorable="d"
-        Title="Fund Initialisation" Height="350" Width="500">
+        Title="Fund Initialisation" Height="450" Width="500">
     <Window.Resources>
         <CollectionViewSource x:Key="InvestorsCVS" Source="{Binding cmbInvestors}"/>
     </Window.Resources>
@@ -73,9 +73,17 @@
             <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" Content="{Binding TargetFund.BaseCurrency}"></Label>
             <Label Grid.Row="3">Initial Fund Price</Label>
             <TextBox Text="{Binding NavPrice, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-            <Button Command="{Binding InitialiseFundCommand}" Grid.Row="4" Grid.Column="1" Margin="0,5,0,0" Content="Initialise Fund" Style="{DynamicResource MaterialDesignFlatMidBgButton}"/> 
-            <Label Grid.Row="5" Grid.ColumnSpan="2">Insert your initial investors below:</Label>
-            <DataGrid Name="dgSeedingInvestors" Grid.Row="6" Grid.ColumnSpan="3" CanUserDeleteRows="True" CanUserAddRows="True" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding Path=dgSeedingInvestors, UpdateSourceTrigger=PropertyChanged}">
+            <Label Grid.Row="4">Main Custodian</Label>
+            <ComboBox ItemsSource="{Binding cmbCustodians}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=Custodian, UpdateSourceTrigger=PropertyChanged}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding }"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Command="{Binding InitialiseFundCommand}" Grid.Row="5" Grid.Column="1" Margin="0,5,0,0" Content="Initialise Fund" Style="{DynamicResource MaterialDesignFlatMidBgButton}"/> 
+            <Label Grid.Row="6" Grid.ColumnSpan="2">Insert your initial investors below:</Label>
+            <DataGrid Name="dgSeedingInvestors" Grid.Row="7" Grid.ColumnSpan="3" CanUserDeleteRows="True" CanUserAddRows="True" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding Path=dgSeedingInvestors, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
                     <DataGridComboBoxColumn Header="Investor" ItemsSource="{Binding Source={StaticResource InvestorsCVS}}" SelectedValueBinding="{Binding InvestorId}" DisplayMemberPath="FullName" SelectedValuePath="InvestorId"/>
                     <DataGridTextColumn Header="Seeding Amount" Binding="{Binding SeedAmount}" />

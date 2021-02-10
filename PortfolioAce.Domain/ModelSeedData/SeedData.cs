@@ -31,11 +31,12 @@ namespace PortfolioAce.Domain.ModelSeedData
             new TransactionTypeDIM {TransactionTypeId=7, TypeName="Interest", TypeClass="CashTrade", Direction="None"},
             new TransactionTypeDIM {TransactionTypeId=8, TypeName="ManagementFee", TypeClass="CashTrade", Direction="Outflow"},
             new TransactionTypeDIM {TransactionTypeId=9, TypeName="PerformanceFee", TypeClass="CashTrade", Direction="Outflow"},
-            new TransactionTypeDIM {TransactionTypeId=10, TypeName="Miscellaneous", TypeClass="CashTrade", Direction="None"},
-            new TransactionTypeDIM {TransactionTypeId=11, TypeName="FXBuy", TypeClass="CashTrade", Direction="Inflow"},
-            new TransactionTypeDIM {TransactionTypeId=12, TypeName="FXSell", TypeClass="CashTrade", Direction="Outflow"},
-            new TransactionTypeDIM {TransactionTypeId=13, TypeName="FXTrade", TypeClass="FXTrade", Direction="None"},
-            new TransactionTypeDIM {TransactionTypeId=14, TypeName="FXTradeCollapse", TypeClass="FXTrade", Direction="None"}
+            new TransactionTypeDIM {TransactionTypeId=10, TypeName="ManagementFee", TypeClass="CashTrade", Direction="Outflow"},
+            new TransactionTypeDIM {TransactionTypeId=11, TypeName="CashTransfer", TypeClass="CashTrade", Direction="Inflow"},
+            new TransactionTypeDIM {TransactionTypeId=12, TypeName="FXBuy", TypeClass="CashTrade", Direction="Inflow"},
+            new TransactionTypeDIM {TransactionTypeId=13, TypeName="FXSell", TypeClass="CashTrade", Direction="Outflow"},
+            new TransactionTypeDIM {TransactionTypeId=14, TypeName="FXTrade", TypeClass="FXTrade", Direction="None"},
+            new TransactionTypeDIM {TransactionTypeId=15, TypeName="FXTradeCollapse", TypeClass="FXTrade", Direction="None"}
         };
 
         public readonly AssetClassDIM[] SeedAssetClasses = new AssetClassDIM[]{
@@ -78,7 +79,26 @@ namespace PortfolioAce.Domain.ModelSeedData
         };
 
         public readonly CustodiansDIM[] SeedCustodians = new CustodiansDIM[]{
-            new CustodiansDIM{CustodianId=1, Name="Default", Symbol="Default"}
+            new CustodiansDIM{CustodianId=1, Name="eToro", Symbol="ETOR"},
+            new CustodiansDIM{CustodianId=2, Name="Trading212", Symbol="T212"},
+            new CustodiansDIM{CustodianId=3, Name="Halifax", Symbol="HFSD"},
+            new CustodiansDIM{CustodianId=4, Name="City Index", Symbol="CIDEX"},
+            new CustodiansDIM{CustodianId=5, Name="Plus500", Symbol="P500"},
+            new CustodiansDIM{CustodianId=6, Name="IG", Symbol="IG"},
+            new CustodiansDIM{CustodianId=7, Name="Revolut", Symbol="REVO"},
+            new CustodiansDIM{CustodianId=8, Name="Degiro", Symbol="DEGO"},
+            new CustodiansDIM{CustodianId=9, Name="Hargreaves Lansdown", Symbol="HGLN"},
+            new CustodiansDIM{CustodianId=10, Name="Interactive Investor", Symbol="III"},
+            new CustodiansDIM{CustodianId=11, Name="RobinHood", Symbol="ROBH"},
+            new CustodiansDIM{CustodianId=12, Name="Fidelity", Symbol="FIDEL"},
+            new CustodiansDIM{CustodianId=13, Name="E*TRADE", Symbol="ETRAD"},
+            new CustodiansDIM{CustodianId=14, Name="TD Ameritrade", Symbol="TDAM"},
+            new CustodiansDIM{CustodianId=15, Name="Interactive Brokers", Symbol="IBKR"},
+            new CustodiansDIM{CustodianId=16, Name="TransferWise", Symbol="TWISE"},
+            new CustodiansDIM{CustodianId=17, Name="tastyworks", Symbol="TASTY"},
+            new CustodiansDIM{CustodianId=18, Name="Barclays", Symbol="BARC"},
+            new CustodiansDIM{CustodianId=19, Name="CoinBase", Symbol="COIN"},
+            new CustodiansDIM{CustodianId=20, Name="Default", Symbol="Default"}
         };
         public readonly ApplicationSettings[] SeedSettings = new ApplicationSettings[]{
             new ApplicationSettings{SettingId=1, SettingName="AlphaVantageAPI", Description="Alpha Vantage API Key", SettingValue="demo"},

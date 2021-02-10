@@ -46,7 +46,7 @@ namespace PortfolioAce.Commands
                 string cashSymbol = $"{updateFund.BaseCurrency}c";
                 SecuritiesDIM security = _staticReferences.GetSecurityInfo(cashSymbol);
                 TransactionTypeDIM tradeType = _staticReferences.GetTransactionType("Deposit");
-                CustodiansDIM custodian = _staticReferences.GetCustodian("Default");
+                CustodiansDIM custodian = _staticReferences.GetCustodian(_fundInitialiseVM.Custodian);
 
                 List<TransferAgencyBO> subscriptions = new List<TransferAgencyBO>();
                 List<TransactionsBO> transactions = new List<TransactionsBO>();

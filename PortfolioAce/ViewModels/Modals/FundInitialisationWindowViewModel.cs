@@ -36,6 +36,7 @@ namespace PortfolioAce.ViewModels.Modals
             dgSeedingInvestors = new ObservableCollection<SeedingInvestor>();
             InitialiseFundCommand = new InitialiseFundCommand(this, investorService, staticReferences);
             _NavPrice = 1;
+            _custodian = cmbCustodians[0];
         }
         public ICommand InitialiseFundCommand { get; set; }
 
@@ -49,6 +50,28 @@ namespace PortfolioAce.ViewModels.Modals
             }
             private set
             {
+            }
+        }
+
+        private string _custodian;
+        public string Custodian
+        {
+            get
+            {
+                return _custodian;
+            }
+            set
+            {
+                _custodian = value;
+                OnPropertyChanged(nameof(Custodian));
+            }
+        }
+
+        public List<string> cmbCustodians
+        {
+            get
+            {
+                return _staticReferences.GetAllCustodians().Select(c => c.Name).ToList();
             }
         }
 
