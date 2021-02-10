@@ -40,18 +40,12 @@
                     </TextBlock.Inlines>
                 </TextBlock>
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
-                        <Run FontWeight="Bold" Text="NAV as of "/>
-                        <Run FontWeight="Bold" Text="{Binding CurrentNavPrice.FinalisedDate, StringFormat={}{0:dd/MM/yyyy}}"/>
-                        <Run FontWeight="Bold" Text=": "/>
-                        <Run Text="{Binding CurrentNavPrice.NetAssetValue, StringFormat=N2}"/>
-                        <Run Text="{Binding CurrentNavPrice.Currency}"/>
+                        <Run FontWeight="Bold" Text="Finalised NAV:"/>
+                        <Run Text="{Binding CurrentNavValue, Mode=OneWay}"/>
                 </TextBlock>
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
-                        <Run FontWeight="Bold" Text="NAV per share as of "/>
-                        <Run FontWeight="Bold" Text="{Binding CurrentNavPrice.FinalisedDate, StringFormat={}{0:dd/MM/yyyy}}"/>
-                        <Run FontWeight="Bold" Text=": "/>
-                        <Run Text="{Binding CurrentNavPrice.NAVPrice, StringFormat=N2}"/>
-                        <Run Text="{Binding CurrentNavPrice.Currency}"/>
+                        <Run FontWeight="Bold" Text="Finalised NAV per share:"/>
+                        <Run Text="{Binding CurrentNavPrice, Mode=OneWay}"/>
                 </TextBlock>
                 <TextBlock Style="{StaticResource MaterialDesignBody2TextBlock}">
                     <Run FontWeight="Bold" Text="ITD Performance: "/>
@@ -60,7 +54,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/PortfolioAce;component/Resources\icons8-locked-24.png" Visibility="{Binding LockedNav, UpdateSourceTrigger=PropertyChanged}"/>
                     <Image Source="/PortfolioAce;component/Resources\icons8-unlocked-24.png" Visibility="{Binding LockedNav, Converter={StaticResource invertVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
-                    <DatePicker SelectedDate="{Binding Path=asOfDate, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DatePicker FontWeight="Bold" SelectedDate="{Binding Path=asOfDate, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
             </StackPanel>
             <Grid DockPanel.Dock="Left">

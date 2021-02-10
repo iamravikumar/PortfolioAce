@@ -160,15 +160,46 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public NAVPriceStoreFACT CurrentNavPrice
+        public NAVPriceStoreFACT NavReference
         {
             get
             {
+                // i could make this a string
                 return (_currentFund != null) ? _currentFund.NavPrices.Where(np=>np.FinalisedDate==_asOfDate).FirstOrDefault():null; //maybe nav periods...
             }
             private set
             {
 
+            }
+        }
+
+        public string CurrentNavPrice
+        {
+            get
+            {
+                if(NavReference != null)
+                {
+                    return $"{NavReference.NAVPrice:N2} {NavReference.Currency}";
+                }
+                else
+                {
+                    return "Not Finalised";
+                }
+            }
+        }
+
+        public string CurrentNavValue
+        {
+            get
+            {
+                if (NavReference != null)
+                {
+                    return $"{NavReference.NetAssetValue:N2} {NavReference.Currency}";
+                }
+                else
+                {
+                    return "Not Finalised";
+                }
             }
         }
 
