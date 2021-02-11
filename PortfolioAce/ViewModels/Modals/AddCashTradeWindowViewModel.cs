@@ -57,7 +57,16 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _cashType = value;
                 OnPropertyChanged(nameof(CashType));
+                OnPropertyChanged(nameof(isTransfer));
                 CashAmount = _cashAmount; // this is to iniate the setter on the CashAmount
+            }
+        }
+
+        public bool isTransfer
+        {
+            get
+            {
+                return (_cashType == "CashTransfer");
             }
         }
 
