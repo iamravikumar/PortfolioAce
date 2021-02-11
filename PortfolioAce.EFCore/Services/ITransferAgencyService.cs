@@ -20,7 +20,7 @@ namespace PortfolioAce.EFCore.Services
 
         Task<InvestorsDIM> CreateInvestor(InvestorsDIM investor);
 
-        void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investorSubscriptions, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav, List<FundInvestorBO> fundInvestors);
+        void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investorSubscriptions, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav, List<FundInvestorBO> fundInvestors, List<InvestorHoldingsFACT> investorHoldings);
 
         void LockNav(NavValuations navValuations);
 

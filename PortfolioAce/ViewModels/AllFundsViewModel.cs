@@ -210,7 +210,7 @@ namespace PortfolioAce.ViewModels
                 List<NAVPriceStoreFACT> allNavPrices = (_currentFund != null) ? _currentFund.NavPrices.OrderBy(np=>np.FinalisedDate).ToList() : new List<NAVPriceStoreFACT>();
                 if (allNavPrices.Count <= 1)
                 {
-                    return "0";
+                    return "0%";
                 }
                 else
                 {

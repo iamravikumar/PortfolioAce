@@ -40,6 +40,11 @@ namespace PortfolioAce.Commands
         {
             try
             {
+                if (_fundInitialiseVM.dgSeedingInvestors.Count == 0)
+                {
+                    throw new ArgumentException("Your fund must have initial investors");
+                }
+
                 Fund updateFund = _fundInitialiseVM.TargetFund;
                 updateFund.IsInitialised = true;
 
@@ -51,11 +56,8 @@ namespace PortfolioAce.Commands
                 List<TransferAgencyBO> subscriptions = new List<TransferAgencyBO>();
                 List<TransactionsBO> transactions = new List<TransactionsBO>();
                 List<FundInvestorBO> fundInvestors = new List<FundInvestorBO>();
+                List<InvestorHoldingsFACT> investorHoldings = new List<InvestorHoldingsFACT>();
 
-                if (_fundInitialiseVM.dgSeedingInvestors.Count == 0)
-                {
-                    throw new ArgumentException("Your fund must have initial investors");
-                }
                 foreach (SeedingInvestor seedInvestor in _fundInitialiseVM.dgSeedingInvestors)
                 {
                     if (seedInvestor.SeedAmount>=updateFund.MinimumInvestment )
@@ -69,6 +71,21 @@ namespace PortfolioAce.Commands
                         // The highwatermark is only applicable if the fund has a highwatermark...
                         fundInvestor.HighWaterMark = (updateFund.HasHighWaterMark)? _fundInitialiseVM.NavPrice :(decimal?)null;
                         fundInvestors.Add(fundInvestor);
+
+                        InvestorHoldingsFACT investor = new InvestorHoldingsFACT
+                        {
+                            ManagementFeesAccrued=decimal.Zero,
+                            PerformanceFeesAccrued=decimal.Zero,
+                            FundId=updateFund.FundId,
+                            HoldingDate=updateFund.LaunchDate,
+                            InvestorId=seedInvestor.InvestorId,
+                            AverageCost=_fundInitialiseVM.NavPrice,
+                            Units= seedInvestor.SeedAmount / _fundInitialiseVM.NavPrice,
+                            NetValuation= seedInvestor.SeedAmount,
+                        };
+                        investor.HighWaterMark = (updateFund.HasHighWaterMark) ? _fundInitialiseVM.NavPrice : (decimal?)null;
+                        investorHoldings.Add(investor);
+                        // hwm
                         TransferAgencyBO newSubscription = new TransferAgencyBO
                         {
                             TradeAmount = seedInvestor.SeedAmount,
@@ -124,7 +141,7 @@ namespace PortfolioAce.Commands
                     Currency = updateFund.BaseCurrency,
                     NAVPeriodId = PeriodId
                 };
-                _investorService.InitialiseFundAction(updateFund, subscriptions,transactions, initialNav, fundInvestors);
+                _investorService.InitialiseFundAction(updateFund, subscriptions,transactions, initialNav, fundInvestors, investorHoldings);
                 _fundInitialiseVM.CloseAction();
             }
             catch (Exception e)

@@ -103,16 +103,36 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investorSubscriptions, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav, List<FundInvestorBO> fundInvestors)
+        public void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investorSubscriptions, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav, List<FundInvestorBO> fundInvestors, List<InvestorHoldingsFACT> investorHoldings)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 // I will need to create a positions Fact table AND a investor holdings here too.
+                // position is easy sum all the transactions together...
+                decimal cashBalance = transactions.Sum(s => s.TradeAmount);
+                int assetClassId = context.Securities.Find(transactions[0].SecurityId).AssetClassId;
+                PositionFACT cashPosition = new PositionFACT
+                {
+                    PositionDate = fund.LaunchDate,
+                    AssetClassId = assetClassId,
+                    AverageCost = decimal.One,
+                    CurrencyId = transactions[0].CurrencyId,
+                    UnrealisedPnl = decimal.Zero,
+                    FundId = fund.FundId,
+                    MarketValue = cashBalance,
+                    Price = decimal.One,
+                    Quantity = cashBalance,
+                    RealisedPnl = decimal.Zero,
+                    SecurityId = transactions[0].SecurityId
+                };
+                context.Positions.Add(cashPosition);
 
                 // lock period
                 AccountingPeriodsDIM period = context.Periods.Find(initialNav.NAVPeriodId);
                 period.isLocked = true;
                 context.Periods.Update(period);
+
+                context.InvestorHoldings.AddRange(investorHoldings);
 
                 // Saves the fund investors that are attached to the transferagent subscriptions
                 context.FundInvestor.AddRange(fundInvestors);
