@@ -17,6 +17,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+            <!--This combobox decides what dockpanel to show-->
             <Label Grid.Row="0">Cash Type:</Label>
             <ComboBox ItemsSource="{Binding cmbCashType}" Grid.Row="0" Grid.Column="1" Margin="0,0,0,2" SelectedItem="{Binding Path=CashType, UpdateSourceTrigger=PropertyChanged}">
                 <ComboBox.ItemTemplate>
@@ -25,6 +26,7 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <!--This Dockpanel represents normal cash trade-->
             <DockPanel Grid.Row="2" Grid.ColumnSpan="3">
                 <DockPanel.Style>
                     <Style TargetType="DockPanel" >
@@ -119,7 +121,7 @@
                     <Button Command="{Binding AddCashTradeCommand}" Grid.Row="8" Grid.Column="1" Margin="0,5,0,0" IsEnabled="{Binding CanCreate}" Content="Add Cash Trade" Style="{DynamicResource MaterialDesignFlatMidBgButton}"/>
                 </Grid>
             </DockPanel>
-            <!-- This is the layout for Cash Transfers between custodians. -->
+            <!-- This Dockpanel represents a cash transfer. -->
             <DockPanel Grid.Row="2" Grid.ColumnSpan="3">
                 <DockPanel.Style>
                     <Style TargetType="DockPanel" >
@@ -186,8 +188,10 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="2">Amount:</Label>
+                    <Label Grid.Row="2">Transfer Amount:</Label>
                     <TextBox Text="{Binding CashAmount, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
                     <Label Grid.Row="3">Currency:</Label>
                     <ComboBox ItemsSource="{Binding cmbCurrency}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=TradeCurrency, UpdateSourceTrigger=PropertyChanged}">
@@ -201,23 +205,27 @@
                     <DatePicker Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=TradeDate, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Grid.Row="5">Settle Date:</Label>
                     <DatePicker Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=SettleDate, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label Grid.Row="6">Transfer From:</Label>
-                    <ComboBox ItemsSource="{Binding cmbCustodians}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=FromCustodian, UpdateSourceTrigger=PropertyChanged}">
+                    <Label Grid.Row="6" Margin="0,20,0,0">Transfer From:</Label>
+                    <ComboBox ItemsSource="{Binding cmbCustodians}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,20,0,2" SelectedItem="{Binding Path=FromCustodian, UpdateSourceTrigger=PropertyChanged}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding }"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Label Grid.Row="7">Transfer To:</Label>
-                    <ComboBox ItemsSource="{Binding cmbCustodians}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=ToCustodian, UpdateSourceTrigger=PropertyChanged}">
+                    <Label Grid.Row="7">Payee Fee:</Label>
+                    <TextBox Text="{Binding PayeeFee, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+                    <Label Grid.Row="8" Margin="0,5,0,0">Transfer To:</Label>
+                    <ComboBox ItemsSource="{Binding cmbCustodians}" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,5,0,2" SelectedItem="{Binding Path=ToCustodian, UpdateSourceTrigger=PropertyChanged}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding }"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Button Command="{Binding TransferCashCommand}" Grid.Row="8" Grid.Column="1" Margin="0,5,0,0" IsEnabled="{Binding CanCreate}" Content="Transfer Cash" Style="{DynamicResource MaterialDesignFlatMidBgButton}"/>
+                    <Label Grid.Row="9">Recipient Fee:</Label>
+                    <TextBox Text="{Binding RecipientFee, UpdateSourceTrigger=PropertyChanged}" Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+                    <Button Command="{Binding TransferCashCommand}" Grid.Row="10" Grid.Column="1" Margin="0,5,0,0" IsEnabled="{Binding CanCreate}" Content="Transfer Cash" Style="{DynamicResource MaterialDesignFlatMidBgButton}"/>
                 </Grid>
             </DockPanel>
         </Grid>

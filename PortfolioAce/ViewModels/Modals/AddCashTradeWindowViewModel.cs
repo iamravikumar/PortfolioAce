@@ -267,6 +267,34 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        private string _toCustodian;
+        public string ToCustodian
+        {
+            get
+            {
+                return _toCustodian;
+            }
+            set
+            {
+                _toCustodian = value;
+                OnPropertyChanged(nameof(ToCustodian));
+            }
+        }
+
+        private string _fromCustodian;
+        public string FromCustodian
+        {
+            get
+            {
+                return _fromCustodian;
+            }
+            set
+            {
+                _fromCustodian = value;
+                OnPropertyChanged(nameof(FromCustodian));
+            }
+        }
+
         public List<string> cmbCashType
         {
             get
