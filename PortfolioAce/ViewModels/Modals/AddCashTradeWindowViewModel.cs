@@ -23,13 +23,14 @@ namespace PortfolioAce.ViewModels.Modals
         private DateTime _lastLockedDate;
         public AddCashTradeWindowViewModel(ITransactionService transactionService, IStaticReferences staticReferences, Fund fund)
         {
-            AddCashTradeCommand = new AddCashTradeCommand(this, transactionService);
             _fund = fund;
             _transactionService = transactionService;
             _staticReferences = staticReferences;
             _lastLockedDate = _staticReferences.GetMostRecentLockedDate(fund.FundId);
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
+            AddCashTradeCommand = new AddCashTradeCommand(this, transactionService);
+            TransferCashCommand = new TransferCashCommand(this, transactionService);
             _tradeDate = DateExtentions.InitialDate();
             _settleDate = DateExtentions.InitialDate();
             
@@ -100,7 +101,16 @@ namespace PortfolioAce.ViewModels.Modals
                     {
                         _validationErrors.AddError(nameof(CashAmount), "You cannot have a positive outflow");
                     }
-                }               
+                }
+                else if(direction=="None" && _cashType == "CashTransfer")
+                {
+                    if (_cashAmount <= 0)
+                    {
+                        _validationErrors.AddError(nameof(CashAmount), "Transfers must be greater than 0");
+                    }
+                    OnPropertyChanged(nameof(RecipientFee));
+                    OnPropertyChanged(nameof(PayeeFee));
+                }
                 OnPropertyChanged(nameof(CashAmount));
             }
         }
@@ -267,34 +277,105 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        private string _toCustodian;
-        public string ToCustodian
+        private string _recipientCustodian;
+        public string RecipientCustodian
         {
             get
             {
-                return _toCustodian;
+                return _recipientCustodian;
             }
             set
             {
-                _toCustodian = value;
-                OnPropertyChanged(nameof(ToCustodian));
+                _recipientCustodian = value;
+                _validationErrors.ClearErrors(nameof(RecipientCustodian));
+                if (_recipientCustodian == _payeeCustodian)
+                {
+                    _validationErrors.AddError(nameof(RecipientCustodian), "You cannot transfer to the same account");
+                }
+                OnPropertyChanged(nameof(RecipientCustodian));
             }
         }
 
-        private string _fromCustodian;
-        public string FromCustodian
+        private string _payeeCustodian;
+        public string PayeeCustodian
         {
             get
             {
-                return _fromCustodian;
+                return _payeeCustodian;
             }
             set
             {
-                _fromCustodian = value;
-                OnPropertyChanged(nameof(FromCustodian));
+                _payeeCustodian = value;
+                _validationErrors.ClearErrors(nameof(PayeeCustodian));
+                if (_recipientCustodian == _payeeCustodian)
+                {
+                    _validationErrors.AddError(nameof(PayeeCustodian), "You cannot transfer to the same account");
+                }
+                OnPropertyChanged(nameof(PayeeCustodian));
             }
         }
 
+        private decimal _recipientFee;
+        public decimal RecipientFee
+        {
+            get
+            {
+                return _recipientFee;
+            }
+            set
+            {
+                _recipientFee = value;
+                _validationErrors.ClearErrors(nameof(RecipientFee));
+                if (_recipientFee < 0)
+                {
+                    _validationErrors.AddError(nameof(RecipientFee), "The fee cannot be a negative number");
+                }
+                else if (_recipientFee >_cashAmount)
+                {
+                    _validationErrors.AddError(nameof(RecipientFee), "The fee cannot greater than the transfer amount");
+
+                }
+            }
+        }
+
+        private decimal _payeeFee;
+        public decimal PayeeFee
+        {
+            get
+            {
+                return _payeeFee;
+            }
+            set
+            {
+                _payeeFee = value;
+                _validationErrors.ClearErrors(nameof(PayeeFee));
+                if (_payeeFee < 0)
+                {
+                    _validationErrors.AddError(nameof(PayeeFee), "The fee cannot be a negative number");
+                }
+                else if (_payeeFee > _cashAmount)
+                {
+                    _validationErrors.AddError(nameof(PayeeFee), "The fee cannot greater than the transfer amount");
+
+                }
+            }
+        }
+
+        public string RecipientNotes
+        {
+            get
+            {
+                return $"Recieve {_cashAmount:N2} {_currency} FROM {_payeeCustodian}";
+            }
+        }
+
+        public string PayeesNotes
+        {
+            get
+            {
+                return $"Transfer {_cashAmount:N2} {_currency} TO {_recipientCustodian}";
+            }
+        }
         public List<string> cmbCashType
         {
             get
@@ -320,6 +401,7 @@ namespace PortfolioAce.ViewModels.Modals
         }
 
         public ICommand AddCashTradeCommand { get; set; }
+        public ICommand TransferCashCommand { get; set; }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 

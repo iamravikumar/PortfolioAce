@@ -11,6 +11,7 @@ namespace PortfolioAce.EFCore.Services
     public interface ITransactionService:IBaseService
     {
         Task<TransactionsBO> CreateTransaction(TransactionsBO transaction);
+        void CreateCashTransfer(List<TransactionsBO> transfers);
         Task<TransactionsBO> CreateFXTransaction(ForexDTO fxTransaction);
         void UpdateTransaction(TransactionsBO transaction);
 

@@ -153,6 +153,21 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public void CreateCashTransfer(List<TransactionsBO> transfers)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                // Created LinkedTransactions Here
+                LinkedTradesBO linkReference = new LinkedTradesBO();
+                foreach(TransactionsBO transfer in transfers)
+                {
+                    transfer.LinkedTrades = linkReference;
+                }
+                context.Transactions.AddRange(transfers);
+                context.SaveChanges();
+            }
+        }
+
         public void DeleteFXTransaction(TransactionsBO transaction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
@@ -184,7 +199,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Custodians.Where(c => (c.Name) == name).FirstOrDefault();
+                return context.Custodians.Where(c => c.Name == name).FirstOrDefault();
             }
         }
 

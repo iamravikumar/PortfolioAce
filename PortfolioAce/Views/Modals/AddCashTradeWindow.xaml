@@ -206,7 +206,7 @@
                     <Label Grid.Row="5">Settle Date:</Label>
                     <DatePicker Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=SettleDate, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Grid.Row="6" Margin="0,20,0,0">Transfer From:</Label>
-                    <ComboBox ItemsSource="{Binding cmbCustodians}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,20,0,2" SelectedItem="{Binding Path=FromCustodian, UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox ItemsSource="{Binding cmbCustodians}" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,20,0,2" SelectedItem="{Binding Path=PayeeCustodian, UpdateSourceTrigger=PropertyChanged}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding }"/>
@@ -216,7 +216,7 @@
                     <Label Grid.Row="7">Payee Fee:</Label>
                     <TextBox Text="{Binding PayeeFee, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
                     <Label Grid.Row="8" Margin="0,5,0,0">Transfer To:</Label>
-                    <ComboBox ItemsSource="{Binding cmbCustodians}" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,5,0,2" SelectedItem="{Binding Path=ToCustodian, UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox ItemsSource="{Binding cmbCustodians}" Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,5,0,2" SelectedItem="{Binding Path=RecipientCustodian, UpdateSourceTrigger=PropertyChanged}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding }"/>
