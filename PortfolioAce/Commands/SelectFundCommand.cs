@@ -36,6 +36,7 @@ namespace PortfolioAce.Commands
             }
             else
             {
+                // This currently means that once users perform edits/additions it will revert to most recent nav... this can be improved.
                 _allFundsWindowVM.asOfDate = _allFundsWindowVM.CurrentFund.NavPrices.OrderBy(f => f.FinalisedDate).Last().FinalisedDate;
             }
         }
