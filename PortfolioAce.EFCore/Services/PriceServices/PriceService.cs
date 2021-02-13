@@ -60,14 +60,6 @@ namespace PortfolioAce.EFCore.Services.PriceServices
             }
         }
 
-        public List<string> GetAllSecuritySymbols()
-        {
-            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
-            {
-                return context.Securities.Where(s=> s.AssetClass.Name !="Cash" && s.AssetClass.Name!="FXForward").OrderBy(s=>s.Symbol).Select(s=>s.Symbol).Distinct().ToList();
-            }
-        }
-
         public List<SecurityPriceStore> GetSecurityPrices(string symbol)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())

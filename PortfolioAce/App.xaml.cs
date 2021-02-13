@@ -103,7 +103,8 @@ namespace PortfolioAce
                          services.GetRequiredService<IWindowFactory>())); // this is how i can pass in my repositories
                     services.AddTransient<SystemFXRatesViewModel>();
                     services.AddTransient<SystemSecurityPricesViewModel>(services => new SystemSecurityPricesViewModel(
-                        services.GetRequiredService<IPriceService>()));
+                        services.GetRequiredService<IPriceService>(),
+                        services.GetRequiredService<IStaticReferences>()));
 
                     // We register the viewmodels to be created in our dependency injection container
                     services.AddSingleton<CreateViewModel<HomeViewModel>>(services =>

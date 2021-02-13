@@ -172,5 +172,13 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
                 return context.Periods.Where(p=>p.FundId==fundId).OrderBy(p=>p.AccountingDate).ToList();
             }
         }
+
+        public List<string> GetSecuritySymbolByAssetClass(string assetClass)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Securities.Where(s => s.AssetClass.Name == assetClass).OrderBy(s => s.Symbol).Select(s => s.Symbol).ToList();
+            }
+        }
     }
 }
