@@ -57,6 +57,7 @@ namespace PortfolioAce.Navigation
             }
             set
             {
+                _currentViewModel?.Dispose();
                 _currentViewModel = value;
                 OnPropertyChanged(nameof(CurrentViewModel));
             }

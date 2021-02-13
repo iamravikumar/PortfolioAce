@@ -93,16 +93,16 @@ namespace PortfolioAce
                     services.AddSingleton<IFactTableService, FactTableService>();
 
                     // Add viewmodels here
-                    services.AddSingleton<HomeViewModel>(services => new HomeViewModel(
+                    services.AddTransient<HomeViewModel>(services => new HomeViewModel(
                         services.GetRequiredService<IFactTableService>()));
-                    services.AddSingleton<AllFundsViewModel>(services => new AllFundsViewModel(
+                    services.AddTransient<AllFundsViewModel>(services => new AllFundsViewModel(
                         services.GetRequiredService<IFundService>(),
                         services.GetRequiredService<ITransactionService>(),
                          services.GetRequiredService<IPortfolioService>(),
                          services.GetRequiredService<IStaticReferences>(),
                          services.GetRequiredService<IWindowFactory>())); // this is how i can pass in my repositories
-                    services.AddSingleton<SystemFXRatesViewModel>();
-                    services.AddSingleton<SystemSecurityPricesViewModel>(services => new SystemSecurityPricesViewModel(
+                    services.AddTransient<SystemFXRatesViewModel>();
+                    services.AddTransient<SystemSecurityPricesViewModel>(services => new SystemSecurityPricesViewModel(
                         services.GetRequiredService<IPriceService>()));
 
                     // We register the viewmodels to be created in our dependency injection container

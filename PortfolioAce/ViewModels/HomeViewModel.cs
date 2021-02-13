@@ -128,5 +128,10 @@ namespace PortfolioAce.ViewModels
             RowChartData = new SeriesCollection { new RowSeries { Title = "ITD Performance", Values = rowChartValues, DataLabels = true } };
             Formatter = value => value.ToString("P2");
         }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
     }
 }

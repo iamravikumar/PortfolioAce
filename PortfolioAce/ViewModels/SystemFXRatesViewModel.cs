@@ -6,5 +6,10 @@ namespace PortfolioAce.ViewModels
 {
     public class SystemFXRatesViewModel:ViewModelBase
     {
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
     }
 }

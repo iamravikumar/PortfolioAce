@@ -550,5 +550,10 @@ namespace PortfolioAce.ViewModels
                     break;
             }
         }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
     }
 }

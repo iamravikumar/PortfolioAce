@@ -126,6 +126,10 @@ namespace PortfolioAce.ViewModels
             _SecurityPriceLineChartXAxis = dgSecurityPrices.Select(sp => sp.Date.ToString("dd/MM/yyyy")).ToArray();
         }
 
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
 
     }
 }
