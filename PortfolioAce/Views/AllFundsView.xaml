@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PortfolioAce.Views"
              xmlns:src="clr-namespace:PortfolioAce.Models"
              xmlns:srcGC="clr-namespace:PortfolioAce.Models.GroupConverters"
+             xmlns:dgx="clr-namespace:DataGridExtensions;assembly=DataGridExtensions"
              mc:Ignorable="d"
              d:DesignHeight="720" d:DesignWidth="1280">
     <UserControl.Resources>
@@ -149,10 +150,10 @@
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Cash Holdings">
-                    <DataGrid Name="dgCashHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgFundCashHoldings, UpdateSourceTrigger=PropertyChanged}" 
+                    <DataGrid Name="dgCashHoldings" ColumnWidth="*"  ItemsSource="{Binding Path=dgFundCashHoldings, UpdateSourceTrigger=PropertyChanged}" dgx:DataGridFilter.IsAutoFilterEnabled="True"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Currency" Binding="{Binding CashPosition.Currency.Symbol}" Width="100" />
+                            <DataGridTextColumn Header="Currency" Binding="{Binding CashPosition.Currency.Symbol}" Width="100" dgx:DataGridFilterColumn.Filter="" />
                             <DataGridTextColumn Header="Balance" Binding="{Binding CashPosition.NetQuantity, StringFormat=N2}" Width="150" />
                             <DataGridTextColumn Header="Custodian" Binding="{Binding CashPosition.Custodian.Name}" Width="150" />
                             <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="150" />
@@ -162,17 +163,17 @@
                 </TabItem>
                 <TabItem Header="Trade History">
                     <DataGrid Name="dgTradeHistory" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTrades, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding selectedTransaction}"
-                              VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                              dgx:DataGridFilter.IsAutoFilterEnabled="True" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type"  Binding="{Binding TransactionType.TypeName}" Width="SizeToCells"/>
                             <DataGridTextColumn Header="Name" Binding="{Binding Security.SecurityName}" Width="SizeToCells"/>
                             <DataGridTextColumn Header="Symbol" Binding="{Binding Security.Symbol}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity, StringFormat=N2}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=N2}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount, StringFormat=N2}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Commission" Binding="{Binding Fees}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
-                            <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" Width="SizeToHeader"/>
                             <DataGridTemplateColumn Header="" Width="SizeToCells">
@@ -214,16 +215,16 @@
                 </TabItem>
                 <TabItem Header="Cash Book">
                     <DataGrid Name="dgCashBook" ColumnWidth="*" ItemsSource="{Binding Path=dgFundCashBook, UpdateSourceTrigger=PropertyChanged}" 
-                              SelectedItem="{Binding selectedTransaction}"
+                              SelectedItem="{Binding selectedTransaction}" dgx:DataGridFilter.IsAutoFilterEnabled="True"
                               VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True" HorizontalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Type" Binding="{Binding TransactionType.TypeName}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Type" Binding="{Binding TransactionType.TypeName}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Transaction Amount" Binding="{Binding TradeAmount, StringFormat=N2}" Width="SizeToHeader" />
                             <DataGridTextColumn Header="Transaction Date"  Binding="{Binding TradeDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
-                            <DataGridTextColumn Header="Settle Date"  Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
-                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Settle Date"  Binding="{Binding SettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
+                            <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian.Name, StringFormat={}{0:dd/MM/yyyy}}" Width="SizeToHeader"/>
                             <DataGridTextColumn Header="Currency" Binding="{Binding Currency.Symbol}" Width="SizeToHeader" />
-                            <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="SizeToCells"/>
+                            <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="SizeToHeader"/>
                             <DataGridTemplateColumn Header="" Width="SizeToCells">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -273,7 +274,7 @@
                 </TabItem>
                 <TabItem Header="Issuance">
                     <DataGrid Name="dgSubsAndReds" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTA, UpdateSourceTrigger=PropertyChanged}" 
-                              VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                             dgx:DataGridFilter.IsAutoFilterEnabled="True" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Type" Binding="{Binding IssueType}" />
                             <DataGridTextColumn Header="Units" Binding="{Binding Units, StringFormat=N2}" />
