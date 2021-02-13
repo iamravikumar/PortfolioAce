@@ -1,4 +1,4 @@
-<!--This awesome README template can be found https://github.com/othneildrew/Best-README-Template -->
+<!--This awesome README template can be found on https://github.com/othneildrew/Best-README-Template -->
 
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
@@ -84,9 +84,10 @@ To get a local copy up and running follow these simple example steps.
 This is an example of how to list things you need to use the software and how to install them.
 All dependencies are available via the NuGet package manager:
 * LiveCharts
+* ServiceStack
+* DataGridExtensions
 * MaterialDesignThemes
 * MaterialDesignExtension
-* ServiceStack
 * Entity Framework Core (3.1.9)
 * Entity Framework Core Tools (3.1.9)
 * Entity Framework Core Sqlite (3.1.9)
@@ -140,10 +141,11 @@ Project Link: [https://github.com/RamonWill/PortfolioAce](https://github.com/Ram
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 * [Icons8](https://icons8.com/)
-* [Material Desing in XAML](http://materialdesigninxaml.net/)
-* [Free Logo Design](https://www.freelogodesign.org)
 * [Img Shields](https://shields.io)
+* [Free Logo Design](https://www.freelogodesign.org)
 * [SingletonSean YT](https://www.youtube.com/channel/UC7X9mQ_XtTYWzr9Tf_NYcIg)
+* [DataGridExtensions](https://github.com/dotnet/DataGridExtensions)
+* [Material Desing in XAML](http://materialdesigninxaml.net/)
 
 
 <!-- Screenshot -->
