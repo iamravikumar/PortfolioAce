@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PortfolioAce.Views"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
@@ -43,22 +44,32 @@
         <DockPanel Grid.Row="2" LastChildFill="False">
             <WrapPanel DockPanel.Dock="Top">
                 <TextBlock Text="Asset Class: " FontWeight="Bold" Margin="0,6,0,0"/>
-                <ComboBox ItemsSource="{Binding cmbAssetClasses}" Margin="10,0,0,0" SelectedItem="{Binding Path=AssetClass, UpdateSourceTrigger=PropertyChanged}" Width="100" MaxWidth="100" >
+                <ComboBox ItemsSource="{Binding cmbAssetClasses}" Margin="10,0,0,0" SelectedItem="{Binding Path=AssetClass, UpdateSourceTrigger=PropertyChanged}" Width="100" MaxWidth="100" Name="assetClassComboBox">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding }" FontWeight="Bold"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding AssetSelectionChangedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </ComboBox>
             </WrapPanel>
             <WrapPanel DockPanel.Dock="Top">
                 <TextBlock Text="Security: " FontWeight="Bold" Margin="0,6,0,0"/>
-                <ComboBox ItemsSource="{Binding cmbSecurities}" Margin="10,0,0,0" SelectedItem="{Binding Path=Symbol, UpdateSourceTrigger=PropertyChanged}" Width="100" MaxWidth="100" >
+                <ComboBox ItemsSource="{Binding cmbSecurities}" Margin="10,0,0,0" SelectedItem="{Binding Path=Symbol, UpdateSourceTrigger=PropertyChanged}" Width="100" MaxWidth="100" Name="securityComboBox">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding }" FontWeight="Bold"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SecuritySelectionChangedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </ComboBox>
             </WrapPanel>
             <StackPanel DockPanel.Dock="Top" Margin="5,10,0,0" Orientation="Vertical">
