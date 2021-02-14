@@ -38,6 +38,8 @@
     <None Remove="Resources\portfolioace_logo2_icon.ico" />
     <None Remove="Resources\portfolioace_logo_icon.ico" />
     <None Remove="Resources\PortfolioAce_logo_with_text.png" />
+    <None Remove="Resources\stlouisfed_logo.png" />
+    <None Remove="Resources\Stocktwits-logo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -146,6 +148,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\PortfolioAce_logo_with_text.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\stlouisfed_logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Stocktwits-logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

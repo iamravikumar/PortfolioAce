@@ -208,4 +208,10 @@
   <data name="icons8_moreDetails_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-moreDetails-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="stlouisfed_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\stlouisfed_logo.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Stocktwits_logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Stocktwits-logo.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

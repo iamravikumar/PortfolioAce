@@ -359,5 +359,25 @@ namespace PortfolioAce.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] stlouisfed_logo {
+            get {
+                object obj = ResourceManager.GetObject("stlouisfed_logo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] Stocktwits_logo {
+            get {
+                object obj = ResourceManager.GetObject("Stocktwits_logo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
