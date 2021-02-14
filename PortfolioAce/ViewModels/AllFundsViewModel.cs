@@ -37,10 +37,11 @@ namespace PortfolioAce.ViewModels
             _staticReferences = staticReferences;
             _windowFactory = windowFactory;
 
-            _currentFund = (lbFunds.Count != 0) ? _fundService.GetFund(lbFunds[0]) : null;
-            _asOfDate = (_currentFund != null) ? staticReferences.GetMostRecentLockedDate(_currentFund.FundId) : DateTime.Today;
-
-            SelectFundCommand = new SelectFundCommand(this, fundService);
+            _lbFunds = _fundService.GetAllFundSymbols();
+            _currentFund = (lbFunds.Count != 0) ? _fundService.GetFund(_lbFunds[0]) : null;
+            _asOfDate = (_currentFund != null) ? _staticReferences.GetMostRecentLockedDate(_currentFund.FundId) : DateTime.Today;
+            _priceTable = _staticReferences.GetPriceTable(_asOfDate);
+            SelectFundCommand = new SelectFundCommand(this, fundService, staticReferences);
 
             ShowNewTradeCommand = new ActionCommand(OpenNewTradeWindow);
 
@@ -106,22 +107,27 @@ namespace PortfolioAce.ViewModels
 
 
 
-        //private Dictionary<(string, DateTime), decimal> _priceTable;
+        private Dictionary<(string, DateTime), decimal> _priceTable; // remember this has to change with the asofdate
         public Dictionary<(string, DateTime), decimal> priceTable
         {
             get
             {
-                return _staticReferences.GetPriceTable(_asOfDate);
+                return _priceTable;
+            }
+            set
+            {
+                _priceTable = value;
+                OnPropertyChanged(nameof(priceTable));
             }
         }
 
 
-        // List box click should have a command and that command changes the fields displayed on the right of the allfundsview.
+        public List<string> _lbFunds;
         public List<string> lbFunds
         {
             get
             {
-                return _fundService.GetAllFundSymbols();
+                return _lbFunds;
             }
         }
 
@@ -135,7 +141,7 @@ namespace PortfolioAce.ViewModels
             set
             {
                 _currentFund = value;
-                OnPropertyChanged(""); // This updates all onproperty changed properties
+                OnPropertyChanged(nameof(CurrentFund)); // This updates all onproperty changed properties
             }
         }
 
@@ -157,6 +163,7 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
+                // cache this its going to be too slow.
                 // i could make this a string
                 return (_currentFund != null) ? _currentFund.NavPrices.Where(np => np.FinalisedDate == _asOfDate).FirstOrDefault() : null; //maybe nav periods...
             }
