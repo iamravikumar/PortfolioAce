@@ -41,8 +41,8 @@ namespace PortfolioAce.Commands
                 TransactionsBO payeeTrade = new TransactionsBO
                 {
                     SecurityId = security.SecurityId,
-                    Quantity = (_addCashTradeWindowVM.Quantity + _addCashTradeWindowVM.PayeeFee) * -1,
-                    TradeAmount = (_addCashTradeWindowVM.CashAmount + _addCashTradeWindowVM.PayeeFee) * -1,
+                    Quantity = _addCashTradeWindowVM.PayeeAmount,
+                    TradeAmount = _addCashTradeWindowVM.PayeeAmount,
                     TradeDate = _addCashTradeWindowVM.TradeDate,
                     SettleDate = _addCashTradeWindowVM.SettleDate,
                     CreatedDate = _addCashTradeWindowVM.CreatedDate,
@@ -61,9 +61,9 @@ namespace PortfolioAce.Commands
                 TransactionsBO recipientTrade = new TransactionsBO
                 {
                     SecurityId = security.SecurityId,
-                    Quantity = _addCashTradeWindowVM.Quantity - _addCashTradeWindowVM.RecipientFee,
+                    Quantity = _addCashTradeWindowVM.RecipientAmount,
                     Price = _addCashTradeWindowVM.Price,
-                    TradeAmount = _addCashTradeWindowVM.CashAmount - _addCashTradeWindowVM.RecipientFee,
+                    TradeAmount = _addCashTradeWindowVM.RecipientAmount,
                     TradeDate = _addCashTradeWindowVM.TradeDate,
                     SettleDate = _addCashTradeWindowVM.SettleDate,
                     CreatedDate = _addCashTradeWindowVM.CreatedDate,

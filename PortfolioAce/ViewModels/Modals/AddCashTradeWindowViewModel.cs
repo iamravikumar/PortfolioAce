@@ -16,6 +16,7 @@ namespace PortfolioAce.ViewModels.Modals
 {
     public class AddCashTradeWindowViewModel: ViewModelWindowBase, INotifyDataErrorInfo
     {
+        // Transfer fees will need to be seperate lines in the future if they are greater than zero!
         private Fund _fund;
         private readonly ValidationErrors _validationErrors;
         private IStaticReferences _staticReferences;
@@ -315,6 +316,24 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        public decimal PayeeAmount
+        {
+            get
+            {
+                // example you transfer £800, £50 of which is fees...
+                return _cashAmount*-1;
+            }
+        }
+
+        public decimal RecipientAmount
+        {
+            get
+            {
+                // using the PayeeAmount example you recieve £750 minus any fees you are charged.
+                return _cashAmount-_payeeFee-_recipientFee;
+            }
+        }
+
         private decimal _recipientFee;
         public decimal RecipientFee
         {
@@ -365,7 +384,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return $"Recieve {_cashAmount:N2} {_currency} FROM {_payeeCustodian}";
+                return $"Recieve {_cashAmount:N2} {_currency} FROM {_payeeCustodian}. Total Fees {_recipientFee+_payeeFee:N2}";
             }
         }
 
@@ -373,7 +392,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return $"Transfer {_cashAmount:N2} {_currency} TO {_recipientCustodian}";
+                return $"Transfer {_cashAmount:N2} {_currency} TO {_recipientCustodian}.";
             }
         }
         public List<string> cmbCashType
