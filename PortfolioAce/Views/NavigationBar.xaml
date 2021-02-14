@@ -52,11 +52,6 @@
                         <Image Source="/PortfolioAce;component/Resources\icons8-all-securities24.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="View FX Rates"  Command="{Binding UpdateCurrentViewModelCommand}" CommandParameter="{x:Static nav:ViewType.SysFXRates}">
-                    <MenuItem.Icon>
-                        <Image Source="/PortfolioAce;component/Resources\icons8-fx-rates-24.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
                 <Separator />
                 <MenuItem Header="Import Trades..." Command="{Binding ShowImportTradesCommand}">
                     <MenuItem.Icon>

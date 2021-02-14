@@ -10,7 +10,6 @@ namespace PortfolioAce.Navigation
     {
         Home,
         FundsView,
-        SysFXRates,
         SysSecurityPrices
         
     }

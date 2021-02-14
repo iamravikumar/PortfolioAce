@@ -10,19 +10,16 @@ namespace PortfolioAce.ViewModels.Factories
 
         private readonly CreateViewModel<HomeViewModel> _createHomeViewModel;
         private readonly CreateViewModel<AllFundsViewModel> _createAllFundsViewModel;
-        private readonly CreateViewModel<SystemFXRatesViewModel> _createFXViewModel;
         private readonly CreateViewModel<SystemSecurityPricesViewModel> _createSPViewModel;
 
         public PortfolioAceViewModelAbstractFactory(
             CreateViewModel<HomeViewModel> createHomeViewModel,
             CreateViewModel<AllFundsViewModel> createAllFundsViewModel,
-            CreateViewModel<SystemFXRatesViewModel> createFXViewModel,
             CreateViewModel<SystemSecurityPricesViewModel> createSPViewModel
 )
         {
             _createHomeViewModel = createHomeViewModel;
             _createAllFundsViewModel = createAllFundsViewModel;
-            _createFXViewModel = createFXViewModel;
             _createSPViewModel = createSPViewModel;
         }
 
@@ -36,9 +33,6 @@ namespace PortfolioAce.ViewModels.Factories
 
                 case ViewType.FundsView:
                     return _createAllFundsViewModel();
-
-                case ViewType.SysFXRates:
-                    return _createFXViewModel();
 
                 case ViewType.SysSecurityPrices:
                     return _createSPViewModel();

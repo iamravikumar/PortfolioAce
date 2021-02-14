@@ -101,7 +101,6 @@ namespace PortfolioAce
                          services.GetRequiredService<IPortfolioService>(),
                          services.GetRequiredService<IStaticReferences>(),
                          services.GetRequiredService<IWindowFactory>())); // this is how i can pass in my repositories
-                    services.AddTransient<SystemFXRatesViewModel>();
                     services.AddTransient<SystemSecurityPricesViewModel>(services => new SystemSecurityPricesViewModel(
                         services.GetRequiredService<IPriceService>(),
                         services.GetRequiredService<IStaticReferences>()));
@@ -114,10 +113,6 @@ namespace PortfolioAce
                     services.AddSingleton<CreateViewModel<AllFundsViewModel>>(services =>
                     {
                         return () => services.GetRequiredService<AllFundsViewModel>();
-                    });
-                    services.AddSingleton<CreateViewModel<SystemFXRatesViewModel>>(services =>
-                    {
-                        return () => services.GetRequiredService<SystemFXRatesViewModel>();
                     });
                     services.AddSingleton<CreateViewModel<SystemSecurityPricesViewModel>>(services =>
                     {
