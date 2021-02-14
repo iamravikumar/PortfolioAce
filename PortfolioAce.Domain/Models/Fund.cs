@@ -1,11 +1,9 @@
 ﻿using PortfolioAce.Domain.Models.BackOfficeModels;
-using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
-using System; 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace PortfolioAce.Domain.Models
 {
@@ -42,7 +40,7 @@ namespace PortfolioAce.Domain.Models
         public bool IsInitialised { get; set; } // Defaults to False when Fund is first created, set to true once fund is initialised..
 
         public virtual ICollection<TransactionsBO> Transactions { get; set; }
-        public virtual ICollection<TransferAgencyBO> TransferAgent {get;set;}
+        public virtual ICollection<TransferAgencyBO> TransferAgent { get; set; }
         public virtual ICollection<NAVPriceStoreFACT> NavPrices { get; set; }
     }
 }

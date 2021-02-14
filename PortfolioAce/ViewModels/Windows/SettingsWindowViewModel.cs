@@ -3,15 +3,13 @@ using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services.SettingServices;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Modals;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Windows
 {
-    public class SettingsWindowViewModel: ViewModelWindowBase
+    public class SettingsWindowViewModel : ViewModelWindowBase
     {
         private ISettingService _settingService;
         private Dictionary<string, ApplicationSettings> _settingsTable;

@@ -8,18 +8,11 @@ using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
-using PortfolioAce.EFCore.Services.FactTableServices;
-using PortfolioAce.EFCore.Services.PriceServices;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Factories;
-using PortfolioAce.ViewModels.Modals;
-using PortfolioAce.ViewModels.Windows;
-using PortfolioAce.Views.Modals;
-using PortfolioAce.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -45,7 +38,7 @@ namespace PortfolioAce.ViewModels
             _windowFactory = windowFactory;
 
             _currentFund = (lbFunds.Count != 0) ? _fundService.GetFund(lbFunds[0]) : null;
-            _asOfDate = (_currentFund != null)?staticReferences.GetMostRecentLockedDate(_currentFund.FundId):DateTime.Today;
+            _asOfDate = (_currentFund != null) ? staticReferences.GetMostRecentLockedDate(_currentFund.FundId) : DateTime.Today;
 
             SelectFundCommand = new SelectFundCommand(this, fundService);
 
@@ -107,7 +100,7 @@ namespace PortfolioAce.ViewModels
             // with this is the fund is unlocked then i can create Estimate NAV as of XXX. Estimate Nav pershare as of:
             get
             {
-                return new NavValuations(dgFundPositions, dgFundCashHoldings,dgFundClients, _asOfDate, _currentFund); ;
+                return new NavValuations(dgFundPositions, dgFundCashHoldings, dgFundClients, _asOfDate, _currentFund); ;
             }
         }
 
@@ -121,7 +114,7 @@ namespace PortfolioAce.ViewModels
                 return _staticReferences.GetPriceTable(_asOfDate);
             }
         }
-        
+
 
         // List box click should have a command and that command changes the fields displayed on the right of the allfundsview.
         public List<string> lbFunds
@@ -146,7 +139,7 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        
+
         public bool IsInitialised
         {
             // need to find a way to incorporate no fund option so it doesn't break
@@ -165,7 +158,7 @@ namespace PortfolioAce.ViewModels
             get
             {
                 // i could make this a string
-                return (_currentFund != null) ? _currentFund.NavPrices.Where(np=>np.FinalisedDate==_asOfDate).FirstOrDefault():null; //maybe nav periods...
+                return (_currentFund != null) ? _currentFund.NavPrices.Where(np => np.FinalisedDate == _asOfDate).FirstOrDefault() : null; //maybe nav periods...
             }
             private set
             {
@@ -177,7 +170,7 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                if(NavReference != null)
+                if (NavReference != null)
                 {
                     return $"{NavReference.NAVPrice:N2} {NavReference.Currency}";
                 }
@@ -207,7 +200,7 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                List<NAVPriceStoreFACT> allNavPrices = (_currentFund != null) ? _currentFund.NavPrices.OrderBy(np=>np.FinalisedDate).ToList() : new List<NAVPriceStoreFACT>();
+                List<NAVPriceStoreFACT> allNavPrices = (_currentFund != null) ? _currentFund.NavPrices.OrderBy(np => np.FinalisedDate).ToList() : new List<NAVPriceStoreFACT>();
                 if (allNavPrices.Count <= 1)
                 {
                     return "0%";
@@ -215,7 +208,7 @@ namespace PortfolioAce.ViewModels
                 else
                 {
                     decimal firstPrice = allNavPrices[0].NAVPrice;
-                    decimal latestPrice = allNavPrices[allNavPrices.Count-1].NAVPrice;
+                    decimal latestPrice = allNavPrices[allNavPrices.Count - 1].NAVPrice;
                     decimal ITD = (latestPrice / firstPrice) - 1;
                     return String.Format("{0:P2}", ITD);
                 }
@@ -228,10 +221,10 @@ namespace PortfolioAce.ViewModels
             // false = this will put a red cross if the nav is unlocked which means the price you see is not yet final
             get
             {
-                if(_currentFund != null)
+                if (_currentFund != null)
                 {
-                    AccountingPeriodsDIM period = _currentFund.NavPrices.Where(np => np.NAVPeriod.AccountingDate == _asOfDate).Select(np=>np.NAVPeriod).FirstOrDefault();
-                    if(period != null)
+                    AccountingPeriodsDIM period = _currentFund.NavPrices.Where(np => np.NAVPeriod.AccountingDate == _asOfDate).Select(np => np.NAVPeriod).FirstOrDefault();
+                    if (period != null)
                     {
                         return (period.isLocked) ? Visibility.Visible : Visibility.Collapsed;
                     }
@@ -265,19 +258,19 @@ namespace PortfolioAce.ViewModels
         {
             get
             {
-                return (IsInitialised)?Visibility.Visible: Visibility.Collapsed;
+                return (IsInitialised) ? Visibility.Visible : Visibility.Collapsed;
             }
             private set
             {
 
             }
         }
-        
+
         public List<ValuedCashPosition> dgFundCashHoldings
         {
             get
             {
-                if(_currentFund != null)
+                if (_currentFund != null)
                 {
                     return _portfolioService.GetAllValuedCashPositions(_currentFund, _asOfDate, priceTable);
                 }
@@ -336,8 +329,8 @@ namespace PortfolioAce.ViewModels
             {
                 // Transactions filtered for just security trades
                 return (_currentFund != null) ? _currentFund.Transactions
-                                                            .Where(t => (t.TransactionType.TypeClass == "SecurityTrade" || t.TransactionType.TypeName=="FXTrade") && t.TradeDate <= _asOfDate)
-                                                            .OrderBy(t=>t.TradeDate)
+                                                            .Where(t => (t.TransactionType.TypeClass == "SecurityTrade" || t.TransactionType.TypeName == "FXTrade") && t.TradeDate <= _asOfDate)
+                                                            .OrderBy(t => t.TradeDate)
                                                             .ToList() : null;
             }
         }
@@ -376,7 +369,7 @@ namespace PortfolioAce.ViewModels
             {
                 // all Transactions ordered by date... 
                 return (_currentFund != null) ? _currentFund.Transactions
-                                                            .Where(t=>t.TradeDate<=_asOfDate && t.TransactionType.TypeClass!="FXTrade")
+                                                            .Where(t => t.TradeDate <= _asOfDate && t.TransactionType.TypeClass != "FXTrade")
                                                             .OrderBy(t => t.TradeDate)
                                                             .ToList() : null;
             }
@@ -388,7 +381,7 @@ namespace PortfolioAce.ViewModels
             get
             {
                 return (_currentFund != null) ? _currentFund.TransferAgent
-                                                            .Where(ta=>ta.TransactionDate<=_asOfDate)
+                                                            .Where(ta => ta.TransactionDate <= _asOfDate)
                                                             .OrderBy(ta => ta.TransactionDate)
                                                             .ToList() : null;
             }
@@ -440,7 +433,7 @@ namespace PortfolioAce.ViewModels
 
         public void OpenFundInitialisationWindow()
         {
-            if(_currentFund == null)
+            if (_currentFund == null)
             {
                 MessageBox.Show("You need to create a fund first", "Information");
             }
@@ -489,12 +482,12 @@ namespace PortfolioAce.ViewModels
             }
             else
             {
-                string tradeType = _selectedTransaction.TransactionType.TypeName; 
+                string tradeType = _selectedTransaction.TransactionType.TypeName;
                 string cashSymbol = _selectedTransaction.Currency.Symbol;
                 decimal amount = _selectedTransaction.TradeAmount;
                 message = $"Are you sure you want to delete the following Trade:{n}Type: {tradeType}{n}Security: {cashSymbol}{n}Transaction Amount: {amount}{n}";
             }
-            MessageBoxResult result =  MessageBox.Show(message, "Delete Trade", button: MessageBoxButton.YesNo);
+            MessageBoxResult result = MessageBox.Show(message, "Delete Trade", button: MessageBoxButton.YesNo);
             switch (result)
             {
                 case MessageBoxResult.Yes:
@@ -506,7 +499,7 @@ namespace PortfolioAce.ViewModels
                         }
                         else
                         {
-                            _transactionService.DeleteTransaction(_selectedTransaction); 
+                            _transactionService.DeleteTransaction(_selectedTransaction);
                         }
                         SelectFundCommand.Execute(_currentFund.Symbol);
                     }

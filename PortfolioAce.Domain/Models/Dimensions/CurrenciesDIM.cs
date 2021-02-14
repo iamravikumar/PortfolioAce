@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace PortfolioAce.Domain.Models.Dimensions
 {
@@ -12,8 +9,8 @@ namespace PortfolioAce.Domain.Models.Dimensions
         [Key]
         public int CurrencyId { get; set; }
         [Required]
-        public string Symbol { get; set; } 
+        public string Symbol { get; set; }
         [Required]
-        public string Name { get; set; } 
+        public string Name { get; set; }
     }
 }

@@ -4,8 +4,6 @@ using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services.DimensionServices
 {
@@ -110,7 +108,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.SecurityPriceData.Where(s=>s.Date<=asOfDate).ToList();
+                return context.SecurityPriceData.Where(s => s.Date <= asOfDate).ToList();
             }
         }
 
@@ -118,7 +116,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                List<SecurityPriceStore> allPrices =  context.SecurityPriceData.Where(s => s.Date <= asOfDate).Include(s=>s.Security).ToList();
+                List<SecurityPriceStore> allPrices = context.SecurityPriceData.Where(s => s.Date <= asOfDate).Include(s => s.Security).ToList();
 
                 Dictionary<(string, DateTime), decimal> priceTable = new Dictionary<(string, DateTime), decimal>();
                 foreach (SecurityPriceStore price in allPrices)
@@ -143,7 +141,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
             // check if the previous period is locked or not
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                List<AccountingPeriodsDIM> prevPeriods =  context.Periods.Where(p => p.AccountingDate < previousPeriodDate && p.FundId == fundId).OrderBy(p=>p.AccountingDate).ToList();
+                List<AccountingPeriodsDIM> prevPeriods = context.Periods.Where(p => p.AccountingDate < previousPeriodDate && p.FundId == fundId).OrderBy(p => p.AccountingDate).ToList();
                 if (prevPeriods.Count == 0)
                 {
                     return false;
@@ -169,7 +167,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Periods.Where(p=>p.FundId==fundId).OrderBy(p=>p.AccountingDate).ToList();
+                return context.Periods.Where(p => p.FundId == fundId).OrderBy(p => p.AccountingDate).ToList();
             }
         }
 

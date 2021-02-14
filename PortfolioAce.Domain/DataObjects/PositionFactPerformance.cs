@@ -1,14 +1,12 @@
 ﻿using PortfolioAce.Domain.Models.FactTables;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects
 {
     public class PositionFactPerformance
     {
         public PositionFACT Position { get; set; }
-        public decimal GainPercent {get;set; }
+        public decimal GainPercent { get; set; }
         public decimal GainValue { get; set; }
         public PositionFactPerformance(PositionFACT position)
         {
@@ -16,14 +14,14 @@ namespace PortfolioAce.Domain.DataObjects
             if (position.Quantity >= 0)
             {
                 GainPercent = Math.Round(((position.Price / position.AverageCost) - 1), 2);
-                GainValue = Math.Round(position.Quantity*(position.Price - position.AverageCost),2);
+                GainValue = Math.Round(position.Quantity * (position.Price - position.AverageCost), 2);
             }
             else
             {
                 // if the position is short.
-                GainPercent = Math.Round(((position.Price / position.AverageCost) - 1)*-1, 2);
-                GainValue = Math.Round(position.Quantity * ((position.Price - position.AverageCost)*-1), 2);
-                
+                GainPercent = Math.Round(((position.Price / position.AverageCost) - 1) * -1, 2);
+                GainValue = Math.Round(position.Quantity * ((position.Price - position.AverageCost) * -1), 2);
+
             }
         }
     }

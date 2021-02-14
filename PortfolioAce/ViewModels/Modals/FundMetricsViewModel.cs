@@ -8,12 +8,11 @@ using PortfolioAce.EFCore.Services.FactTableServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PortfolioAce.ViewModels.Modals
 {
-    public class FundMetricsViewModel: ViewModelWindowBase
+    public class FundMetricsViewModel : ViewModelWindowBase
     {
         private IFactTableService _factTableService;
         private IStaticReferences _staticReferences;
@@ -40,7 +39,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                List<NAVPriceStoreFACT> orderedPrices = _fund.NavPrices.Where(np=>np.FinalisedDate<=asOfDate).OrderBy(np => np.FinalisedDate).ToList();
+                List<NAVPriceStoreFACT> orderedPrices = _fund.NavPrices.Where(np => np.FinalisedDate <= asOfDate).OrderBy(np => np.FinalisedDate).ToList();
                 decimal startPrice = orderedPrices[0].NAVPrice;
                 decimal endPrice = orderedPrices[orderedPrices.Count - 1].NAVPrice;
                 decimal performance = (endPrice / startPrice) - 1;
@@ -52,7 +51,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                List<NAVPriceStoreFACT> orderedPrices = _fund.NavPrices.Where(np=>np.FinalisedDate.Month==asOfDate.Month && np.FinalisedDate<=asOfDate).OrderBy(np => np.FinalisedDate).ToList();
+                List<NAVPriceStoreFACT> orderedPrices = _fund.NavPrices.Where(np => np.FinalisedDate.Month == asOfDate.Month && np.FinalisedDate <= asOfDate).OrderBy(np => np.FinalisedDate).ToList();
                 decimal startPrice = orderedPrices[0].NAVPrice;
                 decimal endPrice = orderedPrices[orderedPrices.Count - 1].NAVPrice;
                 decimal performance = (endPrice / startPrice) - 1;
@@ -85,11 +84,11 @@ namespace PortfolioAce.ViewModels.Modals
         public async Task Load()
         {
             // Line Chart
-            IEnumerable<NAVPriceStoreFACT> navPrices = _fund.NavPrices.Where(np=>np.FinalisedDate<=_asOfDate).OrderBy(np => np.FinalisedDate);
+            IEnumerable<NAVPriceStoreFACT> navPrices = _fund.NavPrices.Where(np => np.FinalisedDate <= _asOfDate).OrderBy(np => np.FinalisedDate);
             NavPriceLineChartYAxis = new ChartValues<decimal>(navPrices.Select(np => np.NAVPrice));
             NavPriceLineChartXAxis = navPrices.Select(np => np.FinalisedDate.ToString("dd/MM/yyyy")).ToArray();
 
-            
+
             List<PositionFACT> activePositions = _factTableService.GetAllStoredPositions(_asOfDate, _fund.FundId, onlyActive: true);
             PositionCount = activePositions.Count;
             // Pie Chart
@@ -106,7 +105,7 @@ namespace PortfolioAce.ViewModels.Modals
 
             // Row Chart Table
             List<PositionFactPerformance> positionPerformances = new List<PositionFactPerformance>();
-            foreach(PositionFACT position in activePositions)
+            foreach (PositionFACT position in activePositions)
             {
                 PositionFactPerformance performance = new PositionFactPerformance(position);
                 positionPerformances.Add(performance);
@@ -116,7 +115,7 @@ namespace PortfolioAce.ViewModels.Modals
 
             ChartValues<decimal> rowChartValues = new ChartValues<decimal>(positionPerformancesTopFivePercent.Select(pp => pp.GainPercent));
             RowChartDataLabel = positionPerformancesTopFivePercent.Select(pp => pp.Position.Security.SecurityName).ToArray();
-            RowChartData = new SeriesCollection { new RowSeries { Title = "Market Value", Values = rowChartValues, DataLabels=true} };
+            RowChartData = new SeriesCollection { new RowSeries { Title = "Market Value", Values = rowChartValues, DataLabels = true } };
             Formatter = value => value.ToString("P2");
         }
     }

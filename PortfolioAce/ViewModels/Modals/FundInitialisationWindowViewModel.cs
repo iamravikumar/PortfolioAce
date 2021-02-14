@@ -5,15 +5,12 @@ using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.HelperObjects;
 using PortfolioAce.Models;
-using PortfolioAce.Navigation;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals

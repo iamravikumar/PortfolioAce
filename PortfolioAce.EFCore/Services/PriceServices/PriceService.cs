@@ -6,7 +6,6 @@ using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services.PriceServices
@@ -41,7 +40,7 @@ namespace PortfolioAce.EFCore.Services.PriceServices
                         {
                             price.Close = 1 / price.Close;
                         }
-                        SecurityPriceStore newPrice = new SecurityPriceStore { Date = price.TimeStamp, ClosePrice = price.Close, SecurityId = security.SecurityId, PriceSource=price.PriceSource};
+                        SecurityPriceStore newPrice = new SecurityPriceStore { Date = price.TimeStamp, ClosePrice = price.Close, SecurityId = security.SecurityId, PriceSource = price.PriceSource };
                         context.SecurityPriceData.Add(newPrice);
                     }
                 }
@@ -64,7 +63,7 @@ namespace PortfolioAce.EFCore.Services.PriceServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.SecurityPriceData.Where(spd => spd.Security.Symbol == symbol).OrderBy(spd=>spd.Date).ToList();
+                return context.SecurityPriceData.Where(spd => spd.Security.Symbol == symbol).OrderBy(spd => spd.Date).ToList();
             }
         }
 

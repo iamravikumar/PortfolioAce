@@ -1,12 +1,8 @@
-﻿using PortfolioAce.Domain.Models;
-using PortfolioAce.Domain.Models.BackOfficeModels;
+﻿using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
-using PortfolioAce.ViewModels.Windows;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
@@ -52,17 +48,17 @@ namespace PortfolioAce.Commands
                     Fees = _addCashTradeWindowVM.Fees,
                     isActive = _addCashTradeWindowVM.isActive,
                     isLocked = _addCashTradeWindowVM.isLocked,
-                    isCashTransaction=true,
+                    isCashTransaction = true,
                     FundId = _addCashTradeWindowVM.FundId,
                     TransactionTypeId = tradeType.TransactionTypeId,
-                    CurrencyId= security.CurrencyId,
-                    Comment=_addCashTradeWindowVM.Notes,
-                    CustodianId=custodian.CustodianId
+                    CurrencyId = security.CurrencyId,
+                    Comment = _addCashTradeWindowVM.Notes,
+                    CustodianId = custodian.CustodianId
                 };
                 await _transactionService.CreateTransaction(newCashTrade);
                 _addCashTradeWindowVM.CloseAction();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }

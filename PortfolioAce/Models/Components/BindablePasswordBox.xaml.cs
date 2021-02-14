@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PortfolioAce.Models.Components
 {
@@ -31,13 +21,13 @@ namespace PortfolioAce.Models.Components
 
         public string Password
         {
-            get 
-            { 
-                return (string)GetValue(PasswordProperty); 
+            get
+            {
+                return (string)GetValue(PasswordProperty);
             }
-            set 
-            { 
-                SetValue(PasswordProperty, value); 
+            set
+            {
+                SetValue(PasswordProperty, value);
             }
         }
 
@@ -45,7 +35,7 @@ namespace PortfolioAce.Models.Components
 
         public static void PasswordPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if(d is BindablePasswordBox passwordBox)
+            if (d is BindablePasswordBox passwordBox)
             {
                 passwordBox.UpdatePassword();
             }

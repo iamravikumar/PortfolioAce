@@ -6,8 +6,6 @@ using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PortfolioAce.Domain.BusinessServices
 {
@@ -72,7 +70,7 @@ namespace PortfolioAce.Domain.BusinessServices
                                                     .OrderBy(t => t.TransactionDate)
                                                     .ToList();
             Dictionary<FundInvestorBO, List<TransferAgencyBO>> transferDict = new Dictionary<FundInvestorBO, List<TransferAgencyBO>>();
-            foreach(TransferAgencyBO transaction in allActions)
+            foreach (TransferAgencyBO transaction in allActions)
             {
                 FundInvestorBO dictKey = transaction.FundInvestor;
                 if (!transferDict.ContainsKey(dictKey))
@@ -100,11 +98,11 @@ namespace PortfolioAce.Domain.BusinessServices
         public List<CalculatedSecurityPosition> GetAllSecurityPositions(Fund fund, DateTime asOfDate)
         {
             List<TransactionsBO> allTrades = fund.Transactions
-                                                 .Where(t => t.isActive && (t.TransactionType.TypeClass == "SecurityTrade" || t.TransactionType.TypeClass == "FXTrade") && t.TradeDate<=asOfDate)
+                                                 .Where(t => t.isActive && (t.TransactionType.TypeClass == "SecurityTrade" || t.TransactionType.TypeClass == "FXTrade") && t.TradeDate <= asOfDate)
                                                  .OrderBy(t => t.TradeDate)
                                                  .ToList();
 
-            Dictionary<(string, string), List<TransactionsBO>> tradesBySecurityAndCustodian = new Dictionary<(string, string), List<TransactionsBO>>(); 
+            Dictionary<(string, string), List<TransactionsBO>> tradesBySecurityAndCustodian = new Dictionary<(string, string), List<TransactionsBO>>();
             foreach (TransactionsBO trade in allTrades)
             {
                 ValueTuple<string, string> groupKey = (trade.Security.Symbol, trade.Custodian.Name); // this allows me to group transactions by security AND custodian
@@ -121,11 +119,11 @@ namespace PortfolioAce.Domain.BusinessServices
             List<CalculatedSecurityPosition> allPositions = new List<CalculatedSecurityPosition>();
 
             bool includeClosed = false; // this will be a method parameter in the future
-            foreach(KeyValuePair<(string, string), List<TransactionsBO>> Kvp in tradesBySecurityAndCustodian)
+            foreach (KeyValuePair<(string, string), List<TransactionsBO>> Kvp in tradesBySecurityAndCustodian)
             {
                 SecuritiesDIM security = Kvp.Value[0].Security;
                 CustodiansDIM custodian = Kvp.Value[0].Custodian;
-                CalculatedSecurityPosition position= _positionFactory.CreateSecurityPosition(security, custodian);
+                CalculatedSecurityPosition position = _positionFactory.CreateSecurityPosition(security, custodian);
                 position.AddTransactionRange(Kvp.Value);
 
                 if (includeClosed)
@@ -139,7 +137,7 @@ namespace PortfolioAce.Domain.BusinessServices
                         allPositions.Add(position);
                     }
                 }
-                
+
             }
 
             return allPositions;
@@ -172,7 +170,7 @@ namespace PortfolioAce.Domain.BusinessServices
             }
 
             List<CalculatedCashPosition> allCashPositions = GetAllCashPositions(fund, asOfDate);
-            foreach(CalculatedCashPosition cashPosition in allCashPositions)
+            foreach (CalculatedCashPosition cashPosition in allCashPositions)
             {
                 ValuedPosition valuedCashPosition = _positionFactory.CreateValuedCashPosition(cashPosition, priceTable, asOfDate, fund.BaseCurrency);
                 allValuedPositions.Add(valuedCashPosition);

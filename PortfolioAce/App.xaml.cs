@@ -16,7 +16,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PortfolioAce.DataCentre.APIConnections;
 using PortfolioAce.Domain.BusinessServices;
-using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
@@ -27,11 +26,6 @@ using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 
@@ -135,12 +129,12 @@ namespace PortfolioAce
             System.Windows.FrameworkCompatibilityPreferences.KeepTextBoxDisplaySynchronizedWithTextProperty = false; // allows me to put negatives in textbox
 
             PortfolioAceDbContextFactory contextFactory = _host.Services.GetRequiredService<PortfolioAceDbContextFactory>();
-            using(PortfolioAceDbContext context = contextFactory.CreateDbContext())
+            using (PortfolioAceDbContext context = contextFactory.CreateDbContext())
             {
                 context.Database.Migrate();
             }
 
-            Window window =  _host.Services.GetRequiredService<MainWindow>();
+            Window window = _host.Services.GetRequiredService<MainWindow>();
             window.Show();
             base.OnStartup(e);
         }

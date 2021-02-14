@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace PortfolioAce.HelperObjects
+﻿namespace PortfolioAce.HelperObjects
 {
     public class SeedingInvestor
     {
-        public int InvestorId{ get; set; }
+        public int InvestorId { get; set; }
         public decimal SeedAmount { get; set; }
         public SeedingInvestor(int InvestorId, decimal SeedAmount)
         {

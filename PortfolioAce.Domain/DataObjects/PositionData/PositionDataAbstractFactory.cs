@@ -1,7 +1,6 @@
 ﻿using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects.PositionData
 {
@@ -46,7 +45,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             {
                 //"Equity, Cryptocurrency, FX"
                 case "Equity":
-                    return new ValuedEquityPosition(position,  priceTable, asOfDate, FundBaseCurrency);
+                    return new ValuedEquityPosition(position, priceTable, asOfDate, FundBaseCurrency);
                 case "Cryptocurrency":
                     return new ValuedCryptoPosition(position, priceTable, asOfDate, FundBaseCurrency);
                 case "FXForward":

@@ -1,20 +1,18 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.DataObjects.PositionData;
-using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
-    public class NavSummaryViewModel:ViewModelWindowBase
+    public class NavSummaryViewModel : ViewModelWindowBase
     {
         private ITransferAgencyService _investorService;
         private IStaticReferences _staticReferences;
@@ -148,7 +146,7 @@ namespace PortfolioAce.ViewModels.Modals
             // determines the message shown if ALL positions are valued..
             get
             {
-                return (UnvaluedPositions==0) ? Visibility.Visible : Visibility.Collapsed;
+                return (UnvaluedPositions == 0) ? Visibility.Visible : Visibility.Collapsed;
             }
             private set
             {
@@ -161,7 +159,7 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 // and the accounting period is not locked AND the prior accounting period is not locked....
-                AccountingPeriodsDIM period = _staticReferences.GetPeriod(AsOfDate,_navValuation.fund.FundId);
+                AccountingPeriodsDIM period = _staticReferences.GetPeriod(AsOfDate, _navValuation.fund.FundId);
                 if (period == null)
                 {
                     return false;
@@ -182,9 +180,9 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 // and the accounting period is not locked AND the prior accounting period is not locked....
                 List<AccountingPeriodsDIM> periods = _staticReferences.GetAllFundPeriods(_navValuation.fund.FundId);
-                AccountingPeriodsDIM period =periods.Where(p=>p.AccountingDate==AsOfDate).FirstOrDefault();
+                AccountingPeriodsDIM period = periods.Where(p => p.AccountingDate == AsOfDate).FirstOrDefault();
                 AccountingPeriodsDIM futurePeriods = periods.Where(p => p.AccountingDate > AsOfDate && p.isLocked).FirstOrDefault();
-                if(period != null && futurePeriods ==null)
+                if (period != null && futurePeriods == null)
                 {
                     return period.isLocked;
                 }

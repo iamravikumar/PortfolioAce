@@ -1,8 +1,4 @@
-﻿using PortfolioAce.ViewModels.Windows;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System;
 using System.Windows.Input;
 
 namespace PortfolioAce.Navigation
@@ -90,7 +86,7 @@ namespace PortfolioAce.Navigation
 
         public void Execute(object parameter)
         {
-            _execute.Invoke(arg1,arg2, arg3);
+            _execute.Invoke(arg1, arg2, arg3);
         }
     }
 

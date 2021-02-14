@@ -1,14 +1,12 @@
 ﻿using PortfolioAce.Domain.DataObjects.DTOs;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public interface ITransactionService:IBaseService
+    public interface ITransactionService : IBaseService
     {
         Task<TransactionsBO> CreateTransaction(TransactionsBO transaction);
         void CreateCashTransfer(List<TransactionsBO> transfers);

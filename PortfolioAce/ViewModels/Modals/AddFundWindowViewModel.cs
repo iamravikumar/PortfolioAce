@@ -2,19 +2,17 @@
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
-using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
 
-    public class AddFundWindowViewModel:ViewModelWindowBase, INotifyDataErrorInfo
+    public class AddFundWindowViewModel : ViewModelWindowBase, INotifyDataErrorInfo
     {
         private IFundService _fundService;
         private readonly ValidationErrors _validationErrors;
@@ -130,7 +128,7 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _fundPerfFee = value;
                 _validationErrors.ClearErrors(nameof(FundPerfFee));
-                if(_fundPerfFee<0 || _fundPerfFee > 1)
+                if (_fundPerfFee < 0 || _fundPerfFee > 1)
                 {
                     _validationErrors.AddError(nameof(FundPerfFee), "The performance fee must be between 0% to 100%");
                 }
@@ -197,7 +195,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return (_selectedHurdleType!="None");
+                return (_selectedHurdleType != "None");
             }
         }
 

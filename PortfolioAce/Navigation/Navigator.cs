@@ -1,25 +1,12 @@
-﻿using PortfolioAce.EFCore.Services;
-using PortfolioAce.EFCore.Services.DimensionServices;
-using PortfolioAce.EFCore.Services.SettingServices;
-using PortfolioAce.Models;
+﻿using PortfolioAce.Models;
 using PortfolioAce.ViewModels;
 using PortfolioAce.ViewModels.Factories;
-using PortfolioAce.ViewModels.Modals;
-using PortfolioAce.ViewModels.Windows;
-using PortfolioAce.Views;
-using PortfolioAce.Views.Modals;
-using PortfolioAce.Views.Windows;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Dynamic;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Navigation
 {
-    public class Navigator: ObservableObject, INavigator
+    public class Navigator : ObservableObject, INavigator
     {
 
         private IWindowFactory _windowFactory;

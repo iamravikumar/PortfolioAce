@@ -1,7 +1,5 @@
 ﻿using PortfolioAce.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PortfolioAce.ViewModels.Factories
 {
@@ -37,7 +35,7 @@ namespace PortfolioAce.ViewModels.Factories
                 case ViewType.SysSecurityPrices:
                     return _createSPViewModel();
 
-                   
+
                 default:
                     throw new ArgumentException("The ViewType does not have a ViewModel", "viewType");
             }

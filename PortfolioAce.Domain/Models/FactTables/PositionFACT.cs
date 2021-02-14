@@ -1,9 +1,7 @@
 ﻿using PortfolioAce.Domain.Models.Dimensions;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace PortfolioAce.Domain.Models.FactTables
 {
@@ -25,7 +23,7 @@ namespace PortfolioAce.Domain.Models.FactTables
         [Required]
         public decimal RealisedPnl { get; set; }
         [Required]
-        public decimal UnrealisedPnl { get; set; } 
+        public decimal UnrealisedPnl { get; set; }
         [Required]
         public decimal Price { get; set; } // I think this should reference an actual security price..
 

@@ -2,8 +2,6 @@
 using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects.PositionData
 {
@@ -26,9 +24,9 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
         private decimal _balance;
         public override CurrenciesDIM Currency { get; }
         public override CustodiansDIM Custodian { get; }
-        public override DateTime? AsOfDate { get { return _asOfDate; }  }
+        public override DateTime? AsOfDate { get { return _asOfDate; } }
         public override decimal NetQuantity { get { return _balance; } }
-        
+
         public LiquidCashPosition(CurrenciesDIM currency, CustodiansDIM custodian)
         {
             this.Currency = currency;

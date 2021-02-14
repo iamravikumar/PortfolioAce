@@ -3,9 +3,6 @@ using PortfolioAce.Domain.DataObjects.PositionData;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
 
 namespace PortfolioAce.ViewModels.Factories
 {
@@ -19,7 +16,7 @@ namespace PortfolioAce.ViewModels.Factories
         void CreateNewCashTradeWindow(Fund fund);
         void CreateEditCashTradeWindow(TransactionsBO cashTrade);
         void CreateNewInvestorActionWindow(Fund fund);
-        
+
         void CreateFundInitialisationWindow(Fund fund);
         void CreateNavSummaryWindow(NavValuations navValuation);
         void CreateFundPropertiesWindow(Fund fund);

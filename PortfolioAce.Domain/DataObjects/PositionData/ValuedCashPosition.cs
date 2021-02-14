@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects.PositionData
 {
-    public abstract class ValuedCashPosition:ValuedPosition
+    public abstract class ValuedCashPosition : ValuedPosition
     {
         public abstract CalculatedCashPosition CashPosition { get; }
-        public abstract decimal MarketValueLocal { get;  }
-        public abstract decimal fxRate { get;  }
+        public abstract decimal MarketValueLocal { get; }
+        public abstract decimal fxRate { get; }
         public abstract decimal MarketValueBase { get; }
         public abstract bool IsValuedBase { get; set; } // This determines whether fxRates and Market prices are available on this date...
         public abstract DateTime AsOfDate { get; set; }
     }
-    
+
     public class ValuedLiquidCashPosition : ValuedCashPosition
     {
         public override CalculatedCashPosition CashPosition { get; }

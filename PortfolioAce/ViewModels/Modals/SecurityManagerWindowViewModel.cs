@@ -1,5 +1,4 @@
 ﻿using PortfolioAce.Commands;
-using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
@@ -10,7 +9,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
@@ -142,7 +140,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                List<SecuritiesDIM> securities = _adminService.GetAllSecurities().Where(s=>s.AssetClass.Name != "Cash" && s.AssetClass.Name != "FXForward").ToList();
+                List<SecuritiesDIM> securities = _adminService.GetAllSecurities().Where(s => s.AssetClass.Name != "Cash" && s.AssetClass.Name != "FXForward").ToList();
                 return new ObservableCollection<SecuritiesDIM>(securities);
             }
         }
@@ -151,7 +149,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllAssetClasses().Where(ac=>ac.Name!="FXForward").Select(ac => ac.Name).ToList();
+                return _staticReferences.GetAllAssetClasses().Where(ac => ac.Name != "FXForward").Select(ac => ac.Name).ToList();
             }
         }
 

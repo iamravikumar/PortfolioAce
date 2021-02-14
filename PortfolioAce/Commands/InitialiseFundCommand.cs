@@ -9,13 +9,12 @@ using PortfolioAce.ViewModels.Modals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class InitialiseFundCommand:ICommand
+    public class InitialiseFundCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
@@ -60,28 +59,28 @@ namespace PortfolioAce.Commands
 
                 foreach (SeedingInvestor seedInvestor in _fundInitialiseVM.dgSeedingInvestors)
                 {
-                    if (seedInvestor.SeedAmount>=updateFund.MinimumInvestment )
+                    if (seedInvestor.SeedAmount >= updateFund.MinimumInvestment)
                     {
                         FundInvestorBO fundInvestor = new FundInvestorBO
                         {
-                            InceptionDate=updateFund.LaunchDate,
-                            FundId=updateFund.FundId,
-                            InvestorId=seedInvestor.InvestorId
+                            InceptionDate = updateFund.LaunchDate,
+                            FundId = updateFund.FundId,
+                            InvestorId = seedInvestor.InvestorId
                         };
                         // The highwatermark is only applicable if the fund has a highwatermark...
-                        fundInvestor.HighWaterMark = (updateFund.HasHighWaterMark)? _fundInitialiseVM.NavPrice :(decimal?)null;
+                        fundInvestor.HighWaterMark = (updateFund.HasHighWaterMark) ? _fundInitialiseVM.NavPrice : (decimal?)null;
                         fundInvestors.Add(fundInvestor);
 
                         InvestorHoldingsFACT investor = new InvestorHoldingsFACT
                         {
-                            ManagementFeesAccrued=decimal.Zero,
-                            PerformanceFeesAccrued=decimal.Zero,
-                            FundId=updateFund.FundId,
-                            HoldingDate=updateFund.LaunchDate,
-                            InvestorId=seedInvestor.InvestorId,
-                            AverageCost=_fundInitialiseVM.NavPrice,
-                            Units= seedInvestor.SeedAmount / _fundInitialiseVM.NavPrice,
-                            NetValuation= seedInvestor.SeedAmount,
+                            ManagementFeesAccrued = decimal.Zero,
+                            PerformanceFeesAccrued = decimal.Zero,
+                            FundId = updateFund.FundId,
+                            HoldingDate = updateFund.LaunchDate,
+                            InvestorId = seedInvestor.InvestorId,
+                            AverageCost = _fundInitialiseVM.NavPrice,
+                            Units = seedInvestor.SeedAmount / _fundInitialiseVM.NavPrice,
+                            NetValuation = seedInvestor.SeedAmount,
                         };
                         investor.HighWaterMark = (updateFund.HasHighWaterMark) ? _fundInitialiseVM.NavPrice : (decimal?)null;
                         investorHoldings.Add(investor);
@@ -97,8 +96,8 @@ namespace PortfolioAce.Commands
                             Fees = 0,
                             IssueType = "Subscription",
                             Units = seedInvestor.SeedAmount / _fundInitialiseVM.NavPrice,
-                            IsNavFinal=true,
-                            FundInvestor=fundInvestor
+                            IsNavFinal = true,
+                            FundInvestor = fundInvestor
                         };
                         subscriptions.Add(newSubscription);
                         TransactionsBO newTransaction = new TransactionsBO
@@ -114,7 +113,7 @@ namespace PortfolioAce.Commands
                             Fees = decimal.Zero,
                             isActive = true,
                             isLocked = true,
-                            isCashTransaction=false,
+                            isCashTransaction = false,
                             FundId = updateFund.FundId,
                             TransactionTypeId = tradeType.TransactionTypeId,
                             CurrencyId = security.CurrencyId,
@@ -141,7 +140,7 @@ namespace PortfolioAce.Commands
                     Currency = updateFund.BaseCurrency,
                     NAVPeriodId = PeriodId
                 };
-                _investorService.InitialiseFundAction(updateFund, subscriptions,transactions, initialNav, fundInvestors, investorHoldings);
+                _investorService.InitialiseFundAction(updateFund, subscriptions, transactions, initialNav, fundInvestors, investorHoldings);
                 _fundInitialiseVM.CloseAction();
             }
             catch (Exception e)

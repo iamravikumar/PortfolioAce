@@ -1,10 +1,7 @@
-﻿using PortfolioAce.Domain.Models.BackOfficeModels;
-using PortfolioAce.Domain.Models.Dimensions;
+﻿using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
@@ -34,17 +31,17 @@ namespace PortfolioAce.Commands
             {
                 InvestorsDIM newInvestor = new InvestorsDIM
                 {
-                    FullName =_addInvestorVM.FullName,
-                    BirthDate =_addInvestorVM.BirthDate,
-                    Domicile =_addInvestorVM.Domicile,
-                    Email=_addInvestorVM.Email,
-                    MobileNumber=_addInvestorVM.MobileNumber, 
-                    NativeLanguage=_addInvestorVM.NativeLanguage
+                    FullName = _addInvestorVM.FullName,
+                    BirthDate = _addInvestorVM.BirthDate,
+                    Domicile = _addInvestorVM.Domicile,
+                    Email = _addInvestorVM.Email,
+                    MobileNumber = _addInvestorVM.MobileNumber,
+                    NativeLanguage = _addInvestorVM.NativeLanguage
                 };
                 await _investorService.CreateInvestor(newInvestor);
                 _addInvestorVM.CloseAction();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }

@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects.PositionData
 {
-    public abstract class ValuedSecurityPosition:ValuedPosition
+    public abstract class ValuedSecurityPosition : ValuedPosition
     {
-        public abstract CalculatedSecurityPosition Position { get;  }
-        public abstract decimal MarketValueLocal { get;  }
+        public abstract CalculatedSecurityPosition Position { get; }
+        public abstract decimal MarketValueLocal { get; }
         public abstract decimal MarketValueBase { get; }
         public abstract decimal TotalPnL { get; }
-        public abstract decimal UnrealisedPnl { get;}
-        public abstract decimal UnrealisedPnLPercent { get;set; }
-        public abstract decimal MarketPrice { get;  }
-        public abstract decimal fxRate { get;  }
+        public abstract decimal UnrealisedPnl { get; }
+        public abstract decimal UnrealisedPnLPercent { get; set; }
+        public abstract decimal MarketPrice { get; }
+        public abstract decimal fxRate { get; }
         public abstract DateTime AsOfDate { get; set; }
         public abstract bool IsValuedBase { get; set; } // This determines whether fxRates and Market prices are available on this date...        
     }
@@ -23,9 +22,9 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
     {
         public override CalculatedSecurityPosition Position { get; }
 
-        public override decimal MarketValueLocal { get { return _marketPrice * Position.NetQuantity; }  }
+        public override decimal MarketValueLocal { get { return _marketPrice * Position.NetQuantity; } }
 
-        public override decimal MarketValueBase{ get {  return (_marketPrice * Position.NetQuantity) / _fxRate; } }
+        public override decimal MarketValueBase { get { return (_marketPrice * Position.NetQuantity) / _fxRate; } }
 
         public override decimal TotalPnL { get { return UnrealisedPnl + Position.RealisedPnL; } }
 
@@ -38,12 +37,12 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             }
         }
 
-        public override decimal UnrealisedPnLPercent {get;set;}
+        public override decimal UnrealisedPnLPercent { get; set; }
 
-        public override decimal MarketPrice { get {return _marketPrice;} }
+        public override decimal MarketPrice { get { return _marketPrice; } }
         public override decimal fxRate { get { return _fxRate; } }
-        public override DateTime AsOfDate {get;set;}
-        public override bool IsValuedBase {get;set;}
+        public override DateTime AsOfDate { get; set; }
+        public override bool IsValuedBase { get; set; }
         private decimal _marketPrice;
         private decimal _fxRate;
 
@@ -80,7 +79,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
     public class ValuedCryptoPosition : ValuedSecurityPosition
     {
-        public override CalculatedSecurityPosition Position { get;  }
+        public override CalculatedSecurityPosition Position { get; }
 
         public override decimal MarketValueLocal { get { return _marketPrice * Position.NetQuantity; } }
 
@@ -135,7 +134,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             this.IsValuedBase = (hasFxValue && hasSecurityValue);
         }
     }
-    
+
     public class ValuedFXForwardPosition : ValuedSecurityPosition
     {
         public override CalculatedSecurityPosition Position { get; }
@@ -157,7 +156,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             }
         }
 
-        public override decimal MarketValueBase 
+        public override decimal MarketValueBase
         {
             get
             {
@@ -194,7 +193,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
         }
 
         public override decimal UnrealisedPnLPercent { get; set; }
- 
+
 
         public override decimal MarketPrice { get { return _currentSpot; } }
         public override decimal fxRate { get { return _fxRate; } }
@@ -207,7 +206,7 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
             {
                 decimal irp = (_baseInterestRate - _quoteInterestRate) * _yearsToMaturity;
                 double rate = (double)_currentSpot * Math.Exp((double)irp);
-                return (decimal)rate; 
+                return (decimal)rate;
             }
         }
 

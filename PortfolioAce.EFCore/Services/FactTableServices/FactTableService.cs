@@ -3,11 +3,10 @@ using PortfolioAce.Domain.Models.FactTables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PortfolioAce.EFCore.Services.FactTableServices
 {
-    public class FactTableService:IFactTableService
+    public class FactTableService : IFactTableService
     {
         private readonly PortfolioAceDbContextFactory _contextFactory;
 
@@ -23,7 +22,7 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
             {
                 if (onlyActive)
                 {
-                    return context.Positions.Where(p=>p.Quantity!=0 && p.FundId ==FundId && p.PositionDate== date)
+                    return context.Positions.Where(p => p.Quantity != 0 && p.FundId == FundId && p.PositionDate == date)
                         .Include(p => p.AssetClass)
                         .Include(p => p.Security)
                         .ToList();
@@ -44,7 +43,7 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
             {
                 return context.NavPriceData
                         .OrderBy(np => np.FinalisedDate)
-                        .Include(np=>np.Fund)
+                        .Include(np => np.Fund)
                         .ToList();
             }
         }
@@ -54,7 +53,7 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.NavPriceData
-                        .Where(np=>np.FundId==fundId)
+                        .Where(np => np.FundId == fundId)
                         .OrderBy(np => np.FinalisedDate)
                         .ToList();
             }
@@ -65,7 +64,7 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.Positions
-                            .Where(p => p.FundId==fundId && p.SecurityId == securityId)
+                            .Where(p => p.FundId == fundId && p.SecurityId == securityId)
                             .ToList();
             }
 

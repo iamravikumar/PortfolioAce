@@ -1,10 +1,7 @@
-﻿using PortfolioAce.Domain.Models.FactTables;
-using PortfolioAce.EFCore.Services;
+﻿using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands

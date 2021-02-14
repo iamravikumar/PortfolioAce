@@ -1,26 +1,21 @@
 ﻿using LiveCharts;
-using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.DataObjects.PositionData;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.FactTables;
-using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.EFCore.Services.FactTableServices;
 using PortfolioAce.EFCore.Services.PriceServices;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PortfolioAce.ViewModels.Modals
 {
-    public class PositionDetailWindowViewModel: ViewModelWindowBase
+    public class PositionDetailWindowViewModel : ViewModelWindowBase
     {
 
         // I need the actual position, take the static references)
         private IFactTableService _factTableService;
         private IPriceService _priceService;
-        
+
         public PositionDetailWindowViewModel(IPriceService priceService, IFactTableService factTableService,
            ValuedSecurityPosition valuedPosition, Fund fund)
         {
@@ -32,7 +27,7 @@ namespace PortfolioAce.ViewModels.Modals
             FundName = fund.FundName;
 
             List<PositionFACT> positionHistory = _factTableService.GetAllFundStoredPositions(fund.FundId, valuedPosition.Position.Security.SecurityId);
-            PositionPriceLineChartYAxis = new ChartValues<decimal>(positionHistory.Select(ph=> ph.RealisedPnl+ph.UnrealisedPnl));
+            PositionPriceLineChartYAxis = new ChartValues<decimal>(positionHistory.Select(ph => ph.RealisedPnl + ph.UnrealisedPnl));
             PositionPriceLineChartXAxis = positionHistory.Select(ph => ph.PositionDate.ToString("dd/MM/yyyy")).ToArray();
         }
 

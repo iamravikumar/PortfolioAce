@@ -6,11 +6,9 @@ using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
-using PortfolioAce.EFCore.HelperMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
@@ -144,7 +142,7 @@ namespace PortfolioAce.EFCore.Services
                 // Saves the funds state to initialised
                 context.Funds.Update(fund);
 
-                
+
                 // saves the investors to the database
                 context.TransferAgent.AddRange(investorSubscriptions);
 
@@ -198,20 +196,20 @@ namespace PortfolioAce.EFCore.Services
                     PositionFACT newPosition = new PositionFACT
                     {
                         PositionDate = secPosition.AsOfDate,
-                        SecurityId=secPosition.Position.Security.SecurityId,
-                        AssetClassId=secPosition.Position.Security.AssetClassId,
-                        FundId=fundId,
-                        AverageCost=secPosition.Position.AverageCost,
-                        CurrencyId=secPosition.Position.Security.CurrencyId,
-                        MarketValue=secPosition.MarketValueBase,
-                        Price=secPosition.MarketPrice,
-                        Quantity=secPosition.Position.NetQuantity,
-                        RealisedPnl=secPosition.Position.RealisedPnL,
-                        UnrealisedPnl=secPosition.UnrealisedPnl
+                        SecurityId = secPosition.Position.Security.SecurityId,
+                        AssetClassId = secPosition.Position.Security.AssetClassId,
+                        FundId = fundId,
+                        AverageCost = secPosition.Position.AverageCost,
+                        CurrencyId = secPosition.Position.Security.CurrencyId,
+                        MarketValue = secPosition.MarketValueBase,
+                        Price = secPosition.MarketPrice,
+                        Quantity = secPosition.Position.NetQuantity,
+                        RealisedPnl = secPosition.Position.RealisedPnL,
+                        UnrealisedPnl = secPosition.UnrealisedPnl
                     };
                     newPositions.Add(newPosition);
                 }
-                foreach(ValuedCashPosition cashPosition in navValuations.CashPositions)
+                foreach (ValuedCashPosition cashPosition in navValuations.CashPositions)
                 {
                     string currencySecSymbol = $"{cashPosition.CashPosition.Currency.Symbol}c";
                     SecuritiesDIM securitisedCash = context.Securities.Where(s => s.Symbol == currencySecSymbol).Include(s => s.AssetClass).FirstOrDefault();
@@ -236,7 +234,7 @@ namespace PortfolioAce.EFCore.Services
                 context.Positions.AddRange(newPositions);
 
                 List<InvestorHoldingsFACT> newHoldings = new List<InvestorHoldingsFACT>();
-                foreach(ClientHoldingValuation clientHolding in navValuations.ClientHoldings)
+                foreach (ClientHoldingValuation clientHolding in navValuations.ClientHoldings)
                 {
                     InvestorHoldingsFACT newHolding = new InvestorHoldingsFACT
                     {
@@ -246,9 +244,9 @@ namespace PortfolioAce.EFCore.Services
                         ManagementFeesAccrued = clientHolding.ManagementFeesAccrued,
                         Units = clientHolding.Holding.Units,
                         PerformanceFeesAccrued = clientHolding.PerformanceFeesAccrued,
-                        HoldingDate=asOfDate,
-                        FundId=fundId,
-                        InvestorId=clientHolding.Holding.Investor.InvestorId
+                        HoldingDate = asOfDate,
+                        FundId = fundId,
+                        InvestorId = clientHolding.Holding.Investor.InvestorId
                     };
                     newHoldings.Add(newHolding);
                 }
@@ -278,9 +276,9 @@ namespace PortfolioAce.EFCore.Services
                 context.Periods.Update(period);
 
                 List<TransactionsBO> allTransactions;
-                if(fund.NAVFrequency == "Daily")
+                if (fund.NAVFrequency == "Daily")
                 {
-                    allTransactions = context.Transactions.Where(t=>t.FundId==fund.FundId && t.TradeDate== asOfDate).ToList();
+                    allTransactions = context.Transactions.Where(t => t.FundId == fund.FundId && t.TradeDate == asOfDate).ToList();
                 }
                 else
                 {
@@ -293,14 +291,14 @@ namespace PortfolioAce.EFCore.Services
                 }
                 context.Transactions.UpdateRange(allTransactions);
 
-                NAVPriceStoreFACT navPrice = context.NavPriceData.Where(npd => npd.FinalisedDate == asOfDate && npd.FundId== fund.FundId).FirstOrDefault();
+                NAVPriceStoreFACT navPrice = context.NavPriceData.Where(npd => npd.FinalisedDate == asOfDate && npd.FundId == fund.FundId).FirstOrDefault();
                 context.NavPriceData.Remove(navPrice);
 
-                List<PositionFACT> storedPositions = context.Positions.Where(p=>p.PositionDate==asOfDate && p.FundId==fund.FundId).ToList();
+                List<PositionFACT> storedPositions = context.Positions.Where(p => p.PositionDate == asOfDate && p.FundId == fund.FundId).ToList();
 
                 context.Positions.RemoveRange(storedPositions);
 
-                List<InvestorHoldingsFACT> storedHoldings = context.InvestorHoldings.Where(i=>i.HoldingDate==asOfDate && i.FundId==fund.FundId).ToList();
+                List<InvestorHoldingsFACT> storedHoldings = context.InvestorHoldings.Where(i => i.HoldingDate == asOfDate && i.FundId == fund.FundId).ToList();
                 context.InvestorHoldings.RemoveRange(storedHoldings);
 
 

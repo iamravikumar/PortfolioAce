@@ -1,15 +1,10 @@
-﻿using PortfolioAce.ViewModels;
-using PortfolioAce.ViewModels.Factories;
+﻿using PortfolioAce.ViewModels.Factories;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Text;
 using System.Windows.Input;
-using System.Windows.Media.Animation;
 
 namespace PortfolioAce.Navigation
 {
-    class UpdateCurrentViewModelCommand:ICommand
+    class UpdateCurrentViewModelCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
@@ -29,7 +24,7 @@ namespace PortfolioAce.Navigation
 
         public void Execute(object parameter)
         {
-            if(parameter is ViewType)
+            if (parameter is ViewType)
             {
                 ViewType viewType = (ViewType)parameter;
                 _navigator.CurrentViewModel = _viewModelFactory.CreateViewModel(viewType);

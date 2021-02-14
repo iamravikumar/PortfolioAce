@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
@@ -52,7 +49,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return (context.Securities.FirstOrDefault(s=>s.Symbol == symbol) != null);
+                return (context.Securities.FirstOrDefault(s => s.Symbol == symbol) != null);
             }
         }
 

@@ -6,12 +6,11 @@ using PortfolioAce.EFCore.HelperMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public class FundService:IFundService
+    public class FundService : IFundService
     {
         private readonly PortfolioAceDbContextFactory _contextFactory;
 
@@ -22,7 +21,7 @@ namespace PortfolioAce.EFCore.Services
 
         public async Task<Fund> CreateFund(Fund fund)
         {
-            using(PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 EntityEntry<Fund> res = await context.Funds.AddAsync(fund);
                 await context.SaveChangesAsync();
@@ -51,7 +50,7 @@ namespace PortfolioAce.EFCore.Services
                 }
                 context.Periods.AddRange(initialPeriods);
                 await context.SaveChangesAsync();
-                
+
                 return res.Entity;
             }
         }
@@ -87,20 +86,20 @@ namespace PortfolioAce.EFCore.Services
                 // include is having negative impact on performance
                 // look for optimisation at some point
                 return context.Funds
-                    .Include(f=> f.TransferAgent)
-                        .ThenInclude(ta=>ta.FundInvestor)
-                        .ThenInclude(fi=>fi.Investor)
+                    .Include(f => f.TransferAgent)
+                        .ThenInclude(ta => ta.FundInvestor)
+                        .ThenInclude(fi => fi.Investor)
                     .Include(f => f.Transactions)
                         .ThenInclude(s => s.Security)
-                        .ThenInclude(s=>s.AssetClass)
+                        .ThenInclude(s => s.AssetClass)
                     .Include(f => f.Transactions)
                         .ThenInclude(c => c.Currency)
                     .Include(f => f.Transactions)
                         .ThenInclude(t => t.TransactionType)
                     .Include(f => f.Transactions)
                         .ThenInclude(cu => cu.Custodian)
-                    .Include(f=>f.NavPrices)
-                        .ThenInclude(nav=>nav.NAVPeriod)
+                    .Include(f => f.NavPrices)
+                        .ThenInclude(nav => nav.NAVPeriod)
                     .ToList();
             }
         }
@@ -125,13 +124,13 @@ namespace PortfolioAce.EFCore.Services
                                 .ThenInclude(s => s.Security)
                                 .ThenInclude(s => s.AssetClass)
                             .Include(f => f.Transactions)
-                                .ThenInclude(c=>c.Currency)
+                                .ThenInclude(c => c.Currency)
                             .Include(f => f.Transactions)
                                 .ThenInclude(t => t.TransactionType)
-                            .Include(f=>f.Transactions)
-                                .ThenInclude(cu=>cu.Custodian)
+                            .Include(f => f.Transactions)
+                                .ThenInclude(cu => cu.Custodian)
                             .Include(f => f.NavPrices)
-                                .ThenInclude(nav=>nav.NAVPeriod)
+                                .ThenInclude(nav => nav.NAVPeriod)
                             .FirstOrDefault();
             }
         }

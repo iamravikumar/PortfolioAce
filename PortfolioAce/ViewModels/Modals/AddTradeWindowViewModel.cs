@@ -4,19 +4,16 @@ using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
-using PortfolioAce.Navigation;
-using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
-    public class AddTradeWindowViewModel: ViewModelWindowBase, INotifyDataErrorInfo
+    public class AddTradeWindowViewModel : ViewModelWindowBase, INotifyDataErrorInfo
     {
         private Fund _fund;
         private ITransactionService _transactionService;
@@ -83,7 +80,7 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     SecuritiesDIM security = _transactionService.GetSecurityInfo(Symbol);
                     string assetClass = security.AssetClass.Name;
-                    if(assetClass == "Cash")
+                    if (assetClass == "Cash")
                     {
                         _validationErrors.AddError(nameof(Symbol), $"Cash purchases/sales not yet supported");
                     }
@@ -125,22 +122,22 @@ namespace PortfolioAce.ViewModels.Modals
             }
             set
             {
-                _price= value;
+                _price = value;
                 _validationErrors.ClearErrors(nameof(Price));
-                if(_price < 0)
+                if (_price < 0)
                 {
                     _validationErrors.AddError(nameof(Price), "The price cannot be a negative number");
                 }
 
                 OnPropertyChanged(nameof(Price));
-                OnPropertyChanged(nameof(TradeAmount)); 
+                OnPropertyChanged(nameof(TradeAmount));
             }
         }
 
         private decimal _tradeAmount;
         public decimal TradeAmount
         {
-            
+
             get
             {
                 if (TradeType == "Trade")
@@ -153,7 +150,7 @@ namespace PortfolioAce.ViewModels.Modals
             }
             set
             {
-                if(TradeType == "Corporate Action")
+                if (TradeType == "Corporate Action")
                 {
                     _tradeAmount = value;
                 }
@@ -198,7 +195,7 @@ namespace PortfolioAce.ViewModels.Modals
                     _validationErrors.AddError(nameof(Commission), "The commission cannot be a negative number");
                 }
                 OnPropertyChanged(nameof(Commission));
-                OnPropertyChanged(nameof(TradeAmount)); 
+                OnPropertyChanged(nameof(TradeAmount));
             }
         }
 
@@ -230,7 +227,7 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     _settleDate = _tradeDate;
                 }
-                
+
                 OnPropertyChanged(nameof(TradeDate));
                 OnPropertyChanged(nameof(SettleDate));
                 // include on property changed for settle date here if trade date< settle date.

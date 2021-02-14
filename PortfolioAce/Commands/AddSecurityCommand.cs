@@ -1,11 +1,8 @@
-﻿using PortfolioAce.Domain.Models;
-using PortfolioAce.Domain.Models.Dimensions;
+﻿using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.ViewModels.Modals;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
@@ -19,7 +16,7 @@ namespace PortfolioAce.Commands
         private IAdminService _adminService;
         private IStaticReferences _staticReferences;
 
-        public AddSecurityCommand(SecurityManagerWindowViewModel securityManagerVM, 
+        public AddSecurityCommand(SecurityManagerWindowViewModel securityManagerVM,
             IAdminService adminService, IStaticReferences staticReferences)
         {
             _SecurityManagerVM = securityManagerVM;
@@ -45,14 +42,14 @@ namespace PortfolioAce.Commands
                     Symbol = _SecurityManagerVM.SecuritySymbol,
                     CurrencyId = currency.CurrencyId,
                     SecurityName = _SecurityManagerVM.SecurityName,
-                    AlphaVantageSymbol=_SecurityManagerVM.AVSymbol,
-                    FMPSymbol=_SecurityManagerVM.FMPSymbol,
+                    AlphaVantageSymbol = _SecurityManagerVM.AVSymbol,
+                    FMPSymbol = _SecurityManagerVM.FMPSymbol,
                     ISIN = _SecurityManagerVM.ISIN
                 };
                 _adminService.AddSecurityInfo(newSecurity);
                 return;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }

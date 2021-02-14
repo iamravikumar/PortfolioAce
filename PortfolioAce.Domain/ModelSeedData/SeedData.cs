@@ -1,8 +1,5 @@
 ﻿using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PortfolioAce.Domain.ModelSeedData
 {

@@ -3,7 +3,6 @@ using PortfolioAce.Domain.Models.BackOfficeModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects
 {
@@ -13,7 +12,7 @@ namespace PortfolioAce.Domain.DataObjects
         public decimal Units { get; set; }
         public decimal AverageCost { get; set; }
         public decimal RealisedPnL { get; set; }
-        public List<TransferAgencyBO> Transactions {get;set;}
+        public List<TransferAgencyBO> Transactions { get; set; }
         private Queue<TaxLotsOpen> openLots;
         public ClientHolding(FundInvestorBO investor)
         {
@@ -27,14 +26,14 @@ namespace PortfolioAce.Domain.DataObjects
 
         public void AddClientTransactions(List<TransferAgencyBO> clientTransactions)
         {
-            foreach(TransferAgencyBO clientTransaction in clientTransactions)
+            foreach (TransferAgencyBO clientTransaction in clientTransactions)
             {
                 this.AddClientTransaction(clientTransaction);
             }
         }
         public void AddClientTransaction(TransferAgencyBO clientTransaction)
         {
-            if(clientTransaction.FundInvestorId != this.Investor.FundInvestorId)
+            if (clientTransaction.FundInvestorId != this.Investor.FundInvestorId)
             {
                 throw new InvalidOperationException("This client does not match the client of this holding");
             }

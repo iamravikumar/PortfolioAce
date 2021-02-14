@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PortfolioAce.Models
 {
@@ -14,12 +12,12 @@ namespace PortfolioAce.Models
             {
                 currentDay = currentDay.AddDays(2);
             }
-            else if(currentDay.DayOfWeek == DayOfWeek.Sunday)
+            else if (currentDay.DayOfWeek == DayOfWeek.Sunday)
             {
                 currentDay = currentDay.AddDays(1);
             }
             return currentDay;
         }
-        
+
     }
 }

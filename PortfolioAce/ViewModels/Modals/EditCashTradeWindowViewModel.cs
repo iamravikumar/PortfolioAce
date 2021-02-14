@@ -8,7 +8,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
@@ -125,7 +124,7 @@ namespace PortfolioAce.ViewModels.Modals
                     // validation not showing at the moment because it is bound to TextBox at the moment
                     _validationErrors.AddError(nameof(TradeDate), "You cannot trade before the funds launch date.");
                 }
-                if(_tradeDate<= _lastLockedDate)
+                if (_tradeDate <= _lastLockedDate)
                 {
                     _validationErrors.AddError(nameof(TradeDate), "You cannot book trades on a locked period");
                 }

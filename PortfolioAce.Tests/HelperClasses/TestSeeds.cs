@@ -1,9 +1,5 @@
-﻿using PortfolioAce.Domain.Models;
-using PortfolioAce.Domain.Models.Dimensions;
+﻿using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PortfolioAce.Tests.HelperClasses
 {
@@ -93,7 +89,7 @@ namespace PortfolioAce.Tests.HelperClasses
             {
                     new CustodiansDIM{CustodianId=1, Name="Default", Symbol="Default"}
             };
-         
+
             context.Currencies.AddRange(SeedCurrencies);
             context.TransactionTypes.AddRange(SeedTransactionTypes);
             context.AssetClasses.AddRange(SeedAssetClasses);
@@ -102,7 +98,7 @@ namespace PortfolioAce.Tests.HelperClasses
             context.IssueTypes.AddRange(SeedIssueTypes);
             context.Custodians.AddRange(SeedCustodians);
             context.SaveChanges();
-            
+
         }
     }
 }

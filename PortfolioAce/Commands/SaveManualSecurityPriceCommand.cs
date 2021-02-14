@@ -5,13 +5,12 @@ using PortfolioAce.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class SaveManualSecurityPriceCommand:ICommand
+    public class SaveManualSecurityPriceCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
         private SystemSecurityPricesViewModel _sysSecurityPricesVM;
@@ -35,15 +34,15 @@ namespace PortfolioAce.Commands
             try
             {
                 Dictionary<DateTime, SecurityPriceStore> dbPrices = _priceService.GetSecurityPrices(_sysSecurityPricesVM.Symbol)
-                                                                            .ToDictionary(g=>g.Date);
+                                                                            .ToDictionary(g => g.Date);
                 int secId = _sysSecurityPricesVM.SecurityInfo.SecurityId;
                 List<SecurityPriceStore> pricesToUpdate = new List<SecurityPriceStore>();
                 List<SecurityPriceStore> newPrices = new List<SecurityPriceStore>();
-                foreach(PriceContainer priceContainer in _sysSecurityPricesVM.dgSecurityPrices)
+                foreach (PriceContainer priceContainer in _sysSecurityPricesVM.dgSecurityPrices)
                 {
                     if (dbPrices.ContainsKey(priceContainer.Date))
                     {
-                        if(dbPrices[priceContainer.Date].ClosePrice != priceContainer.ClosePrice)
+                        if (dbPrices[priceContainer.Date].ClosePrice != priceContainer.ClosePrice)
                         {
                             dbPrices[priceContainer.Date].ClosePrice = priceContainer.ClosePrice;
                             dbPrices[priceContainer.Date].PriceSource = "Manual";

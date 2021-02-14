@@ -1,5 +1,4 @@
-﻿using PortfolioAce.Domain.BusinessServices;
-using PortfolioAce.Domain.DataObjects;
+﻿using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.DataObjects.PositionData;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.BackOfficeModels;
@@ -13,8 +12,6 @@ using PortfolioAce.ViewModels.Windows;
 using PortfolioAce.Views.Modals;
 using PortfolioAce.Views.Windows;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 
 namespace PortfolioAce.ViewModels.Factories
@@ -77,7 +74,7 @@ namespace PortfolioAce.ViewModels.Factories
         public void CreateEditTradeWindow(TransactionsBO securityTrade)
         {
             Window view = new EditTradeWindow();
-            ViewModelWindowBase viewModel = new EditTradeWindowViewModel(_transactionService, _staticReferences,securityTrade);
+            ViewModelWindowBase viewModel = new EditTradeWindowViewModel(_transactionService, _staticReferences, securityTrade);
             view = ApplyWindowAttributes(view, viewModel);
             view.ShowDialog();
         }
@@ -117,7 +114,7 @@ namespace PortfolioAce.ViewModels.Factories
         public void CreateFundPropertiesWindow(Fund fund)
         {
             Window view = new FundPropertiesWindow();
-            ViewModelWindowBase viewModel = new FundPropertiesViewModel(_factTableService, _staticReferences,fund);
+            ViewModelWindowBase viewModel = new FundPropertiesViewModel(_factTableService, _staticReferences, fund);
             view = ApplyWindowAttributes(view, viewModel);
             view.ShowDialog();
         }

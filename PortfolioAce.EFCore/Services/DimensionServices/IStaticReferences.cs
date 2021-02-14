@@ -1,14 +1,11 @@
 ﻿using PortfolioAce.Domain.Models;
-using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services.DimensionServices
 {
-    public interface IStaticReferences:IBaseService
+    public interface IStaticReferences : IBaseService
     {
         // TODO: This looks like a code smell that needs to be fixed
         List<CurrenciesDIM> GetAllCurrencies();

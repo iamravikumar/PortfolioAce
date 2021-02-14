@@ -1,10 +1,7 @@
-﻿using PortfolioAce.Domain.Models.BackOfficeModels;
-using PortfolioAce.Domain.Models.Dimensions;
+﻿using PortfolioAce.Domain.Models.Dimensions;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace PortfolioAce.Domain.Models.FactTables
 {

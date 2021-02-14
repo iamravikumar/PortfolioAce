@@ -5,12 +5,11 @@ using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
-    public interface ITransferAgencyService:IBaseService
+    public interface ITransferAgencyService : IBaseService
     {
         Task<TransferAgencyBO> GetInvestorActionById(int id);
         Task<TransferAgencyBO> CreateInvestorAction(TransferAgencyBO investorAction);

@@ -1,25 +1,21 @@
 ﻿using LiveCharts;
 using PortfolioAce.Commands;
-using PortfolioAce.DataCentre.DeserialisedObjects;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.EFCore.Services.PriceServices;
 using PortfolioAce.HelperObjects;
 using PortfolioAce.Navigation;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels
 {
-    public class SystemSecurityPricesViewModel:ViewModelBase
+    public class SystemSecurityPricesViewModel : ViewModelBase
     {
         private IPriceService _priceService;
         private IStaticReferences _staticReferences;
@@ -43,7 +39,7 @@ namespace PortfolioAce.ViewModels
             {
                 AssetClass = _cmbAssetClasses[0];
                 _cmbSecurities = _staticReferences.GetSecuritySymbolByAssetClass(_assetClass);
-                if(_cmbSecurities.Count != 0)
+                if (_cmbSecurities.Count != 0)
                 {
                     Symbol = _cmbSecurities[0];
                     Load();
@@ -101,7 +97,7 @@ namespace PortfolioAce.ViewModels
             }
             set
             {
-                _symbol = value;                
+                _symbol = value;
                 OnPropertyChanged(nameof(Symbol));
             }
         }
@@ -152,7 +148,7 @@ namespace PortfolioAce.ViewModels
             _securityPrices = _priceService.GetSecurityPrices(_symbol);
             _securityInfo = _priceService.GetSecurityInfo(_symbol);
             dgSecurityPrices = new ObservableCollection<PriceContainer>(_securityPrices.Select(sp => new PriceContainer(sp.Date, sp.ClosePrice)));
-            SecurityPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgSecurityPrices.Select(sp=>sp.ClosePrice)));
+            SecurityPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgSecurityPrices.Select(sp => sp.ClosePrice)));
             _SecurityPriceLineChartXAxis = dgSecurityPrices.Select(sp => sp.Date.ToString("dd/MM/yyyy")).ToArray();
         }
 
@@ -161,7 +157,7 @@ namespace PortfolioAce.ViewModels
             Load();
             OnPropertyChanged("");
         }
-        
+
 
         public void ChangeAssetClassCommand()
         {

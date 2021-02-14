@@ -1,10 +1,7 @@
 ﻿using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
-using PortfolioAce.ViewModels.Windows;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
@@ -42,15 +39,15 @@ namespace PortfolioAce.Commands
                     LaunchDate = _addFundWindowVM.FundLaunch.Date,
                     HasHighWaterMark = _addFundWindowVM.HighWaterMark,
                     HurdleRate = _addFundWindowVM.HurdleRate,
-                    HurdleType=_addFundWindowVM.selectedHurdleType,
-                    MinimumInvestment=_addFundWindowVM.MinimumInvestment,
-                    IsInitialised =false
+                    HurdleType = _addFundWindowVM.selectedHurdleType,
+                    MinimumInvestment = _addFundWindowVM.MinimumInvestment,
+                    IsInitialised = false
                 };
                 // i've hardcoded IsInitialised for now. false is the default option.
                 await _fundService.CreateFund(newFund);
                 _addFundWindowVM.CloseAction();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }

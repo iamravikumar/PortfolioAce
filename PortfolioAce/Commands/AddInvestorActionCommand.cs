@@ -1,11 +1,7 @@
-﻿using PortfolioAce.Domain.Models;
-using PortfolioAce.Domain.Models.BackOfficeModels;
+﻿using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
-using PortfolioAce.ViewModels.Windows;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
@@ -18,7 +14,7 @@ namespace PortfolioAce.Commands
         private InvestorActionViewModel _investorActionVM;
         private ITransferAgencyService _investorService;
 
-        public AddInvestorActionCommand(InvestorActionViewModel investorActionVM, 
+        public AddInvestorActionCommand(InvestorActionViewModel investorActionVM,
             ITransferAgencyService investorService)
         {
             _investorActionVM = investorActionVM;
@@ -34,7 +30,7 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                if (_investorActionVM.TradeAmount <= _investorActionVM.TargetFundMinimumInvestment && _investorActionVM.TAType=="Subscription")
+                if (_investorActionVM.TradeAmount <= _investorActionVM.TargetFundMinimumInvestment && _investorActionVM.TAType == "Subscription")
                 {
                     throw new ArgumentException("The Subscription amount must be greater than the Funds minimum investment");
                 }
@@ -52,7 +48,7 @@ namespace PortfolioAce.Commands
                     IsNavFinal = _investorActionVM.isNavFinal
                 };
                 FundInvestorBO fundInvestor = _investorService.GetFundInvestor(_investorActionVM.FundId, _investorActionVM.SelectedInvestor.InvestorId);
-                if (fundInvestor ==null)
+                if (fundInvestor == null)
                 {
                     //this means the investor is new to the fund.
                     fundInvestor = new FundInvestorBO
@@ -74,7 +70,7 @@ namespace PortfolioAce.Commands
                 await _investorService.CreateInvestorAction(newInvestorAction);
                 _investorActionVM.CloseAction();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
             }

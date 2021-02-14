@@ -4,13 +4,11 @@ using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
-using PortfolioAce.ViewModels.Modals;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
@@ -133,15 +131,15 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _units = value;
                 _validationErrors.ClearErrors(nameof(Units));
-                if (_TAType=="Subscription" && _units < 0)
+                if (_TAType == "Subscription" && _units < 0)
                 {
                     _validationErrors.AddError(nameof(Units), "The Subscription amount cannot be a negative number");
                 }
-                else if(_TAType == "Redemption" && _units > 0)
+                else if (_TAType == "Redemption" && _units > 0)
                 {
                     _validationErrors.AddError(nameof(Units), "The Redemption amount cannot be a positive number");
                 }
-                OnPropertyChanged(nameof(Units)); 
+                OnPropertyChanged(nameof(Units));
                 OnPropertyChanged(nameof(TradeAmount));
             }
         }
@@ -169,7 +167,7 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 // units should be absolute. multiplier should be based on sub/ red type.
                 _tradeAmount = Math.Round((Units * Price) - Fee, 2);
-                
+
 
                 return _tradeAmount;
             }
@@ -180,7 +178,7 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        
+
         public string Currency
         {
             get
@@ -219,7 +217,7 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _tradeDate = value;
                 _validationErrors.ClearErrors(nameof(TradeDate));
-                if(_tradeDate.DayOfWeek == DayOfWeek.Saturday || _tradeDate.DayOfWeek == DayOfWeek.Sunday)
+                if (_tradeDate.DayOfWeek == DayOfWeek.Saturday || _tradeDate.DayOfWeek == DayOfWeek.Sunday)
                 {
                     _validationErrors.AddError(nameof(TradeDate), "Your actions can't be booked on weekends");
                 }

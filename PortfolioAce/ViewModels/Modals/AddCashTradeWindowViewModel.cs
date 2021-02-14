@@ -3,18 +3,16 @@ using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
-using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
-    public class AddCashTradeWindowViewModel: ViewModelWindowBase, INotifyDataErrorInfo
+    public class AddCashTradeWindowViewModel : ViewModelWindowBase, INotifyDataErrorInfo
     {
         // Transfer fees will need to be seperate lines in the future if they are greater than zero!
         private Fund _fund;
@@ -34,7 +32,7 @@ namespace PortfolioAce.ViewModels.Modals
             TransferCashCommand = new TransferCashCommand(this, transactionService);
             _tradeDate = DateExtentions.InitialDate();
             _settleDate = DateExtentions.InitialDate();
-            
+
         }
 
         public int FundId
@@ -84,7 +82,7 @@ namespace PortfolioAce.ViewModels.Modals
                 _cashAmount = value;
                 _validationErrors.ClearErrors(nameof(CashAmount));
                 string direction = "None";
-                if(_cashType != null)
+                if (_cashType != null)
                 {
                     direction = _staticReferences.GetTransactionType(_cashType).Direction;
                 }
@@ -103,7 +101,7 @@ namespace PortfolioAce.ViewModels.Modals
                         _validationErrors.AddError(nameof(CashAmount), "You cannot have a positive outflow");
                     }
                 }
-                else if(direction=="None" && _cashType == "CashTransfer")
+                else if (direction == "None" && _cashType == "CashTransfer")
                 {
                     if (_cashAmount <= 0)
                     {
@@ -321,7 +319,7 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 // example you transfer £800, £50 of which is fees...
-                return _cashAmount*-1;
+                return _cashAmount * -1;
             }
         }
 
@@ -330,7 +328,7 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 // using the PayeeAmount example you recieve £750 minus any fees you are charged.
-                return _cashAmount-_payeeFee-_recipientFee;
+                return _cashAmount - _payeeFee - _recipientFee;
             }
         }
 
@@ -349,7 +347,7 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     _validationErrors.AddError(nameof(RecipientFee), "The fee cannot be a negative number");
                 }
-                else if (_recipientFee >_cashAmount)
+                else if (_recipientFee > _cashAmount)
                 {
                     _validationErrors.AddError(nameof(RecipientFee), "The fee cannot greater than the transfer amount");
 
@@ -384,7 +382,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return $"Recieve {_cashAmount:N2} {_currency} FROM {_payeeCustodian}. Total Fees {_recipientFee+_payeeFee:N2}";
+                return $"Recieve {_cashAmount:N2} {_currency} FROM {_payeeCustodian}. Total Fees {_recipientFee + _payeeFee:N2}";
             }
         }
 
@@ -399,7 +397,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass == "CashTrade" && t.TypeName!="FXBuy" && t.TypeName!="FXSell").Select(t => t.TypeName).ToList();
+                return _staticReferences.GetAllTransactionTypes().Where(t => t.TypeClass == "CashTrade" && t.TypeName != "FXBuy" && t.TypeName != "FXSell").Select(t => t.TypeName).ToList();
             }
         }
 
@@ -407,7 +405,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return _staticReferences.GetAllCurrencies().Select(c=>c.Symbol).ToList();
+                return _staticReferences.GetAllCurrencies().Select(c => c.Symbol).ToList();
             }
         }
 

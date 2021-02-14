@@ -1,9 +1,6 @@
-﻿using PortfolioAce.Domain.Models.Dimensions;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace PortfolioAce.Domain.Models.BackOfficeModels
 {
@@ -43,10 +40,10 @@ namespace PortfolioAce.Domain.Models.BackOfficeModels
         [ForeignKey("Fund")]
         public int FundId { get; set; }
         public Fund Fund { get; set; }
-        
+
         [ForeignKey("FundInvestor")]
         public int FundInvestorId { get; set; }
         public FundInvestorBO FundInvestor { get; set; }
-        
+
     }
 }

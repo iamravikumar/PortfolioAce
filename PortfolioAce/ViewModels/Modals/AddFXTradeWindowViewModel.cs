@@ -8,7 +8,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
@@ -55,7 +54,7 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _buyCurrency = value;
                 _validationErrors.ClearErrors(nameof(BuyCurrency));
-                if (_buyCurrency==_sellCurrency)
+                if (_buyCurrency == _sellCurrency)
                 {
                     _validationErrors.AddError(nameof(BuyCurrency), "You cannot exchange the same currency");
                 }
@@ -143,7 +142,7 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     return $"0 {_sellCurrency}";
                 }
-                
+
             }
         }
 

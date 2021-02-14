@@ -1,17 +1,15 @@
 ﻿using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
-using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.EFCore.Services.FactTableServices;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 
 namespace PortfolioAce.ViewModels.Modals
 {
-    public class FundPropertiesViewModel:ViewModelWindowBase
+    public class FundPropertiesViewModel : ViewModelWindowBase
     {
         private IFactTableService _factTableService;
         private IStaticReferences _staticReferences;

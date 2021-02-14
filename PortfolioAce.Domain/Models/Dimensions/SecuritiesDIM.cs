@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace PortfolioAce.Domain.Models.Dimensions
 {
@@ -15,7 +12,7 @@ namespace PortfolioAce.Domain.Models.Dimensions
         public int SecurityId { get; set; }
         [Required]
         public string Symbol { get; set; }
-        
+
         // These symbols are for pricing purposes...
         public string? AlphaVantageSymbol { get; set; }
         public string? FMPSymbol { get; set; }

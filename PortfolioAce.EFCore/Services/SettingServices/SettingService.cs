@@ -1,12 +1,10 @@
 ﻿using PortfolioAce.Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PortfolioAce.EFCore.Services.SettingServices
 {
-    public class SettingService:ISettingService
+    public class SettingService : ISettingService
     {
         private readonly PortfolioAceDbContextFactory _contextFactory;
 
@@ -27,8 +25,8 @@ namespace PortfolioAce.EFCore.Services.SettingServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                ApplicationSettings AvKey = context.AppSettings.Where(ap=>ap.SettingName== "AlphaVantageAPI").First();
-                ApplicationSettings FMPKey = context.AppSettings.Where(ap=>ap.SettingName== "FMPrepAPI").First();
+                ApplicationSettings AvKey = context.AppSettings.Where(ap => ap.SettingName == "AlphaVantageAPI").First();
+                ApplicationSettings FMPKey = context.AppSettings.Where(ap => ap.SettingName == "FMPrepAPI").First();
 
                 AvKey.SettingValue = alphaVantageKeyValue;
                 FMPKey.SettingValue = FMPKeyValue;

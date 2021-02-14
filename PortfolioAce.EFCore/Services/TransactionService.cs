@@ -6,7 +6,6 @@ using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
@@ -30,7 +29,7 @@ namespace PortfolioAce.EFCore.Services
                 List<TransactionTypeDIM> transactionTypes = context.TransactionTypes.ToList();
                 List<CurrenciesDIM> currencies = context.Currencies.ToList();
 
-                CurrenciesDIM buyCurrency = context.Currencies.Where(c=>c.Symbol==fxTransaction.BuyCurrency).First();
+                CurrenciesDIM buyCurrency = context.Currencies.Where(c => c.Symbol == fxTransaction.BuyCurrency).First();
                 CurrenciesDIM sellCurrency = context.Currencies.Where(c => c.Symbol == fxTransaction.SellCurrency).First();
                 if (fxSecurity == null)
                 {
@@ -57,14 +56,14 @@ namespace PortfolioAce.EFCore.Services
                     CurrencyId = buyCurrency.CurrencyId,
                     TransactionTypeId = transactionTypes.Where(tt => tt.TypeName == "FXTrade").First().TransactionTypeId,
                     Comment = "",
-                    CustodianId=custodian.CustodianId,
+                    CustodianId = custodian.CustodianId,
                     Fees = 0,
                     isCashTransaction = false,
                     TradeDate = fxTransaction.TradeDate,
                     SettleDate = fxTransaction.SettleDate,
                     CreatedDate = DateTime.Now,
                     LastModified = DateTime.Now,
-                    LinkedTrades=linkReference
+                    LinkedTrades = linkReference
                 };
                 TransactionsBO refTransactionCollapse = new TransactionsBO
                 {
@@ -74,7 +73,7 @@ namespace PortfolioAce.EFCore.Services
                     isLocked = false,
                     TradeAmount = 0,
                     Price = fxTransaction.Price,
-                    Quantity = fxTransaction.BuyAmount*-1,
+                    Quantity = fxTransaction.BuyAmount * -1,
                     CurrencyId = buyCurrency.CurrencyId,
                     TransactionTypeId = transactionTypes.Where(tt => tt.TypeName == "FXTradeCollapse").First().TransactionTypeId,
                     Comment = "",
@@ -116,7 +115,7 @@ namespace PortfolioAce.EFCore.Services
                 };
                 TransactionsBO fxSellLegCash = new TransactionsBO
                 {
-                    SecurityId= fxSellSecurity.SecurityId,
+                    SecurityId = fxSellSecurity.SecurityId,
                     FundId = fxTransaction.FundId,
                     isActive = true,
                     isLocked = false,
@@ -159,7 +158,7 @@ namespace PortfolioAce.EFCore.Services
             {
                 // Created LinkedTransactions Here
                 LinkedTradesBO linkReference = new LinkedTradesBO();
-                foreach(TransactionsBO transfer in transfers)
+                foreach (TransactionsBO transfer in transfers)
                 {
                     transfer.LinkedTrades = linkReference;
                 }
@@ -172,9 +171,9 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                List<TransactionsBO> linkedTransactions = context.Transactions.Where(t=>t.LinkedTradeId==transaction.LinkedTradeId).ToList();
+                List<TransactionsBO> linkedTransactions = context.Transactions.Where(t => t.LinkedTradeId == transaction.LinkedTradeId).ToList();
                 // To DO im not happy with this it needs to be neater
-                foreach(TransactionsBO linkedTransaction in linkedTransactions)
+                foreach (TransactionsBO linkedTransaction in linkedTransactions)
                 {
                     TransactionsBO tempTransaction = linkedTransaction;
                     tempTransaction.isActive = false;
@@ -207,7 +206,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.Where(s => s.Symbol == symbol).Include(s=>s.Currency).Include(s=>s.AssetClass).FirstOrDefault();
+                return context.Securities.Where(s => s.Symbol == symbol).Include(s => s.Currency).Include(s => s.AssetClass).FirstOrDefault();
             }
         }
 
@@ -258,7 +257,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                TransactionsBO originalTransaction = context.Transactions.First(t=>t.TransactionId==transaction.TransactionId);
+                TransactionsBO originalTransaction = context.Transactions.First(t => t.TransactionId == transaction.TransactionId);
                 context.Entry(originalTransaction).CurrentValues.SetValues(transaction);
                 context.SaveChanges();
             }

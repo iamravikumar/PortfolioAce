@@ -3,8 +3,6 @@ using PortfolioAce.EFCore;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.Tests.HelperClasses;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace PortfolioAce.Tests.IntegrationTests

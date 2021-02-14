@@ -3,8 +3,6 @@ using PortfolioAce.Domain.DataObjects.PositionData;
 using PortfolioAce.Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PortfolioAce.Domain.BusinessServices
 {

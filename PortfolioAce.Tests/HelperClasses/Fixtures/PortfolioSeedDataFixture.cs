@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PortfolioAce.EFCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PortfolioAce.Tests.HelperClasses
 {

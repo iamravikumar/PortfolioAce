@@ -4,14 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects.PositionData
 {
-    public abstract class CalculatedSecurityPosition:CalculatedPosition
+    public abstract class CalculatedSecurityPosition : CalculatedPosition
     {
         // Calculations follow the FIFO methodology. I can eventually expand on this to inside follow LIFO (using a stack instead of a queue)
-        public abstract SecuritiesDIM Security{ get; }
+        public abstract SecuritiesDIM Security { get; }
         public abstract CustodiansDIM Custodian { get; }
         public abstract decimal AverageCost { get; }
         public abstract decimal NetQuantity { get; }
@@ -36,15 +35,15 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         public override CustodiansDIM Custodian { get; }
 
-        public override decimal AverageCost { get { return Math.Round(_averageCost,2); } }
+        public override decimal AverageCost { get { return Math.Round(_averageCost, 2); } }
 
-        public override decimal NetQuantity{get{ return _netQuantity; }}
+        public override decimal NetQuantity { get { return _netQuantity; } }
 
-        public override decimal RealisedPnL{get{ return Math.Round(_realisedPnL,2); }}
+        public override decimal RealisedPnL { get { return Math.Round(_realisedPnL, 2); } }
 
-        public override List<PositionSnapshot> PositionBreakdown{get{ return _positionBreakdown; }}
+        public override List<PositionSnapshot> PositionBreakdown { get { return _positionBreakdown; } }
 
-        public override List<TaxLotsOpen> OpenLots{get{ return _openLots.ToList(); }}
+        public override List<TaxLotsOpen> OpenLots { get { return _openLots.ToList(); } }
 
         public EquityPosition(SecuritiesDIM security, CustodiansDIM custodian)
         {

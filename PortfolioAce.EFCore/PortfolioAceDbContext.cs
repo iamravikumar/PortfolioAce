@@ -4,9 +4,6 @@ using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.Domain.ModelSeedData;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace PortfolioAce.EFCore
 {
@@ -34,13 +31,13 @@ namespace PortfolioAce.EFCore
         public DbSet<InvestorsDIM> Investors { get; set; }
 
         // Fact Tables
-        public DbSet<InvestorHoldingsFACT> InvestorHoldings {get;set;}
+        public DbSet<InvestorHoldingsFACT> InvestorHoldings { get; set; }
         public DbSet<NAVPriceStoreFACT> NavPriceData { get; set; }
         public DbSet<FundPerformanceFACT> FundPerformance { get; set; }
         public DbSet<PositionFACT> Positions { get; set; }
 
         public PortfolioAceDbContext(DbContextOptions options) : base(options)
-        { 
+        {
         }
 
         // I can use on model creating to seed data

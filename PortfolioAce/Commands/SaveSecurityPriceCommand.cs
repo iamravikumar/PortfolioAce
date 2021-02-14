@@ -2,15 +2,12 @@
 using PortfolioAce.EFCore.Services.PriceServices;
 using PortfolioAce.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class SaveSecurityPriceCommand:ICommand
+    public class SaveSecurityPriceCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
         private SystemSecurityPricesViewModel _sysSecurityPricesVM;
@@ -36,7 +33,7 @@ namespace PortfolioAce.Commands
                 SecuritiesDIM security = _priceService.GetSecurityInfo(_sysSecurityPricesVM.Symbol);
                 await _priceService.AddDailyPrices(security);
             }
-            catch(ArgumentOutOfRangeException argError)
+            catch (ArgumentOutOfRangeException argError)
             {
                 MessageBox.Show("Your API Key might not be valid. Please investigate", "Error");
             }
@@ -44,7 +41,7 @@ namespace PortfolioAce.Commands
             {
                 MessageBox.Show(e.Message);
             }
-            
+
         }
 
     }

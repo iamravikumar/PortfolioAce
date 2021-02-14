@@ -1,12 +1,8 @@
-﻿using PortfolioAce.Domain.Models;
-using PortfolioAce.Domain.Models.BackOfficeModels;
+﻿using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
-using PortfolioAce.ViewModels.Windows;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
@@ -51,12 +47,12 @@ namespace PortfolioAce.Commands
                     Fees = _addTradeWindowVM.Commission,
                     isActive = _addTradeWindowVM.isActive,
                     isLocked = _addTradeWindowVM.isLocked,
-                    isCashTransaction= false,
+                    isCashTransaction = false,
                     FundId = _addTradeWindowVM.FundId,
                     TransactionTypeId = tradeType.TransactionTypeId,
                     CurrencyId = security.CurrencyId,
-                    Comment="",
-                    CustodianId=custodian.CustodianId
+                    Comment = "",
+                    CustodianId = custodian.CustodianId
                 };
                 await _transactionService.CreateTransaction(newTrade);
                 _addTradeWindowVM.CloseAction();

@@ -4,13 +4,12 @@ using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class TransferCashCommand:ICommand
+    public class TransferCashCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
         private AddCashTradeWindowViewModel _addCashTradeWindowVM;

@@ -1,10 +1,7 @@
 ﻿using PortfolioAce.DataCentre.DeserialisedObjects;
 using PortfolioAce.Domain.Models.Dimensions;
 using ServiceStack;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PortfolioAce.DataCentre.APIConnections
@@ -16,7 +13,7 @@ namespace PortfolioAce.DataCentre.APIConnections
         private const string BASE_ADDRESS_QUERY = "https://www.alphavantage.co";
         public AlphaVantageConnection(string apiKeyAV)
         {
-            _apiKeyAV = apiKeyAV;            
+            _apiKeyAV = apiKeyAV;
         }
 
         public async Task<IEnumerable<AVSecurityPriceData>> GetPricesAsync(SecuritiesDIM security)
@@ -27,11 +24,11 @@ namespace PortfolioAce.DataCentre.APIConnections
             string assetClass = security.AssetClass.Name;
             IEnumerable<AVSecurityPriceData> result;
 
-            if (assetClass == "Cryptocurrency") 
+            if (assetClass == "Cryptocurrency")
             {
                 result = response.FromCsv<List<AVCryptoPriceData>>();
             }
-            else if(assetClass == "FX")
+            else if (assetClass == "FX")
             {
                 result = response.FromCsv<List<AVFXPriceData>>();
             }

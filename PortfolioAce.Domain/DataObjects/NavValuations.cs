@@ -4,7 +4,6 @@ using PortfolioAce.Domain.Models.FactTables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PortfolioAce.Domain.DataObjects
 {
@@ -16,9 +15,9 @@ namespace PortfolioAce.Domain.DataObjects
         // ONE MORE THING... There might be a potential big bug. If there is a Sub/Red that is not final Do i include the class but dont increase the SharesOutstanding
         // What i do is calculate the NAV price then mint the new units and amend the tranfer angency
         // i.e. there is a not final 50k subscription. i calculate the NAV price then set a units and price for that subscription.. this will cause the nav to stay the same and i can incorporate it..
-        
+
         // performance fees will have to be calculated monthly for now.
-        
+
         public Fund fund { get; set; }
         public decimal ManagementFeeAmount { get; set; }
         public decimal PerformanceFeeAmount { get; set; }
@@ -55,7 +54,7 @@ namespace PortfolioAce.Domain.DataObjects
 
             //accruals
             int accrualPeriods;
-            if(fund.NAVFrequency== "Daily")
+            if (fund.NAVFrequency == "Daily")
             {
                 accrualPeriods = (!DateTime.IsLeapYear(AsOfDate.Year) ? 365 : 366);
             }
@@ -67,7 +66,7 @@ namespace PortfolioAce.Domain.DataObjects
             // HPR = (Ending Value) / (Previous Value After Cash Flow) – 1.
             if (AsOfDate.DayOfWeek == DayOfWeek.Monday)
             {
-                this.ManagementFeeAmount = 3*((GrossAssetValue * fund.ManagementFee) / accrualPeriods); // this will then be weighted on the investors..
+                this.ManagementFeeAmount = 3 * ((GrossAssetValue * fund.ManagementFee) / accrualPeriods); // this will then be weighted on the investors..
             }
             else
             {
@@ -77,7 +76,7 @@ namespace PortfolioAce.Domain.DataObjects
             this.NetAssetValuePerShare = this.NetAssetValue / this.SharesOutstanding; // NAV per share after management fees
 
             NAVPriceStoreFACT performancePeriodFact = fund.NavPrices.Where(np => np.FinalisedDate.Month == AsOfDate.Month).OrderBy(np => np.FinalisedDate).FirstOrDefault(); //price at beginning of month
-            decimal performancePeriodStartPrice = (performancePeriodFact==null)?this.NetAssetValuePerShare:performancePeriodFact.NAVPrice; // if theres no price at the beginning of month this value is the beginning of month... 
+            decimal performancePeriodStartPrice = (performancePeriodFact == null) ? this.NetAssetValuePerShare : performancePeriodFact.NAVPrice; // if theres no price at the beginning of month this value is the beginning of month... 
 
             decimal totalPerfFee = decimal.Zero;
             foreach (ClientHolding holding in clientHoldings)
@@ -126,7 +125,7 @@ namespace PortfolioAce.Domain.DataObjects
                 totalPerfFee += perfFee;
 
                 ClientHoldingValuation holdingValued = new ClientHoldingValuation(holding, this.GrossAssetValuePerShare);
-                holdingValued.ApplyManagementFee(Math.Round(holdingWeighting * this.ManagementFeeAmount,2)); // this is the weighted average fee
+                holdingValued.ApplyManagementFee(Math.Round(holdingWeighting * this.ManagementFeeAmount, 2)); // this is the weighted average fee
                 holdingValued.ApplyPerformanceFee(Math.Round(perfFee, 2));
                 this.ClientHoldings.Add(holdingValued);
             }
@@ -142,7 +141,7 @@ namespace PortfolioAce.Domain.DataObjects
     public class ClientHoldingValuation
     {
         public ClientHolding Holding { get; set; }
-        public decimal GrossValuation { get;  set; }
+        public decimal GrossValuation { get; set; }
         public decimal NetValuation { get; set; }
         public decimal ManagementFeesAccrued { get; set; }
         public decimal GavPrice { get; set; }
@@ -162,7 +161,7 @@ namespace PortfolioAce.Domain.DataObjects
         {
             ManagementFeesAccrued += fee;
             NetValuation -= fee;
-            
+
         }
         public void ApplyPerformanceFee(decimal fee)
         {
@@ -171,5 +170,5 @@ namespace PortfolioAce.Domain.DataObjects
 
         }
     }
-    
+
 }

@@ -3,14 +3,12 @@ using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class EditTradeCommand:ICommand
+    public class EditTradeCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 
@@ -18,7 +16,7 @@ namespace PortfolioAce.Commands
         private ITransactionService _transactionService;
         private TransactionsBO _transaction;
 
-        public EditTradeCommand(EditTradeWindowViewModel  editTradeWindowVM,
+        public EditTradeCommand(EditTradeWindowViewModel editTradeWindowVM,
             ITransactionService transactionService, TransactionsBO transactions)
         {
             _editTradeWindowVM = editTradeWindowVM;

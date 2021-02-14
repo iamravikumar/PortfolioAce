@@ -1,16 +1,13 @@
 ﻿using PortfolioAce.Domain.DataObjects.DTOs;
-using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class AddFXTradeCommand:ICommand
+    public class AddFXTradeCommand : ICommand
     {
 
         public event EventHandler CanExecuteChanged;
@@ -46,7 +43,7 @@ namespace PortfolioAce.Commands
                     Custodian = _addFXTradeWindowVM.Custodian,
                     FundId = _addFXTradeWindowVM.FundId
                 };
-                
+
                 await _transactionService.CreateFXTransaction(fxTransaction);
                 _addFXTradeWindowVM.CloseAction();
             }

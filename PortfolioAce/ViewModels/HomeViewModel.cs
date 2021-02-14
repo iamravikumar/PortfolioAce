@@ -1,21 +1,17 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
-using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.FactTables;
-using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.FactTableServices;
 using PortfolioAce.Navigation;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels
 {
-    public class HomeViewModel: ViewModelBase
+    public class HomeViewModel : ViewModelBase
     {
 
         private IFactTableService _factTableService;
@@ -122,10 +118,10 @@ namespace PortfolioAce.ViewModels
 
         public async Task Load(int fundId)
         {
-            if (NavPriceLineChartYAxis!= null)
+            if (NavPriceLineChartYAxis != null)
             {
-               NavPriceLineChartYAxis.Clear();
-               NavPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.NAVPrice)));
+                NavPriceLineChartYAxis.Clear();
+                NavPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgAllNavPrices.Where(np => np.FundId == fundId).Select(np => np.NAVPrice)));
             }
             else
             {
@@ -138,9 +134,9 @@ namespace PortfolioAce.ViewModels
 
             // RowChartData
             int counter = 0;
-            foreach (string fundSymbol in AllFundSymbols) 
+            foreach (string fundSymbol in AllFundSymbols)
             {
-                List<NAVPriceStoreFACT> allFundPrices = dgAllNavPrices.Where(np => np.Fund.Symbol==fundSymbol).OrderBy(np => np.FinalisedDate).ToList();
+                List<NAVPriceStoreFACT> allFundPrices = dgAllNavPrices.Where(np => np.Fund.Symbol == fundSymbol).OrderBy(np => np.FinalisedDate).ToList();
                 decimal startPrice = allFundPrices[0].NAVPrice;
                 decimal endPrice = allFundPrices[allFundPrices.Count - 1].NAVPrice;
                 decimal performance = (endPrice / startPrice) - 1;

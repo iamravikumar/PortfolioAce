@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PortfolioAce.EFCore.HelperMethods
 {
@@ -28,7 +27,7 @@ namespace PortfolioAce.EFCore.HelperMethods
             // get the next 12month end.
             DateTime endDate = startDate.AddYears(1);
             DateTime newDate = startDate;
-            List<DateTime> allDates = new List<DateTime> { startDate};
+            List<DateTime> allDates = new List<DateTime> { startDate };
             while (newDate < endDate)
             {
                 newDate = MonthEndWorkingDate(newDate);
@@ -45,7 +44,7 @@ namespace PortfolioAce.EFCore.HelperMethods
             {
                 lastBusinessDay = lastBusinessDay.AddDays(-2);
             }
-                
+
             else if (lastBusinessDay.DayOfWeek == DayOfWeek.Saturday)
             {
                 lastBusinessDay = lastBusinessDay.AddDays(-1);
