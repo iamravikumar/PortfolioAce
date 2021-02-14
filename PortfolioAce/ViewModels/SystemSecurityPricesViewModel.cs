@@ -6,6 +6,7 @@ using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.EFCore.Services.PriceServices;
 using PortfolioAce.HelperObjects;
+using PortfolioAce.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,40 +30,38 @@ namespace PortfolioAce.ViewModels
 
             SaveSecurityPriceCommand = new SaveSecurityPriceCommand(this, priceService);
             SaveManualSecurityPriceCommand = new SaveManualSecurityPriceCommand(this, priceService);
+            AssetSelectionChangedCommand = new ActionCommand(ChangeAssetClassCommand);
+            SecuritySelectionChangedCommand = new ActionCommand(ChangeSecurityCommand);
+            SecurityPriceLineChartYAxis = new ChartValues<decimal>();
+            SecurityPriceLineChartXAxis = new string[1];
+
+            _cmbAssetClasses = _staticReferences.GetAllAssetClasses().Where(ac => ac.Name != "Cash" && ac.Name != "FXForward").Select(ac => ac.Name).ToList();
 
             // Todo: refactor: sets the initial security..
-            if (cmbAssetClasses.Count != 0)
-            {
-                _assetClass = cmbAssetClasses[0];
-                if (cmbSecurities.Count != 0)
-                {
-                    _symbol = cmbSecurities[0];
-                    _securityPrices = _priceService.GetSecurityPrices(_symbol);
-                    dgSecurityPrices = new ObservableCollection<PriceContainer>(_securityPrices.Select(sp => new PriceContainer(sp.Date, sp.ClosePrice)));
-                    SecurityPriceLineChartYAxis = new ChartValues<decimal>(dgSecurityPrices.Select(sp => sp.ClosePrice));
-                    _SecurityPriceLineChartXAxis = dgSecurityPrices.Select(sp => sp.Date.ToString("dd/MM/yyyy")).ToArray();
-                }
-            }
 
-            if (_symbol == null)
+            if (_cmbAssetClasses.Count != 0)
             {
-                _securityPrices = new List<SecurityPriceStore>();
-                dgSecurityPrices = new ObservableCollection<PriceContainer>(_securityPrices.Select(sp => new PriceContainer(sp.Date, sp.ClosePrice)));
-                SecurityPriceLineChartYAxis = new ChartValues<decimal> { 1, 1, 1, 1, 1 };
-                SecurityPriceLineChartXAxis = new string[1];
+                AssetClass = _cmbAssetClasses[0];
+                _cmbSecurities = _staticReferences.GetSecuritySymbolByAssetClass(_assetClass);
+                if(_cmbSecurities.Count != 0)
+                {
+                    Symbol = _cmbSecurities[0];
+                    Load();
+                }
             }
         }
 
         public ICommand SaveSecurityPriceCommand { get; set; }
         public ICommand SaveManualSecurityPriceCommand { get; set; }
+        public ICommand AssetSelectionChangedCommand { get; set; }
+        public ICommand SecuritySelectionChangedCommand { get; set; }
 
-
+        private List<string> _cmbAssetClasses;
         public List<string> cmbAssetClasses
         {
             get
             {
-                return _staticReferences.GetAllAssetClasses().Where(ac => ac.Name != "Cash" && ac.Name != "FXForward").Select(ac=>ac.Name).ToList();
-
+                return _cmbAssetClasses;
             }
         }
 
@@ -76,21 +75,20 @@ namespace PortfolioAce.ViewModels
             set
             {
                 _assetClass = value;
-                OnPropertyChanged(nameof(cmbSecurities));
+                OnPropertyChanged(nameof(AssetClass));
             }
         }
 
+        private List<string> _cmbSecurities;
         public ObservableCollection<string> cmbSecurities
         {
             get
             {
-                List<string> pricedSecuritySymbols = _staticReferences.GetSecuritySymbolByAssetClass(_assetClass);
-                return new ObservableCollection<string>(pricedSecuritySymbols);
+                return new ObservableCollection<string>(_cmbSecurities);
             }
         }
 
-        private List<SecurityPriceStore> _securityPrices;
-        public ObservableCollection<PriceContainer> dgSecurityPrices { get; set; }
+
 
 
 
@@ -103,13 +101,8 @@ namespace PortfolioAce.ViewModels
             }
             set
             {
-                _symbol = value;
+                _symbol = value;                
                 OnPropertyChanged(nameof(Symbol));
-                OnPropertyChanged(nameof(SecurityInfo));
-                Load();
-                OnPropertyChanged(nameof(dgSecurityPrices));
-                OnPropertyChanged(nameof(SecurityPriceLineChartXAxis));
-                OnPropertyChanged(nameof(ShowAPIButton));
             }
         }
 
@@ -124,11 +117,12 @@ namespace PortfolioAce.ViewModels
             }
         }
 
+        private SecuritiesDIM _securityInfo;
         public SecuritiesDIM SecurityInfo
         {
             get
             {
-                return _priceService.GetSecurityInfo(_symbol);
+                return _securityInfo;
             }
         }
 
@@ -148,14 +142,36 @@ namespace PortfolioAce.ViewModels
 
         public ChartValues<decimal> SecurityPriceLineChartYAxis { get; set; }
 
+        private List<SecurityPriceStore> _securityPrices;
+        public ObservableCollection<PriceContainer> dgSecurityPrices { get; set; }
+
 
         public async Task Load()
         {
             SecurityPriceLineChartYAxis.Clear();
             _securityPrices = _priceService.GetSecurityPrices(_symbol);
+            _securityInfo = _priceService.GetSecurityInfo(_symbol);
             dgSecurityPrices = new ObservableCollection<PriceContainer>(_securityPrices.Select(sp => new PriceContainer(sp.Date, sp.ClosePrice)));
             SecurityPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgSecurityPrices.Select(sp=>sp.ClosePrice)));
             _SecurityPriceLineChartXAxis = dgSecurityPrices.Select(sp => sp.Date.ToString("dd/MM/yyyy")).ToArray();
+        }
+
+        public void ChangeSecurityCommand()
+        {
+            Load();
+            OnPropertyChanged("");
+        }
+        
+
+        public void ChangeAssetClassCommand()
+        {
+            _cmbSecurities = _staticReferences.GetSecuritySymbolByAssetClass(_assetClass);
+            if (_cmbSecurities.Count > 0)
+            {
+                Symbol = _cmbSecurities[0];
+                OnPropertyChanged(nameof(Symbol));
+            }
+            OnPropertyChanged(nameof(cmbSecurities));
         }
 
         public override void Dispose()
