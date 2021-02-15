@@ -10,12 +10,12 @@ using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
 {
-    public class AddInvestorWindowViewModel : ViewModelWindowBase, INotifyDataErrorInfo
+    public class InvestorManagerWindowViewModel : ViewModelWindowBase, INotifyDataErrorInfo
     {
         private ITransferAgencyService _investorService;
         private readonly ValidationErrors _validationErrors;
 
-        public AddInvestorWindowViewModel(ITransferAgencyService investorService)
+        public InvestorManagerWindowViewModel(ITransferAgencyService investorService)
         {
             AddInvestorCommand = new AddInvestorCommand(this, investorService);
             _investorService = investorService;

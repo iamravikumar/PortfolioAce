@@ -10,11 +10,11 @@ namespace PortfolioAce.Commands
     public class AddInvestorCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
-        private AddInvestorWindowViewModel _addInvestorVM;
+        private InvestorManagerWindowViewModel _addInvestorVM;
         private ITransferAgencyService _investorService;
 
-        public AddInvestorCommand(AddInvestorWindowViewModel addInvestorVM,
-    ITransferAgencyService investorService)
+        public AddInvestorCommand(InvestorManagerWindowViewModel addInvestorVM,
+            ITransferAgencyService investorService)
         {
             _addInvestorVM = addInvestorVM;
             _investorService = investorService;

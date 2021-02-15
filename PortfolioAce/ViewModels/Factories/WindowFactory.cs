@@ -161,8 +161,8 @@ namespace PortfolioAce.ViewModels.Factories
 
         public void CreateNewInvestorWindow()
         {
-            Window view = new AddInvestorWindow();
-            ViewModelWindowBase viewModel = new AddInvestorWindowViewModel(_investorService);
+            Window view = new InvestorManagerWindow();
+            ViewModelWindowBase viewModel = new InvestorManagerWindowViewModel(_investorService);
             view = ApplyWindowAttributes(view, viewModel);
             view.ShowDialog();
         }

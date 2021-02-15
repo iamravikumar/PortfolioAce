@@ -5,9 +5,9 @@ namespace PortfolioAce.Views.Modals
     /// <summary>
     /// Interaction logic for AddClientWindow.xaml
     /// </summary>
-    public partial class AddInvestorWindow : Window
+    public partial class InvestorManagerWindow : Window
     {
-        public AddInvestorWindow()
+        public InvestorManagerWindow()
         {
             InitializeComponent();
         }
