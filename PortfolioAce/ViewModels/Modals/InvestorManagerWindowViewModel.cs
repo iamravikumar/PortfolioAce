@@ -2,10 +2,13 @@
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.Models;
+using PortfolioAce.Navigation;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
@@ -22,7 +25,11 @@ namespace PortfolioAce.ViewModels.Modals
             _birthDate = null;
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
-
+            _allInvestors = investorService.GetAllInvestors();
+            if (_allInvestors.Count > 0)
+            {
+                _selectedInvestor = _allInvestors.First();
+            }
         }
 
         private string _fullName;
@@ -109,16 +116,79 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public List<InvestorsDIM> dgInvestors
+        public ICommand AddInvestorCommand { get; set; }
+
+
+
+        // This is for the second tab.
+
+        public ICommand LoadInvestorProfileCommand { get; set; }
+        private List<InvestorsDIM> _allInvestors;
+
+        public List<InvestorsDIM> lbInvestors
         {
             get
             {
-                return _investorService.GetAllInvestors();
+                return _allInvestors;
             }
         }
 
-        public ICommand AddInvestorCommand { get; set; }
+        private InvestorsDIM _selectedInvestor;
+        public InvestorsDIM SelectedInvestor
+        {
+            get
+            {
+                return _selectedInvestor;
+            }
+            set
+            {
+                _selectedInvestor = value;
+                OnPropertyChanged(nameof(SelectedInvestor));
+                OnPropertyChanged(nameof(InvestorProfile));
+            }
+        }
 
+        public int SelectedInvestorAge
+        {
+            get
+            {
+                if (_selectedInvestor != null && _selectedInvestor.BirthDate.HasValue)
+                {
+
+                    DateTime today = DateTime.Today;
+                    int age = today.Year - _selectedInvestor.BirthDate.Value.Year;
+
+                    if (_selectedInvestor.BirthDate.Value > today.AddYears(-age))
+                    {
+                        age--;
+                    }
+                    return age;
+                };
+                return 0;
+            }
+        }
+
+        public string InvestorProfile
+        {
+            get
+            {
+                if (_selectedInvestor != null)
+                {
+                    if(SelectedInvestorAge>0 && _selectedInvestor.Domicile!= null)
+                    {
+                        return $"{_selectedInvestor.FullName} is a {SelectedInvestorAge} year old from {_selectedInvestor.Domicile}.";
+                    }
+                    else
+                    {
+                        return "";
+                    }
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
@@ -136,5 +206,6 @@ namespace PortfolioAce.ViewModels.Modals
             ErrorsChanged?.Invoke(this, e);
             OnPropertyChanged(nameof(CanCreate));
         }
+
     }
 }

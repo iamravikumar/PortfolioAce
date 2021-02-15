@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         mc:Ignorable="d"
-        Title="Add a New Investor" Height="425" Width="575">
+        Title="Client Manager" Height="425" Width="575">
     <Border Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3" Margin="3">
         <TabControl  Style="{StaticResource MaterialDesignTabControl}" Background="LightGray">
             <TabItem Header="New Investor Details">
@@ -79,15 +79,30 @@
                 </Grid>
             </TabItem>
             <TabItem Header="All Investors">
-                <DataGrid Name="dgInvestors" ColumnWidth="*" ItemsSource="{Binding Path=dgInvestors}" 
-                          RowBackground="GhostWhite" AlternatingRowBackground="White"
-                          VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Full Name"  Binding="{Binding FullName}"/>
-                        <DataGridTextColumn Header="Birth Date" Binding="{Binding BirthDate, StringFormat={}{0:dd/MM/yyyy}}"/>
-                        <DataGridTextColumn Header="Domicile" Binding="{Binding Domicile}"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="125"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListBox Name="InvestorNames" Background="DarkGray" Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Stretch" ItemsSource="{Binding Path=lbInvestors}" Margin="0" SelectedItem="{Binding SelectedInvestor, UpdateSourceTrigger=PropertyChanged}" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <TextBlock Text="{Binding FullName}" Style="{StaticResource MaterialDesignButtonTextBlock}" Cursor="Hand" TextWrapping="Wrap"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <StackPanel Grid.Row="0" Grid.Column="1">
+                        <Label Content="{Binding InvestorProfile,UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Content="{Binding SelectedInvestor.BirthDate, StringFormat={}{0:dd/MM/yyyy}}"/>
+                        <Label Content="{Binding SelectedInvestor.FullName}"/>
+                        <Label Content="{Binding SelectedInvestor.Domicile}"/>
+                        <Label Content="{Binding SelectedInvestor.Email}"/>
+                        <Label Content="{Binding SelectedInvestor.MobileNumber}"/>
+                        <Label Content="{Binding SelectedInvestor.NativeLanguage}"/>
+                    </StackPanel>
+                </Grid>
             </TabItem>
         </TabControl>
     </Border>

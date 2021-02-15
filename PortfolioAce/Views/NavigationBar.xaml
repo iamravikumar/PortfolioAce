@@ -40,7 +40,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Investors">
-                <MenuItem Header="Create Investor..."  Command="{Binding ShowNewInvestorCommand}" CommandParameter="{x:Static nav:ViewType.FundsView}">
+                <MenuItem Header="Investor Manager..."  Command="{Binding ShowNewInvestorCommand}" CommandParameter="{x:Static nav:ViewType.FundsView}">
                     <MenuItem.Icon>
                         <Image Source="/PortfolioAce;component/Resources\icons8-AddInvestor-24.png"/>
                     </MenuItem.Icon>

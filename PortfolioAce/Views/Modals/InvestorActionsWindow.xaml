@@ -107,7 +107,7 @@
                     <Button Command="{Binding AddInvestorActionCommand}" Grid.Row="11" Grid.Column="1" Margin="0,20,0,0" IsEnabled="{Binding CanCreate}">Book Action</Button>
                 </Grid>
             </TabItem>
-            <TabItem Header="Other Actions">
+            <TabItem Header="Fund Investors">
             </TabItem>
         </TabControl>
     </Border>
