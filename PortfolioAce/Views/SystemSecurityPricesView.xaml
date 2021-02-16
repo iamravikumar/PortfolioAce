@@ -38,7 +38,7 @@
                  ItemsSource="{Binding Path=dgSecurityPrices,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" CanUserAddRows="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}" IsReadOnly="False"/>
-                <DataGridTextColumn Header="Close Price" Binding="{Binding ClosePrice, StringFormat=N2}" IsReadOnly="False"  />
+                <DataGridTextColumn Header="Close Price" Binding="{Binding ClosePrice, StringFormat=N4}" IsReadOnly="False"  />
             </DataGrid.Columns>
         </DataGrid>
         <DockPanel Grid.Row="2" LastChildFill="False">
