@@ -32,7 +32,7 @@
         <!-- Description -->
         <Border BorderThickness="0,1,0,0" Grid.Column="0" Grid.Row="1" BorderBrush="DarkGray">
             <StackPanel Orientation="Horizontal"  Margin="10,0,10,0">
-                <TextBlock TextWrapping="Wrap" Text="© 2020 Ramon Williams" Margin="0,4,5,0"/>
+                <TextBlock TextWrapping="Wrap" Text="© 2021 Ramon Williams" Margin="0,4,5,0"/>
                 <Label Margin="50,0,0,0">
                     <Hyperlink
 						   RequestNavigate="Link_RequestNavigate"
