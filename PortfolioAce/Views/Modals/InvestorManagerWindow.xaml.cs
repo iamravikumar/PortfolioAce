@@ -5,7 +5,7 @@ using System.Windows.Navigation;
 namespace PortfolioAce.Views.Modals
 {
     /// <summary>
-    /// Interaction logic for AddClientWindow.xaml
+    /// Interaction logic for InvestorManagerWindow.xaml
     /// </summary>
     public partial class InvestorManagerWindow : Window
     {
