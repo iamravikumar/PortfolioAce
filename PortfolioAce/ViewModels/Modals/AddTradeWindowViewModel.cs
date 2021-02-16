@@ -32,6 +32,16 @@ namespace PortfolioAce.ViewModels.Modals
             _tradeDate = DateExtentions.InitialDate();
             _settleDate = DateExtentions.InitialDate();
             _custodian = cmbCustodians[0];
+            _securitiesList = _staticReferences.GetAllSecurities();
+        }
+
+        private readonly List<SecuritiesDIM> _securitiesList;
+        public List<SecuritiesDIM> SecuritiesList
+        {
+            get
+            {
+                return _securitiesList;
+            }
         }
 
         public int FundId

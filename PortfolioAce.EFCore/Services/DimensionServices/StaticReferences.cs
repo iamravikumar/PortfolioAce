@@ -178,5 +178,13 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
                 return context.Securities.Where(s => s.AssetClass.Name == assetClass).OrderBy(s => s.Symbol).Select(s => s.Symbol).ToList();
             }
         }
+
+        public List<SecuritiesDIM> GetAllSecurities()
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Securities.ToList();
+            }
+        }
     }
 }
