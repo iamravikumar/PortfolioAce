@@ -79,7 +79,7 @@
                 </Grid>
             </TabItem>
             <TabItem Header="All Investors">
-                <Grid>
+                <Grid Visibility="{Binding ShowProfiles, UpdateSourceTrigger=PropertyChanged}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="125"/>
                         <ColumnDefinition Width="*"/>

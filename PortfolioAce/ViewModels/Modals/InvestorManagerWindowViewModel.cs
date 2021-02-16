@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Modals
@@ -202,6 +203,14 @@ namespace PortfolioAce.ViewModels.Modals
                 {
                     return "";
                 }
+            }
+        }
+
+        public Visibility ShowProfiles
+        {
+            get
+            {
+                return (_allInvestors.Count > 0)?Visibility.Visible:Visibility.Collapsed;
             }
         }
 
