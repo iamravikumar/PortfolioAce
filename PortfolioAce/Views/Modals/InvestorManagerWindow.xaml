@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         mc:Ignorable="d"
-        Title="Client Manager" Height="425" Width="575">
+        Title="Client Manager" Height="425" Width="575" MaxHeight="425" MaxWidth="575">
     <Border Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3" Margin="3">
         <TabControl  Style="{StaticResource MaterialDesignTabControl}" Background="LightGray">
             <TabItem Header="New Investor Details">
@@ -119,20 +119,40 @@
                                 </Grid>
                             </DockPanel>
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                <Image Source="/PortfolioAce;component/Resources\icons8-date-of-birth-24.png" Width="50" Margin="10"/>
-                                <Label Content="{Binding SelectedInvestor.BirthDate, StringFormat={}{0:dd/MM/yyyy}}" FontSize="16" Margin="0,10,0,0"/>
+                                <Image Source="/PortfolioAce;component/Resources\icons8-date-of-birth-24.png" Width="50" Margin="10">
+                                    <Image.ToolTip>
+                                        Date of birth
+                                    </Image.ToolTip>
+                                </Image>
+                                <Label Content="{Binding SelectedInvestor.BirthDate, StringFormat={}{0:dd/MM/yyyy}}" FontSize="15" Margin="0,10,0,0"/>
                             </StackPanel>
                             <StackPanel Grid.Row="2" Orientation="Horizontal">
-                                <Image Source="/PortfolioAce;component/Resources\icons8-email-24.png" Width="50" Margin="10"/>
-                                <Label Content="{Binding SelectedInvestor.Email}" FontSize="16" Margin="0,10,0,0"/>
+                                <Image Source="/PortfolioAce;component/Resources\icons8-email-24.png" Width="50" Margin="10">
+                                    <Image.ToolTip>
+                                        Email Address
+                                    </Image.ToolTip>
+                                </Image>
+                                <Label FontSize="15" Margin="0,10,0,0">
+                                    <Hyperlink RequestNavigate="Link_LaunchEmail" NavigateUri="{Binding SelectedInvestorEmailLink}">
+                                        <TextBlock Text="{Binding SelectedInvestor.Email}"/>
+                                    </Hyperlink>
+                                </Label>
                             </StackPanel>
                             <StackPanel Grid.Row="3" Orientation="Horizontal">
-                                <Image Source="/PortfolioAce;component/Resources\icons8-mobile-24.png" Width="50" Margin="10"/>
-                                <Label Content="{Binding SelectedInvestor.MobileNumber}" FontSize="16" Margin="0,10,0,0"/>
+                                <Image Source="/PortfolioAce;component/Resources\icons8-mobile-24.png" Width="50" Margin="10">
+                                    <Image.ToolTip>
+                                        Mobile Phone Number
+                                    </Image.ToolTip>
+                                </Image>
+                                <Label Content="{Binding SelectedInvestor.MobileNumber}" FontSize="15" Margin="0,10,0,0"/>
                             </StackPanel>
                             <StackPanel Grid.Row="4" Orientation="Horizontal">
-                                <Image Source="/PortfolioAce;component/Resources\icons8-communication-24.png" Width="50" Margin="10"/>
-                                <Label Content="{Binding SelectedInvestor.NativeLanguage}" FontSize="16" Margin="0,10,0,0"/>
+                                <Image Source="/PortfolioAce;component/Resources\icons8-communication-24.png" Width="50" Margin="10">
+                                    <Image.ToolTip>
+                                        Spoken Language
+                                    </Image.ToolTip>
+                                </Image>
+                                <Label Content="{Binding SelectedInvestor.NativeLanguage}" FontSize="15" Margin="0,10,0,0"/>
                             </StackPanel>
                             <Border BorderBrush="LightGray" BorderThickness="0,3,0,0" Grid.Row="5" >
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

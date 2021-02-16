@@ -145,6 +145,19 @@ namespace PortfolioAce.ViewModels.Modals
                 _selectedInvestor = value;
                 OnPropertyChanged(nameof(SelectedInvestor));
                 OnPropertyChanged(nameof(InvestorProfile));
+                OnPropertyChanged(nameof(SelectedInvestorEmailLink));
+            }
+        }
+
+        public string SelectedInvestorEmailLink
+        {
+            get
+            {
+                if(_selectedInvestor != null)
+                {
+                    return $"mailto:{_selectedInvestor.Email}";
+                }
+                return "";
             }
         }
 
@@ -152,17 +165,19 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                if (_selectedInvestor != null && _selectedInvestor.BirthDate.HasValue)
+                if (_selectedInvestor != null)
                 {
-
-                    DateTime today = DateTime.Today;
-                    int age = today.Year - _selectedInvestor.BirthDate.Value.Year;
-
-                    if (_selectedInvestor.BirthDate.Value > today.AddYears(-age))
+                    if (_selectedInvestor.BirthDate.HasValue)
                     {
-                        age--;
+                        DateTime today = DateTime.Today;
+                        int age = today.Year - _selectedInvestor.BirthDate.Value.Year;
+
+                        if (_selectedInvestor.BirthDate.Value > today.AddYears(-age))
+                        {
+                            age--;
+                        }
+                        return age;
                     }
-                    return age;
                 };
                 return 0;
             }

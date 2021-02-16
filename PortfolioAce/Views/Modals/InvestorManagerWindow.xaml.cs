@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Navigation;
 
 namespace PortfolioAce.Views.Modals
 {
@@ -10,6 +12,11 @@ namespace PortfolioAce.Views.Modals
         public InvestorManagerWindow()
         {
             InitializeComponent();
+        }
+        private void Link_LaunchEmail(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true });
+            e.Handled = true;
         }
     }
 }
