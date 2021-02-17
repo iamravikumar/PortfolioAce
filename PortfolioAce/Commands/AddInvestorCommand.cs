@@ -33,7 +33,7 @@ namespace PortfolioAce.Commands
                 {
                     FullName = _addInvestorVM.FullName,
                     BirthDate = _addInvestorVM.BirthDate,
-                    Domicile = _addInvestorVM.Domicile,
+                    Domicile = _addInvestorVM.Domicile.EnglishName,
                     Email = _addInvestorVM.Email,
                     MobileNumber = _addInvestorVM.MobileNumber,
                     NativeLanguage = _addInvestorVM.NativeLanguage

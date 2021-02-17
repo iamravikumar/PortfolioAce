@@ -267,7 +267,6 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 return DateTime.Now;
-                //return _staticReferences.GetAllTradeTypes().Select(tt=>tt.TypeName).ToList();
             }
         }
         public DateTime LastModifiedDate

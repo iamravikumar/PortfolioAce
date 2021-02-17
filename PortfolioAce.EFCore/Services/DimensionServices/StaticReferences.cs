@@ -179,15 +179,27 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
             }
         }
 
-        public List<SecuritiesDIM> GetAllSecurities()
+        public List<SecuritiesDIM> GetAllSecurities(bool includeRates=false)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities
-                              .Where(s=>s.AssetClass.Name!="FX" && s.AssetClass.Name != "Cash" && s.AssetClass.Name != "InterestRate" && s.AssetClass.Name != "FXForward")
+                if (includeRates)
+                {
+                    return context.Securities
+                              .Where(s => s.AssetClass.Name != "Cash")
                               .Include(s => s.Currency)
                               .Include(s => s.AssetClass)
                               .ToList();
+                }
+                else
+                {
+                    return context.Securities
+                          .Where(s => s.AssetClass.Name != "FX" && s.AssetClass.Name != "Cash" && s.AssetClass.Name != "InterestRate" && s.AssetClass.Name != "FXForward")
+                          .Include(s => s.Currency)
+                          .Include(s => s.AssetClass)
+                          .ToList();
+                }
+
             }
         }
     }

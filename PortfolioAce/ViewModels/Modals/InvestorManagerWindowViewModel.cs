@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -61,8 +62,8 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        private string _domicile;
-        public string Domicile
+        private RegionInfo _domicile;
+        public RegionInfo Domicile
         {
             get
             {
@@ -71,6 +72,11 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _domicile = value;
+                _validationErrors.ClearErrors(nameof(Domicile));
+                if (_domicile == null)
+                {
+                    _validationErrors.AddError(nameof(Domicile), $"This country does not exist");
+                }
                 OnPropertyChanged(nameof(Domicile));
             }
         }
