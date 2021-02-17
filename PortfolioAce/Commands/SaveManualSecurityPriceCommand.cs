@@ -33,9 +33,9 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                Dictionary<DateTime, SecurityPriceStore> dbPrices = _priceService.GetSecurityPrices(_sysSecurityPricesVM.Symbol)
+                Dictionary<DateTime, SecurityPriceStore> dbPrices = _priceService.GetSecurityPrices(_sysSecurityPricesVM.SelectedSecurity.Symbol)
                                                                             .ToDictionary(g => g.Date);
-                int secId = _sysSecurityPricesVM.SecurityInfo.SecurityId;
+                int secId = _sysSecurityPricesVM.SelectedSecurity.SecurityId;
                 List<SecurityPriceStore> pricesToUpdate = new List<SecurityPriceStore>();
                 List<SecurityPriceStore> newPrices = new List<SecurityPriceStore>();
                 foreach (PriceContainer priceContainer in _sysSecurityPricesVM.dgSecurityPrices)

@@ -3,11 +3,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:acb="http://wpfcontrols.com/"
+             xmlns:src="clr-namespace:PortfolioAce.Models"
+             xmlns:providers="clr-namespace:PortfolioAce.Models.Providers"
              xmlns:local="clr-namespace:PortfolioAce.Views"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="720" d:DesignWidth="1280">
+    <UserControl.Resources>
+        <src:ProviderWithParameterConverter x:Key="ProviderWithParameterConverter"/>
+        <DataTemplate x:Key="SecurityTemplate">
+            <Grid>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Path=Symbol}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Path=SecurityName}" FontSize="10"/>
+                    <Separator/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <TextBlock x:Key="LoadingContent" Text="Loading..." Margin="5" FontSize="14" />
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -20,7 +36,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2">
-            <TextBlock DockPanel.Dock="Top" Text="{Binding SecurityInfo.SecurityName}" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignHeadline4TextBlock}" Foreground="#003300" FontWeight="Bold"/>
+            <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedSecurity.SecurityName}" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignHeadline4TextBlock}" Foreground="#003300" FontWeight="Bold"/>
             <lvc:CartesianChart DockPanel.Dock="Top" Hoverable="True" Margin="5">
                 <lvc:CartesianChart.Series>
                     <lvc:LineSeries Title="Price" Values="{Binding SecurityPriceLineChartYAxis}" Fill="#96ffa9" Stroke="Green"/>
@@ -59,24 +75,20 @@
             </WrapPanel>
             <WrapPanel DockPanel.Dock="Top">
                 <TextBlock Text="Security: " FontWeight="Bold" Margin="0,6,0,0"/>
-                <ComboBox ItemsSource="{Binding cmbSecurities}" Margin="10,0,0,0" SelectedItem="{Binding Path=Symbol, UpdateSourceTrigger=PropertyChanged}" Width="100" MaxWidth="100" Name="securityComboBox">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding }" FontWeight="Bold"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SecuritySelectionChangedCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ComboBox>
+                <acb:AutoCompleteTextBox HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="1" CharacterCasing="Upper" DisplayMember="Symbol"  
+                                                 Margin="25,7,0,0" Width="100"
+                                                 Provider="{Binding SecuritiesList, Converter={StaticResource ProviderWithParameterConverter}}"
+                                                 ItemTemplate="{StaticResource ResourceKey=SecurityTemplate}"
+                                                 LoadingContent="{StaticResource LoadingContent}"
+                                                 SelectedItem="{Binding SelectedSecurity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                                 Watermark="Search a ticker symbol...">
+                </acb:AutoCompleteTextBox>
             </WrapPanel>
             <StackPanel DockPanel.Dock="Top" Margin="5,10,0,0" Orientation="Vertical">
-                <TextBlock Text="{Binding SecurityInfo.AssetClass.Name}" Style="{DynamicResource MaterialDesignBody2TextBlock}"/>
-                <TextBlock Text="{Binding SecurityInfo.SecurityName}"/>
-                <TextBlock Text="{Binding SecurityInfo.Currency.Symbol}"/>
-                <TextBlock Text="{Binding SecurityInfo.ISIN}"/>
+                <TextBlock Text="{Binding SelectedSecurity.AssetClass.Name}" Style="{DynamicResource MaterialDesignBody2TextBlock}"/>
+                <TextBlock Text="{Binding SelectedSecurity.SecurityName}"/>
+                <TextBlock Text="{Binding SelectedSecurity.Currency.Symbol}"/>
+                <TextBlock Text="{Binding SelectedSecurity.ISIN}"/>
             </StackPanel>
         </DockPanel>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" Margin="0,5,0,0">

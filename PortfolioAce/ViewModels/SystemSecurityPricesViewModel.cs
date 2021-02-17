@@ -27,21 +27,19 @@ namespace PortfolioAce.ViewModels
             SaveSecurityPriceCommand = new SaveSecurityPriceCommand(this, priceService);
             SaveManualSecurityPriceCommand = new SaveManualSecurityPriceCommand(this, priceService);
             AssetSelectionChangedCommand = new ActionCommand(ChangeAssetClassCommand);
-            SecuritySelectionChangedCommand = new ActionCommand(ChangeSecurityCommand);
             SecurityPriceLineChartYAxis = new ChartValues<decimal>();
             SecurityPriceLineChartXAxis = new string[1];
 
             _cmbAssetClasses = _staticReferences.GetAllAssetClasses().Where(ac => ac.Name != "Cash" && ac.Name != "FXForward").Select(ac => ac.Name).ToList();
 
-            // Todo: refactor: sets the initial security..
-
+            _allSecuritiesList = _staticReferences.GetAllSecurities(includeRates: true);
             if (_cmbAssetClasses.Count != 0)
             {
                 AssetClass = _cmbAssetClasses[0];
-                _cmbSecurities = _staticReferences.GetSecuritySymbolByAssetClass(_assetClass);
-                if (_cmbSecurities.Count != 0)
+                _securitiesList = _allSecuritiesList.Where(s=>s.AssetClass.Name==AssetClass).ToList();
+                if (_securitiesList.Count != 0)
                 {
-                    Symbol = _cmbSecurities[0];
+                    _SelectedSecurity = _securitiesList[0];
                     Load();
                 }
             }
@@ -50,7 +48,10 @@ namespace PortfolioAce.ViewModels
         public ICommand SaveSecurityPriceCommand { get; set; }
         public ICommand SaveManualSecurityPriceCommand { get; set; }
         public ICommand AssetSelectionChangedCommand { get; set; }
-        public ICommand SecuritySelectionChangedCommand { get; set; }
+
+
+
+        private readonly List<SecuritiesDIM> _allSecuritiesList;
 
         private List<string> _cmbAssetClasses;
         public List<string> cmbAssetClasses
@@ -75,50 +76,55 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        private List<string> _cmbSecurities;
-        public ObservableCollection<string> cmbSecurities
+        private List<SecuritiesDIM> _securitiesList;
+        public List<SecuritiesDIM> SecuritiesList
         {
             get
             {
-                return new ObservableCollection<string>(_cmbSecurities);
+                if (_assetClass == null)
+                {
+                   return _securitiesList;
+                }
+                else
+                {
+                    return _allSecuritiesList.Where(s => s.AssetClass.Name == _assetClass).ToList();
+                }
             }
         }
 
 
-
-
-
-        private string _symbol;
-        public string Symbol
+        private SecuritiesDIM _SelectedSecurity;
+        public SecuritiesDIM SelectedSecurity
         {
             get
             {
-                return _symbol;
+                return _SelectedSecurity;
             }
             set
             {
-                _symbol = value;
-                OnPropertyChanged(nameof(Symbol));
+                _SelectedSecurity = value;
+                if(_SelectedSecurity != null)
+                {
+                    Load();
+                    OnPropertyChanged("");
+                }
+                else
+                {
+                    OnPropertyChanged(nameof(SelectedSecurity));
+                }
             }
         }
+
+
 
         public Visibility ShowAPIButton
         {
             get
             {
-                return (_symbol != null) ? Visibility.Visible : Visibility.Collapsed;
+                return (_SelectedSecurity != null) ? Visibility.Visible : Visibility.Collapsed;
             }
             private set
             {
-            }
-        }
-
-        private SecuritiesDIM _securityInfo;
-        public SecuritiesDIM SecurityInfo
-        {
-            get
-            {
-                return _securityInfo;
             }
         }
 
@@ -145,29 +151,24 @@ namespace PortfolioAce.ViewModels
         public async Task Load()
         {
             SecurityPriceLineChartYAxis.Clear();
-            _securityPrices = _priceService.GetSecurityPrices(_symbol);
-            _securityInfo = _priceService.GetSecurityInfo(_symbol);
+            _securityPrices = _priceService.GetSecurityPrices(_SelectedSecurity.Symbol);
             dgSecurityPrices = new ObservableCollection<PriceContainer>(_securityPrices.Select(sp => new PriceContainer(sp.Date, sp.ClosePrice)));
             SecurityPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgSecurityPrices.Select(sp => sp.ClosePrice)));
             _SecurityPriceLineChartXAxis = dgSecurityPrices.Select(sp => sp.Date.ToString("dd/MM/yyyy")).ToArray();
         }
 
-        public void ChangeSecurityCommand()
-        {
-            Load();
-            OnPropertyChanged("");
-        }
 
 
         public void ChangeAssetClassCommand()
         {
-            _cmbSecurities = _staticReferences.GetSecuritySymbolByAssetClass(_assetClass);
-            if (_cmbSecurities.Count > 0)
+            _securitiesList = _allSecuritiesList.Where(s => s.AssetClass.Name == AssetClass).ToList();
+            if (_securitiesList.Count > 0)
             {
-                Symbol = _cmbSecurities[0];
-                OnPropertyChanged(nameof(Symbol));
+                _SelectedSecurity = _securitiesList[0];
+                OnPropertyChanged(nameof(SelectedSecurity));
+                Load();
             }
-            OnPropertyChanged(nameof(cmbSecurities));
+            OnPropertyChanged(nameof(SecuritiesList));
         }
 
         public override void Dispose()

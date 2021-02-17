@@ -30,7 +30,7 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                SecuritiesDIM security = _priceService.GetSecurityInfo(_sysSecurityPricesVM.Symbol);
+                SecuritiesDIM security = _priceService.GetSecurityInfo(_sysSecurityPricesVM.SelectedSecurity.Symbol);
                 await _priceService.AddDailyPrices(security);
             }
             catch (ArgumentOutOfRangeException argError)
