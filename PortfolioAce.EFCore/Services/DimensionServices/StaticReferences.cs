@@ -183,7 +183,11 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.ToList();
+                return context.Securities
+                              .Where(s=>s.AssetClass.Name!="FX" && s.AssetClass.Name != "Cash" && s.AssetClass.Name != "InterestRate" && s.AssetClass.Name != "FXForward")
+                              .Include(s => s.Currency)
+                              .Include(s => s.AssetClass)
+                              .ToList();
             }
         }
     }

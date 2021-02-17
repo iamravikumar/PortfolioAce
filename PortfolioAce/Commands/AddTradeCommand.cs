@@ -31,12 +31,12 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                SecuritiesDIM security = _transactionService.GetSecurityInfo(_addTradeWindowVM.Symbol);
+
                 TransactionTypeDIM tradeType = _transactionService.GetTradeType(_addTradeWindowVM.TradeType);
                 CustodiansDIM custodian = _transactionService.GetCustodian(_addTradeWindowVM.Custodian);
                 TransactionsBO newTrade = new TransactionsBO
                 {
-                    SecurityId = security.SecurityId,
+                    SecurityId = _addTradeWindowVM.SelectedSecurity.SecurityId,
                     Quantity = _addTradeWindowVM.Quantity,
                     Price = _addTradeWindowVM.Price,
                     TradeAmount = _addTradeWindowVM.TradeAmount,
@@ -50,7 +50,7 @@ namespace PortfolioAce.Commands
                     isCashTransaction = false,
                     FundId = _addTradeWindowVM.FundId,
                     TransactionTypeId = tradeType.TransactionTypeId,
-                    CurrencyId = security.CurrencyId,
+                    CurrencyId = _addTradeWindowVM.SelectedSecurity.CurrencyId,
                     Comment = "",
                     CustodianId = custodian.CustodianId
                 };

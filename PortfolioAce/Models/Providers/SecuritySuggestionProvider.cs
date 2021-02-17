@@ -23,7 +23,7 @@ namespace PortfolioAce.Models.Providers
         public IEnumerable<SecuritiesDIM> GetSuggestions(string filter)
         {
             if (string.IsNullOrWhiteSpace(filter)) return null;
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(500);
             return
                 SecurityList
                     .Where(security => security.Symbol.IndexOf(filter, StringComparison.CurrentCultureIgnoreCase) > -1)

@@ -44,6 +44,26 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        private SecuritiesDIM _SelectedSecurity;
+        public SecuritiesDIM SelectedSecurity
+        {
+            get
+            {
+                return _SelectedSecurity;
+            }
+            set
+            {
+                _SelectedSecurity = value;
+                _validationErrors.ClearErrors(nameof(SelectedSecurity));
+                if (_SelectedSecurity== null)
+                {
+                    _validationErrors.AddError(nameof(SelectedSecurity), $"This Security is not recognised.");
+                }
+                OnPropertyChanged(nameof(SelectedSecurity));
+                OnPropertyChanged(nameof(TradeCurrency));
+            }
+        }
+
         public int FundId
         {
             get
@@ -70,43 +90,6 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        private string _symbol;
-        public string Symbol
-        {
-            get
-            {
-                return _symbol;
-            }
-            set
-            {
-                _symbol = value;
-                _validationErrors.ClearErrors(nameof(Symbol));
-                if (!_transactionService.SecurityExists(_symbol))
-                {
-                    _validationErrors.AddError(nameof(Symbol), $"The Security '{_symbol}' does not exist");
-                    _securityName = "";
-                }
-                else
-                {
-                    SecuritiesDIM security = _transactionService.GetSecurityInfo(Symbol);
-                    string assetClass = security.AssetClass.Name;
-                    if (assetClass == "Cash")
-                    {
-                        _validationErrors.AddError(nameof(Symbol), $"Cash purchases/sales not yet supported");
-                    }
-                    else
-                    {
-                        _securityName = security.SecurityName;
-                    }
-                }
-                // I can check the Database for the value,
-                // and if it exists prefill the currency field
-                // if not raise exception
-                OnPropertyChanged(nameof(Symbol));
-                OnPropertyChanged(nameof(TradeCurrency));
-                OnPropertyChanged(nameof(SecurityName));
-            }
-        }
 
         private decimal _quantity;
         public decimal Quantity
@@ -172,16 +155,11 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                //this should be based on the security symbol
-                if (Symbol == null)
+                if(_SelectedSecurity != null)
                 {
-                    return null;
+                    return _SelectedSecurity.Currency.Symbol;
                 }
-                else
-                {
-                    var res = _transactionService.GetSecurityInfo(Symbol);
-                    return (res != null) ? res.Currency.Symbol : null;
-                }
+                return null;
             }
             private set
             {
@@ -314,14 +292,6 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        private string _securityName;
-        public string SecurityName
-        {
-            get
-            {
-                return _securityName;
-            }
-        }
 
         public List<string> cmbTradeType
         {
