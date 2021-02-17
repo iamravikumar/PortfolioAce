@@ -42,13 +42,16 @@ namespace PortfolioAce.Models.Providers
             return GetSuggestions(filter);
         }
 
-        public SecuritySuggestionProvider()
+        public SecuritySuggestionProvider(IEnumerable<SecuritiesDIM> sec)
         {
+            /*
             IEnumerable<SecuritiesDIM> securities = new List<SecuritiesDIM> { 
                                                     new SecuritiesDIM { SecurityName="Advanced Micro Devices", Symbol="AMD"},
                                                     new SecuritiesDIM { SecurityName="Apple", Symbol="AAPL"}
-                                                    }; // i need a way to pass in the list of securities....
+                                                    }; // i need a way to pass in the list of securities.... 
             SecurityList = securities;
+            */
+            SecurityList = sec;
         }
     }
 }

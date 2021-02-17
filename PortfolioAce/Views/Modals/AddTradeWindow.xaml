@@ -4,12 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:acb="http://wpfcontrols.com/"
+        xmlns:src="clr-namespace:PortfolioAce.Models"
         xmlns:providers="clr-namespace:PortfolioAce.Models.Providers"
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         mc:Ignorable="d"
         Title="Create a New Trade" Height="500" Width="410">
     <Window.Resources>
-        <providers:SecuritySuggestionProvider x:Key="SecuritySuggestionProvider"/>
+        <src:ProviderWithParameterConverter x:Key="ProviderWithParameterConverter"/>
+        <!--<providers:SecuritySuggestionProvider x:Key="SecuritySuggestionProvider"/>-->
         <DataTemplate x:Key="SecurityTemplate">
             <Grid>
                 <StackPanel Orientation="Vertical">
@@ -117,7 +119,7 @@
                                                  DisplayMember="Name"
                                                  Height="26"
                                                  Margin="0,0,6,0"
-                                                 Provider="{StaticResource ResourceKey=SecuritySuggestionProvider}"
+                                                 Provider="{Binding SecuritiesList, Converter={StaticResource ProviderWithParameterConverter}}"
                                                  ItemTemplate="{StaticResource ResourceKey=SecurityTemplate}"
                                                  LoadingContent="{StaticResource LoadingContent}"
                                                  SelectedItem="{Binding Symbol, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
