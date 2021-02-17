@@ -146,6 +146,7 @@ Project Link: [https://github.com/RamonWill/PortfolioAce](https://github.com/Ram
 * [SingletonSean YT](https://www.youtube.com/channel/UC7X9mQ_XtTYWzr9Tf_NYcIg)
 * [DataGridExtensions](https://github.com/dotnet/DataGridExtensions)
 * [Material Desing in XAML](http://materialdesigninxaml.net/)
+* [WPF AutoComplete TextBox](https://github.com/quicoli/WPF-AutoComplete-TextBox)
 
 
 <!-- Screenshot -->
