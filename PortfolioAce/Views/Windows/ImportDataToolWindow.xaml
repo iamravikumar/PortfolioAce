@@ -5,8 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Windows"
         mc:Ignorable="d"
-        Title="Data Import Tool" Height="540" Width="500">
-    <Grid>
-        
+        Title="Data Import Tool" Height="500" Width="600">
+    <Grid Margin="3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0">
+            <TextBox Text="Hidden Leaf Fund"  FontSize="20" FontWeight="Bold"/>
+            <Label Content="HLF" FontSize="20" FontWeight="Bold"/>
+            <!--Combobox user can load Transactions, securities, prices, What Are you loading?-->
+            <ComboBox FontSize="18" FontWeight="Bold"/>
+        </StackPanel>
+        <Label Content="{Binding CurrentFileDescription, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="10,0,0,0" />
+        <Border Grid.Column="0" Grid.Row="1" Background="#fafafa" Grid.ColumnSpan="3" AllowDrop="True" 
+                Grid.RowSpan="2" Margin="10" BorderThickness="3" CornerRadius="10">
+            <Border.BorderBrush>
+                <VisualBrush>
+                    <VisualBrush.Visual>
+                        <Rectangle StrokeDashArray="4 2" Stroke="DarkGray" StrokeThickness="2" Margin="3"
+                  Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualWidth}"
+                  Height="{Binding RelativeSource={RelativeSource AncestorType={x:Type Border}}, Path=ActualHeight}"/>
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </Border.BorderBrush>
+            <StackPanel Orientation="Vertical">
+                <Image Source="/PortfolioAce;component/Resources\icons8-csv-40.png" Cursor="Hand" Width="40" HorizontalAlignment="Center" Margin="0,30,0,5">
+                    <Image.InputBindings>
+                        <MouseBinding Gesture="LeftClick" Command="{Binding BrowseWindowExplorerCommand, Mode=OneTime}" />
+                    </Image.InputBindings>
+                </Image>
+                <Label Content="Select a CSV file to import" HorizontalAlignment="Center" FontWeight="Bold" FontSize="16"/>
+                <Label Content="or drag and drop it here" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

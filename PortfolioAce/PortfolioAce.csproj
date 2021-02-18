@@ -16,6 +16,7 @@
     <None Remove="Resources\icons8-communication-24.png" />
     <None Remove="Resources\icons8-connection-16.png" />
     <None Remove="Resources\icons8-cross-24.png" />
+    <None Remove="Resources\icons8-csv-40.png" />
     <None Remove="Resources\icons8-date-of-birth-24.png" />
     <None Remove="Resources\icons8-deleteTrade-24.png" />
     <None Remove="Resources\icons8-device-manager-24.png" />
@@ -85,6 +86,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\icons8-connection-16.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\icons8-csv-40.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\icons8-date-of-birth-24.png">

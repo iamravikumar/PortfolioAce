@@ -138,7 +138,7 @@ namespace PortfolioAce.ViewModels.Factories
         public void CreateImportDataToolWindow()
         {
             Window view = new ImportDataToolWindow();
-            ViewModelWindowBase viewModel = new ImportDataToolViewModel();
+            ViewModelWindowBase viewModel = new ImportDataToolViewModel(_staticReferences);
             view = ApplyWindowAttributes(view, viewModel);
             view.ShowDialog();
         }

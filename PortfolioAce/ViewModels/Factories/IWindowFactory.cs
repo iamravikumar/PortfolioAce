@@ -30,5 +30,6 @@ namespace PortfolioAce.ViewModels.Factories
         void CreateNewInvestorWindow();
         void CreateSecurityManagerWindow();
         void CreateAboutWindow();
+
     }
 }
