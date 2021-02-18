@@ -135,10 +135,10 @@ namespace PortfolioAce.ViewModels.Factories
             view.ShowDialog();
         }
 
-        public void CreateImportTradesWindow()
+        public void CreateImportDataToolWindow()
         {
-            Window view = new ImportTradesWindow();
-            ViewModelWindowBase viewModel = new ImportTradesViewModel();
+            Window view = new ImportDataToolWindow();
+            ViewModelWindowBase viewModel = new ImportDataToolViewModel();
             view = ApplyWindowAttributes(view, viewModel);
             view.ShowDialog();
         }

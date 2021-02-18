@@ -24,7 +24,7 @@ namespace PortfolioAce.ViewModels.Factories
         void CreatePositionDetailsWindows(ValuedSecurityPosition position, Fund fund);
 
 
-        void CreateImportTradesWindow();
+        void CreateImportDataToolWindow();
         void CreateSettingsWindow();
         void CreateNewFundWindow();
         void CreateNewInvestorWindow();

@@ -3,11 +3,11 @@
 namespace PortfolioAce.Views.Windows
 {
     /// <summary>
-    /// Interaction logic for ImportTradesWindow.xaml
+    /// Interaction logic for ImportDataToolWindow.xaml
     /// </summary>
-    public partial class ImportTradesWindow : Window
+    public partial class ImportDataToolWindow : Window
     {
-        public ImportTradesWindow()
+        public ImportDataToolWindow()
         {
             InitializeComponent();
         }

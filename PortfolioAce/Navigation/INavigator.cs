@@ -19,7 +19,7 @@ namespace PortfolioAce.Navigation
         void ShowSettingsWindow();
         void ShowNewFundWindow();
         void ShowAboutWindow();
-        void ShowImportTradesWindow();
+        void ShowImportDataToolWindow();
         void ShowNewInvestorWindow();
         void ShowSecurityManagerWindow();
     }

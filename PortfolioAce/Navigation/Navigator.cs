@@ -21,7 +21,7 @@ namespace PortfolioAce.Navigation
             ShowNewFundCommand = new ActionCommand(ShowNewFundWindow);
             ShowSecurityManagerCommand = new ActionCommand(ShowSecurityManagerWindow);
             ShowAboutCommand = new ActionCommand(ShowAboutWindow);
-            ShowImportTradesCommand = new ActionCommand(ShowImportTradesWindow);
+            ShowImportDataToolCommand = new ActionCommand(ShowImportDataToolWindow);
             CloseApplicationCommand = new ActionCommand(CloseApplication);
             ShowNewInvestorCommand = new ActionCommand(ShowNewInvestorWindow);
         }
@@ -31,7 +31,7 @@ namespace PortfolioAce.Navigation
         public ICommand ShowSettingsCommand { get; }
         public ICommand ShowNewFundCommand { get; }
         public ICommand ShowAboutCommand { get; }
-        public ICommand ShowImportTradesCommand { get; }
+        public ICommand ShowImportDataToolCommand { get; }
         public ICommand ShowSecurityManagerCommand { get; set; }
         public ICommand ShowNewInvestorCommand { get; set; }
 
@@ -54,9 +54,9 @@ namespace PortfolioAce.Navigation
         {
             Application.Current.MainWindow.Close();
         }
-        public void ShowImportTradesWindow()
+        public void ShowImportDataToolWindow()
         {
-            _windowFactory.CreateImportTradesWindow();
+            _windowFactory.CreateImportDataToolWindow();
         }
 
         public void ShowSettingsWindow()

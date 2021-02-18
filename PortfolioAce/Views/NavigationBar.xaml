@@ -53,7 +53,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="Import Trades..." Command="{Binding ShowImportTradesCommand}">
+                <MenuItem Header="Import Data..." Command="{Binding ShowImportDataToolCommand}">
                     <MenuItem.Icon>
                         <Image Source="/PortfolioAce;component/Resources\icons8-import-csv-24.png"/>
                     </MenuItem.Icon>

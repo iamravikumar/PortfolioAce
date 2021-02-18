@@ -2,7 +2,7 @@
 
 namespace PortfolioAce.ViewModels.Windows
 {
-    public class ImportTradesViewModel : ViewModelWindowBase
+    public class ImportDataToolViewModel : ViewModelWindowBase
     {
     }
 }
