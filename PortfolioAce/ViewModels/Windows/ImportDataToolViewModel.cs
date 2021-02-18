@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
 using PortfolioAce.Navigation;
@@ -18,7 +19,19 @@ namespace PortfolioAce.ViewModels.Windows
         public ImportDataToolViewModel(IStaticReferences staticReferences)
         {
             _staticReferences = staticReferences;
+            _cmbLoadTypes = new List<string> { "Transactions", "Prices", "Securities" };
+            _selectedLoadType = _cmbLoadTypes[0];
             BrowseWindowExplorerCommand = new ActionCommand(SelectCSVFile);
+            _allFunds = _staticReferences.GetAllFundsReference();
+        }
+
+        private List<Fund> _allFunds;
+        public List<Fund> FundList
+        {
+            get
+            {
+                return _allFunds;
+            }
         }
 
         public ICommand BrowseWindowExplorerCommand { get; set; }
@@ -53,13 +66,43 @@ namespace PortfolioAce.ViewModels.Windows
             }
         }
 
+        private readonly List<string> _cmbLoadTypes;
         public List<string> cmbLoadTypes
         {
             get
             {
-                return new List<string> {"Transactions", "Prices", "Securities" };
+                return _cmbLoadTypes;
             }
         }
+
+        private string _selectedLoadType;
+        public string SelectedLoadType
+        {
+            get
+            {
+                return _selectedLoadType;
+            }
+            set
+            {
+                _selectedLoadType = value;
+                OnPropertyChanged(nameof(SelectedLoadType));
+            }
+        }
+
+        private Fund _selectedFund;
+        public Fund SelectedFund
+        {
+            get
+            {
+                return _selectedFund;
+            }
+            set
+            {
+                _selectedFund = value;
+                OnPropertyChanged(nameof(SelectedFund));
+            }
+        }
+
 
         private void SelectCSVFile()
         {

@@ -202,5 +202,13 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
 
             }
         }
+
+        public List<Fund> GetAllFundsReference()
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.Funds.ToList();
+            }
+        }
     }
 }

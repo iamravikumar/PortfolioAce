@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models.Dimensions;
+﻿using PortfolioAce.Domain.Models;
+using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.Models.Providers;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,17 @@ namespace PortfolioAce.Models
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             // unorthodox but i could create a factory for doing this...
-            IEnumerable<SecuritiesDIM> x = (List<SecuritiesDIM>)value;
-            return new SecuritySuggestionProvider(x);
+            if(value is IEnumerable<SecuritiesDIM>)
+            {
+                IEnumerable<SecuritiesDIM> ListOfSecurities = (List<SecuritiesDIM>)value;
+                return new SecuritySuggestionProvider(ListOfSecurities);
+            }
+            else if(value is IEnumerable<Fund>)
+            {
+                IEnumerable<Fund> ListOfFunds = (List<Fund>)value;
+                return new FundSuggestionProvider(ListOfFunds);
+            }
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

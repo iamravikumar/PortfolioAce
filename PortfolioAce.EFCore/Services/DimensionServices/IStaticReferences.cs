@@ -30,5 +30,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         AccountingPeriodsDIM GetPeriod(DateTime dateTime, int fundId);
         public bool PreviousPeriodLocked(DateTime dateTime, int fundId);
         public DateTime GetMostRecentLockedDate(int fundId);
+
+        List<Fund> GetAllFundsReference(); //list of funds without eager loading..
     }
 }

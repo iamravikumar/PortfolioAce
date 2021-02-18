@@ -3,12 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:acb="http://wpfcontrols.com/"
+        xmlns:providers="clr-namespace:PortfolioAce.Models.Providers"
         xmlns:src="clr-namespace:PortfolioAce.Models"
         xmlns:local="clr-namespace:PortfolioAce.Views.Windows"
         mc:Ignorable="d"
         Title="Data Import Tool" Height="500" Width="600">
     <Window.Resources>
         <src:FileDragDropHelper x:Key="FileDragDropHelper"/>
+        <src:ProviderWithParameterConverter x:Key="ProviderWithParameterConverter"/>
+        <DataTemplate x:Key="FundTemplate">
+            <Grid>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="{Binding Path=Symbol}" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Path=FundName}" FontSize="10"/>
+                    <Separator/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <TextBlock x:Key="LoadingContent" Text="Loading..." Margin="5" FontSize="14" />
     </Window.Resources>
     <Grid Margin="3">
         <Grid.ColumnDefinitions>
@@ -23,11 +36,26 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0">
-            <TextBox Text="Hidden Leaf Fund"  FontSize="20" FontWeight="Bold"/>
-            <Label Content="HLF" FontSize="20" FontWeight="Bold"/>
-            <!--Combobox user can load Transactions, securities, prices, What Are you loading?-->
-            <ComboBox FontSize="18" FontWeight="Bold"/> <!--Dont forget to include a tooltip for this.-->
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="10,2,0,0">
+            <acb:AutoCompleteTextBox HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="1" CharacterCasing="Upper" DisplayMember="FundName"  
+                                                 Margin="0,0,0,2"
+                                                 Provider="{Binding FundList, Converter={StaticResource ProviderWithParameterConverter}}"
+                                                 ItemTemplate="{StaticResource ResourceKey=FundTemplate}"
+                                                 LoadingContent="{StaticResource LoadingContent}"
+                                                 SelectedItem="{Binding SelectedFund, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                 Watermark="Search for a fund..." FontSize="16" FontWeight="Bold">
+            </acb:AutoCompleteTextBox>
+            <Label Content="{Binding SelectedFund.Symbol}" FontSize="14" FontWeight="Bold" Foreground="DimGray"/>
+            <ComboBox ItemsSource="{Binding cmbLoadTypes}" SelectedItem="{Binding Path=SelectedLoadType, UpdateSourceTrigger=PropertyChanged}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding }" FontSize="14" FontWeight="SemiBold"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <ComboBox.ToolTip>
+                    Select the type of data you want to import
+                </ComboBox.ToolTip>
+            </ComboBox>
         </StackPanel>
         <Label Content="{Binding CurrentFileDescription, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="10,0,0,0" />
         <Border Grid.Column="0" Grid.Row="1" Background="#fafafa" Grid.ColumnSpan="3" AllowDrop="True" 
