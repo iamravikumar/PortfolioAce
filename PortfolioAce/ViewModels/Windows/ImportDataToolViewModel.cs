@@ -50,6 +50,8 @@ namespace PortfolioAce.ViewModels.Windows
                 }
                 OnPropertyChanged(nameof(TargetFile));
                 OnPropertyChanged(nameof(CurrentFileDescription));
+                OnPropertyChanged(nameof(ShowLoadButton));
+                OnPropertyChanged(nameof(LoadButtonEnabled));
             }
         }
 
@@ -92,6 +94,8 @@ namespace PortfolioAce.ViewModels.Windows
                 OnPropertyChanged(nameof(SelectedLoadType));
                 OnPropertyChanged(nameof(CurrentTemplate));
                 OnPropertyChanged(nameof(CurrentFileDescription));
+                OnPropertyChanged(nameof(ShowLoadButton));
+                OnPropertyChanged(nameof(LoadButtonEnabled));
             }
         }
 
@@ -121,6 +125,8 @@ namespace PortfolioAce.ViewModels.Windows
             {
                 _currentTemplate = value;
                 OnPropertyChanged(nameof(CurrentTemplate));
+                OnPropertyChanged(nameof(ShowLoadButton));
+                OnPropertyChanged(nameof(LoadButtonEnabled));
             }
         }
 
@@ -128,7 +134,7 @@ namespace PortfolioAce.ViewModels.Windows
         {
             get
             {
-                return (CurrentTemplate!="ImportBox");
+                return (CurrentTemplate!="ImportBox" && CurrentTemplate!=null);
             }
         }
 
