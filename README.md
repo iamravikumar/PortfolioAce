@@ -85,6 +85,7 @@ This is an example of how to list things you need to use the software and how to
 All dependencies are available via the NuGet package manager:
 * LiveCharts
 * ServiceStack
+* CsvHelper
 * DataGridExtensions
 * MaterialDesignThemes
 * MaterialDesignExtension
