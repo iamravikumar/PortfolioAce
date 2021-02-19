@@ -20,7 +20,6 @@ namespace PortfolioAce.ViewModels.Windows
         {
             _staticReferences = staticReferences;
             _cmbLoadTypes = new List<string> { "Transactions", "Prices", "Securities" };
-            _selectedLoadType = _cmbLoadTypes[0];
             BrowseWindowExplorerCommand = new ActionCommand(SelectCSVFile);
             _allFunds = _staticReferences.GetAllFundsReference();
         }
@@ -45,7 +44,10 @@ namespace PortfolioAce.ViewModels.Windows
             }
             set
             {
-                _targetFile = value;
+                if(value != null)
+                {
+                    _targetFile = value;
+                }
                 OnPropertyChanged(nameof(TargetFile));
                 OnPropertyChanged(nameof(CurrentFileDescription));
             }
@@ -85,7 +87,11 @@ namespace PortfolioAce.ViewModels.Windows
             set
             {
                 _selectedLoadType = value;
+                _currentTemplate = "ImportBox";
+                _targetFile = null;
                 OnPropertyChanged(nameof(SelectedLoadType));
+                OnPropertyChanged(nameof(CurrentTemplate));
+                OnPropertyChanged(nameof(CurrentFileDescription));
             }
         }
 
@@ -103,6 +109,36 @@ namespace PortfolioAce.ViewModels.Windows
             }
         }
 
+        private string _currentTemplate;
+        public string CurrentTemplate
+        {
+            // TODO: Make this an enum. this needs refactoring though
+            get
+            {
+                return _currentTemplate;
+            }
+            set
+            {
+                _currentTemplate = value;
+                OnPropertyChanged(nameof(CurrentTemplate));
+            }
+        }
+
+        public bool ShowLoadButton
+        {
+            get
+            {
+                return (CurrentTemplate!="ImportBox");
+            }
+        }
+
+        public bool LoadButtonEnabled
+        {
+            get
+            {
+                return (_currentTemplate != "ImportBox" && _targetFile!=null && _selectedFund!=null);
+            }
+        }
 
         private void SelectCSVFile()
         {
@@ -117,8 +153,8 @@ namespace PortfolioAce.ViewModels.Windows
                 if (file.Name.EndsWith(".csv"))
                 {
                     TargetFile = file;
+                    SetTemplate();
                 }
-
             }
         }
         public void OnFileDrop(string[] filepaths)
@@ -130,7 +166,29 @@ namespace PortfolioAce.ViewModels.Windows
                 {
                     FileInfo file = new FileInfo(fileName);
                     TargetFile = file;
+                    SetTemplate();
                 }
+            }
+        }
+
+        private void SetTemplate()
+        {
+            //"Transactions", "Prices", "Securities"
+            switch (_selectedLoadType)
+            {
+                case "Transactions":
+                    CurrentTemplate = "TransactionsDataGrid";
+                    break;
+                case "Prices":
+                    CurrentTemplate = "PricesDataGrid";
+                    break;
+                case "Securities":
+                    CurrentTemplate = "SecuritiesDataGrid";
+                    break;
+                default:
+                    CurrentTemplate = "ImportBox";
+                    TargetFile = null;
+                    break;
             }
         }
     }

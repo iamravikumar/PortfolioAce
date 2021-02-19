@@ -71,6 +71,17 @@
                     </VisualBrush.Visual>
                 </VisualBrush>
             </Border.BorderBrush>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
+                         Value="ImportBox">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
             <StackPanel Orientation="Vertical">
                 <Image Source="/PortfolioAce;component/Resources\icons8-csv-40.png" Cursor="Hand" Width="40" HorizontalAlignment="Center" Margin="0,30,0,5">
                     <Image.InputBindings>
@@ -81,5 +92,56 @@
                 <Label Content="or drag and drop it here" HorizontalAlignment="Center"/>
             </StackPanel>
         </Border>
+        <DataGrid Name="TransactionsDataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" RowBackground="White" AlternatingRowBackground="#e8ffec" Margin="3"
+                  VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Transactions"/>
+            </DataGrid.Columns>
+            <DataGrid.Style>
+                <Style TargetType="DataGrid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
+                         Value="TransactionsDataGrid">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
+        </DataGrid>
+        <DataGrid Name="PricesDataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" RowBackground="White" AlternatingRowBackground="#e8ffec" Margin="3"
+                  VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Prices"/>
+            </DataGrid.Columns>
+            <DataGrid.Style>
+                <Style TargetType="DataGrid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
+                         Value="PricesDataGrid">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
+        </DataGrid>
+        <DataGrid Name="SecuritiesDataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" RowBackground="White" AlternatingRowBackground="#e8ffec" Margin="3"
+                  VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Securities"/>
+            </DataGrid.Columns>
+            <DataGrid.Style>
+                <Style TargetType="DataGrid">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
+                         Value="SecuritiesDataGrid">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Style>
+        </DataGrid>
     </Grid>
 </Window>

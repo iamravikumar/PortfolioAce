@@ -207,7 +207,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Funds.ToList();
+                return context.Funds.Where(f=>f.IsInitialised).ToList();
             }
         }
     }
