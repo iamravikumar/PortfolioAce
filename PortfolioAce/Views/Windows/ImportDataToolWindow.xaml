@@ -59,7 +59,7 @@
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="10,0,0,0" >
             <Label Content="{Binding CurrentFileDescription, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5" />
-            <Button Width="100" FontSize="12" Content="Read CSV" Margin="1" HorizontalAlignment="Left" IsEnabled="{Binding LoadButtonEnabled}">
+            <Button Width="100" FontSize="12" Content="Read CSV" Margin="1" HorizontalAlignment="Left" IsEnabled="{Binding LoadButtonEnabled}" Command="{Binding ExtractCSV}">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Visibility" Value="Collapsed"/>

@@ -7,6 +7,7 @@ using PortfolioAce.ViewModels.Factories;
 using PortfolioAce.ViewModels.Modals;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
 
@@ -21,6 +22,7 @@ namespace PortfolioAce.ViewModels.Windows
             _staticReferences = staticReferences;
             _cmbLoadTypes = new List<string> { "Transactions", "Prices", "Securities" };
             BrowseWindowExplorerCommand = new ActionCommand(SelectCSVFile);
+            ExtractFromCSVCommand = new ActionCommand(ExtractCSV);
             _allFunds = _staticReferences.GetAllFundsReference();
         }
 
@@ -33,6 +35,7 @@ namespace PortfolioAce.ViewModels.Windows
             }
         }
 
+        public ICommand ExtractFromCSVCommand {get;set;}
         public ICommand BrowseWindowExplorerCommand { get; set; }
 
         private FileInfo _targetFile;
@@ -175,6 +178,11 @@ namespace PortfolioAce.ViewModels.Windows
                     SetTemplate();
                 }
             }
+        }
+
+        private void ExtractCSV()
+        {
+            Debug.Write(_currentTemplate);
         }
 
         private void SetTemplate()
