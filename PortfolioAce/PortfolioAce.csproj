@@ -199,8 +199,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="HelperObjects\DeserialisedCSVObjects\" />
-  </ItemGroup>
-
 </Project>
