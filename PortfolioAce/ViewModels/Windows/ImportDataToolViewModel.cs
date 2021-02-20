@@ -1,14 +1,18 @@
-﻿using Microsoft.Win32;
+﻿using CsvHelper;
+using Microsoft.Win32;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services.DimensionServices;
+using PortfolioAce.HelperObjects.DeserialisedCSVObjects;
 using PortfolioAce.Models;
 using PortfolioAce.Navigation;
 using PortfolioAce.ViewModels.Factories;
 using PortfolioAce.ViewModels.Modals;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.ViewModels.Windows
@@ -24,6 +28,9 @@ namespace PortfolioAce.ViewModels.Windows
             BrowseWindowExplorerCommand = new ActionCommand(SelectCSVFile);
             ExtractFromCSVCommand = new ActionCommand(ExtractCSV);
             _allFunds = _staticReferences.GetAllFundsReference();
+            dgCSVPrices = new ObservableCollection<PriceImportDataCSV>();
+            dgCSVSecurities = new ObservableCollection<SecurityImportDataCSV>();
+            dgCSVTransactions = new ObservableCollection<TransactionImportDataCSV>();
         }
 
         private List<Fund> _allFunds;
@@ -99,6 +106,7 @@ namespace PortfolioAce.ViewModels.Windows
                 OnPropertyChanged(nameof(CurrentFileDescription));
                 OnPropertyChanged(nameof(ShowLoadButton));
                 OnPropertyChanged(nameof(LoadButtonEnabled));
+                ClearCollections();
             }
         }
 
@@ -149,6 +157,10 @@ namespace PortfolioAce.ViewModels.Windows
             }
         }
 
+        public ObservableCollection<PriceImportDataCSV> dgCSVPrices { get; set; }
+        public ObservableCollection<TransactionImportDataCSV> dgCSVTransactions { get; set; }
+        public ObservableCollection<SecurityImportDataCSV> dgCSVSecurities { get; set; }
+
         private void SelectCSVFile()
         {
             // TODO: this violates MVVM but i cannot think of better solution at the moment. since this is technically a dialog on top of a dialog
@@ -166,6 +178,7 @@ namespace PortfolioAce.ViewModels.Windows
                 }
             }
         }
+
         public void OnFileDrop(string[] filepaths)
         {
             if (filepaths.Length == 1)
@@ -182,7 +195,60 @@ namespace PortfolioAce.ViewModels.Windows
 
         private void ExtractCSV()
         {
-            Debug.Write(_currentTemplate);
+            if(_selectedFund != null)
+            {
+                // "Transactions", "Prices", "Securities"
+                // try catch, need to catch the IOExceptionif file is used by another process
+                // if records are empty then theres an issue
+                ClearCollections();
+                using (var reader = new StreamReader(_targetFile.FullName))
+                using (var csv = new CsvReader(reader, CultureInfo.CurrentCulture))
+                {
+                    if(_selectedLoadType == "Transactions")
+                    {
+                        var records = csv.GetRecords<TransactionImportDataCSV>();
+                        foreach (TransactionImportDataCSV record in records)
+                        {
+                            dgCSVTransactions.Add(record);
+                        }
+                    }
+                    else if(_selectedLoadType == "Prices")
+                    {
+                        IEnumerable<PriceImportDataCSV> records = csv.GetRecords<PriceImportDataCSV>();
+                        // if there are no records then raise messagebox, this could also be due to an invalid file.
+                        foreach(PriceImportDataCSV record in records)
+                        {
+                            dgCSVPrices.Add(record);
+                        }
+                    }
+                    else if (_selectedLoadType == "Securities")
+                    {
+                        var records = csv.GetRecords<SecurityImportDataCSV>();
+                        foreach (SecurityImportDataCSV record in records)
+                        {
+                            dgCSVSecurities.Add(record);
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("The load type is not recognised.");
+                    }
+                }
+                
+            }
+            else
+            {
+                MessageBox.Show("You need to select a valid fund");
+            }
+
+        }
+
+        private void ClearCollections()
+        {
+            dgCSVPrices.Clear();
+            dgCSVSecurities.Clear();
+            dgCSVTransactions.Clear();
         }
 
         private void SetTemplate()

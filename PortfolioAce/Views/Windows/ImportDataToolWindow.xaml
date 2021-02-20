@@ -59,7 +59,7 @@
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="10,0,0,0" >
             <Label Content="{Binding CurrentFileDescription, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5" />
-            <Button Width="100" FontSize="12" Content="Read CSV" Margin="1" HorizontalAlignment="Left" IsEnabled="{Binding LoadButtonEnabled}" Command="{Binding ExtractCSV}">
+            <Button Width="100" FontSize="12" Content="Read CSV" Margin="1" HorizontalAlignment="Left" IsEnabled="{Binding LoadButtonEnabled}" Command="{Binding ExtractFromCSVCommand}">
                 <Button.Style>
                     <Style TargetType="Button">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -108,19 +108,19 @@
             </StackPanel>
         </Border>
         <DataGrid Name="TransactionsDataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" RowBackground="White" AlternatingRowBackground="#e8ffec" Margin="3"
-                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding dgCSVTransactions, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Transaction Type"/>
-                <DataGridTextColumn Header="Security Symbol"/>
-                <DataGridTextColumn Header="Quantity"/>
-                <DataGridTextColumn Header="Price"/>
-                <DataGridTextColumn Header="TradeDate"/>
-                <DataGridTextColumn Header="SettleDate"/>
-                <DataGridTextColumn Header="Fees"/>
-                <DataGridTextColumn Header="Currency"/>
-                <DataGridTextColumn Header="Custodian"/>
-                <DataGridTextColumn Header="Fund"/>
-                <DataGridTextColumn Header="Comment"/>
+                <DataGridTextColumn Header="Transaction Type" Binding="{Binding TransactionType}"/>
+                <DataGridTextColumn Header="Security Symbol" Binding="{Binding SecuritySymbol}"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
+                <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate}"/>
+                <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate}"/>
+                <DataGridTextColumn Header="Fees" Binding="{Binding Fees}"/>
+                <DataGridTextColumn Header="Currency" Binding="{Binding Currency}"/>
+                <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian}"/>
+                <DataGridTextColumn Header="FundSymbol" Binding="{Binding FundSymbol}"/>
+                <DataGridTextColumn Header="Comment" Binding="{Binding Comment}"/>
             </DataGrid.Columns>
 
             <DataGrid.Style>
@@ -136,13 +136,13 @@
             </DataGrid.Style>
         </DataGrid>
         <DataGrid Name="PricesDataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" RowBackground="White" AlternatingRowBackground="#e8ffec" Margin="3"
-                  VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                  VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding dgCSVPrices, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Security Symbol"/>
-                <DataGridTextColumn Header="Date"/>
-                <DataGridTextColumn Header="Close Price"/>
+                <DataGridTextColumn Header="Security Symbol" Binding="{Binding SecuritySymbol}"/>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}"/>
+                <DataGridTextColumn Header="Close Price" Binding="{Binding ClosePrice}"/>
                 <!-- The price source will be set to manual automatically -->
-                <DataGridTextColumn Header="Price Source"/>
+                <DataGridTextColumn Header="Price Source" Binding="{Binding PriceSource, Mode=OneWay}"/>
             </DataGrid.Columns>
             <DataGrid.Style>
                 <Style TargetType="DataGrid">
@@ -157,15 +157,15 @@
             </DataGrid.Style>
         </DataGrid>
         <DataGrid Name="SecuritiesDataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" RowBackground="White" AlternatingRowBackground="#e8ffec" Margin="3"
-                  VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False">
+                  VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding dgCSVSecurities, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Asset Class"/>
-                <DataGridTextColumn Header="Name"/>
-                <DataGridTextColumn Header="Symbol"/>
-                <DataGridTextColumn Header="Currency"/>
-                <DataGridTextColumn Header="ISIN"/>
-                <DataGridTextColumn Header="AV Symbol"/>
-                <DataGridTextColumn Header="FMP Symbol"/>
+                <DataGridTextColumn Header="Asset Class" Binding="{Binding AssetClass}"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}"/>
+                <DataGridTextColumn Header="Currency" Binding="{Binding  Currency}"/>
+                <DataGridTextColumn Header="ISIN" Binding="{Binding ISIN}"/>
+                <DataGridTextColumn Header="AV Symbol" Binding="{Binding AVSymbol}"/>
+                <DataGridTextColumn Header="FMP Symbol" Binding="{Binding FMPSymbol}"/>
             </DataGrid.Columns>
             <DataGrid.Style>
                 <Style TargetType="DataGrid">
