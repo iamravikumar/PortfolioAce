@@ -1,6 +1,8 @@
 ﻿using CsvHelper;
 using Microsoft.Win32;
+using PortfolioAce.Commands.ImportCommands;
 using PortfolioAce.Domain.Models;
+using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.HelperObjects.DeserialisedCSVObjects;
 using PortfolioAce.Models;
@@ -21,12 +23,15 @@ namespace PortfolioAce.ViewModels.Windows
     {
 
         private IStaticReferences _staticReferences;
-        public ImportDataToolViewModel(IStaticReferences staticReferences)
+        public ImportDataToolViewModel(IStaticReferences staticReferences, IAdminService adminService)
         {
             _staticReferences = staticReferences;
             _cmbLoadTypes = new List<string> { "Transactions", "Prices", "Securities" };
             BrowseWindowExplorerCommand = new ActionCommand(SelectCSVFile);
             ExtractFromCSVCommand = new ActionCommand(ExtractCSV);
+            ImportPriceCommand = new ImportPriceCommand(this, staticReferences, adminService);
+            ImportSecuritiesCommand = new ImportSecuritiesCommand(this, staticReferences, adminService);
+
             _allFunds = _staticReferences.GetAllFundsReference();
             dgCSVPrices = new ObservableCollection<PriceImportDataCSV>();
             dgCSVSecurities = new ObservableCollection<SecurityImportDataCSV>();
@@ -42,6 +47,8 @@ namespace PortfolioAce.ViewModels.Windows
             }
         }
 
+        public ICommand ImportSecuritiesCommand { get; set; }
+        public ICommand ImportPriceCommand { get; set; }
         public ICommand ExtractFromCSVCommand {get;set;}
         public ICommand BrowseWindowExplorerCommand { get; set; }
 
@@ -193,6 +200,7 @@ namespace PortfolioAce.ViewModels.Windows
             }
         }
 
+        
         private void ExtractCSV()
         {
             if(_selectedFund != null)
@@ -243,6 +251,8 @@ namespace PortfolioAce.ViewModels.Windows
             }
 
         }
+
+
 
         private void ClearCollections()
         {

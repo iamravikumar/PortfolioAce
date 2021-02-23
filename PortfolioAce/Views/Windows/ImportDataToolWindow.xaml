@@ -156,6 +156,19 @@
                 </Style>
             </DataGrid.Style>
         </DataGrid>
+        <Button Content="Import Prices" Grid.Row="4" Grid.Column="1" Command="{Binding ImportPriceCommand}" Height="25" Width="100" IsEnabled="{Binding LoadButtonEnabled}" >
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
+                         Value="PricesDataGrid">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
         <DataGrid Name="SecuritiesDataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" RowBackground="White" AlternatingRowBackground="#e8ffec" Margin="3"
                   VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding dgCSVSecurities, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
@@ -179,5 +192,18 @@
                 </Style>
             </DataGrid.Style>
         </DataGrid>
+        <Button Content="Import Securities" Grid.Row="4" Grid.Column="1" Command="{Binding ImportSecuritiesCommand}" Height="25" Width="100" IsEnabled="{Binding LoadButtonEnabled}">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
+                         Value="SecuritiesDataGrid">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </Window>

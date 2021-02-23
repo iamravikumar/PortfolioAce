@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    class AddFundCommand : ICommand
+    public class AddFundCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
         private AddFundWindowViewModel _addFundWindowVM;
