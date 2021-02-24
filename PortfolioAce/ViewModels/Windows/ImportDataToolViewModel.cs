@@ -267,13 +267,13 @@ namespace PortfolioAce.ViewModels.Windows
             switch (_selectedLoadType)
             {
                 case "Transactions":
-                    CurrentTemplate = "TransactionsDataGrid";
+                    CurrentTemplate = "TransactionsDockPanel";
                     break;
                 case "Prices":
-                    CurrentTemplate = "PricesDataGrid";
+                    CurrentTemplate = "PricesDockPanel";
                     break;
                 case "Securities":
-                    CurrentTemplate = "SecuritiesDataGrid";
+                    CurrentTemplate = "SecuritiesDockPanel";
                     break;
                 default:
                     CurrentTemplate = "ImportBox";

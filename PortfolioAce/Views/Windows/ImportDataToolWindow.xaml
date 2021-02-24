@@ -59,9 +59,9 @@
         </StackPanel>
         <StackPanel Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Margin="10,0,0,0" >
             <Label Content="{Binding CurrentFileDescription, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,5" />
-            <Button Width="100" FontSize="12" Content="Read CSV" Margin="1" HorizontalAlignment="Left" IsEnabled="{Binding LoadButtonEnabled}" Command="{Binding ExtractFromCSVCommand}">
-                <Button.Style>
-                    <Style TargetType="Button">
+            <WrapPanel Margin="1">
+                <WrapPanel.Style>
+                    <Style TargetType="WrapPanel">
                         <Setter Property="Visibility" Value="Collapsed"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding ShowLoadButton,UpdateSourceTrigger=PropertyChanged}"
@@ -70,8 +70,9 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Button.Style>
-            </Button>
+                </WrapPanel.Style>
+                <Button Width="100" FontSize="12" Content="Read CSV" Margin="1" Style="{DynamicResource MaterialDesignFlatMidBgButton}"  HorizontalAlignment="Left" IsEnabled="{Binding LoadButtonEnabled}" Command="{Binding ExtractFromCSVCommand}"/>
+            </WrapPanel>
         </StackPanel>
         <Border Grid.Column="0" Grid.Row="1" Background="#fafafa" Grid.ColumnSpan="3" AllowDrop="True" 
                 Grid.RowSpan="2" Margin="10" BorderThickness="3" CornerRadius="10"
@@ -107,103 +108,87 @@
                 <Label Content="or drag and drop it here" HorizontalAlignment="Center"/>
             </StackPanel>
         </Border>
-        <DataGrid Name="TransactionsDataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" RowBackground="White" AlternatingRowBackground="#e8ffec" Margin="3"
+        <DockPanel Name="TransactionsDockPanel" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="3">
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
+                         Value="TransactionsDockPanel">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+            <DataGrid Name="TransactionsDataGrid" RowBackground="White" AlternatingRowBackground="#e8ffec"
                   VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding dgCSVTransactions, UpdateSourceTrigger=PropertyChanged}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Transaction Type" Binding="{Binding TransactionType}"/>
-                <DataGridTextColumn Header="Security Symbol" Binding="{Binding SecuritySymbol}"/>
-                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
-                <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
-                <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate}"/>
-                <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate}"/>
-                <DataGridTextColumn Header="Fees" Binding="{Binding Fees}"/>
-                <DataGridTextColumn Header="Currency" Binding="{Binding Currency}"/>
-                <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian}"/>
-                <DataGridTextColumn Header="FundSymbol" Binding="{Binding FundSymbol}"/>
-                <DataGridTextColumn Header="Comment" Binding="{Binding Comment}"/>
-            </DataGrid.Columns>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Transaction Type" Binding="{Binding TransactionType}"/>
+                    <DataGridTextColumn Header="Security Symbol" Binding="{Binding SecuritySymbol}"/>
+                    <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}"/>
+                    <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
+                    <DataGridTextColumn Header="Trade Date" Binding="{Binding TradeDate}"/>
+                    <DataGridTextColumn Header="Settle Date" Binding="{Binding SettleDate}"/>
+                    <DataGridTextColumn Header="Fees" Binding="{Binding Fees}"/>
+                    <DataGridTextColumn Header="Currency" Binding="{Binding Currency}"/>
+                    <DataGridTextColumn Header="Custodian" Binding="{Binding Custodian}"/>
+                    <DataGridTextColumn Header="FundSymbol" Binding="{Binding FundSymbol}"/>
+                    <DataGridTextColumn Header="Comment" Binding="{Binding Comment}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+        <DockPanel Name="PricesDockPanel" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="3" LastChildFill="True">
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
+                         Value="PricesDockPanel">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+            <DockPanel DockPanel.Dock="Bottom">
+                <Button DockPanel.Dock="Top" Content="Import Prices" Margin="10" Style="{DynamicResource MaterialDesignFlatMidBgButton}" Command="{Binding ImportPriceCommand}" Height="25" Width="150" IsEnabled="{Binding LoadButtonEnabled}"/>
+            </DockPanel>
+            <DataGrid Name="PricesDataGrid" RowBackground="White" AlternatingRowBackground="#e8ffec"
+                 DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding dgCSVPrices, UpdateSourceTrigger=PropertyChanged}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Security Symbol" Binding="{Binding SecuritySymbol}"/>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}"/>
+                    <DataGridTextColumn Header="Close Price" Binding="{Binding ClosePrice}"/>
+                    <!-- The price source will be set to manual automatically -->
+                    <DataGridTextColumn Header="Price Source" Binding="{Binding PriceSource, Mode=OneWay}"/>
+                </DataGrid.Columns>
+            </DataGrid>
 
-            <DataGrid.Style>
-                <Style TargetType="DataGrid">
+        </DockPanel>
+        <DockPanel Name="SecuritiesDockPanel"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="3">
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
-                         Value="TransactionsDataGrid">
+                         Value="SecuritiesDockPanel">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </DataGrid.Style>
-        </DataGrid>
-        <DataGrid Name="PricesDataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" RowBackground="White" AlternatingRowBackground="#e8ffec" Margin="3"
-                  VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding dgCSVPrices, UpdateSourceTrigger=PropertyChanged}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Security Symbol" Binding="{Binding SecuritySymbol}"/>
-                <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}"/>
-                <DataGridTextColumn Header="Close Price" Binding="{Binding ClosePrice}"/>
-                <!-- The price source will be set to manual automatically -->
-                <DataGridTextColumn Header="Price Source" Binding="{Binding PriceSource, Mode=OneWay}"/>
-            </DataGrid.Columns>
-            <DataGrid.Style>
-                <Style TargetType="DataGrid">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
-                         Value="PricesDataGrid">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.Style>
-        </DataGrid>
-        <Button Content="Import Prices" Grid.Row="4" Grid.Column="1" Command="{Binding ImportPriceCommand}" Height="25" Width="100" IsEnabled="{Binding LoadButtonEnabled}" >
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
-                         Value="PricesDataGrid">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
-        <DataGrid Name="SecuritiesDataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="3" RowBackground="White" AlternatingRowBackground="#e8ffec" Margin="3"
-                  VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding dgCSVSecurities, UpdateSourceTrigger=PropertyChanged}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Asset Class" Binding="{Binding AssetClass}"/>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}"/>
-                <DataGridTextColumn Header="Currency" Binding="{Binding  Currency}"/>
-                <DataGridTextColumn Header="ISIN" Binding="{Binding ISIN}"/>
-                <DataGridTextColumn Header="AV Symbol" Binding="{Binding AVSymbol}"/>
-                <DataGridTextColumn Header="FMP Symbol" Binding="{Binding FMPSymbol}"/>
-            </DataGrid.Columns>
-            <DataGrid.Style>
-                <Style TargetType="DataGrid">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
-                         Value="SecuritiesDataGrid">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.Style>
-        </DataGrid>
-        <Button Content="Import Securities" Grid.Row="4" Grid.Column="1" Command="{Binding ImportSecuritiesCommand}" Height="25" Width="100" IsEnabled="{Binding LoadButtonEnabled}">
-            <Button.Style>
-                <Style TargetType="Button">
-                    <Setter Property="Visibility" Value="Collapsed"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding CurrentTemplate,UpdateSourceTrigger=PropertyChanged}"
-                         Value="SecuritiesDataGrid">
-                            <Setter Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+            </DockPanel.Style>
+            <Button DockPanel.Dock="Bottom" Content="Import Securities" Style="{DynamicResource MaterialDesignFlatMidBgButton}" Grid.Row="4" Grid.Column="1" Command="{Binding ImportSecuritiesCommand}" Height="25" Width="150" IsEnabled="{Binding LoadButtonEnabled}"/>
+            <DataGrid Name="SecuritiesDataGrid" RowBackground="White" AlternatingRowBackground="#e8ffec" Margin="3"
+                  DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" ItemsSource="{Binding dgCSVSecurities, UpdateSourceTrigger=PropertyChanged}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Asset Class" Binding="{Binding AssetClass}"/>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Symbol" Binding="{Binding Symbol}"/>
+                    <DataGridTextColumn Header="Currency" Binding="{Binding  Currency}"/>
+                    <DataGridTextColumn Header="ISIN" Binding="{Binding ISIN}"/>
+                    <DataGridTextColumn Header="AV Symbol" Binding="{Binding AVSymbol}"/>
+                    <DataGridTextColumn Header="FMP Symbol" Binding="{Binding FMPSymbol}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
     </Grid>
 </Window>
