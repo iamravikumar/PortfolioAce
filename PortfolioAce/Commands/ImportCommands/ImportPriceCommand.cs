@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
+using PortfolioAce.EFCore.Services.SettingServices;
 using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections.Generic;
@@ -13,14 +14,14 @@ namespace PortfolioAce.Commands.ImportCommands
         public event EventHandler CanExecuteChanged;
 
         private ImportDataToolViewModel _importVM;
-        private IAdminService _adminService;
+        private IImportService _importService;
         private IStaticReferences _staticReferences;
 
         public ImportPriceCommand(ImportDataToolViewModel importVM,
-             IStaticReferences staticReferences, IAdminService adminService)
+             IStaticReferences staticReferences, IImportService importService)
         {
             _importVM = importVM;
-            _adminService = adminService;
+            _importService = importService;
             _staticReferences = staticReferences;
         }
 

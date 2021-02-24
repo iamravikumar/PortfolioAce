@@ -4,6 +4,7 @@ using PortfolioAce.Commands.ImportCommands;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
+using PortfolioAce.EFCore.Services.SettingServices;
 using PortfolioAce.HelperObjects.DeserialisedCSVObjects;
 using PortfolioAce.Models;
 using PortfolioAce.Navigation;
@@ -23,14 +24,14 @@ namespace PortfolioAce.ViewModels.Windows
     {
 
         private IStaticReferences _staticReferences;
-        public ImportDataToolViewModel(IStaticReferences staticReferences, IAdminService adminService)
+        public ImportDataToolViewModel(IStaticReferences staticReferences, IImportService importService)
         {
             _staticReferences = staticReferences;
             _cmbLoadTypes = new List<string> { "Transactions", "Prices", "Securities" };
             BrowseWindowExplorerCommand = new ActionCommand(SelectCSVFile);
             ExtractFromCSVCommand = new ActionCommand(ExtractCSV);
-            ImportPriceCommand = new ImportPriceCommand(this, staticReferences, adminService);
-            ImportSecuritiesCommand = new ImportSecuritiesCommand(this, staticReferences, adminService);
+            ImportPriceCommand = new ImportPriceCommand(this, staticReferences, importService);
+            ImportSecuritiesCommand = new ImportSecuritiesCommand(this, staticReferences, importService);
 
             _allFunds = _staticReferences.GetAllFundsReference();
             dgCSVPrices = new ObservableCollection<PriceImportDataCSV>();

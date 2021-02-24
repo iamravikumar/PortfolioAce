@@ -26,10 +26,11 @@ namespace PortfolioAce.ViewModels.Factories
         private IPriceService _priceService;
         private IAdminService _adminService;
         private ISettingService _settingService;
+        private IImportService _importService;
 
         public WindowFactory(IFundService fundService,
             ITransactionService transactionService,
-            IAdminService adminService, ISettingService settingService,
+            IAdminService adminService, IImportService importService, ISettingService settingService,
             ITransferAgencyService investorService, IStaticReferences staticReferences,
             IFactTableService factTableService, IPriceService priceService)
         {
@@ -41,6 +42,7 @@ namespace PortfolioAce.ViewModels.Factories
             _staticReferences = staticReferences;
             _factTableService = factTableService;
             _priceService = priceService;
+            _importService = importService;
         }
 
         private Window ApplyWindowAttributes(Window view, ViewModelWindowBase viewModel)
@@ -138,7 +140,7 @@ namespace PortfolioAce.ViewModels.Factories
         public void CreateImportDataToolWindow()
         {
             Window view = new ImportDataToolWindow();
-            ViewModelWindowBase viewModel = new ImportDataToolViewModel(_staticReferences, _adminService);
+            ViewModelWindowBase viewModel = new ImportDataToolViewModel(_staticReferences, _importService);
             view = ApplyWindowAttributes(view, viewModel);
             view.ShowDialog();
         }

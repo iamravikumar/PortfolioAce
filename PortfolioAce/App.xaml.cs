@@ -65,6 +65,7 @@ namespace PortfolioAce
                         services.GetRequiredService<IFundService>(),
                         services.GetRequiredService<ITransactionService>(),
                          services.GetRequiredService<IAdminService>(),
+                         services.GetRequiredService<IImportService>(),
                          services.GetRequiredService<ISettingService>(),
                          services.GetRequiredService<ITransferAgencyService>(),
                          services.GetRequiredService<IStaticReferences>(),
@@ -80,12 +81,13 @@ namespace PortfolioAce
                     services.AddSingleton<IFundService, FundService>();
                     services.AddSingleton<ITransactionService, TransactionService>();
                     services.AddSingleton<IAdminService, AdminService>();
+                    services.AddSingleton<IImportService, ImportService>();
                     services.AddSingleton<ITransferAgencyService, TransferAgencyService>();
                     services.AddSingleton<IPriceService, PriceService>();
                     services.AddSingleton<IStaticReferences, StaticReferences>();
                     services.AddSingleton<ISettingService, SettingService>();
                     services.AddSingleton<IFactTableService, FactTableService>();
-
+                    
                     // Add viewmodels here
                     services.AddTransient<HomeViewModel>(services => new HomeViewModel(
                         services.GetRequiredService<IFactTableService>()));
