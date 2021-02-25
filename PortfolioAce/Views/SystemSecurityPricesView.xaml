@@ -39,13 +39,13 @@
             <TextBlock DockPanel.Dock="Top" Text="{Binding SelectedSecurity.SecurityName}" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignHeadline4TextBlock}" Foreground="#003300" FontWeight="Bold"/>
             <lvc:CartesianChart DockPanel.Dock="Top" Hoverable="True" Margin="5">
                 <lvc:CartesianChart.Series>
-                    <lvc:LineSeries Title="Price" Values="{Binding SecurityPriceLineChartYAxis}" Fill="#96ffa9" Stroke="Green"/>
+                    <lvc:LineSeries Title="Price" Values="{Binding SecurityPriceLineChartYAxis}" Fill="#96ffa9" Stroke="Green" LineSmoothness="1" PointGeometrySize="5"/>
                 </lvc:CartesianChart.Series>
                 <lvc:CartesianChart.AxisX>
                     <lvc:Axis Title="Date" Labels="{Binding SecurityPriceLineChartXAxis}" FontSize="12" Foreground="Black"/>
                 </lvc:CartesianChart.AxisX>
                 <lvc:CartesianChart.AxisY>
-                    <lvc:Axis Title="Security Price"  Foreground="Black"/>
+                    <lvc:Axis Title="Security Price" Foreground="Black" LabelFormatter="{Binding ,StringFormat=N0}"/>
                 </lvc:CartesianChart.AxisY>
             </lvc:CartesianChart>
         </DockPanel>

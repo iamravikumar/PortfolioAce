@@ -52,7 +52,7 @@
                     <lvc:Axis Title="Date" Labels="{Binding NavPriceLineChartXAxis}" FontSize="12"/>
                 </lvc:CartesianChart.AxisX>
                 <lvc:CartesianChart.AxisY>
-                    <lvc:Axis Title="Nav per share"/>
+                    <lvc:Axis Title="Nav per share" LabelFormatter="{Binding ,StringFormat=N0}"/>
                 </lvc:CartesianChart.AxisY>
             </lvc:CartesianChart>
             <lvc:PieChart Grid.Row="1" Grid.Column="0" Series="{Binding PieChartData}" InnerRadius="50" LegendLocation="Bottom" Hoverable="True">

@@ -259,7 +259,7 @@
                 <lvc:Axis Title="Date" Labels="{Binding NavPriceLineChartXAxis}" FontSize="12" Foreground="Black"/>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
-                <lvc:Axis Title="Nav per share" Foreground="Black"/>
+                <lvc:Axis Title="Nav per share" Foreground="Black" LabelFormatter="{Binding ,StringFormat=N0}"/>
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
         <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Series="{Binding RowChartData}" Hoverable="True" Margin="20">

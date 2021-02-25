@@ -74,7 +74,7 @@
                     <lvc:Axis Title="Date" Labels="{Binding PositionPriceLineChartXAxis}" FontSize="12" Foreground="Black"/>
                 </lvc:CartesianChart.AxisX>
                 <lvc:CartesianChart.AxisY>
-                    <lvc:Axis Title="Performance" Foreground="Black"/>
+                    <lvc:Axis Title="Performance" Foreground="Black" LabelFormatter="{Binding ,StringFormat=N0}"/>
                 </lvc:CartesianChart.AxisY>
             </lvc:CartesianChart>
         </Grid>
