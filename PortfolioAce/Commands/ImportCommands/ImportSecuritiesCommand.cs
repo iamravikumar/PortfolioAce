@@ -1,10 +1,13 @@
-﻿using PortfolioAce.EFCore.Services;
+﻿using PortfolioAce.Domain.Models.Dimensions;
+using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.EFCore.Services.SettingServices;
+using PortfolioAce.HelperObjects.DeserialisedCSVObjects;
 using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands.ImportCommands
@@ -16,7 +19,7 @@ namespace PortfolioAce.Commands.ImportCommands
         private ImportDataToolViewModel _importVM;
         private IImportService _importService;
         private IStaticReferences _staticReferences;
-
+        // This only works for equities and crypto at the moment.
         public ImportSecuritiesCommand(ImportDataToolViewModel importVM,
              IStaticReferences staticReferences, IImportService importService)
         {
@@ -35,10 +38,33 @@ namespace PortfolioAce.Commands.ImportCommands
 
             try
             {
+                if (_importVM.dgCSVSecurities.Count != 0)
+                {
+                    Dictionary<string, int> assetClassMap = _importService.AssetClassMap();
+                    Dictionary<string, int> currencyMap = _importService.CurrencyMap();
+                   
+                    List<SecuritiesDIM> newSecurities = new List<SecuritiesDIM>();
+                    foreach(SecurityImportDataCSV data in _importVM.dgCSVSecurities)
+                    {
+                        SecuritiesDIM newSecurity = new SecuritiesDIM
+                        {
+                            AssetClassId = assetClassMap[data.AssetClass],
+                            CurrencyId = currencyMap[data.Currency],
+                            SecurityName = data.Name,
+                            FMPSymbol = data.FMPSymbol,
+                            ISIN = data.ISIN,
+                            Symbol = data.Symbol,
+                            AlphaVantageSymbol = data.AVSymbol
+                        };
+                        newSecurities.Add(newSecurity);
+                    }
 
+                    _importService.AddImportedSecurities(newSecurities);
+                }
             }
             catch (Exception e)
             {
+                MessageBox.Show(e.Message);
             }
         }
     }
