@@ -45,7 +45,7 @@
                     <lvc:Axis Title="Date" Labels="{Binding SecurityPriceLineChartXAxis}" FontSize="12" Foreground="Black"/>
                 </lvc:CartesianChart.AxisX>
                 <lvc:CartesianChart.AxisY>
-                    <lvc:Axis Title="Security Price" Foreground="Black" LabelFormatter="{Binding ,StringFormat=N0}"/>
+                    <lvc:Axis Title="Security Price" Foreground="Black" LabelFormatter="{Binding StringFormat=N0}"/>
                 </lvc:CartesianChart.AxisY>
             </lvc:CartesianChart>
         </DockPanel>
