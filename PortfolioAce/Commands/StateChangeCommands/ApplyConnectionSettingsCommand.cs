@@ -1,14 +1,14 @@
 ﻿using PortfolioAce.EFCore.Services.SettingServices;
 using PortfolioAce.ViewModels.Windows;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class ApplyConnectionSettingsCommand : ICommand
+    public class ApplyConnectionSettingsCommand : AsyncCommandBase
     {
-        public event EventHandler CanExecuteChanged;
         private SettingsWindowViewModel _settingsWindowVM;
         private ISettingService _settingService;
 
@@ -20,12 +20,12 @@ namespace PortfolioAce.Commands
             _settingService = settingService;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
-            return true; // true for now
+            return base.CanExecute(parameter);
         }
 
-        public void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             try
             {

@@ -3,14 +3,14 @@ using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class EditTradeCommand : ICommand
+    public class EditTradeCommand : AsyncCommandBase
     {
-        public event EventHandler CanExecuteChanged;
 
         private EditTradeWindowViewModel _editTradeWindowVM;
         private ITransactionService _transactionService;
@@ -24,12 +24,12 @@ namespace PortfolioAce.Commands
             _transaction = transactions;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
-            return true; // true for now
+            return base.CanExecute(parameter);
         }
 
-        public void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             try
             {

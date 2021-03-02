@@ -2,16 +2,14 @@
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class AddFXTradeCommand : ICommand
+    public class AddFXTradeCommand : AsyncCommandBase
     {
-
-        public event EventHandler CanExecuteChanged;
-
         private AddFXTradeWindowViewModel _addFXTradeWindowVM;
         private ITransactionService _transactionService;
 
@@ -22,12 +20,17 @@ namespace PortfolioAce.Commands
             _transactionService = transactionService;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
-            return true; // true for now
+            return base.CanExecute(parameter);
         }
 
         public async void Execute(object parameter)
+        {
+
+        }
+
+        public override async Task ExecuteAsync(object parameter)
         {
             try
             {

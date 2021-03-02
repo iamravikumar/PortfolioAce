@@ -2,14 +2,14 @@
 using PortfolioAce.EFCore.Services.PriceServices;
 using PortfolioAce.ViewModels;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class SaveSecurityPriceCommand : ICommand
+    public class SaveSecurityPriceCommand : AsyncCommandBase
     {
-        public event EventHandler CanExecuteChanged;
         private SystemSecurityPricesViewModel _sysSecurityPricesVM;
         private IPriceService _priceService;
 
@@ -21,12 +21,12 @@ namespace PortfolioAce.Commands
             _priceService = priceService;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
-            return true; // true for now
+            return base.CanExecute(parameter);
         }
 
-        public async void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             try
             {
@@ -41,8 +41,6 @@ namespace PortfolioAce.Commands
             {
                 MessageBox.Show(e.Message);
             }
-
         }
-
     }
 }

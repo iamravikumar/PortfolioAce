@@ -3,14 +3,14 @@ using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.ViewModels.Modals;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class AddSecurityCommand : ICommand
+    public class AddSecurityCommand : AsyncCommandBase
     {
-        public event EventHandler CanExecuteChanged;
 
         private SecurityManagerWindowViewModel _SecurityManagerVM;
         private IAdminService _adminService;
@@ -24,12 +24,12 @@ namespace PortfolioAce.Commands
             _staticReferences = staticReferences;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
-            return true; // for now
+            return base.CanExecute(parameter);
         }
 
-        public void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             // currency and asset class objects
             CurrenciesDIM currency = _staticReferences.GetCurrency(_SecurityManagerVM.Currency);
@@ -47,7 +47,6 @@ namespace PortfolioAce.Commands
                     ISIN = _SecurityManagerVM.ISIN
                 };
                 _adminService.AddSecurityInfo(newSecurity);
-                return;
             }
             catch (Exception e)
             {

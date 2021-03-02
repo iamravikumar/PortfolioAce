@@ -9,15 +9,14 @@ using PortfolioAce.ViewModels.Modals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class InitialiseFundCommand : ICommand
+    public class InitialiseFundCommand : AsyncCommandBase
     {
-        public event EventHandler CanExecuteChanged;
-
         private FundInitialisationWindowViewModel _fundInitialiseVM;
         private ITransferAgencyService _investorService;
         private IStaticReferences _staticReferences;
@@ -32,10 +31,15 @@ namespace PortfolioAce.Commands
 
         public bool CanExecute(object parameter)
         {
-            return true; // true for now
+            return base.CanExecute(parameter);
         }
 
         public async void Execute(object parameter)
+        {
+
+        }
+
+        public override async Task ExecuteAsync(object parameter)
         {
             try
             {

@@ -7,14 +7,14 @@ using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands.ImportCommands
 {
-    public class ImportSecuritiesCommand:ICommand
+    public class ImportSecuritiesCommand: AsyncCommandBase
     {
-        public event EventHandler CanExecuteChanged;
 
         private ImportDataToolViewModel _importVM;
         private IImportService _importService;
@@ -28,23 +28,24 @@ namespace PortfolioAce.Commands.ImportCommands
             _staticReferences = staticReferences;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
-            return true; // for now
+            // I would apply my logic here AND the base logic.
+            // so something like return xxx && base.CanExecute(parameter);
+            return base.CanExecute(parameter);
         }
 
-        public void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
-
             try
             {
                 if (_importVM.dgCSVSecurities.Count != 0)
                 {
                     Dictionary<string, int> assetClassMap = _importService.AssetClassMap();
                     Dictionary<string, int> currencyMap = _importService.CurrencyMap();
-                   
+
                     List<SecuritiesDIM> newSecurities = new List<SecuritiesDIM>();
-                    foreach(SecurityImportDataCSV data in _importVM.dgCSVSecurities)
+                    foreach (SecurityImportDataCSV data in _importVM.dgCSVSecurities)
                     {
                         SecuritiesDIM newSecurity = new SecuritiesDIM
                         {

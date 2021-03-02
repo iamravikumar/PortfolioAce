@@ -19,7 +19,7 @@ namespace PortfolioAce.Commands
             set
             {
                 _isExecuting = value;
-                CanExecuteChanged?.Invoke(this, new EventArgs());
+                OnCanExecuteChanged();
             }
         }
 
@@ -38,5 +38,10 @@ namespace PortfolioAce.Commands
         }
 
         public abstract Task ExecuteAsync(object parameter);
+
+        protected void OnCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, new EventArgs());
+        }
     }
 }

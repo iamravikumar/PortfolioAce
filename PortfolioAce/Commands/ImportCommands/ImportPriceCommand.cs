@@ -7,15 +7,14 @@ using PortfolioAce.ViewModels.Windows;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands.ImportCommands
 {
-    public class ImportPriceCommand:ICommand
+    public class ImportPriceCommand: AsyncCommandBase
     {
-        public event EventHandler CanExecuteChanged;
-
         private ImportDataToolViewModel _importVM;
         private IImportService _importService;
         private IStaticReferences _staticReferences;
@@ -28,14 +27,13 @@ namespace PortfolioAce.Commands.ImportCommands
             _staticReferences = staticReferences;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
-            return true; // for now
+            return base.CanExecute(parameter);
         }
 
-        public void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
-
             try
             {
                 if (_importVM.dgCSVPrices.Count != 0)

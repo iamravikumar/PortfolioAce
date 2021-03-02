@@ -1,15 +1,14 @@
 ﻿using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class UnlockNavCommand : ICommand
+    public class UnlockNavCommand : AsyncCommandBase
     {
-        public event EventHandler CanExecuteChanged;
-
         private NavSummaryViewModel _navValuationVM;
         private ITransferAgencyService _investorService;
 
@@ -19,12 +18,13 @@ namespace PortfolioAce.Commands
             _navValuationVM = navValuationVM;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
-            return true;
+            return base.CanExecute(parameter);
         }
 
-        public void Execute(object parameter)
+
+        public override async Task ExecuteAsync(object parameter)
         {
             try
             {

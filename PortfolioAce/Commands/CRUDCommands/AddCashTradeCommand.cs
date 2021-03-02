@@ -11,7 +11,6 @@ namespace PortfolioAce.Commands
 {
     public class AddCashTradeCommand : AsyncCommandBase
     {
-        public event EventHandler CanExecuteChanged;
         private AddCashTradeWindowViewModel _addCashTradeWindowVM;
         private ITransactionService _transactionService;
 
@@ -25,7 +24,9 @@ namespace PortfolioAce.Commands
 
         public override bool CanExecute(object parameter)
         {
-            return true; // true for now
+            // I would apply my logic here AND the base logic.
+            // so something like return xxx && base.CanExecute(parameter);
+            return base.CanExecute(parameter);
         }
 
         public override async Task ExecuteAsync(object parameter)

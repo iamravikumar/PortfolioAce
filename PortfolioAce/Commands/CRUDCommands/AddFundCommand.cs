@@ -2,12 +2,13 @@
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class AddFundCommand : ICommand
+    public class AddFundCommand : AsyncCommandBase
     {
         public event EventHandler CanExecuteChanged;
         private AddFundWindowViewModel _addFundWindowVM;
@@ -19,12 +20,12 @@ namespace PortfolioAce.Commands
             _fundService = fundService;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
-            return true; // true for now
+            return base.CanExecute(parameter);
         }
 
-        public async void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             try
             {

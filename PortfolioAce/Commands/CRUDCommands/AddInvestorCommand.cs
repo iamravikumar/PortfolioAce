@@ -2,14 +2,14 @@
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.ViewModels.Modals;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class AddInvestorCommand : ICommand
+    public class AddInvestorCommand : AsyncCommandBase
     {
-        public event EventHandler CanExecuteChanged;
         private InvestorManagerWindowViewModel _addInvestorVM;
         private ITransferAgencyService _investorService;
 
@@ -20,12 +20,12 @@ namespace PortfolioAce.Commands
             _investorService = investorService;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
-            return true; // true for now
+            return base.CanExecute(parameter);
         }
 
-        public async void Execute(object parameter)
+        public override async Task ExecuteAsync(object parameter)
         {
             try
             {
