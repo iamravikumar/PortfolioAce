@@ -34,11 +34,6 @@ namespace PortfolioAce.Commands
             return base.CanExecute(parameter);
         }
 
-        public async void Execute(object parameter)
-        {
-
-        }
-
         public override async Task ExecuteAsync(object parameter)
         {
             try
