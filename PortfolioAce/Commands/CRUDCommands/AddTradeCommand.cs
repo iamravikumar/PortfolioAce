@@ -31,7 +31,6 @@ namespace PortfolioAce.Commands
         {
             try
             {
-
                 TransactionTypeDIM tradeType = _transactionService.GetTradeType(_addTradeWindowVM.TradeType);
                 CustodiansDIM custodian = _transactionService.GetCustodian(_addTradeWindowVM.Custodian);
                 TransactionsBO newTrade = new TransactionsBO
