@@ -161,7 +161,20 @@ namespace PortfolioAce.ViewModels.Windows
         {
             get
             {
-                return (_currentTemplate != "ImportBox" && _targetFile!=null && _selectedFund!=null);
+                // if you are loading transactions you need to specify the fund..
+                if(_currentTemplate == "TransactionsDockPanel" && _targetFile!=null && _selectedFund != null)
+                {
+                    return true;
+                }
+                // if you are loading prices or securities it doesn't matter if there is a fund or now.
+                else if (_currentTemplate != "ImportBox" && _currentTemplate != "TransactionsDockPanel" && _targetFile != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
