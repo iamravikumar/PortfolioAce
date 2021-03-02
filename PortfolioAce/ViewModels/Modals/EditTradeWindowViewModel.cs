@@ -42,7 +42,7 @@ namespace PortfolioAce.ViewModels.Modals
 
             EditTradeCommand = new EditTradeCommand(this, transactionService, transaction);
         }
-        public ICommand EditTradeCommand { get; set; }
+        public ICommand EditTradeCommand { get; }
 
         private string _tradeType;
         public string TradeType

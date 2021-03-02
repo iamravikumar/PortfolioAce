@@ -161,7 +161,7 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public ICommand AddSecurityCommand { get; set; }
+        public ICommand AddSecurityCommand { get;}
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public bool CanCreate => !HasErrors;

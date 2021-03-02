@@ -32,13 +32,13 @@ namespace PortfolioAce.ViewModels.Windows
             ShowFMPKeyCommand = new ActionCommand(ShowFMPKey);
         }
 
-        public ICommand ApplyConnectionSettingsCommand { get; set; }
+        public ICommand ApplyConnectionSettingsCommand { get;}
 
         private readonly string _storedAVKey;
         private readonly string _storedFMPKey;
 
-        public ICommand ShowAlphaVantageKeyCommand { get; set; }
-        public ICommand ShowFMPKeyCommand { get; set; }
+        public ICommand ShowAlphaVantageKeyCommand { get;}
+        public ICommand ShowFMPKeyCommand { get;}
 
         private string _AlphaVantageKey;
         public string AlphaVantageKey

@@ -27,13 +27,13 @@ namespace PortfolioAce.Navigation
         }
 
         public ICommand CloseApplicationCommand { get; }
-        public ICommand UpdateCurrentViewModelCommand { get; set; }
+        public ICommand UpdateCurrentViewModelCommand { get; }
         public ICommand ShowSettingsCommand { get; }
         public ICommand ShowNewFundCommand { get; }
         public ICommand ShowAboutCommand { get; }
         public ICommand ShowImportDataToolCommand { get; }
-        public ICommand ShowSecurityManagerCommand { get; set; }
-        public ICommand ShowNewInvestorCommand { get; set; }
+        public ICommand ShowSecurityManagerCommand { get; }
+        public ICommand ShowNewInvestorCommand { get; }
 
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel

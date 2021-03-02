@@ -279,7 +279,7 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public ICommand AddFundCommand { get; set; }
+        public ICommand AddFundCommand { get; }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 

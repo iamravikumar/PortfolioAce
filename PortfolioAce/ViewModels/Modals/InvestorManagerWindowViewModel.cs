@@ -123,13 +123,13 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public ICommand AddInvestorCommand { get; set; }
+        public ICommand AddInvestorCommand { get; }
 
 
 
         // This is for the second tab.
 
-        public ICommand LoadInvestorProfileCommand { get; set; }
+        public ICommand LoadInvestorProfileCommand { get; }
         private List<InvestorsDIM> _allInvestors;
 
         public List<InvestorsDIM> lbInvestors

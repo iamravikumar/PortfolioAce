@@ -48,10 +48,10 @@ namespace PortfolioAce.ViewModels.Windows
             }
         }
 
-        public ICommand ImportSecuritiesCommand { get; set; }
-        public ICommand ImportPriceCommand { get; set; }
-        public ICommand ExtractFromCSVCommand {get;set;}
-        public ICommand BrowseWindowExplorerCommand { get; set; }
+        public ICommand ImportSecuritiesCommand { get;  }
+        public ICommand ImportPriceCommand { get;  }
+        public ICommand ExtractFromCSVCommand {get;}
+        public ICommand BrowseWindowExplorerCommand { get;  }
 
         private FileInfo _targetFile;
         public FileInfo TargetFile

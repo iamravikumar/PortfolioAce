@@ -40,7 +40,7 @@ namespace PortfolioAce.ViewModels.Modals
 
         }
 
-        public ICommand EditCashTradeCommand { get; set; }
+        public ICommand EditCashTradeCommand { get; }
 
 
         private string _cashType;

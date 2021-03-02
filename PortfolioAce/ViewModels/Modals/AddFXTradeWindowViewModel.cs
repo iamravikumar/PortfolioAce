@@ -33,7 +33,7 @@ namespace PortfolioAce.ViewModels.Modals
 
         }
 
-        public ICommand AddFXTradeCommand { get; set; }
+        public ICommand AddFXTradeCommand { get; }
 
         public int FundId
         {

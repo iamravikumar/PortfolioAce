@@ -30,8 +30,8 @@ namespace PortfolioAce.ViewModels
             PreviousCardCommand = new ActionCommand(PreviousCard);
         }
 
-        public ICommand NextCardCommand { get; set; }
-        public ICommand PreviousCardCommand { get; set; }
+        public ICommand NextCardCommand { get; }
+        public ICommand PreviousCardCommand { get; }
 
         private List<NAVPriceStoreFACT> _dgAllNavPrices;
         public List<NAVPriceStoreFACT> dgAllNavPrices

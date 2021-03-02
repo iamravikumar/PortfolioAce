@@ -35,7 +35,7 @@ namespace PortfolioAce.ViewModels.Modals
             _NavPrice = 1;
             _custodian = cmbCustodians[0];
         }
-        public ICommand InitialiseFundCommand { get; set; }
+        public ICommand InitialiseFundCommand { get;}
 
         public ObservableCollection<SeedingInvestor> dgSeedingInvestors { get; set; }
 

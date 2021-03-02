@@ -66,21 +66,21 @@ namespace PortfolioAce.ViewModels
 
         }
 
-        public ICommand ShowPositionDetailsCommand { get; set; }
-        public ICommand SelectFundCommand { get; set; }
-        public ICommand ShowNewTradeCommand { get; set; }
-        public ICommand ShowEditTradeCommand { get; set; }
-        public ICommand ShowRestoreTradeCommand { get; set; }
-        public ICommand ShowDeleteTradeCommand { get; set; }
-        public ICommand ShowNewFXTradeCommand { get; set; }
+        public ICommand ShowPositionDetailsCommand { get; }
+        public ICommand SelectFundCommand { get; }
+        public ICommand ShowNewTradeCommand { get; }
+        public ICommand ShowEditTradeCommand { get; }
+        public ICommand ShowRestoreTradeCommand { get; }
+        public ICommand ShowDeleteTradeCommand { get; }
+        public ICommand ShowNewFXTradeCommand { get; }
 
-        public ICommand ShowNewCashTradeCommand { get; set; }
-        public ICommand ShowEditCashTradeCommand { get; set; }
-        public ICommand ShowFundPropertiesCommand { get; set; }
-        public ICommand ShowFundInitialisationCommand { get; set; }
-        public ICommand ShowNewInvestorActionCommand { get; set; }
-        public ICommand ShowNavSummaryCommand { get; set; }
-        public ICommand ShowFundMetricsCommand { get; set; }
+        public ICommand ShowNewCashTradeCommand { get; }
+        public ICommand ShowEditCashTradeCommand { get; }
+        public ICommand ShowFundPropertiesCommand { get; }
+        public ICommand ShowFundInitialisationCommand { get; }
+        public ICommand ShowNewInvestorActionCommand { get; }
+        public ICommand ShowNavSummaryCommand { get; }
+        public ICommand ShowFundMetricsCommand { get; }
 
         private DateTime _asOfDate;
         public DateTime asOfDate

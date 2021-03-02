@@ -418,7 +418,7 @@ namespace PortfolioAce.ViewModels.Modals
         }
 
         public ICommand AddCashTradeCommand { get; }
-        public ICommand TransferCashCommand { get; set; }
+        public ICommand TransferCashCommand { get; }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 

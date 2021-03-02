@@ -308,7 +308,7 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public ICommand AddTradeCommand { get; set; }
+        public ICommand AddTradeCommand { get;  }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 

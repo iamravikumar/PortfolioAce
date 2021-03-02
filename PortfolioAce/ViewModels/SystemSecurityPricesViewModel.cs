@@ -45,9 +45,9 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public ICommand SaveSecurityPriceCommand { get; set; }
-        public ICommand SaveManualSecurityPriceCommand { get; set; }
-        public ICommand AssetSelectionChangedCommand { get; set; }
+        public ICommand SaveSecurityPriceCommand { get; }
+        public ICommand SaveManualSecurityPriceCommand { get; }
+        public ICommand AssetSelectionChangedCommand { get; }
 
 
 
@@ -167,6 +167,7 @@ namespace PortfolioAce.ViewModels
                 _SelectedSecurity = _securitiesList[0];
                 OnPropertyChanged(nameof(SelectedSecurity));
                 Load();
+                OnPropertyChanged(nameof(dgSecurityPrices));
             }
             OnPropertyChanged(nameof(SecuritiesList));
         }
