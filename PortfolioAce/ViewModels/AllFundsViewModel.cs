@@ -108,6 +108,7 @@ namespace PortfolioAce.ViewModels
 
 
         private Dictionary<(string, DateTime), decimal> _priceTable; // remember this has to change with the asofdate
+        // As of Date needs a trigger that goes to the database and gets the latest price table. otherwise i am just using a price table up until the initial asofdate that doesnt change.
         public Dictionary<(string, DateTime), decimal> priceTable
         {
             get

@@ -30,7 +30,7 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                _investorService.LockNav(_navValuation);
+                await _investorService.LockNav(_navValuation);
                 _navValuationVM.CloseAction();
             }
             catch (Exception e)

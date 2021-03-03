@@ -101,7 +101,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void InitialiseFundAction(Fund fund, List<TransferAgencyBO> investorSubscriptions, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav, List<FundInvestorBO> fundInvestors, List<InvestorHoldingsFACT> investorHoldings)
+        public async Task InitialiseFundAction(Fund fund, List<TransferAgencyBO> investorSubscriptions, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav, List<FundInvestorBO> fundInvestors, List<InvestorHoldingsFACT> investorHoldings)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -123,37 +123,34 @@ namespace PortfolioAce.EFCore.Services
                     RealisedPnl = decimal.Zero,
                     SecurityId = transactions[0].SecurityId
                 };
-                context.Positions.Add(cashPosition);
+                await context.Positions.AddAsync(cashPosition);
 
                 // lock period
                 AccountingPeriodsDIM period = context.Periods.Find(initialNav.NAVPeriodId);
                 period.isLocked = true;
                 context.Periods.Update(period);
 
-                context.InvestorHoldings.AddRange(investorHoldings);
+                await context.InvestorHoldings.AddRangeAsync(investorHoldings);
 
                 // Saves the fund investors that are attached to the transferagent subscriptions
-                context.FundInvestor.AddRange(fundInvestors);
+                await context.FundInvestor.AddRangeAsync(fundInvestors);
 
                 // Saves the first Nav
-                context.NavPriceData.Add(initialNav);
-
-
-                // Saves the funds state to initialised
-                context.Funds.Update(fund);
-
+                await context.NavPriceData.AddAsync(initialNav);
 
                 // saves the investors to the database
                 context.TransferAgent.AddRange(investorSubscriptions);
 
                 context.Transactions.AddRange(transactions);
 
+                // Saves the funds state to initialised
+                context.Funds.Update(fund);
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
-        public void LockNav(NavValuations navValuations)
+        public async Task LockNav(NavValuations navValuations)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -231,7 +228,7 @@ namespace PortfolioAce.EFCore.Services
                     newPositions.Add(newPosition);
                 }
 
-                context.Positions.AddRange(newPositions);
+                await context.Positions.AddRangeAsync(newPositions);
 
                 List<InvestorHoldingsFACT> newHoldings = new List<InvestorHoldingsFACT>();
                 foreach (ClientHoldingValuation clientHolding in navValuations.ClientHoldings)
@@ -250,11 +247,11 @@ namespace PortfolioAce.EFCore.Services
                     };
                     newHoldings.Add(newHolding);
                 }
-                context.InvestorHoldings.AddRange(newHoldings);
+                await context.InvestorHoldings.AddRangeAsync(newHoldings);
 
 
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
                 // Lock all transactions with this trade Date... DONE
                 // Add to Position SnapShot Fact Table... DONE
                 // Lock Period... DONE
@@ -264,7 +261,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void UnlockNav(DateTime asOfDate, int fundId)
+        public async Task UnlockNav(DateTime asOfDate, int fundId)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -294,15 +291,14 @@ namespace PortfolioAce.EFCore.Services
                 NAVPriceStoreFACT navPrice = context.NavPriceData.Where(npd => npd.FinalisedDate == asOfDate && npd.FundId == fund.FundId).FirstOrDefault();
                 context.NavPriceData.Remove(navPrice);
 
-                List<PositionFACT> storedPositions = context.Positions.Where(p => p.PositionDate == asOfDate && p.FundId == fund.FundId).ToList();
-
+                IEnumerable<PositionFACT> storedPositions = context.Positions.Where(p => p.PositionDate == asOfDate && p.FundId == fund.FundId);
                 context.Positions.RemoveRange(storedPositions);
 
-                List<InvestorHoldingsFACT> storedHoldings = context.InvestorHoldings.Where(i => i.HoldingDate == asOfDate && i.FundId == fund.FundId).ToList();
+                IEnumerable<InvestorHoldingsFACT> storedHoldings = context.InvestorHoldings.Where(i => i.HoldingDate == asOfDate && i.FundId == fund.FundId);
                 context.InvestorHoldings.RemoveRange(storedHoldings);
 
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
