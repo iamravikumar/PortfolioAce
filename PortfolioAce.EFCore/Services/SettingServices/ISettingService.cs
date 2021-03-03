@@ -1,5 +1,6 @@
 ﻿using PortfolioAce.Domain.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services.SettingServices
 {
@@ -7,6 +8,6 @@ namespace PortfolioAce.EFCore.Services.SettingServices
     {
         Dictionary<string, ApplicationSettings> GetAllSettings();
 
-        void UpdateAPIKeys(string alphaVantageKeyValue, string FMPKeyValue); // I should implement Hashed API Keys
+        Task UpdateAPIKeys(string alphaVantageKeyValue, string FMPKeyValue); // I should implement Hashed API Keys
     }
 }

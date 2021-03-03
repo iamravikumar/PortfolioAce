@@ -78,7 +78,7 @@ namespace PortfolioAce.Commands
                     CustodianId = recipientCustodian.CustodianId
                 };
                 List<TransactionsBO> transfer = new List<TransactionsBO> { payeeTrade, recipientTrade };
-                _transactionService.CreateCashTransfer(transfer);
+                await _transactionService.CreateCashTransfer(transfer);
                 _addCashTradeWindowVM.CloseAction();
             }
             catch (Exception e)

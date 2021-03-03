@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services.SettingServices
 {
@@ -16,7 +17,7 @@ namespace PortfolioAce.EFCore.Services.SettingServices
             this._contextFactory = contextFactory;
         }
 
-        public void AddImportedPrices(Dictionary<string, List<SecurityPriceStore>> newPrices)
+        public async Task AddImportedPrices(Dictionary<string, List<SecurityPriceStore>> newPrices)
         {
             /* Use the symbol (Key) to get a hashset of all the currently saved dates.
              * get all the prices from the list (Value) and check if they already exist in the hashset.
@@ -36,11 +37,11 @@ namespace PortfolioAce.EFCore.Services.SettingServices
                     }
                 }
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
-        public void AddImportedSecurities(List<SecuritiesDIM> newSecurities)
+        public async Task AddImportedSecurities(List<SecuritiesDIM> newSecurities)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -53,7 +54,7 @@ namespace PortfolioAce.EFCore.Services.SettingServices
                     }
                 }
 
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 

@@ -9,8 +9,8 @@ namespace PortfolioAce.EFCore.Services.PriceServices
     public interface IPriceService : IBaseService
     {
         Task<IEnumerable<AVSecurityPriceData>> AddDailyPrices(SecuritiesDIM security);
-        void AddManualPrices(List<SecurityPriceStore> prices);
-        void UpdateManualPrices(List<SecurityPriceStore> prices);
+        Task AddManualPrices(List<SecurityPriceStore> prices);
+        Task UpdateManualPrices(List<SecurityPriceStore> prices);
 
         SecuritiesDIM GetSecurityInfo(string symbol);
 

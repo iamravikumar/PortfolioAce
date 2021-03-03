@@ -3,6 +3,7 @@ using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services.SettingServices
 {
@@ -14,8 +15,8 @@ namespace PortfolioAce.EFCore.Services.SettingServices
         Dictionary<string, int> AssetClassMap();
         Dictionary<string, int> SecurityMap();
 
-        void AddImportedPrices(Dictionary<string, List<SecurityPriceStore>> newPrices);
-        void AddImportedSecurities(List<SecuritiesDIM> newSecurities);
+        Task AddImportedPrices(Dictionary<string, List<SecurityPriceStore>> newPrices);
+        Task AddImportedSecurities(List<SecuritiesDIM> newSecurities);
 
     }
 }

@@ -60,7 +60,7 @@ namespace PortfolioAce.Commands.ImportCommands
                         newSecurities.Add(newSecurity);
                     }
 
-                    _importService.AddImportedSecurities(newSecurities);
+                    await _importService.AddImportedSecurities(newSecurities);
                 }
             }
             catch (Exception e)

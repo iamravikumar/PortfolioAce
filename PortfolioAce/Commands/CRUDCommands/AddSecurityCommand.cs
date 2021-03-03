@@ -46,7 +46,7 @@ namespace PortfolioAce.Commands
                     FMPSymbol = _SecurityManagerVM.FMPSymbol,
                     ISIN = _SecurityManagerVM.ISIN
                 };
-                _adminService.AddSecurityInfo(newSecurity);
+                await _adminService.AddSecurityInfo(newSecurity);
             }
             catch (Exception e)
             {

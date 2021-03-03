@@ -31,7 +31,7 @@ namespace PortfolioAce.Commands
             {
                 string avKeyValue = _settingsWindowVM.AlphaVantageKey;
                 string FMPKeyValue = _settingsWindowVM.FMPrepKey;
-                _settingService.UpdateAPIKeys(avKeyValue, FMPKeyValue);
+                await _settingService.UpdateAPIKeys(avKeyValue, FMPKeyValue);
                 _settingsWindowVM.CloseAction();
             }
             catch (Exception e)

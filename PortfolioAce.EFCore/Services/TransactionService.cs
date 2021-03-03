@@ -152,7 +152,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void CreateCashTransfer(List<TransactionsBO> transfers)
+        public async Task CreateCashTransfer(List<TransactionsBO> transfers)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -163,11 +163,11 @@ namespace PortfolioAce.EFCore.Services
                     transfer.LinkedTrades = linkReference;
                 }
                 context.Transactions.AddRange(transfers);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
-        public void DeleteFXTransaction(TransactionsBO transaction)
+        public async Task DeleteFXTransaction(TransactionsBO transaction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -179,18 +179,18 @@ namespace PortfolioAce.EFCore.Services
                     tempTransaction.isActive = false;
                     context.Entry(linkedTransaction).CurrentValues.SetValues(tempTransaction);
                 }
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
-        public void DeleteTransaction(TransactionsBO transaction)
+        public async Task DeleteTransaction(TransactionsBO transaction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 TransactionsBO originalTransaction = context.Transactions.First(t => t.TransactionId == transaction.TransactionId);
                 transaction.isActive = false;
                 context.Entry(originalTransaction).CurrentValues.SetValues(transaction);
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
@@ -218,7 +218,7 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void RestoreFXTransaction(TransactionsBO transaction)
+        public async Task RestoreFXTransaction(TransactionsBO transaction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -230,18 +230,18 @@ namespace PortfolioAce.EFCore.Services
                     tempTransaction.isActive = true;
                     context.Entry(linkedTransaction).CurrentValues.SetValues(tempTransaction);
                 }
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
-        public void RestoreTransaction(TransactionsBO transaction)
+        public async Task RestoreTransaction(TransactionsBO transaction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 TransactionsBO originalTransaction = context.Transactions.First(t => t.TransactionId == transaction.TransactionId);
                 transaction.isActive = true;
                 context.Entry(originalTransaction).CurrentValues.SetValues(transaction);
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
@@ -253,13 +253,13 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void UpdateTransaction(TransactionsBO transaction)
+        public async Task UpdateTransaction(TransactionsBO transaction)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 TransactionsBO originalTransaction = context.Transactions.First(t => t.TransactionId == transaction.TransactionId);
                 context.Entry(originalTransaction).CurrentValues.SetValues(transaction);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
     }

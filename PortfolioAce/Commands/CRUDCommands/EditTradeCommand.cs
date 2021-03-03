@@ -43,7 +43,7 @@ namespace PortfolioAce.Commands
                 _transaction.Fees = _editTradeWindowVM.Commission;
                 _transaction.TradeDate = _editTradeWindowVM.TradeDate;
                 _transaction.SettleDate = _editTradeWindowVM.SettleDate;
-                _transactionService.UpdateTransaction(_transaction);
+                await _transactionService.UpdateTransaction(_transaction);
                 _editTradeWindowVM.CloseAction();
             }
             catch (Exception e)

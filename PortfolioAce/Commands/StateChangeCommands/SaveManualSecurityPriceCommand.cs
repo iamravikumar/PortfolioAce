@@ -61,8 +61,8 @@ namespace PortfolioAce.Commands
                         newPrices.Add(newManualPrice);
                     }
                 }
-                _priceService.AddManualPrices(newPrices);
-                _priceService.UpdateManualPrices(pricesToUpdate);
+                await _priceService.AddManualPrices(newPrices);
+                await _priceService.UpdateManualPrices(pricesToUpdate);
             }
 
             catch (Exception e)

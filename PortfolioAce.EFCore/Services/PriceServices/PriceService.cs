@@ -67,21 +67,21 @@ namespace PortfolioAce.EFCore.Services.PriceServices
             }
         }
 
-        public void AddManualPrices(List<SecurityPriceStore> prices)
+        public async Task AddManualPrices(List<SecurityPriceStore> prices)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 context.SecurityPriceData.AddRange(prices);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
 
-        public void UpdateManualPrices(List<SecurityPriceStore> prices)
+        public async Task UpdateManualPrices(List<SecurityPriceStore> prices)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 context.SecurityPriceData.UpdateRange(prices);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
     }

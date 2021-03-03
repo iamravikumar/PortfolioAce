@@ -3,6 +3,7 @@ using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services
 {
@@ -15,22 +16,22 @@ namespace PortfolioAce.EFCore.Services
             this._contextFactory = contextFactory;
         }
 
-        public void AddSecurityInfo(SecuritiesDIM security)
+        public async Task AddSecurityInfo(SecuritiesDIM security)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 context.Securities.Add(security);
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
-        public void DeleteSecurityInfo(string symbol)
+        public async Task DeleteSecurityInfo(string symbol)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 SecuritiesDIM security = context.Securities.Where(s => s.Symbol == symbol).FirstOrDefault();
                 context.Securities.Remove(security);
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
@@ -53,16 +54,16 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public void UpdateSecurityInfo(SecuritiesDIM security)
+        public async Task UpdateSecurityInfo(SecuritiesDIM security)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 context.Securities.Update(security);
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
         }
 
-        public void UpdateSecurityPrices(string symbol)
+        public async Task UpdateSecurityPrices(string symbol)
         {
             throw new NotImplementedException();
         }

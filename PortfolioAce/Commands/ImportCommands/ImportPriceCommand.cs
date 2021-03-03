@@ -64,7 +64,7 @@ namespace PortfolioAce.Commands.ImportCommands
                         }
 
                     }
-                    _importService.AddImportedPrices(securityPrices);
+                    await _importService.AddImportedPrices(securityPrices);
                 }
             }
             catch (Exception e)

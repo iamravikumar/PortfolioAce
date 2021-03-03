@@ -1,6 +1,7 @@
 ﻿using PortfolioAce.Domain.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PortfolioAce.EFCore.Services.SettingServices
 {
@@ -21,7 +22,7 @@ namespace PortfolioAce.EFCore.Services.SettingServices
             }
         }
 
-        public void UpdateAPIKeys(string alphaVantageKeyValue, string FMPKeyValue)
+        public async Task UpdateAPIKeys(string alphaVantageKeyValue, string FMPKeyValue)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
@@ -33,7 +34,7 @@ namespace PortfolioAce.EFCore.Services.SettingServices
 
                 context.Update(AvKey);
                 context.Update(FMPKey);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
         }
     }
