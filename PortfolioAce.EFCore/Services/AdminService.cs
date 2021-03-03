@@ -42,7 +42,7 @@ namespace PortfolioAce.EFCore.Services
                 return context.Securities
                         .Include(s => s.AssetClass)
                         .Include(s => s.Currency)
-                        .OrderBy(s => s.SecurityName).ToList(); ;
+                        .OrderBy(s => s.SecurityName).ToList();
             }
         }
 

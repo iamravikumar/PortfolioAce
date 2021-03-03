@@ -26,7 +26,7 @@ namespace PortfolioAce.EFCore.Services
                 SecuritiesDIM fxSecurity = context.Securities.Where(s => s.Symbol == fxTransaction.Symbol).FirstOrDefault();
                 AssetClassDIM assetClass = context.AssetClasses.Where(a => a.Name == "FXForward").FirstOrDefault();
                 CustodiansDIM custodian = context.Custodians.Where(c => c.Name == fxTransaction.Custodian).FirstOrDefault();
-                List<TransactionTypeDIM> transactionTypes = context.TransactionTypes.ToList();
+                IEnumerable<TransactionTypeDIM> transactionTypes = context.TransactionTypes;
                 List<CurrenciesDIM> currencies = context.Currencies.ToList();
 
                 CurrenciesDIM buyCurrency = context.Currencies.Where(c => c.Symbol == fxTransaction.BuyCurrency).First();
@@ -137,7 +137,7 @@ namespace PortfolioAce.EFCore.Services
                 context.Transactions.Add(fxBuyLegCash);
                 context.Transactions.Add(fxSellLegCash);
 
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
                 return refTransaction;
             }
         }
@@ -171,7 +171,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                List<TransactionsBO> linkedTransactions = context.Transactions.Where(t => t.LinkedTradeId == transaction.LinkedTradeId).ToList();
+                IEnumerable<TransactionsBO> linkedTransactions = context.Transactions.Where(t => t.LinkedTradeId == transaction.LinkedTradeId);
                 // To DO im not happy with this it needs to be neater
                 foreach (TransactionsBO linkedTransaction in linkedTransactions)
                 {
@@ -222,7 +222,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                List<TransactionsBO> linkedTransactions = context.Transactions.Where(t => t.LinkedTradeId == transaction.LinkedTradeId).ToList();
+                IEnumerable<TransactionsBO> linkedTransactions = context.Transactions.Where(t => t.LinkedTradeId == transaction.LinkedTradeId);
                 // To DO im not happy with this it needs to be neater
                 foreach (TransactionsBO linkedTransaction in linkedTransactions)
                 {

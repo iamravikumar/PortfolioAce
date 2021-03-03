@@ -116,7 +116,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                List<SecurityPriceStore> allPrices = context.SecurityPriceData.Where(s => s.Date <= asOfDate).Include(s => s.Security).ToList();
+                IEnumerable<SecurityPriceStore> allPrices = context.SecurityPriceData.Where(s => s.Date <= asOfDate).Include(s => s.Security);
 
                 Dictionary<(string, DateTime), decimal> priceTable = new Dictionary<(string, DateTime), decimal>();
                 foreach (SecurityPriceStore price in allPrices)
