@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PortfolioAce.Views"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:src="clr-namespace:PortfolioAce.Models"
              xmlns:srcGC="clr-namespace:PortfolioAce.Models.GroupConverters"
              xmlns:dgx="clr-namespace:DataGridExtensions;assembly=DataGridExtensions"
@@ -55,7 +56,13 @@
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/PortfolioAce;component/Resources\icons8-locked-24.png" Visibility="{Binding LockedNav, UpdateSourceTrigger=PropertyChanged}"/>
                     <Image Source="/PortfolioAce;component/Resources\icons8-unlocked-24.png" Visibility="{Binding LockedNav, Converter={StaticResource invertVisibilityConverter}, UpdateSourceTrigger=PropertyChanged}"/>
-                    <DatePicker FontWeight="Bold" SelectedDate="{Binding Path=asOfDate, UpdateSourceTrigger=PropertyChanged}"/>
+                    <DatePicker FontWeight="Bold" SelectedDate="{Binding Path=asOfDate, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectedDateChanged">
+                                <i:InvokeCommandAction Command="{Binding DateSelectionChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </DatePicker>
                 </StackPanel>
             </StackPanel>
             <Grid DockPanel.Dock="Left">

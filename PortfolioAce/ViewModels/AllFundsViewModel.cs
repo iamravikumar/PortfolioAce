@@ -63,9 +63,10 @@ namespace PortfolioAce.ViewModels
             ShowPositionDetailsCommand = new ActionCommand(OpenPositionDetailWindow);
 
             ShowNavSummaryCommand = new ActionCommand(OpenNavSummaryWindow);
-
+            DateSelectionChangedCommand = new ActionCommand(ChangeDateCommand);
         }
 
+        public ICommand DateSelectionChangedCommand { get; }
         public ICommand ShowPositionDetailsCommand { get; }
         public ICommand SelectFundCommand { get; }
         public ICommand ShowNewTradeCommand { get; }
@@ -92,7 +93,7 @@ namespace PortfolioAce.ViewModels
             set
             {
                 _asOfDate = value;
-                OnPropertyChanged("");
+                OnPropertyChanged(nameof(asOfDate));
             }
         }
 
@@ -550,6 +551,13 @@ namespace PortfolioAce.ViewModels
                 case MessageBoxResult.No:
                     break;
             }
+        }
+
+        public void ChangeDateCommand()
+        {
+            priceTable = _staticReferences.GetPriceTable(_asOfDate);
+            OnPropertyChanged("");
+
         }
 
         public override void Dispose()
