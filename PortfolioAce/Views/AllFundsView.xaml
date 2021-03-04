@@ -166,6 +166,34 @@
                             <DataGridTextColumn Header="Market Value Base" Binding="{Binding MarketValueBase, StringFormat=N2}" Width="150" />
                             <DataGridTextColumn Header="As Of (Date)" Binding="{Binding CashPosition.AsOfDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                         </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu Style="{DynamicResource MaterialDesignContextMenu}">
+                                <MenuItem Header="Export Data">
+                                    <MenuItem Header="CSV" Command="{Binding ExportDataGridToCSVCommand}" CommandParameter="{Binding dgFundCashHoldings}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-csv-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="TXT"  Command="{Binding ExportDataGridToTXTCommand}" CommandParameter="{Binding dgFundCashHoldings}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-txt-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="JSON" Command="{Binding ExportDataGridToJSONCommand}" CommandParameter="{Binding dgFundCashHoldings}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-json-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="PDF" IsEnabled="False">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-pdf-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuItem>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Trade History">
@@ -218,6 +246,34 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu Style="{DynamicResource MaterialDesignContextMenu}">
+                                <MenuItem Header="Export Data">
+                                    <MenuItem Header="CSV" Command="{Binding ExportDataGridToCSVCommand}" CommandParameter="{Binding dgFundTrades}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-csv-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="TXT"  Command="{Binding ExportDataGridToTXTCommand}" CommandParameter="{Binding dgFundTrades}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-txt-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="JSON" Command="{Binding ExportDataGridToJSONCommand}" CommandParameter="{Binding dgFundTrades}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-json-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="PDF" IsEnabled="False">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-pdf-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuItem>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Cash Book">
@@ -277,6 +333,34 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu Style="{DynamicResource MaterialDesignContextMenu}">
+                                <MenuItem Header="Export Data">
+                                    <MenuItem Header="CSV" Command="{Binding ExportDataGridToCSVCommand}" CommandParameter="{Binding dgFundCashBook}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-csv-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="TXT"  Command="{Binding ExportDataGridToTXTCommand}" CommandParameter="{Binding dgFundCashBook}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-txt-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="JSON" Command="{Binding ExportDataGridToJSONCommand}" CommandParameter="{Binding dgFundCashBook}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-json-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="PDF" IsEnabled="False">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-pdf-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuItem>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                     </DataGrid>
                 </TabItem>
                 <TabItem Header="Issuance">
@@ -292,6 +376,34 @@
                             <DataGridTextColumn Header="Action Date" Binding="{Binding TransactionDate, StringFormat={}{0:dd/MM/yyyy}}" />
                             <DataGridTextColumn Header="Action Settle Date" Binding="{Binding TransactionSettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
                         </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu Style="{DynamicResource MaterialDesignContextMenu}">
+                                <MenuItem Header="Export Data">
+                                    <MenuItem Header="CSV" Command="{Binding ExportDataGridToCSVCommand}" CommandParameter="{Binding dgFundTA}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-csv-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="TXT"  Command="{Binding ExportDataGridToTXTCommand}" CommandParameter="{Binding dgFundTA}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-txt-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="JSON" Command="{Binding ExportDataGridToJSONCommand}" CommandParameter="{Binding dgFundTA}">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-json-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="PDF" IsEnabled="False">
+                                        <MenuItem.Icon>
+                                            <Image Source="/PortfolioAce;component/Resources\icons8-pdf-24.png"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </MenuItem>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
                     </DataGrid>
                 </TabItem>
             </TabControl>
