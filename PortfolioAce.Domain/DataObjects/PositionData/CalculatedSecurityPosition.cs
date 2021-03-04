@@ -213,12 +213,14 @@ namespace PortfolioAce.Domain.DataObjects.PositionData
 
         private decimal CalculateWeightedAverageCost()
         {
+            // weighted average price = (Q1*P1)+(Q2*P2)+(Q3*P3)+..../(SUM(Q)); where Q=quantity, P=price
             if (_netQuantity == 0)
             {
                 return Decimal.Zero;
             }
             decimal totalCost = _openLots.Sum(ol => ol.LotCost);
-            decimal weightedCost = _openLots.Sum(ol => (ol.LotCost / totalCost) * ol.price);
+            decimal totalQuantity = _openLots.Sum(ol => ol.quantity);
+            decimal weightedCost = totalCost/totalQuantity;
             return weightedCost;
         }
     }
