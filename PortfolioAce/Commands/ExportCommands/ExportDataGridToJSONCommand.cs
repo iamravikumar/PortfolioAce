@@ -28,7 +28,11 @@ namespace PortfolioAce.Commands.ExportCommands
                 saveFileDialog.Filter = "JavaScript Object Notation (*.json)|*.json";
                 if (saveFileDialog.ShowDialog() == true)
                 {
-                    string json = JsonConvert.SerializeObject(DataGridData, Formatting.Indented);
+                    JsonSerializerSettings options = new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    };
+                    string json = JsonConvert.SerializeObject(DataGridData, Formatting.Indented, options);
                     await System.IO.File.WriteAllTextAsync(saveFileDialog.FileName, json);
                 }
             }
