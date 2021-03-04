@@ -56,6 +56,34 @@
                 <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat={}{0:dd/MM/yyyy}}" IsReadOnly="False"/>
                 <DataGridTextColumn Header="Close Price" Binding="{Binding ClosePrice, StringFormat=N4}" IsReadOnly="False"  />
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu Style="{DynamicResource MaterialDesignContextMenu}">
+                    <MenuItem Header="Export Data">
+                        <MenuItem Header="CSV" Command="{Binding ExportDatagridToCSVCommand}" CommandParameter="{Binding dgSecurityPrices}">
+                            <MenuItem.Icon>
+                                <Image Source="/PortfolioAce;component/Resources\icons8-csv-24.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="TXT" IsEnabled="False">
+                            <MenuItem.Icon>
+                                <Image Source="/PortfolioAce;component/Resources\icons8-txt-24.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="PDF" IsEnabled="False">
+                            <MenuItem.Icon>
+                                <Image Source="/PortfolioAce;component/Resources\icons8-pdf-24.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="JSON" IsEnabled="False">
+                            <MenuItem.Icon>
+                                <Image Source="/PortfolioAce;component/Resources\icons8-json-24.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
         <DockPanel Grid.Row="2" LastChildFill="False">
             <WrapPanel DockPanel.Dock="Top">

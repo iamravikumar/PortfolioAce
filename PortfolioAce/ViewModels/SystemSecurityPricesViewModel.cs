@@ -1,5 +1,6 @@
 ﻿using LiveCharts;
 using PortfolioAce.Commands;
+using PortfolioAce.Commands.ExportCommands;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services.DimensionServices;
@@ -26,6 +27,7 @@ namespace PortfolioAce.ViewModels
 
             SaveSecurityPriceCommand = new SaveSecurityPriceCommand(this, priceService);
             SaveManualSecurityPriceCommand = new SaveManualSecurityPriceCommand(this, priceService);
+            ExportDatagridToCSVCommand = new ExportDatagridToCSVCommand();
             AssetSelectionChangedCommand = new ActionCommand(ChangeAssetClassCommand);
             SecurityPriceLineChartYAxis = new ChartValues<decimal>();
             SecurityPriceLineChartXAxis = new string[1];
@@ -43,12 +45,15 @@ namespace PortfolioAce.ViewModels
                     Load();
                 }
             }
+
+            
         }
 
         public ICommand SaveSecurityPriceCommand { get; }
         public ICommand SaveManualSecurityPriceCommand { get; }
         public ICommand AssetSelectionChangedCommand { get; }
 
+        public ICommand ExportDatagridToCSVCommand { get; }
 
 
         private readonly List<SecuritiesDIM> _allSecuritiesList;
