@@ -67,6 +67,7 @@ Features:
 * Management and Performance fee calculations taking the Hurdle rate (soft or hard) and/or High-Water Mark into consideration.  
 * Lock and Unlock Accounting Periods
 * Data Metrics at a fund and position level.
+* Export data to CSV, TXT or JSON files.
 
 As this is currently a work in progress i still need to implement testing and create more flexibility around these features.
 
