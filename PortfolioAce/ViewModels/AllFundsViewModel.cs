@@ -477,6 +477,7 @@ namespace PortfolioAce.ViewModels
 
         public void DeleteTradeDialog()
         {
+            
             string n = Environment.NewLine;
             string message;
             DateTime tradeDate = _selectedTransaction.TradeDate;
@@ -500,6 +501,7 @@ namespace PortfolioAce.ViewModels
             switch (result)
             {
                 case MessageBoxResult.Yes:
+                    // A bug that crashes the application is caused here if the period does not exist (i.e. fund is monthly...) TODO
                     if (!_staticReferences.GetPeriod(tradeDate, tradeFundId).isLocked)
                     {
                         if (_selectedTransaction.Security.AssetClass.Name == "FXForward")
