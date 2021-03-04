@@ -27,7 +27,6 @@ namespace PortfolioAce.ViewModels
 
             SaveSecurityPriceCommand = new SaveSecurityPriceCommand(this, priceService);
             SaveManualSecurityPriceCommand = new SaveManualSecurityPriceCommand(this, priceService);
-            ExportDatagridToCSVCommand = new ExportDatagridToCSVCommand();
             AssetSelectionChangedCommand = new ActionCommand(ChangeAssetClassCommand);
             SecurityPriceLineChartYAxis = new ChartValues<decimal>();
             SecurityPriceLineChartXAxis = new string[1];
@@ -53,7 +52,6 @@ namespace PortfolioAce.ViewModels
         public ICommand SaveManualSecurityPriceCommand { get; }
         public ICommand AssetSelectionChangedCommand { get; }
 
-        public ICommand ExportDatagridToCSVCommand { get; }
 
 
         private readonly List<SecuritiesDIM> _allSecuritiesList;
