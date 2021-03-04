@@ -24,9 +24,8 @@ namespace PortfolioAce.Commands.ExportCommands
 
         public override async Task ExecuteAsync(object parameter)
         {
-            // the parameter will be the observable collection...
-            IList x = (IList)parameter;
-            if (x.Count > 0)
+            IList DataGridData = (IList)parameter;
+            if (DataGridData.Count > 0)
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Comma Seperated Values File (*.csv)|*.csv";
@@ -35,9 +34,9 @@ namespace PortfolioAce.Commands.ExportCommands
                     using (var writer = new StreamWriter(saveFileDialog.FileName))
                     using (var csv = new CsvWriter(writer, CultureInfo.CurrentCulture))
                     {
-                        csv.WriteHeader(x[0].GetType());
+                        csv.WriteHeader(DataGridData[0].GetType());
                         csv.NextRecord();
-                        await csv.WriteRecordsAsync(x);
+                        await csv.WriteRecordsAsync(DataGridData);
                     }
                 }
             }
@@ -45,7 +44,6 @@ namespace PortfolioAce.Commands.ExportCommands
             {
                 MessageBox.Show("The DataGrid is empty");
             }
-
         }
     }
 }
