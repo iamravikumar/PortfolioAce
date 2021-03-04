@@ -9,15 +9,15 @@ namespace PortfolioAce.ViewModels
     {
         public ViewModelBase()
         {
-            ExportDatagridToCSVCommand = new ExportDatagridToCSVCommand();
-            ExportDatagridToTXTCommand = new ExportDatagridToTXTCommand();
+            ExportDataGridToCSVCommand = new ExportDataGridToCSVCommand();
+            ExportDataGridToTXTCommand = new ExportDataGridToTXTCommand();
             ExportDataGridToPDFCommand = new ExportDataGridToPDFCommand();
             ExportDataGridToJSONCommand = new ExportDataGridToJSONCommand();
         }
 
-        public ICommand ExportDatagridToCSVCommand { get; }
+        public ICommand ExportDataGridToCSVCommand { get; }
         public ICommand ExportDataGridToPDFCommand { get; }
-        public ICommand ExportDatagridToTXTCommand { get; }
+        public ICommand ExportDataGridToTXTCommand { get; }
         public ICommand ExportDataGridToJSONCommand { get; }
         public virtual void Dispose() { }
     }

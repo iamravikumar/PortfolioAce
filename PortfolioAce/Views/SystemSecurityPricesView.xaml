@@ -59,26 +59,26 @@
             <DataGrid.ContextMenu>
                 <ContextMenu Style="{DynamicResource MaterialDesignContextMenu}">
                     <MenuItem Header="Export Data">
-                        <MenuItem Header="CSV" Command="{Binding ExportDatagridToCSVCommand}" CommandParameter="{Binding dgSecurityPrices}">
+                        <MenuItem Header="CSV" Command="{Binding ExportDataGridToCSVCommand}" CommandParameter="{Binding dgSecurityPrices}">
                             <MenuItem.Icon>
                                 <Image Source="/PortfolioAce;component/Resources\icons8-csv-24.png"/>
                             </MenuItem.Icon>
                         </MenuItem>
-                        <MenuItem Header="TXT"  Command="{Binding ExportDatagridToTXTCommand}" CommandParameter="{Binding dgSecurityPrices}">
+                        <MenuItem Header="TXT"  Command="{Binding ExportDataGridToTXTCommand}" CommandParameter="{Binding dgSecurityPrices}">
                             <MenuItem.Icon>
                                 <Image Source="/PortfolioAce;component/Resources\icons8-txt-24.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="JSON" Command="{Binding ExportDataGridToJSONCommand}" CommandParameter="{Binding dgSecurityPrices}">
+                            <MenuItem.Icon>
+                                <Image Source="/PortfolioAce;component/Resources\icons8-json-24.png"/>
                             </MenuItem.Icon>
                         </MenuItem>
                         <Separator/>
                         <MenuItem Header="PDF" IsEnabled="False">
                             <MenuItem.Icon>
                                 <Image Source="/PortfolioAce;component/Resources\icons8-pdf-24.png"/>
-                            </MenuItem.Icon>
-                        </MenuItem>
-                        <Separator/>
-                        <MenuItem Header="JSON" IsEnabled="False">
-                            <MenuItem.Icon>
-                                <Image Source="/PortfolioAce;component/Resources\icons8-json-24.png"/>
                             </MenuItem.Icon>
                         </MenuItem>
                     </MenuItem>

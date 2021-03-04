@@ -11,10 +11,10 @@ using System.Windows;
 
 namespace PortfolioAce.Commands.ExportCommands
 {
-    public class ExportDatagridToTXTCommand:AsyncCommandBase
+    public class ExportDataGridToTXTCommand:AsyncCommandBase
     {
 
-        public ExportDatagridToTXTCommand()
+        public ExportDataGridToTXTCommand()
         {
         }
 

@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Newtonsoft.Json;
 
 namespace PortfolioAce.Commands.ExportCommands
 {
@@ -18,7 +21,21 @@ namespace PortfolioAce.Commands.ExportCommands
 
         public override async Task ExecuteAsync(object parameter)
         {
-            throw new NotImplementedException();
+            IList DataGridData = (IList)parameter;
+            if (DataGridData.Count > 0)
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "JavaScript Object Notation (*.json)|*.json";
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    string json = JsonConvert.SerializeObject(DataGridData, Formatting.Indented);
+                    await System.IO.File.WriteAllTextAsync(saveFileDialog.FileName, json);
+                }
+            }
+            else
+            {
+                MessageBox.Show("The DataGrid is empty");
+            }
         }
     }
 }

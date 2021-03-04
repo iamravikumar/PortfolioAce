@@ -10,10 +10,10 @@ using System.Windows;
 
 namespace PortfolioAce.Commands.ExportCommands
 {
-    public class ExportDatagridToCSVCommand:AsyncCommandBase
+    public class ExportDataGridToCSVCommand:AsyncCommandBase
     {
 
-        public ExportDatagridToCSVCommand()
+        public ExportDataGridToCSVCommand()
         {
         }
 
