@@ -79,7 +79,7 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _TAType = value;
                 OnPropertyChanged(nameof(TAType));
-                Units = _units; // this will trigger the set on units.
+                OnPropertyChanged(nameof(isSubscription));
             }
         }
 
@@ -269,6 +269,14 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 return _staticReferences.GetAllIssueTypes().Select(i => i.TypeName).ToList();
+            }
+        }
+
+        public bool isSubscription
+        {
+            get
+            {
+                return (_TAType == "Subscription");
             }
         }
 

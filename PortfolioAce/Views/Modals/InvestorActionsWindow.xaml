@@ -64,10 +64,6 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="1">Type:</Label>
                     <ComboBox ItemsSource="{Binding cmbIssueType}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedItem="{Binding Path=TAType, UpdateSourceTrigger=PropertyChanged}">
@@ -85,26 +81,150 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                    <Label Grid.Row="3">Units:</Label>
-                    <TextBox Text="{Binding Units, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-                    <Label Grid.Row="4">NAV Price:</Label>
-                    <TextBox Text="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-                    <Label Grid.Row="5">Trade Amount:</Label>
-                    <TextBox Text="{Binding TradeAmount, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-                    <Label Grid.Row="6">Currency:</Label>
-                    <Label Content="{Binding Currency}"  Grid.Row="6" Grid.Column="1" Margin="0,0,0,2"></Label>
-                    <Label Grid.Row="7">Fees:</Label>
-                    <TextBox Text="{Binding Fee, UpdateSourceTrigger=PropertyChanged}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
-                    <Label Grid.Row="8">Action Date:</Label>
-                    <DatePicker Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=TradeDate, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label Grid.Row="9">Action Settle Date:</Label>
-                    <DatePicker Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=SettleDate, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label Grid.Row="10">Is the Nav Finalised?</Label>
-                    <StackPanel Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal">
-                        <RadioButton Style="{DynamicResource MaterialDesignDarkRadioButton}" Margin="0,7,0,0">Yes</RadioButton>
-                        <RadioButton Style="{DynamicResource MaterialDesignDarkRadioButton}" IsChecked="{Binding Path=isNavFinal, Converter={StaticResource invertBoolConverter}}" Margin="9,7,0,0">No</RadioButton>
-                    </StackPanel>
-                    <Button Command="{Binding AddInvestorActionCommand}" Grid.Row="11" Grid.Column="1" Margin="0,20,0,0" IsEnabled="{Binding CanCreate}">Book Action</Button>
+                    <DockPanel Name="SubscriptionDockPanel" Grid.Row="3" Grid.ColumnSpan="3">
+                        <DockPanel.Style>
+                            <Style TargetType="DockPanel" >
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger
+                            Binding="{Binding isSubscription, UpdateSourceTrigger=PropertyChanged}" 
+                            Value="true"
+                            >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DockPanel.Style>
+                        <Grid>
+                            <Grid.Resources>
+                                <!-- HERE i can set properties for all similar objects in the grid i.e. textboxes-->
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Margin" Value="2" />
+                                    <Setter Property="Padding" Value="2" />
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="Validation.ErrorTemplate">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <AdornedElementPlaceholder/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="TextBox">
+                                                <StackPanel>
+                                                    <Border Padding="{TemplateBinding Padding}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="3">
+                                                        <ScrollViewer x:Name="PART_ContentHost" />
+                                                    </Border>
+                                                    <ItemsControl ItemsSource="{TemplateBinding Validation.Errors}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Foreground="Red" Text="{Binding ErrorContent}" />
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </StackPanel>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="1">Trade Amount:</Label>
+                            <TextBox Text="{Binding TradeAmount, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+                            <Label Grid.Row="2">Currency:</Label>
+                            <Label Content="{Binding Currency}"  Grid.Row="2" Grid.Column="1" Margin="0,0,0,2"></Label>
+                            <Label Grid.Row="3">Subscription Date:</Label>
+                            <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=TradeDate, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Command="{Binding AddInvestorActionCommand}" Grid.Row="4" Grid.Column="1" Margin="0,20,0,0" IsEnabled="{Binding CanCreate}">Book Subscription</Button>
+                        </Grid>
+                    </DockPanel>
+                    <DockPanel Name="RedemptionDockPanel" Grid.Row="3" Grid.ColumnSpan="3">
+                        <DockPanel.Style>
+                            <Style TargetType="DockPanel" >
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger
+                            Binding="{Binding isSubscription, UpdateSourceTrigger=PropertyChanged}" 
+                            Value="false"
+                            >
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DockPanel.Style>
+                        <Grid>
+                            <Grid.Resources>
+                                <!-- HERE i can set properties for all similar objects in the grid i.e. textboxes-->
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Margin" Value="2" />
+                                    <Setter Property="Padding" Value="2" />
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="Validation.ErrorTemplate">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <AdornedElementPlaceholder/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="TextBox">
+                                                <StackPanel>
+                                                    <Border Padding="{TemplateBinding Padding}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="3">
+                                                        <ScrollViewer x:Name="PART_ContentHost" />
+                                                    </Border>
+                                                    <ItemsControl ItemsSource="{TemplateBinding Validation.Errors}">
+                                                        <ItemsControl.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <TextBlock Foreground="Red" Text="{Binding ErrorContent}" />
+                                                            </DataTemplate>
+                                                        </ItemsControl.ItemTemplate>
+                                                    </ItemsControl>
+                                                </StackPanel>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Grid.Row="1">Units:</Label>
+                            <TextBox Text="{Binding Units, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+                            <Label Grid.Row="2">Currency:</Label>
+                            <Label Content="{Binding Currency}"  Grid.Row="2" Grid.Column="1" Margin="0,0,0,2"></Label>
+                            <Label Grid.Row="3">Redemption Date:</Label>
+                            <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=TradeDate, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Command="{Binding AddInvestorActionCommand}" Grid.Row="4" Grid.Column="1" Margin="0,20,0,0" IsEnabled="{Binding CanCreate}">Book Redemption</Button>
+                        </Grid>
+                    </DockPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Fund Investors">
