@@ -1,4 +1,5 @@
 ﻿using PortfolioAce.Commands;
+using PortfolioAce.Commands.CRUDCommands;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
@@ -37,7 +38,8 @@ namespace PortfolioAce.ViewModels.Modals
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
             // currency should be the funds base currency
-            AddInvestorActionCommand = new AddInvestorActionCommand(this, investorService);
+            AddSubscriptionCommand = new AddSubscriptionCommand(this, investorService);
+            AddRedemptionCommand = new AddRedemptionCommand(this, investorService);
         }
 
         public bool TargetFundWaterMark
@@ -45,6 +47,14 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 return _fund.HasHighWaterMark;
+            }
+        }
+
+        public string TargetFundBaseCurrency
+        {
+            get
+            {
+                return _fund.BaseCurrency;
             }
         }
 
@@ -131,13 +141,9 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _units = value;
                 _validationErrors.ClearErrors(nameof(Units));
-                if (_TAType == "Subscription" && _units < 0)
+                if (_units >= 0)
                 {
-                    _validationErrors.AddError(nameof(Units), "The Subscription amount cannot be a negative number");
-                }
-                else if (_TAType == "Redemption" && _units > 0)
-                {
-                    _validationErrors.AddError(nameof(Units), "The Redemption amount cannot be a positive number");
+                    _validationErrors.AddError(nameof(Units), "The Redemption Amount must be a positive number");
                 }
                 OnPropertyChanged(nameof(Units));
                 OnPropertyChanged(nameof(TradeAmount));
@@ -165,15 +171,16 @@ namespace PortfolioAce.ViewModels.Modals
 
             get
             {
-                // units should be absolute. multiplier should be based on sub/ red type.
-                _tradeAmount = Math.Round((Units * Price) - Fee, 2);
-
-
                 return _tradeAmount;
             }
             set
             {
                 _tradeAmount = value;
+                _validationErrors.ClearErrors(nameof(Units));
+                if (_tradeAmount<0)
+                {
+                    _validationErrors.AddError(nameof(Units), "The subscription amount cannot be a negative number");
+                }
                 OnPropertyChanged(nameof(TradeAmount));
             }
         }
@@ -280,7 +287,8 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-        public ICommand AddInvestorActionCommand { get; }
+        public ICommand AddSubscriptionCommand { get; }
+        public ICommand AddRedemptionCommand { get; }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 

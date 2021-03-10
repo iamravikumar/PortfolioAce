@@ -150,7 +150,7 @@
                             <Label Content="{Binding Currency}"  Grid.Row="2" Grid.Column="1" Margin="0,0,0,2"></Label>
                             <Label Grid.Row="3">Subscription Date:</Label>
                             <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=TradeDate, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Button Command="{Binding AddInvestorActionCommand}" Grid.Row="4" Grid.Column="1" Margin="0,20,0,0" IsEnabled="{Binding CanCreate}">Book Subscription</Button>
+                            <Button Command="{Binding AddSubscriptionCommand}" Grid.Row="4" Grid.Column="1" Margin="0,20,0,0" IsEnabled="{Binding CanCreate}">Book Subscription</Button>
                         </Grid>
                     </DockPanel>
                     <DockPanel Name="RedemptionDockPanel" Grid.Row="3" Grid.ColumnSpan="3">
@@ -222,7 +222,7 @@
                             <Label Content="{Binding Currency}"  Grid.Row="2" Grid.Column="1" Margin="0,0,0,2"></Label>
                             <Label Grid.Row="3">Redemption Date:</Label>
                             <DatePicker Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" SelectedDate="{Binding Path=TradeDate, UpdateSourceTrigger=PropertyChanged}"/>
-                            <Button Command="{Binding AddInvestorActionCommand}" Grid.Row="4" Grid.Column="1" Margin="0,20,0,0" IsEnabled="{Binding CanCreate}">Book Redemption</Button>
+                            <Button Command="{Binding AddRedemptionCommand}" Grid.Row="4" Grid.Column="1" Margin="0,20,0,0" IsEnabled="{Binding CanCreate}">Book Redemption</Button>
                         </Grid>
                     </DockPanel>
                 </Grid>

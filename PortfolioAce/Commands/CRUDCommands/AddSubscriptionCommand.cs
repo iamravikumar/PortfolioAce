@@ -8,12 +8,12 @@ using System.Windows.Input;
 
 namespace PortfolioAce.Commands
 {
-    public class AddInvestorActionCommand : AsyncCommandBase
+    public class AddSubscriptionCommand : AsyncCommandBase
     {
         private InvestorActionViewModel _investorActionVM;
         private ITransferAgencyService _investorService;
 
-        public AddInvestorActionCommand(InvestorActionViewModel investorActionVM,
+        public AddSubscriptionCommand(InvestorActionViewModel investorActionVM,
             ITransferAgencyService investorService)
         {
             _investorActionVM = investorActionVM;
@@ -29,24 +29,42 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                if (_investorActionVM.TradeAmount <= _investorActionVM.TargetFundMinimumInvestment && _investorActionVM.TAType == "Subscription")
+                if (_investorActionVM.TradeAmount <= _investorActionVM.TargetFundMinimumInvestment)
                 {
-                    throw new ArgumentException("The Subscription amount must be greater than the Funds minimum investment");
+                    throw new ArgumentException($"The Subscription amount must be greater than the Funds minimum investment: {_investorActionVM.TargetFundMinimumInvestment} {_investorActionVM.TargetFundBaseCurrency}.");
                 }
+                //For now settledate = trade date TODO soon it will be td + fund subscription date
                 TransferAgencyBO newInvestorAction = new TransferAgencyBO
                 {
                     TransactionDate = _investorActionVM.TradeDate,
-                    TransactionSettleDate = _investorActionVM.SettleDate,
+                    TransactionSettleDate = _investorActionVM.TradeDate,
                     IssueType = _investorActionVM.TAType,
-                    Units = _investorActionVM.Units,
-                    NAVPrice = _investorActionVM.Price,
+                    Units = decimal.Zero,
+                    NAVPrice = decimal.Zero,
                     TradeAmount = _investorActionVM.TradeAmount,
                     Currency = _investorActionVM.Currency,
                     Fees = _investorActionVM.Fee,
                     FundId = _investorActionVM.FundId,
-                    IsNavFinal = _investorActionVM.isNavFinal
+                    IsNavFinal = false
                 };
                 FundInvestorBO fundInvestor = _investorService.GetFundInvestor(_investorActionVM.FundId, _investorActionVM.SelectedInvestor.InvestorId);
+                if (fundInvestor == null)
+                {
+                    //this means the investor is new to the fund.
+                    fundInvestor = new FundInvestorBO
+                    {
+                        InceptionDate = _investorActionVM.TradeDate,
+                        FundId = _investorActionVM.FundId,
+                        InvestorId = _investorActionVM.SelectedInvestor.InvestorId,
+                    };
+                    newInvestorAction.FundInvestor = fundInvestor;
+                }
+                else
+                {
+                    newInvestorAction.FundInvestorId = fundInvestor.FundInvestorId;
+                }
+
+                /*TODO The high water mark part would have to be moved the Nav valuation section
                 if (fundInvestor == null)
                 {
                     //this means the investor is new to the fund.
@@ -63,7 +81,7 @@ namespace PortfolioAce.Commands
                 {
                     newInvestorAction.FundInvestorId = fundInvestor.FundInvestorId;
                 }
-
+                */
                 // Cash should hit the transactions on SettleDate not trade date...
 
                 await _investorService.CreateInvestorAction(newInvestorAction);
