@@ -2,9 +2,11 @@
 using PortfolioAce.Commands.CRUDCommands;
 using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
+using PortfolioAce.Domain.Models.FactTables;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
 using PortfolioAce.Models;
+using PortfolioAce.Navigation;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,7 +19,7 @@ namespace PortfolioAce.ViewModels.Modals
 
     public class InvestorActionViewModel : ViewModelWindowBase, INotifyDataErrorInfo
     {
-        private ITransferAgencyService investorService;
+        private ITransferAgencyService _investorService;
         private Fund _fund;
         private readonly ValidationErrors _validationErrors;
         private IStaticReferences _staticReferences;
@@ -26,7 +28,7 @@ namespace PortfolioAce.ViewModels.Modals
         public InvestorActionViewModel(ITransferAgencyService investorService, IStaticReferences staticReferences, Fund fund)
         {
             // if _isNavFinal. disable the price and quantity box, which means amount is entered manually
-            this.investorService = investorService;
+            this._investorService = investorService;
             this._fund = fund;
             _staticReferences = staticReferences;
             _tradeDate = DateExtentions.InitialDate();
@@ -40,6 +42,7 @@ namespace PortfolioAce.ViewModels.Modals
             // currency should be the funds base currency
             AddSubscriptionCommand = new AddSubscriptionCommand(this, investorService);
             AddRedemptionCommand = new AddRedemptionCommand(this, investorService);
+            SelectedInvestorChangedCommand = new ActionCommand(ChangeInvestorHoldingCommand);
         }
 
         public bool TargetFundWaterMark
@@ -112,7 +115,7 @@ namespace PortfolioAce.ViewModels.Modals
         {
             get
             {
-                return investorService.GetAllInvestors();
+                return _investorService.GetAllInvestors();
             }
         }
 
@@ -130,6 +133,29 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+        private InvestorHoldingsFACT _selectedInvestorHolding;
+        public InvestorHoldingsFACT SelectedInvestorHolding
+        {
+            get
+            {
+                return _selectedInvestorHolding;
+            }
+            set
+            {
+                _selectedInvestorHolding = value;
+                OnPropertyChanged(nameof(SelectedInvestorHolding));
+                OnPropertyChanged(nameof(InvestorUnits));
+            }
+        }
+
+        public decimal InvestorUnits
+        {
+            get
+            {
+                return (_selectedInvestorHolding != null) ? _selectedInvestorHolding.Units : decimal.Zero;
+            }
+        }
+
         private decimal _units;
         public decimal Units
         {
@@ -141,9 +167,13 @@ namespace PortfolioAce.ViewModels.Modals
             {
                 _units = value;
                 _validationErrors.ClearErrors(nameof(Units));
-                if (_units >= 0)
+                if (_units <= 0)
                 {
-                    _validationErrors.AddError(nameof(Units), "The Redemption Amount must be a positive number");
+                    _validationErrors.AddError(nameof(Units), "The Redemption Units must be a positive number.");
+                }
+                if(InvestorUnits < _units)
+                {
+                    _validationErrors.AddError(nameof(Units), "You cannot redeem more units than held.");
                 }
                 OnPropertyChanged(nameof(Units));
                 OnPropertyChanged(nameof(TradeAmount));
@@ -289,6 +319,15 @@ namespace PortfolioAce.ViewModels.Modals
 
         public ICommand AddSubscriptionCommand { get; }
         public ICommand AddRedemptionCommand { get; }
+        public ICommand SelectedInvestorChangedCommand { get; }
+
+        public void ChangeInvestorHoldingCommand()
+        {
+            if (SelectedInvestor != null)
+            {
+                SelectedInvestorHolding = _investorService.GetMostRecentInvestorHolding(SelectedInvestor.InvestorId, FundId);
+            }
+        }
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 

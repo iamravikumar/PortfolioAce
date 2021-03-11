@@ -101,6 +101,14 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
+        public InvestorHoldingsFACT GetMostRecentInvestorHolding(int investorId, int fundId)
+        {
+            using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
+            {
+                return context.InvestorHoldings.Where(i=>i.FundId==fundId && i.InvestorId==investorId).OrderBy(i=>i.HoldingDate).LastOrDefault();
+            }
+        }
+
         public async Task InitialiseFundAction(Fund fund, List<TransferAgencyBO> investorSubscriptions, List<TransactionsBO> transactions, NAVPriceStoreFACT initialNav, List<FundInvestorBO> fundInvestors, List<InvestorHoldingsFACT> investorHoldings)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())

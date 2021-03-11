@@ -29,6 +29,7 @@ namespace PortfolioAce.EFCore.Services
         List<InvestorsDIM> GetAllInvestors();
         List<FundInvestorBO> GetAllFundInvestors(int fundId);
 
+        InvestorHoldingsFACT GetMostRecentInvestorHolding(int investorId, int fundId);
 
     }
 }
