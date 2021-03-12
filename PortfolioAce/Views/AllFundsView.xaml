@@ -367,6 +367,29 @@
                     <DataGrid Name="dgSubsAndReds" ColumnWidth="*" ItemsSource="{Binding Path=dgFundTA, UpdateSourceTrigger=PropertyChanged}" 
                              dgx:DataGridFilter.IsAutoFilterEnabled="True" VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
                         <DataGrid.Columns>
+                            <DataGridTemplateColumn Width="80" Header="Status">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                    <TextBlock>
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Text" Value="Final"/>
+                                                <Setter Property="Foreground" Value="Green"/>
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding IsNavFinal}" Value="false"/>
+                                                        </MultiDataTrigger.Conditions>
+                                                            <Setter Property="Text" Value="Pending"/>
+                                                            <Setter Property="Foreground" Value="Orange"/>
+                                                     </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Type" Binding="{Binding IssueType}" />
                             <DataGridTextColumn Header="Units" Binding="{Binding Units, StringFormat=N2}" />
                             <DataGridTextColumn Header="NAV Price" Binding="{Binding NAVPrice, StringFormat=N2}" />
