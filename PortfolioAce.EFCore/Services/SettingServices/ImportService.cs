@@ -32,6 +32,7 @@ namespace PortfolioAce.EFCore.Services.SettingServices
                     {
                         if (!existingDates.Contains(price.Date))
                         {
+                            existingDates.Add(price.Date);
                             context.SecurityPriceData.Add(price);
                         }
                     }
@@ -50,6 +51,7 @@ namespace PortfolioAce.EFCore.Services.SettingServices
                 {
                     if (!existingSecurities.Contains(security.Symbol))
                     {
+                        existingSecurities.Add(security.Symbol);
                         context.Securities.Add(security);
                     }
                 }
