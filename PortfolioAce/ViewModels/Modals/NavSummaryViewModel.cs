@@ -1,6 +1,7 @@
 ﻿using PortfolioAce.Commands;
 using PortfolioAce.Domain.DataObjects;
 using PortfolioAce.Domain.DataObjects.PositionData;
+using PortfolioAce.Domain.Models.BackOfficeModels;
 using PortfolioAce.Domain.Models.Dimensions;
 using PortfolioAce.EFCore.Services;
 using PortfolioAce.EFCore.Services.DimensionServices;
@@ -138,6 +139,14 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 return _navValuation.ClientHoldings;
+            }
+        }
+
+        public List<TransferAgencyBO> dgPendingActions
+        {
+            get
+            {
+                return _navValuation.fund.TransferAgent.Where(ta=>!ta.IsNavFinal && ta.TransactionDate==AsOfDate).OrderBy(ta=>ta.Units).ThenBy(ta=>ta.TradeAmount).ToList();
             }
         }
 

@@ -155,6 +155,31 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
+                <TabItem Header="Pending Actions">
+                    <DataGrid Name="dgActions" ColumnWidth="*"  ItemsSource="{Binding Path=dgPendingActions}" 
+                              VerticalScrollBarVisibility="Auto" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Type" Binding="{Binding IssueType}" />
+                            <DataGridTextColumn Header="Units" Binding="{Binding Units, StringFormat=N2}" />
+                            <DataGridTextColumn Header="Trade Amount" Binding="{Binding TradeAmount, StringFormat=N2}" />
+                            <DataGridTextColumn Header="Currency" Binding="{Binding Currency}" />
+                            <DataGridTextColumn Header="Investor" Binding="{Binding FundInvestor.Investor.FullName}" />
+                            <DataGridTextColumn Header="Action Settle Date" Binding="{Binding TransactionSettleDate, StringFormat={}{0:dd/MM/yyyy}}" Width="*"/>
+                        </DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IssueType}" Value="Redemption">
+                                        <Setter Property="Background" Value="#ffebeb"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IssueType}" Value="Subscription">
+                                        <Setter Property="Background" Value="#edffeb"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.RowStyle>
+                    </DataGrid>
+                </TabItem>
             </TabControl>
         </DockPanel>
         <Button Grid.Column="1" Grid.Row="3" Content="Lock NAV" IsEnabled="{Binding EnableLockNav}" Command="{Binding LockNavCommand}" Style="{DynamicResource MaterialDesignFlatMidBgButton}" Width="150"/>
