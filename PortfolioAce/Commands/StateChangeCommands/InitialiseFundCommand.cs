@@ -40,7 +40,11 @@ namespace PortfolioAce.Commands
             {
                 if (_fundInitialiseVM.dgSeedingInvestors.Count == 0)
                 {
-                    throw new ArgumentException("Your fund must have initial investors");
+                    throw new ArgumentException("Your fund must have initial investors.");
+                }
+                if(_fundInitialiseVM.dgSeedingInvestors.Count != _fundInitialiseVM.dgSeedingInvestors.ToHashSet().Count)
+                {
+                    throw new ArgumentException("You must net an investors seed capital.");
                 }
 
                 Fund updateFund = _fundInitialiseVM.TargetFund;
