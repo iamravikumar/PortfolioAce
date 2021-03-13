@@ -342,17 +342,18 @@ namespace PortfolioAce.EFCore.Services
                     allTransactions = context.Transactions.Where(t => t.FundId == fund.FundId && t.TradeDate.Month == asOfDate.Month).Include(t => t.TransactionType).ToList();
                 }
 
+                List<TransactionsBO> deletedTransactions = new List<TransactionsBO>();
                 foreach (TransactionsBO transaction in allTransactions)
                 {
                     transaction.isLocked = false;
                     if (transaction.TransactionType.TypeClass == "CapitalTrade")
                     {
                         // this removes all the deposits and withdrawals that where booked for today...
-                        context.Transactions.Remove(transaction);
+                        deletedTransactions.Add(transaction);
                     }
                 }
                 context.Transactions.UpdateRange(allTransactions);
-
+                context.Transactions.RemoveRange(deletedTransactions);
                 List<TransferAgencyBO> allInvestorActions;
                 if (fund.NAVFrequency == "Daily")
                 {
