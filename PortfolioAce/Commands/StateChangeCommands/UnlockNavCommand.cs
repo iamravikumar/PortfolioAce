@@ -39,7 +39,7 @@ namespace PortfolioAce.Commands
                         }
                         else
                         {
-                            _investorService.UnlockNav(_navValuationVM.AsOfDate, _navValuationVM.FundId);
+                            await _investorService.UnlockNav(_navValuationVM.AsOfDate, _navValuationVM.FundId);
                             _navValuationVM.CloseAction();
                         }
                         break;
