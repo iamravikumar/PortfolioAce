@@ -49,7 +49,7 @@ namespace PortfolioAce.Domain.DataObjects
             decimal cashNav = CashPositions.Sum(cp => cp.MarketValueBase);
             this.UnvaluedPositions = SecurityPositions.Where(sp => !sp.IsValuedBase).Count() + CashPositions.Where(cp => !cp.IsValuedBase).Count();
             this.GrossAssetValue = securityNav + cashNav;
-            this.SharesOutstanding = this.fund.TransferAgent.Sum(ta => ta.Units); // if i make the units absolute i will have to negative units..
+            this.SharesOutstanding = this.fund.TransferAgent.Where(ta=>ta.IsNavFinal).Sum(ta => ta.Units); // if i make the units absolute i will have to negative units..
             this.GrossAssetValuePerShare = Math.Round(this.GrossAssetValue / this.SharesOutstanding, 5);
 
             //accruals
