@@ -217,7 +217,7 @@ namespace PortfolioAce.EFCore.Services
                 foreach (ValuedCashPosition cashPosition in navValuations.CashPositions)
                 {
                     string currencySecSymbol = $"{cashPosition.CashPosition.Currency.Symbol}c";
-                    SecuritiesDIM securitisedCash = context.Securities.Where(s => s.Symbol == currencySecSymbol).Include(s => s.AssetClass).FirstOrDefault();
+                    SecuritiesDIM securitisedCash = context.Securities.AsNoTracking().Where(s => s.Symbol == currencySecSymbol).Include(s => s.AssetClass).FirstOrDefault();
 
                     PositionFACT newPosition = new PositionFACT
                     {
@@ -257,7 +257,60 @@ namespace PortfolioAce.EFCore.Services
                 }
                 await context.InvestorHoldings.AddRangeAsync(newHoldings);
 
+                var pendingTAs = navValuations.fund.TransferAgent.Where(ta => !ta.IsNavFinal && ta.TransactionDate == asOfDate).ToList();
+                foreach(var pendingTA in pendingTAs)
+                {
+                    SecuritiesDIM security = context.Securities.AsNoTracking().Where(s=>s.Symbol== $"{pendingTA.Currency}c").First();
+                    int secId = security.SecurityId;
+                    int currId = security.CurrencyId;
+                    TransactionTypeDIM tradeType;
+                    int custodianId = context.Custodians.Where(c => c.Name == "Default").First().CustodianId; // FOR NOW TODO
 
+                    if (pendingTA.IssueType == "Subscription")
+                    {
+                        //add tradeamount..
+                        pendingTA.Units = pendingTA.TradeAmount / navValuations.NetAssetValuePerShare;
+                        pendingTA.NAVPrice = navValuations.NetAssetValuePerShare;
+                        pendingTA.IsNavFinal = true;
+                        tradeType = context.TransactionTypes.AsNoTracking().Where(tt => tt.TypeName == "Deposit").First();
+                    }
+                    else
+                    {
+                        pendingTA.TradeAmount = pendingTA.Units * navValuations.NetAssetValuePerShare;
+                        pendingTA.NAVPrice = navValuations.NetAssetValuePerShare;
+                        pendingTA.IsNavFinal = true;
+                        tradeType = context.TransactionTypes.AsNoTracking().Where(tt => tt.TypeName == "Withdrawal").First();
+                        //reduce units..
+                    }
+                    // id need to create deposit and withdrawals here as well as save these updated TAs
+
+                    // I need to set main custodian for a fund where all subs and reds initially go to.TODO
+                    TransactionsBO newCashTrade = new TransactionsBO
+                    {
+                        SecurityId = secId,
+                        Quantity = pendingTA.Units,
+                        Price = pendingTA.NAVPrice,
+                        TradeAmount = pendingTA.TradeAmount,
+                        TradeDate = pendingTA.TransactionDate,
+                        SettleDate = pendingTA.TransactionSettleDate,
+                        CreatedDate = DateTime.Now,
+                        LastModified = DateTime.Now,
+                        Fees = decimal.Zero,
+                        isActive = true,
+                        isLocked = true,
+                        isCashTransaction = false,
+                        FundId = fundId,
+                        TransactionTypeId = tradeType.TransactionTypeId,
+                        CurrencyId = currId,
+                        Comment = pendingTA.IssueType.ToUpper(),
+                        CustodianId = custodianId
+                    };
+
+
+
+                    context.Transactions.Add(newCashTrade);
+                    context.TransferAgent.Update(pendingTA);
+                }
 
                 await context.SaveChangesAsync();
                 // Lock all transactions with this trade Date... DONE
