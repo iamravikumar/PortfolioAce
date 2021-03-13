@@ -334,18 +334,53 @@ namespace PortfolioAce.EFCore.Services
                 List<TransactionsBO> allTransactions;
                 if (fund.NAVFrequency == "Daily")
                 {
-                    allTransactions = context.Transactions.Where(t => t.FundId == fund.FundId && t.TradeDate == asOfDate).ToList();
+                    allTransactions = context.Transactions.Where(t => t.FundId == fund.FundId && t.TradeDate == asOfDate).Include(t=>t.TransactionType).ToList();
                 }
                 else
                 {
-                    allTransactions = context.Transactions.Where(t => t.FundId == fund.FundId && t.TradeDate.Month == asOfDate.Month).ToList();
+                    // TODO issue here . what if the month is that same as the month the fund was launched???
+                    allTransactions = context.Transactions.Where(t => t.FundId == fund.FundId && t.TradeDate.Month == asOfDate.Month).Include(t => t.TransactionType).ToList();
                 }
 
                 foreach (TransactionsBO transaction in allTransactions)
                 {
                     transaction.isLocked = false;
+                    if (transaction.TransactionType.TypeClass == "CapitalTrade")
+                    {
+                        // this removes all the deposits and withdrawals that where booked for today...
+                        context.Transactions.Remove(transaction);
+                    }
                 }
                 context.Transactions.UpdateRange(allTransactions);
+
+                List<TransferAgencyBO> allInvestorActions;
+                if (fund.NAVFrequency == "Daily")
+                {
+                    allInvestorActions = context.TransferAgent.Where(ta => ta.FundId == fund.FundId && ta.TransactionDate == asOfDate).ToList();
+                }
+                else
+                {
+                    allInvestorActions = context.TransferAgent.Where(ta => ta.FundId == fund.FundId && ta.TransactionDate.Month == asOfDate.Month).ToList();
+                }
+
+                foreach (TransferAgencyBO action in allInvestorActions)
+                {
+                    // Sets the subscriptions and redemptions back to pending status.
+                    if (action.IssueType=="Subscription")
+                    {
+                        action.Units = decimal.Zero;
+                        action.NAVPrice = decimal.Zero;
+                        action.IsNavFinal = false;
+                    }
+                    else
+                    {
+                        action.TradeAmount = decimal.Zero;
+                        action.NAVPrice = decimal.Zero;
+                        action.IsNavFinal = false;
+                    }
+                }
+                context.TransferAgent.UpdateRange(allInvestorActions);
+
 
                 NAVPriceStoreFACT navPrice = context.NavPriceData.Where(npd => npd.FinalisedDate == asOfDate && npd.FundId == fund.FundId).FirstOrDefault();
                 context.NavPriceData.Remove(navPrice);
