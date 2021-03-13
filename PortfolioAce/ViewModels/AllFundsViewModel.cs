@@ -143,14 +143,13 @@ namespace PortfolioAce.ViewModels
             set
             {
                 _currentFund = value;
-                OnPropertyChanged(nameof(CurrentFund)); // This updates all onproperty changed properties
+                OnPropertyChanged("");
             }
         }
 
 
         public bool IsInitialised
         {
-            // need to find a way to incorporate no fund option so it doesn't break
             get
             {
                 return (_currentFund != null) ? _currentFund.IsInitialised : false;
@@ -158,6 +157,14 @@ namespace PortfolioAce.ViewModels
             private set
             {
 
+            }
+        }
+
+        public bool HasFunds
+        {
+            get
+            {
+                return (lbFunds.Count>0);
             }
         }
 
@@ -263,17 +270,6 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-        public Visibility ShowWidget
-        {
-            get
-            {
-                return (IsInitialised) ? Visibility.Visible : Visibility.Collapsed;
-            }
-            private set
-            {
-
-            }
-        }
 
         public List<ValuedCashPosition> dgFundCashHoldings
         {
