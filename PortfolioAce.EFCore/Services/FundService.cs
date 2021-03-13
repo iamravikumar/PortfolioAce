@@ -108,7 +108,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Funds.Select(f => f.Symbol).ToList();
+                return context.Funds.AsNoTracking().Select(f => f.Symbol).ToList();
             }
         }
 

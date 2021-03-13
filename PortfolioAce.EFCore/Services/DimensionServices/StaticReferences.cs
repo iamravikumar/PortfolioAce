@@ -20,7 +20,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.AssetClasses.ToList();
+                return context.AssetClasses.AsNoTracking().ToList();
             }
         }
 
@@ -28,7 +28,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.TransactionTypes.ToList();
+                return context.TransactionTypes.AsNoTracking().ToList();
             }
         }
 
@@ -36,7 +36,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Currencies.ToList();
+                return context.Currencies.AsNoTracking().ToList();
             }
         }
 
@@ -44,7 +44,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.IssueTypes.ToList();
+                return context.IssueTypes.AsNoTracking().ToList();
             }
         }
 
@@ -52,7 +52,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.NavFrequencies.ToList();
+                return context.NavFrequencies.AsNoTracking().ToList();
             }
         }
 
@@ -60,7 +60,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.AssetClasses.Where(a => (a.Name) == name).FirstOrDefault();
+                return context.AssetClasses.AsNoTracking().Where(a => (a.Name) == name).FirstOrDefault();
             }
         }
 
@@ -68,7 +68,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Currencies.Where(c => (c.Symbol) == symbol).FirstOrDefault();
+                return context.Currencies.AsNoTracking().Where(c => (c.Symbol) == symbol).FirstOrDefault();
             }
         }
 
@@ -76,7 +76,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.TransactionTypes.Where(c => (c.TypeName) == typeName).FirstOrDefault();
+                return context.TransactionTypes.AsNoTracking().Where(c => (c.TypeName) == typeName).FirstOrDefault();
             }
         }
 
@@ -84,7 +84,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Custodians.ToList();
+                return context.Custodians.AsNoTracking().ToList();
             }
         }
 
@@ -92,7 +92,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Custodians.Where(c => (c.Name) == custodianName).FirstOrDefault();
+                return context.Custodians.AsNoTracking().Where(c => (c.Name) == custodianName).FirstOrDefault();
             }
         }
 
@@ -100,7 +100,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.Where(s => s.Symbol == symbol).Include(s => s.Currency).Include(s => s.AssetClass).FirstOrDefault();
+                return context.Securities.AsNoTracking().Where(s => s.Symbol == symbol).Include(s => s.Currency).Include(s => s.AssetClass).FirstOrDefault();
             }
         }
 
@@ -116,7 +116,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                IEnumerable<SecurityPriceStore> allPrices = context.SecurityPriceData.Where(s => s.Date <= asOfDate).Include(s => s.Security);
+                IEnumerable<SecurityPriceStore> allPrices = context.SecurityPriceData.AsNoTracking().Where(s => s.Date <= asOfDate).Include(s => s.Security);
 
                 Dictionary<(string, DateTime), decimal> priceTable = new Dictionary<(string, DateTime), decimal>();
                 foreach (SecurityPriceStore price in allPrices)
@@ -132,7 +132,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Periods.Where(p => p.AccountingDate == previousDate && p.FundId == fundId).FirstOrDefault();
+                return context.Periods.AsNoTracking().Where(p => p.AccountingDate == previousDate && p.FundId == fundId).FirstOrDefault();
             }
         }
 
@@ -141,7 +141,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
             // check if the previous period is locked or not
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                List<AccountingPeriodsDIM> prevPeriods = context.Periods.Where(p => p.AccountingDate < previousPeriodDate && p.FundId == fundId).OrderBy(p => p.AccountingDate).ToList();
+                List<AccountingPeriodsDIM> prevPeriods = context.Periods.AsNoTracking().Where(p => p.AccountingDate < previousPeriodDate && p.FundId == fundId).OrderBy(p => p.AccountingDate).ToList();
                 if (prevPeriods.Count == 0)
                 {
                     return false;
@@ -158,7 +158,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 // Defaults to today..
-                AccountingPeriodsDIM periodDate = context.Periods.Where(p => p.FundId == fundId && p.isLocked).OrderBy(p => p.AccountingDate).LastOrDefault();
+                AccountingPeriodsDIM periodDate = context.Periods.AsNoTracking().Where(p => p.FundId == fundId && p.isLocked).OrderBy(p => p.AccountingDate).LastOrDefault();
                 return (periodDate != null) ? periodDate.AccountingDate : DateTime.Today;
             }
         }
@@ -167,7 +167,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Periods.Where(p => p.FundId == fundId).OrderBy(p => p.AccountingDate).ToList();
+                return context.Periods.AsNoTracking().Where(p => p.FundId == fundId).OrderBy(p => p.AccountingDate).ToList();
             }
         }
 
@@ -175,7 +175,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.Where(s => s.AssetClass.Name == assetClass).OrderBy(s => s.Symbol).Select(s => s.Symbol).ToList();
+                return context.Securities.AsNoTracking().Where(s => s.AssetClass.Name == assetClass).OrderBy(s => s.Symbol).Select(s => s.Symbol).ToList();
             }
         }
 
@@ -207,7 +207,7 @@ namespace PortfolioAce.EFCore.Services.DimensionServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Funds.Where(f=>f.IsInitialised).ToList();
+                return context.Funds.AsNoTracking().Where(f=>f.IsInitialised).ToList();
             }
         }
     }

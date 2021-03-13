@@ -23,14 +23,14 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                SecuritiesDIM fxSecurity = context.Securities.Where(s => s.Symbol == fxTransaction.Symbol).FirstOrDefault();
-                AssetClassDIM assetClass = context.AssetClasses.Where(a => a.Name == "FXForward").FirstOrDefault();
-                CustodiansDIM custodian = context.Custodians.Where(c => c.Name == fxTransaction.Custodian).FirstOrDefault();
+                SecuritiesDIM fxSecurity = context.Securities.AsNoTracking().Where(s => s.Symbol == fxTransaction.Symbol).FirstOrDefault();
+                AssetClassDIM assetClass = context.AssetClasses.AsNoTracking().Where(a => a.Name == "FXForward").FirstOrDefault();
+                CustodiansDIM custodian = context.Custodians.AsNoTracking().Where(c => c.Name == fxTransaction.Custodian).FirstOrDefault();
                 IEnumerable<TransactionTypeDIM> transactionTypes = context.TransactionTypes;
-                List<CurrenciesDIM> currencies = context.Currencies.ToList();
+                List<CurrenciesDIM> currencies = context.Currencies.AsNoTracking().ToList();
 
-                CurrenciesDIM buyCurrency = context.Currencies.Where(c => c.Symbol == fxTransaction.BuyCurrency).First();
-                CurrenciesDIM sellCurrency = context.Currencies.Where(c => c.Symbol == fxTransaction.SellCurrency).First();
+                CurrenciesDIM buyCurrency = context.Currencies.AsNoTracking().Where(c => c.Symbol == fxTransaction.BuyCurrency).First();
+                CurrenciesDIM sellCurrency = context.Currencies.AsNoTracking().Where(c => c.Symbol == fxTransaction.SellCurrency).First();
                 if (fxSecurity == null)
                 {
                     fxSecurity = new SecuritiesDIM
@@ -89,8 +89,8 @@ namespace PortfolioAce.EFCore.Services
                 EntityEntry<TransactionsBO> res = await context.Transactions.AddAsync(refTransaction);
                 context.Transactions.Add(refTransactionCollapse);
 
-                SecuritiesDIM fxBuySecurity = context.Securities.Where(s => s.Symbol == $"{fxTransaction.BuyCurrency}c").FirstOrDefault();
-                SecuritiesDIM fxSellSecurity = context.Securities.Where(s => s.Symbol == $"{fxTransaction.SellCurrency}c").FirstOrDefault();
+                SecuritiesDIM fxBuySecurity = context.Securities.AsNoTracking().Where(s => s.Symbol == $"{fxTransaction.BuyCurrency}c").FirstOrDefault();
+                SecuritiesDIM fxSellSecurity = context.Securities.AsNoTracking().Where(s => s.Symbol == $"{fxTransaction.SellCurrency}c").FirstOrDefault();
 
                 TransactionsBO fxBuyLegCash = new TransactionsBO
                 {
@@ -198,7 +198,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Custodians.Where(c => c.Name == name).FirstOrDefault();
+                return context.Custodians.AsNoTracking().Where(c => c.Name == name).FirstOrDefault();
             }
         }
 
@@ -206,7 +206,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.Where(s => s.Symbol == symbol).Include(s => s.Currency).Include(s => s.AssetClass).FirstOrDefault();
+                return context.Securities.AsNoTracking().Where(s => s.Symbol == symbol).Include(s => s.Currency).Include(s => s.AssetClass).FirstOrDefault();
             }
         }
 
@@ -214,7 +214,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.TransactionTypes.Where(t => (t.TypeName) == name).FirstOrDefault();
+                return context.TransactionTypes.AsNoTracking().Where(t => (t.TypeName) == name).FirstOrDefault();
             }
         }
 

@@ -306,8 +306,6 @@ namespace PortfolioAce.EFCore.Services
                         CustodianId = custodianId
                     };
 
-
-
                     context.Transactions.Add(newCashTrade);
                     context.TransferAgent.Update(pendingTA);
                 }

@@ -23,6 +23,7 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
                 if (onlyActive)
                 {
                     return context.Positions.Where(p => p.Quantity != 0 && p.FundId == FundId && p.PositionDate == date)
+                        .AsNoTracking()
                         .Include(p => p.AssetClass)
                         .Include(p => p.Security)
                         .ToList();
@@ -30,6 +31,7 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
                 else
                 {
                     return context.Positions.Where(p => p.FundId == FundId && p.PositionDate == date)
+                        .AsNoTracking()
                         .Include(p => p.AssetClass)
                         .Include(p => p.Security)
                         .ToList();
@@ -42,6 +44,7 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.NavPriceData
+                        .AsNoTracking()
                         .OrderBy(np => np.FinalisedDate)
                         .Include(np => np.Fund)
                         .ToList();
@@ -53,6 +56,7 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 return context.NavPriceData
+                        .AsNoTracking()
                         .Where(np => np.FundId == fundId)
                         .OrderBy(np => np.FinalisedDate)
                         .ToList();
@@ -63,7 +67,7 @@ namespace PortfolioAce.EFCore.Services.FactTableServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Positions
+                return context.Positions.AsNoTracking()
                             .Where(p => p.FundId == fundId && p.SecurityId == securityId)
                             .ToList();
             }

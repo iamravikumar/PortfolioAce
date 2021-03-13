@@ -1,4 +1,5 @@
-﻿using PortfolioAce.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PortfolioAce.Domain.Models;
 using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
@@ -64,7 +65,7 @@ namespace PortfolioAce.EFCore.Services.SettingServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.AssetClasses.ToDictionary(k => k.Name, v => v.AssetClassId);
+                return context.AssetClasses.AsNoTracking().ToDictionary(k => k.Name, v => v.AssetClassId);
             }
         }
 
@@ -72,7 +73,7 @@ namespace PortfolioAce.EFCore.Services.SettingServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Currencies.ToDictionary(k => k.Symbol, v => v.CurrencyId);
+                return context.Currencies.AsNoTracking().ToDictionary(k => k.Symbol, v => v.CurrencyId);
             }
         }
 
@@ -80,7 +81,7 @@ namespace PortfolioAce.EFCore.Services.SettingServices
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.ToDictionary(k => k.Symbol, v => v.SecurityId);
+                return context.Securities.AsNoTracking().ToDictionary(k => k.Symbol, v => v.SecurityId);
             }
         }
     }
