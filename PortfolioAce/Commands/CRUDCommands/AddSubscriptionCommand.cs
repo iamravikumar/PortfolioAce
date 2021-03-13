@@ -57,23 +57,6 @@ namespace PortfolioAce.Commands
                         FundId = _investorActionVM.FundId,
                         InvestorId = _investorActionVM.SelectedInvestor.InvestorId,
                     };
-                    newInvestorAction.FundInvestor = fundInvestor;
-                }
-                else
-                {
-                    newInvestorAction.FundInvestorId = fundInvestor.FundInvestorId;
-                }
-
-                /*TODO The high water mark part would have to be moved the Nav valuation section
-                if (fundInvestor == null)
-                {
-                    //this means the investor is new to the fund.
-                    fundInvestor = new FundInvestorBO
-                    {
-                        InceptionDate = _investorActionVM.TradeDate,
-                        FundId = _investorActionVM.FundId,
-                        InvestorId = _investorActionVM.SelectedInvestor.InvestorId,
-                    };
                     fundInvestor.HighWaterMark = (_investorActionVM.TargetFundWaterMark && _investorActionVM.isNavFinal) ? _investorActionVM.Price : (decimal?)null;
                     newInvestorAction.FundInvestor = fundInvestor;
                 }
@@ -81,8 +64,6 @@ namespace PortfolioAce.Commands
                 {
                     newInvestorAction.FundInvestorId = fundInvestor.FundInvestorId;
                 }
-                */
-                // Cash should hit the transactions on SettleDate not trade date...
 
                 await _investorService.CreateInvestorAction(newInvestorAction);
                 _investorActionVM.CloseAction();
