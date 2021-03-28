@@ -42,7 +42,6 @@ namespace PortfolioAce.ViewModels
             _asOfDate = (_currentFund != null) ? _staticReferences.GetMostRecentLockedDate(_currentFund.FundId) : DateTime.Today;
             _priceTable = _staticReferences.GetPriceTable(_asOfDate);
             SelectFundCommand = new SelectFundCommand(this, fundService, staticReferences);
-
             ShowNewTradeCommand = new ActionCommand(OpenNewTradeWindow);
 
             ShowEditTradeCommand = new ActionCommand(OpenEditTradeWindow);
@@ -395,7 +394,7 @@ namespace PortfolioAce.ViewModels
         public void OpenNewTradeWindow()
         {
             _windowFactory.CreateNewTradeWindow(_currentFund);
-            SelectFundCommand.Execute(_currentFund.Symbol);
+            OnPropertyChanged("");
         }
 
         public void OpenEditTradeWindow()
@@ -415,13 +414,13 @@ namespace PortfolioAce.ViewModels
         public void OpenNewFxTradeWindow()
         {
             _windowFactory.CreateNewFXTradeWindow(_currentFund);
-            SelectFundCommand.Execute(_currentFund.Symbol);
+            OnPropertyChanged("");
         }
 
         public void OpenNewCashTradeWindow()
         {
             _windowFactory.CreateNewCashTradeWindow(_currentFund);
-            SelectFundCommand.Execute(_currentFund.Symbol);
+            OnPropertyChanged("");
         }
 
         public void OpenEditCashTradeWindow()
