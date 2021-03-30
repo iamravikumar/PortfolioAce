@@ -93,7 +93,7 @@
     <!-- rename and move final msi-->
     <Exec Command="if not exist Installs mkdir Installs"/>
     
-    <Exec Command="move bin\$(Configuration)\$(OutputName).msi Installs\ConsoleApp-%(AssemblyVersion.Version)-$(Configuration)-$(Platform).msi"/>
+    <Exec Command="move bin\$(Configuration)\$(OutputName).msi Installs\PortfolioAce-%(AssemblyVersion.Version)-$(Configuration)-$(Platform).msi"/>
 
   </Target>
 </Project>
