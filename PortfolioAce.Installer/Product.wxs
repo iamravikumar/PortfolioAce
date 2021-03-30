@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	
+	<?if $(var.Platform)=x64 ?>
+  <?define ProductCode="{02D93469-B7FE-476C-BD69-D720A9DD8F73}" ?>
+  <?else?>
+  <?define ProductCode="{23569564-D970-4C7F-8E34-023FD7BBCFE4}" ?>
+  <?endif?>
+
+  <?define UpgradeCode = "{3AE60EE5-6B0B-4667-8BC6-932DA32EDE0F}"?>
+  
+	<Product Id="$(var.ProductCode)"
+          Name="!(loc.ProductName_$(var.Platform))" 
+					Language="!(loc.Language)" 
+					Version="$(var.BuildVersion)" 
+					Manufacturer="!(loc.Company)" 
+					UpgradeCode="$(var.UpgradeCode)">
+		<Package InstallerVersion="200" 
+             Compressed="yes" 
+             InstallScope="perMachine" 
+             Platform="$(var.Platform)"
+						 Manufacturer="!(loc.Company)"
+             Keywords="!(loc.Keywords)"
+             Comments="!(loc.Comments)"
+             Languages="!(loc.Language)"
+             InstallPrivileges="elevated"
+             />
+
+		<MajorUpgrade DowngradeErrorMessage="!(loc.DowngradeMessage)" />
+		<MediaTemplate 
+      EmbedCab="yes"
+      />
+    
+    <Icon Id="ProductIcon" SourceFile="$(var.PortfolioAce.ProjectDir)\Resources\portfolioace_logo2_icon.ico"/>
+
+    <Property Id="ARPPRODUCTICON">ProductIcon</Property>
+    <Property Id="ARPURLINFOABOUT">https://github.com/RamonWill/PortfolioAce</Property>
+
+    <!--Installer UI-->
+    <UIRef Id="WixUI_Minimal"/>
+    <WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\Assets\license_agreement.rtf"/>
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.ProjectDir)\Assets\portfolioace_installer_background.bmp"/>
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.ProjectDir)\Assets\portfolioace_installer_banner.bmp"/>
+
+
+
+    <Feature Id="ProductFeature" Title="PortfolioAce.Installer" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="PublishedComponents" />
+    </Feature>
+	</Product>
+</Wix>

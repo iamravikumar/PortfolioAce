@@ -353,4 +353,4 @@ MigrationBackup/
 *.db
 
 # ignore installer
-/PortfolioAce.Installer
+/PortfolioAce.Installer/Installs

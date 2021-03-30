@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Fragment>
+    <ComponentGroup Id="ProductComponents">
+
+      <ComponentRef Id="AppShortcut"/>
+    
+    </ComponentGroup>
+
+    <DirectoryRef Id="INSTALLFOLDER" FileSource="..\PortfolioAce\bin\Release\netcoreapp3.1\win-$(var.Platform)\publish\">
+      <!-- Application Shortcut-->
+      <Component Id="AppShortcut" Guid="{A93C919E-3D01-49EC-BD12-30F8F9EAB791}">
+
+          <Shortcut Id="ShortcutAppShortcut"
+                    Name="PortfolioAce"
+                    Target="[INSTALLFOLDER]PortfolioAce.exe"
+                    Directory="InstallProgramMenuFolder"
+                    WorkingDirectory="INSTALLFOLDER"
+                    Icon="ProductIcon"/>
+
+         <!-- unique key for the shortcut component-->
+        <RegistryValue Id="RegShortcutKey" Root="HKCU" Key="SOFTWARE\!(loc.ProductNameFolder)" 
+                       Name="Shortcut" Value="1" Type="integer" KeyPath="yes"/>
+        <RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramMenuFolder" On="uninstall"/>
+      </Component>
+    </DirectoryRef>
+    
+    
+  </Fragment>
+</Wix>
