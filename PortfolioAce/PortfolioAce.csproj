@@ -5,6 +5,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Resources\portfolioace_logo2_icon.ico</ApplicationIcon>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+    <FileVersion>0.0.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -49,6 +51,7 @@
     <None Remove="Resources\portfolioace_logo2_icon.ico" />
     <None Remove="Resources\portfolioace_logo_icon.ico" />
     <None Remove="Resources\PortfolioAce_logo_with_text.png" />
+    <None Remove="Resources\portfolioace_splash_screen.png" />
     <None Remove="Resources\stlouisfed_logo.png" />
     <None Remove="Resources\Stocktwits-logo.png" />
   </ItemGroup>
@@ -193,6 +196,9 @@
     <Resource Include="Resources\PortfolioAce_logo_with_text.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <SplashScreen Include="Resources\portfolioace_splash_screen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </SplashScreen>
     <Resource Include="Resources\stlouisfed_logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
