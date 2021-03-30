@@ -6,6 +6,7 @@ using PortfolioAce.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -26,6 +27,10 @@ namespace PortfolioAce.ViewModels
                 _selectedPrice = dgLatestNavPrices[0];
                 Load(_selectedPrice.FundId);
             }
+
+            _assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+
             NextCardCommand = new ActionCommand(NextCard);
             PreviousCardCommand = new ActionCommand(PreviousCard);
         }
@@ -107,6 +112,15 @@ namespace PortfolioAce.ViewModels
             {
                 _NavPriceLineChartXAxis = value;
                 OnPropertyChanged(nameof(NavPriceLineChartXAxis));
+            }
+        }
+
+        private string _assemblyVersion;
+        public string AssemblyVersion
+        {
+            get
+            {
+                return _assemblyVersion;
             }
         }
 
