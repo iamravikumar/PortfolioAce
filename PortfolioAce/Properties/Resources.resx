@@ -244,4 +244,7 @@
   <data name="icons8_txt_24" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icons8-txt-24.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="portfolioace_splash_screen" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\portfolioace_splash_screen.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
