@@ -7,7 +7,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PortfolioAce.Views.Modals"
         mc:Ignorable="d"
-        Title="Client Manager" Height="425" Width="575" MaxHeight="425" MaxWidth="575">
+        Title="Investor Manager" Height="425" Width="575" MaxHeight="425" MaxWidth="575">
     <Window.Resources>
         <providers:CountrySuggestionProvider x:Key="CountrySuggestionProvider"/>
         <providers:LanguageSuggestionProvider x:Key="LanguageSuggestionProvider"/>
@@ -146,10 +146,10 @@
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <Border BorderBrush="DarkGray" BorderThickness="1">
-                                        <Image Source="/PortfolioAce;component/Resources\generic_avatar_placeholder.png" Grid.Column="0" Width="100" MaxWidth="115" StretchDirection="Both" VerticalAlignment="Center" Stretch="UniformToFill"/>
+                                        <Image Source="/PortfolioAce;component/Resources\generic_avatar.png" Grid.Column="0" Width="100" MaxWidth="115" StretchDirection="Both" VerticalAlignment="Center" Stretch="UniformToFill"/>
                                     </Border>
                                     <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
-                                        <Label Content="{Binding SelectedInvestor.FullName}" FontSize="26" Foreground="DeepSkyBlue" FontWeight="SemiBold"/>
+                                        <Label Content="{Binding SelectedInvestor.FullName}" FontSize="26" Foreground="#404040" FontWeight="SemiBold"/>
                                         <TextBlock Text="{Binding InvestorProfile, UpdateSourceTrigger=PropertyChanged}" FontSize="14" TextWrapping="Wrap"/>
                                     </StackPanel>
                                 </Grid>
@@ -157,7 +157,7 @@
                             <StackPanel Grid.Row="1" Orientation="Horizontal">
                                 <Image Source="/PortfolioAce;component/Resources\icons8-date-of-birth-24.png" Width="50" Margin="10">
                                     <Image.ToolTip>
-                                        Date of birth
+                                        Date of Birth
                                     </Image.ToolTip>
                                 </Image>
                                 <Label Content="{Binding SelectedInvestor.BirthDate, StringFormat={}{0:dd/MM/yyyy}}" FontSize="15" Margin="0,10,0,0"/>
@@ -172,6 +172,9 @@
                                     <Hyperlink RequestNavigate="Link_LaunchEmail" NavigateUri="{Binding SelectedInvestorEmailLink}">
                                         <TextBlock Text="{Binding SelectedInvestor.Email}"/>
                                     </Hyperlink>
+                                    <Label.ToolTip>
+                                        <TextBlock Text="{Binding SelectedInvestor.Email, StringFormat='mailto: {0}'}"/>
+                                    </Label.ToolTip>
                                 </Label>
                             </StackPanel>
                             <StackPanel Grid.Row="3" Orientation="Horizontal">
@@ -192,8 +195,12 @@
                             </StackPanel>
                             <Border BorderBrush="LightGray" BorderThickness="0,3,0,0" Grid.Row="5" >
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                                    <Button Margin="0,0,30,0" Content="Edit Investor Details" FontSize="12" Style="{DynamicResource MaterialDesignFlatDarkBgButton}"/>
-                                    <Button Margin="0,0,9,0" Content="Delete Investor" FontSize="12" Style="{DynamicResource MaterialDesignFlatDarkBgButton}"/>
+                                    <Button Margin="0,0,30,0" Content="Edit Investor Details" FontSize="12" Style="{DynamicResource MaterialDesignFlatDarkBgButton}" IsEnabled="False" ToolTipService.ShowOnDisabled="True">
+                                        <Button.ToolTip>This action is currently unavailable</Button.ToolTip>
+                                    </Button>
+                                    <Button Margin="0,0,9,0" Content="Delete Investor" FontSize="12" Style="{DynamicResource MaterialDesignFlatDarkBgButton}" IsEnabled="False" ToolTipService.ShowOnDisabled="True">
+                                        <Button.ToolTip>This action is currently unavailable</Button.ToolTip>
+                                    </Button>
                                 </StackPanel>
                             </Border>
                         </Grid>

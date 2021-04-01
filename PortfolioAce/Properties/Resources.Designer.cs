@@ -63,9 +63,9 @@ namespace PortfolioAce.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] generic_avatar_placeholder {
+        internal static byte[] generic_avatar {
             get {
-                object obj = ResourceManager.GetObject("generic_avatar_placeholder", resourceCulture);
+                object obj = ResourceManager.GetObject("generic_avatar", resourceCulture);
                 return ((byte[])(obj));
             }
         }

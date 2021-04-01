@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\generic_avatar_placeholder.png" />
+    <None Remove="Resources\generic_avatar.png" />
     <None Remove="Resources\icons8-about-24.png" />
     <None Remove="Resources\icons8-add-fund-24.png" />
     <None Remove="Resources\icons8-AddInvestor-24.png" />
@@ -73,7 +73,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\generic_avatar_placeholder.png">
+    <Resource Include="Resources\generic_avatar.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\icons8-about-24.png">

@@ -81,7 +81,7 @@ namespace PortfolioAce.EFCore.Services
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Investors.ToList();
+                return context.Investors.OrderBy(i=>i.FullName).ToList();
             }
         }
 

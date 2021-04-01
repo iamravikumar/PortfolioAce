@@ -34,6 +34,7 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
+
         private string _fullName;
         public string FullName
         {
@@ -72,11 +73,6 @@ namespace PortfolioAce.ViewModels.Modals
             set
             {
                 _domicile = value;
-                _validationErrors.ClearErrors(nameof(Domicile));
-                if (_domicile == null)
-                {
-                    _validationErrors.AddError(nameof(Domicile), $"This country does not exist");
-                }
                 OnPropertyChanged(nameof(Domicile));
             }
         }
@@ -137,6 +133,11 @@ namespace PortfolioAce.ViewModels.Modals
             get
             {
                 return _allInvestors;
+            }
+            set
+            {
+                _allInvestors = value;
+                OnPropertyChanged(nameof(lbInvestors));
             }
         }
 
@@ -235,6 +236,22 @@ namespace PortfolioAce.ViewModels.Modals
         {
             ErrorsChanged?.Invoke(this, e);
             OnPropertyChanged(nameof(CanCreate));
+        }
+
+
+        public void ResetValues(string? selectInvestorName=null)
+        {
+            lbInvestors = _investorService.GetAllInvestors();
+            if (selectInvestorName != null)
+            {
+                SelectedInvestor = lbInvestors.Where(i => i.FullName == selectInvestorName).First();
+            }
+            FullName = string.Empty;
+            BirthDate = null;
+            Domicile = null;
+            Email = string.Empty;
+            MobileNumber = string.Empty;
+            NativeLanguage = string.Empty;
         }
 
     }

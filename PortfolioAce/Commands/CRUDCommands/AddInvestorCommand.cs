@@ -29,17 +29,32 @@ namespace PortfolioAce.Commands
         {
             try
             {
+                string? domicile = (_addInvestorVM.Domicile != null)?_addInvestorVM.Domicile.EnglishName:null;
+                if (_addInvestorVM.FullName == "")
+                {
+                    throw new ArgumentException("You must provide a full name");
+                }
+
                 InvestorsDIM newInvestor = new InvestorsDIM
                 {
                     FullName = _addInvestorVM.FullName,
                     BirthDate = _addInvestorVM.BirthDate,
-                    Domicile = _addInvestorVM.Domicile.EnglishName,
+                    Domicile = domicile,
                     Email = _addInvestorVM.Email,
                     MobileNumber = _addInvestorVM.MobileNumber,
                     NativeLanguage = _addInvestorVM.NativeLanguage
                 };
-                await _investorService.CreateInvestor(newInvestor);
-                _addInvestorVM.CloseAction();
+                var savedInvestor = await _investorService.CreateInvestor(newInvestor);
+                if (savedInvestor.InvestorId != 0)
+                {
+                    MessageBox.Show($"{_addInvestorVM.FullName} has been saved.");
+                    _addInvestorVM.ResetValues(selectInvestorName: _addInvestorVM.FullName);
+                }
+                else
+                {
+                    MessageBox.Show($"ERROR INVNOTSAVED");
+                    _addInvestorVM.CloseAction();
+                }
             }
             catch (Exception e)
             {

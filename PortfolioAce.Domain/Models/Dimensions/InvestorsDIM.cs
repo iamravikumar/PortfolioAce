@@ -9,7 +9,7 @@ namespace PortfolioAce.Domain.Models.Dimensions
     {
         [Key]
         public int InvestorId { get; set; }
-        [Required]
+        [Required, StringLength(50,MinimumLength =2)]
         public string FullName { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
