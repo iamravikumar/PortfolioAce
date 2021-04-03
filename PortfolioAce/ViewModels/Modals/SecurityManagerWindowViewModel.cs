@@ -26,6 +26,8 @@ namespace PortfolioAce.ViewModels.Modals
             AddSecurityCommand = new AddSecurityCommand(this, adminService, staticReferences);
             _validationErrors = new ValidationErrors();
             _validationErrors.ErrorsChanged += ChangedErrorsEvents;
+
+            _dgSecurities = _adminService.GetAllSecurities().Where(s => s.AssetClass.Name != "Cash" && s.AssetClass.Name != "FXForward").ToList();
         }
 
         private string _assetClass;
@@ -69,7 +71,7 @@ namespace PortfolioAce.ViewModels.Modals
                 _avSymbol = value;
                 _fmpSymbol = value;
                 _validationErrors.ClearErrors(nameof(SecuritySymbol));
-                if (_adminService.SecurityExists(_securitySymbol))
+                if (_adminService.SecurityExists(_securitySymbol, _assetClass))
                 {
                     _validationErrors.AddError(nameof(SecuritySymbol), $"The Security '{_securitySymbol}' already exist");
                 }
@@ -135,13 +137,12 @@ namespace PortfolioAce.ViewModels.Modals
             }
         }
 
-
+        List<SecuritiesDIM> _dgSecurities;
         public ObservableCollection<SecuritiesDIM> dgSecurities
         {
             get
             {
-                List<SecuritiesDIM> securities = _adminService.GetAllSecurities().Where(s => s.AssetClass.Name != "Cash" && s.AssetClass.Name != "FXForward").ToList();
-                return new ObservableCollection<SecuritiesDIM>(securities);
+                return new ObservableCollection<SecuritiesDIM>(_dgSecurities);
             }
         }
 
@@ -177,6 +178,17 @@ namespace PortfolioAce.ViewModels.Modals
         {
             ErrorsChanged?.Invoke(this, e);
             OnPropertyChanged(nameof(CanCreate));
+        }
+
+        public void ResetValues()
+        {
+            SecuritySymbol = string.Empty;
+            SecurityName = string.Empty;
+            AVSymbol = string.Empty;
+            FMPSymbol = string.Empty;
+            ISIN = string.Empty;
+            _dgSecurities = _adminService.GetAllSecurities().Where(s => s.AssetClass.Name != "Cash" && s.AssetClass.Name != "FXForward").ToList();
+            OnPropertyChanged(nameof(dgSecurities));
         }
     }
 }
