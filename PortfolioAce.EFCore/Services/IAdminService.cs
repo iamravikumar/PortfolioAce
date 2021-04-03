@@ -9,11 +9,11 @@ namespace PortfolioAce.EFCore.Services
         // Admin responsibilities. such as adding static security information
         // and prices. 
         // make these tasks
-        Task AddSecurityInfo(SecuritiesDIM security);
+        Task<SecuritiesDIM> AddSecurityInfo(SecuritiesDIM security);
         Task UpdateSecurityInfo(SecuritiesDIM security);
         Task DeleteSecurityInfo(string symbol);
 
-        bool SecurityExists(string symbol);
+        bool SecurityExists(string symbol, string assetClass);
 
         Task UpdateSecurityPrices(string symbol);
         List<SecuritiesDIM> GetAllSecurities();

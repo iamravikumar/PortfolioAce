@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using PortfolioAce.Domain.Models.Dimensions;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,13 @@ namespace PortfolioAce.EFCore.Services
             this._contextFactory = contextFactory;
         }
 
-        public async Task AddSecurityInfo(SecuritiesDIM security)
+        public async Task<SecuritiesDIM> AddSecurityInfo(SecuritiesDIM security)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                context.Securities.Add(security);
+                EntityEntry<SecuritiesDIM> res = await context.Securities.AddAsync(security);
                 await context.SaveChangesAsync();
+                return res.Entity;
             }
         }
 
@@ -46,11 +48,11 @@ namespace PortfolioAce.EFCore.Services
             }
         }
 
-        public bool SecurityExists(string symbol)
+        public bool SecurityExists(string symbol, string assetClass)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return (context.Securities.FirstOrDefault(s => s.Symbol == symbol) != null);
+                return (context.Securities.Include(s=>s.AssetClass).FirstOrDefault(s => s.Symbol == symbol && s.AssetClass.Name == assetClass) != null);
             }
         }
 

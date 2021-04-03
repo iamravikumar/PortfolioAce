@@ -31,6 +31,10 @@ namespace PortfolioAce.Commands
 
         public override async Task ExecuteAsync(object parameter)
         {
+            if (string.IsNullOrWhiteSpace(_SecurityManagerVM.SecurityName) || string.IsNullOrWhiteSpace(_SecurityManagerVM.SecuritySymbol))
+            {
+                throw new ArgumentException("You must provide a security name and symbol");
+            }
             // currency and asset class objects
             CurrenciesDIM currency = _staticReferences.GetCurrency(_SecurityManagerVM.Currency);
             AssetClassDIM assetClass = _staticReferences.GetAssetClass(_SecurityManagerVM.AssetClass);
@@ -46,7 +50,17 @@ namespace PortfolioAce.Commands
                     FMPSymbol = _SecurityManagerVM.FMPSymbol,
                     ISIN = _SecurityManagerVM.ISIN
                 };
-                await _adminService.AddSecurityInfo(newSecurity);
+                var savedSecurity =  await _adminService.AddSecurityInfo(newSecurity);
+                if (savedSecurity.SecurityId != 0)
+                {
+                    MessageBox.Show($"{_SecurityManagerVM.SecurityName} has been saved.");
+                    _SecurityManagerVM.ResetValues();
+                }
+                else
+                {
+                    MessageBox.Show($"ERROR INVNOTSAVED");
+                    _SecurityManagerVM.CloseAction();
+                }
             }
             catch (Exception e)
             {
