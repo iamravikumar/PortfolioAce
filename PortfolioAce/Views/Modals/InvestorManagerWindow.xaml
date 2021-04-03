@@ -99,7 +99,7 @@
                                                  SelectedItem="{Binding Domicile, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
                     </acb:AutoCompleteTextBox>
                     <Label Grid.Row="4">Email:</Label>
-                    <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
+                    <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2" CharacterCasing="Lower"/>
                     <Label Grid.Row="5">Mobile Number:</Label>
                     <TextBox Text="{Binding MobileNumber, UpdateSourceTrigger=PropertyChanged}" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,2"/>
                     <Label Grid.Row="6">Native Language</Label>
