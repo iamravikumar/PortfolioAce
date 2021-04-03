@@ -63,6 +63,7 @@ namespace PortfolioAce.ViewModels
 
             ShowNavSummaryCommand = new ActionCommand(OpenNavSummaryWindow);
             DateSelectionChangedCommand = new ActionCommand(ChangeDateCommand);
+            RefreshFundCommand = new ActionCommand(RefreshCurrentFund);
         }
 
         public ICommand DateSelectionChangedCommand { get; }
@@ -73,7 +74,6 @@ namespace PortfolioAce.ViewModels
         public ICommand ShowRestoreTradeCommand { get; }
         public ICommand ShowDeleteTradeCommand { get; }
         public ICommand ShowNewFXTradeCommand { get; }
-
         public ICommand ShowNewCashTradeCommand { get; }
         public ICommand ShowEditCashTradeCommand { get; }
         public ICommand ShowFundPropertiesCommand { get; }
@@ -81,6 +81,8 @@ namespace PortfolioAce.ViewModels
         public ICommand ShowNewInvestorActionCommand { get; }
         public ICommand ShowNavSummaryCommand { get; }
         public ICommand ShowFundMetricsCommand { get; }
+
+        public ICommand RefreshFundCommand { get; }
 
         private DateTime _asOfDate;
         public DateTime asOfDate
@@ -394,7 +396,7 @@ namespace PortfolioAce.ViewModels
         public void OpenNewTradeWindow()
         {
             _windowFactory.CreateNewTradeWindow(_currentFund);
-            OnPropertyChanged("");
+            RefreshCurrentFund();
         }
 
         public void OpenEditTradeWindow()
@@ -414,13 +416,13 @@ namespace PortfolioAce.ViewModels
         public void OpenNewFxTradeWindow()
         {
             _windowFactory.CreateNewFXTradeWindow(_currentFund);
-            OnPropertyChanged("");
+            RefreshCurrentFund();
         }
 
         public void OpenNewCashTradeWindow()
         {
             _windowFactory.CreateNewCashTradeWindow(_currentFund);
-            OnPropertyChanged("");
+            RefreshCurrentFund();
         }
 
         public void OpenEditCashTradeWindow()
@@ -432,7 +434,7 @@ namespace PortfolioAce.ViewModels
         public void OpenInvestorActionWindow()
         {
             _windowFactory.CreateNewInvestorActionWindow(_currentFund);
-            OnPropertyChanged("");
+            RefreshCurrentFund();
         }
 
         public void OpenFundInitialisationWindow()
@@ -461,7 +463,8 @@ namespace PortfolioAce.ViewModels
         public void OpenNavSummaryWindow()
         {
             _windowFactory.CreateNavSummaryWindow(NavValuation);
-            SelectFundCommand.Execute(_currentFund.Symbol);
+            // I will need to implement something better here. if the operation is successful then reload the page...
+            RefreshCurrentFund();
         }
 
 
@@ -555,6 +558,12 @@ namespace PortfolioAce.ViewModels
             priceTable = _staticReferences.GetPriceTable(_asOfDate);
             OnPropertyChanged("");
 
+        }
+
+        private void RefreshCurrentFund()
+        {
+            CurrentFund = _fundService.GetFund(CurrentFund.Symbol);
+            priceTable = _staticReferences.GetPriceTable(asOfDate);
         }
 
         public override void Dispose()

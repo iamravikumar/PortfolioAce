@@ -56,7 +56,7 @@
                 </Style>
             </DockPanel.Style>
             <StackPanel DockPanel.Dock="Top">
-                <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignBody2TextBlock}">It Appears that you have no funds or your fund is not initialised!</TextBlock>
+                <TextBlock TextAlignment="Center" Style="{DynamicResource MaterialDesignBody2TextBlock}">You can initialise your fund here!</TextBlock>
                 <Button Margin="0,10,0,0" Grid.Row="3" Width="200" Command="{Binding ShowFundInitialisationCommand}" IsEnabled="{Binding IsInitialised, Converter={StaticResource invertBoolConverter}}">Initialise Fund</Button>
             </StackPanel>
         </DockPanel>
