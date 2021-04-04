@@ -21,7 +21,7 @@ namespace PortfolioAce.Tests.IntegrationTests
                 TestSeeds.SeedPortfolio(context);
             }
             IAdminService aService = new AdminService(factory);
-            bool res = aService.SecurityExists("AAPL");
+            bool res = aService.SecurityExists("AAPL", "Equity");
             Assert.True(res);
         }
 
@@ -35,8 +35,22 @@ namespace PortfolioAce.Tests.IntegrationTests
                 TestSeeds.SeedPortfolio(context);
             }
             IAdminService aService = new AdminService(factory);
-            bool res = aService.SecurityExists("MSFT");
+            bool res = aService.SecurityExists("MSFT", "Equity");
             Assert.True(res);
+        }
+
+        [Fact]
+        public void DummyServiceTest3()
+        {
+            Action<DbContextOptionsBuilder> configureDbContext = db => db.UseInMemoryDatabase(databaseName: "DummyServiceTest3");
+            PortfolioAceDbContextFactory factory = new PortfolioAceDbContextFactory(configureDbContext);
+            using (PortfolioAceDbContext context = factory.CreateDbContext())
+            {
+                TestSeeds.SeedPortfolio(context);
+            }
+            IAdminService aService = new AdminService(factory);
+            bool res = aService.SecurityExists("MSFT", "Cryptocurrency");
+            Assert.False(res);
         }
     }
 }
