@@ -90,7 +90,7 @@ namespace PortfolioAce.ViewModels.Modals
 
 
             List<PositionFACT> activePositions = _factTableService.GetAllStoredPositions(_asOfDate, _fund.FundId, onlyActive: true);
-            PositionCount = activePositions.Count;
+            PositionCount = activePositions.Where(p=>p.AssetClass.Name!="Cash").ToList().Count;
             // Pie Chart
             decimal totalMV = activePositions.Sum(ap => ap.MarketValue);
             Dictionary<string, decimal> MarketValByAssetClass = activePositions
@@ -115,7 +115,7 @@ namespace PortfolioAce.ViewModels.Modals
                 }
             }
 
-            IEnumerable<PositionFactPerformance> positionPerformancesTopFivePercent = positionPerformances.OrderBy(pp => pp.GainPercent).Take(5);
+            IEnumerable<PositionFactPerformance> positionPerformancesTopFivePercent = positionPerformances.OrderBy(pp => pp.GainPercent).TakeLast(5);
 
             ChartValues<decimal> rowChartValues = new ChartValues<decimal>(positionPerformancesTopFivePercent.Select(pp => pp.GainPercent));
             RowChartDataLabel = positionPerformancesTopFivePercent.Select(pp => pp.Position.Security.SecurityName).ToArray();
