@@ -13,14 +13,14 @@ namespace PortfolioAce.Domain.DataObjects
             this.Position = position;
             if (position.Quantity >= 0)
             {
-                GainPercent = Math.Round(((position.Price / position.AverageCost) - 1), 2);
-                GainValue = Math.Round(position.Quantity * (position.Price - position.AverageCost), 2);
+                GainPercent = (position.Price / position.AverageCost) - 1;
+                GainValue =position.Quantity * (position.Price - position.AverageCost);
             }
             else
             {
                 // if the position is short.
-                GainPercent = Math.Round(((position.Price / position.AverageCost) - 1) * -1, 2);
-                GainValue = Math.Round(position.Quantity * ((position.Price - position.AverageCost) * -1), 2);
+                GainPercent = ((position.Price / position.AverageCost) - 1) * -1;
+                GainValue = position.Quantity * ((position.Price - position.AverageCost) * -1);
 
             }
         }

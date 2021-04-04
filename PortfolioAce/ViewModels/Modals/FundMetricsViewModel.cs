@@ -95,11 +95,12 @@ namespace PortfolioAce.ViewModels.Modals
             decimal totalMV = activePositions.Sum(ap => ap.MarketValue);
             Dictionary<string, decimal> MarketValByAssetClass = activePositions
                                                                    .GroupBy(ap => ap.AssetClass.Name)
-                                                                   .ToDictionary(g => g.Key, g => Math.Round(g.Sum(v => v.MarketValue) / totalMV, 2));
+                                                                   .ToDictionary(g => g.Key, g => g.Sum(v => v.MarketValue) / totalMV);
             PieChartData = new SeriesCollection();
             foreach (KeyValuePair<string, decimal> kvp in MarketValByAssetClass)
             {
-                PieChartData.Add(new PieSeries { Title = kvp.Key, Values = new ChartValues<decimal> { kvp.Value }, DataLabels = true });
+                decimal roundedVal = Math.Round(kvp.Value,4);
+                PieChartData.Add(new PieSeries { Title = kvp.Key, Values = new ChartValues<decimal> { roundedVal}, DataLabels = true });
             };
 
 
@@ -107,8 +108,11 @@ namespace PortfolioAce.ViewModels.Modals
             List<PositionFactPerformance> positionPerformances = new List<PositionFactPerformance>();
             foreach (PositionFACT position in activePositions)
             {
-                PositionFactPerformance performance = new PositionFactPerformance(position);
-                positionPerformances.Add(performance);
+                if (position.AssetClass.Name != "Cash")
+                {
+                    PositionFactPerformance performance = new PositionFactPerformance(position);
+                    positionPerformances.Add(performance);
+                }
             }
 
             IEnumerable<PositionFactPerformance> positionPerformancesTopFivePercent = positionPerformances.OrderByDescending(pp => pp.GainPercent).Take(5);
