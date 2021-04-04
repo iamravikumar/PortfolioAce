@@ -57,7 +57,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 <p align="center">
-  <img src="PortfolioAce/Resources/Media%20Screenshots/Screenshot_PositionOverviewWithBreakdown.PNG" width="600">
+  <img src="PortfolioAce/Resources/Media%20Screenshots/Screenshot_PositionOverview.PNG" width="600">
 </p>
 
 During my programming journey I have wanted to apply my knowledge and experience in the financial industry with the various resources available to me. This project (PortfolioAce) is currently a work in progress but i eventually hope for it to become a complete open source portfolio management solution for anyone.
@@ -157,7 +157,7 @@ Project Link: [https://github.com/RamonWill/PortfolioAce](https://github.com/Ram
 <br />
 <img src="PortfolioAce/Resources/Media%20Screenshots/Screenshot_FundMetrics.PNG" width="600">
 <br />
-<img src="PortfolioAce/Resources/Media%20Screenshots/Screenshot_PositionOverview.PNG" width="600">
+<img src="PortfolioAce/Resources/Media%20Screenshots/Screenshot_SubsReds.PNG" width="600">
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
