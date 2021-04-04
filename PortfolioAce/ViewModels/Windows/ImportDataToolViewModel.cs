@@ -223,41 +223,51 @@ namespace PortfolioAce.ViewModels.Windows
                 // try catch, need to catch the IOExceptionif file is used by another process
                 // if records are empty then theres an issue
                 ClearCollections();
-                using (var reader = new StreamReader(_targetFile.FullName))
-                using (var csv = new CsvReader(reader, CultureInfo.CurrentCulture))
+                try
                 {
-                    if(_selectedLoadType == "Transactions")
+                    using (var reader = new StreamReader(_targetFile.FullName))
+                    using (var csv = new CsvReader(reader, CultureInfo.CurrentCulture))
                     {
-                        var records = csv.GetRecords<TransactionImportDataCSV>();
-                        foreach (TransactionImportDataCSV record in records)
+                        if (_selectedLoadType == "Transactions")
                         {
-                            dgCSVTransactions.Add(record);
+                            var records = csv.GetRecords<TransactionImportDataCSV>();
+                            foreach (TransactionImportDataCSV record in records)
+                            {
+                                dgCSVTransactions.Add(record);
+                            }
                         }
-                    }
-                    else if(_selectedLoadType == "Prices")
-                    {
-                        IEnumerable<PriceImportDataCSV> records = csv.GetRecords<PriceImportDataCSV>();
-                        // if there are no records then raise messagebox, this could also be due to an invalid file.
-                        foreach(PriceImportDataCSV record in records)
+                        else if (_selectedLoadType == "Prices")
                         {
-                            dgCSVPrices.Add(record);
+                            IEnumerable<PriceImportDataCSV> records = csv.GetRecords<PriceImportDataCSV>();
+                            // if there are no records then raise messagebox, this could also be due to an invalid file.
+                            foreach (PriceImportDataCSV record in records)
+                            {
+                                dgCSVPrices.Add(record);
+                            }
                         }
-                    }
-                    else if (_selectedLoadType == "Securities")
-                    {
-                        var records = csv.GetRecords<SecurityImportDataCSV>();
-                        foreach (SecurityImportDataCSV record in records)
+                        else if (_selectedLoadType == "Securities")
                         {
-                            dgCSVSecurities.Add(record);
-                        }
+                            var records = csv.GetRecords<SecurityImportDataCSV>();
+                            foreach (SecurityImportDataCSV record in records)
+                            {
+                                dgCSVSecurities.Add(record);
+                            }
 
-                    }
-                    else
-                    {
-                        MessageBox.Show("The load type is not recognised.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("The load type is not recognised.");
+                        }
                     }
                 }
-                
+                catch (HeaderValidationException)
+                {
+                    MessageBox.Show("The CSV layout is incorrect and unable to be consumed.", "Invalid File Layout");
+                }
+                catch (IOException ioe)
+                {
+                    MessageBox.Show(ioe.Message, "File Locked");
+                }
             }
             else
             {
