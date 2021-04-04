@@ -33,7 +33,7 @@ namespace PortfolioAce.Commands
         {
             try
             {
-                Dictionary<DateTime, SecurityPriceStore> dbPrices = _priceService.GetSecurityPrices(_sysSecurityPricesVM.SelectedSecurity.Symbol)
+                Dictionary<DateTime, SecurityPriceStore> dbPrices = _priceService.GetSecurityPrices(_sysSecurityPricesVM.SelectedSecurity.Symbol, _sysSecurityPricesVM.SelectedSecurity.AssetClass.Name)
                                                                             .ToDictionary(g => g.Date);
                 int secId = _sysSecurityPricesVM.SelectedSecurity.SecurityId;
                 List<SecurityPriceStore> pricesToUpdate = new List<SecurityPriceStore>();
@@ -63,6 +63,8 @@ namespace PortfolioAce.Commands
                 }
                 await _priceService.AddManualPrices(newPrices);
                 await _priceService.UpdateManualPrices(pricesToUpdate);
+                MessageBox.Show($"{newPrices.Count} prices inserted.\n{pricesToUpdate.Count} prices updated.", "Information");
+                await _sysSecurityPricesVM.Load();
             }
 
             catch (Exception e)

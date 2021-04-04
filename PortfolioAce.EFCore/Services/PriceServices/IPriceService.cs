@@ -8,12 +8,12 @@ namespace PortfolioAce.EFCore.Services.PriceServices
 {
     public interface IPriceService : IBaseService
     {
-        Task<IEnumerable<AVSecurityPriceData>> AddDailyPrices(SecuritiesDIM security);
+        Task<int> AddDailyPrices(SecuritiesDIM security);
         Task AddManualPrices(List<SecurityPriceStore> prices);
         Task UpdateManualPrices(List<SecurityPriceStore> prices);
 
-        SecuritiesDIM GetSecurityInfo(string symbol);
+        SecuritiesDIM GetSecurityInfo(string symbol, string assetClass);
 
-        List<SecurityPriceStore> GetSecurityPrices(string symbol);
+        List<SecurityPriceStore> GetSecurityPrices(string symbol, string assetClass);
     }
 }

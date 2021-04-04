@@ -95,7 +95,7 @@ namespace PortfolioAce.ViewModels
             }
         }
 
-
+        private SecuritiesDIM tempvar; // TODO: This is a temporary solution to prevent the database from making two calls
         private SecuritiesDIM _SelectedSecurity;
         public SecuritiesDIM SelectedSecurity
         {
@@ -106,10 +106,11 @@ namespace PortfolioAce.ViewModels
             set
             {
                 _SelectedSecurity = value;
-                if(_SelectedSecurity != null)
+                if(_SelectedSecurity != null && _SelectedSecurity!=tempvar)
                 {
                     Load();
                     OnPropertyChanged("");
+                    tempvar = _SelectedSecurity;
                 }
                 else
                 {
@@ -154,10 +155,11 @@ namespace PortfolioAce.ViewModels
         public async Task Load()
         {
             SecurityPriceLineChartYAxis.Clear();
-            _securityPrices = _priceService.GetSecurityPrices(_SelectedSecurity.Symbol);
+            _securityPrices = _priceService.GetSecurityPrices(_SelectedSecurity.Symbol, _SelectedSecurity.AssetClass.Name);
             dgSecurityPrices = new ObservableCollection<PriceContainer>(_securityPrices.Select(sp => new PriceContainer(sp.Date, sp.ClosePrice)));
             SecurityPriceLineChartYAxis.AddRange(new ChartValues<decimal>(dgSecurityPrices.Select(sp => sp.ClosePrice)));
             _SecurityPriceLineChartXAxis = dgSecurityPrices.Select(sp => sp.Date.ToString("dd/MM/yyyy")).ToArray();
+            OnPropertyChanged(nameof(dgSecurityPrices));
         }
 
 

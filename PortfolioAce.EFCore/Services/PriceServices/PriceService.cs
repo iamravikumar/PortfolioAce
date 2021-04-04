@@ -21,9 +21,9 @@ namespace PortfolioAce.EFCore.Services.PriceServices
         }
 
 
-        public async Task<IEnumerable<AVSecurityPriceData>> AddDailyPrices(SecuritiesDIM security)
+        public async Task<int> AddDailyPrices(SecuritiesDIM security)
         {
-            // This is for Equity Prices
+            
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
                 string avKey = context.AppSettings.Where(ap => ap.SettingName == "AlphaVantageAPI").First().SettingValue;
@@ -31,6 +31,7 @@ namespace PortfolioAce.EFCore.Services.PriceServices
                 IEnumerable<AVSecurityPriceData> allPrices = await avConn.GetPricesAsync(security);
                 HashSet<DateTime> existingDates = context.SecurityPriceData.Where(spd => spd.Security.Symbol == security.Symbol).Select(spd => spd.Date).ToHashSet();
                 string assetClass = security.AssetClass.Name;
+                int pricesSaved = 0;
                 foreach (AVSecurityPriceData price in allPrices)
                 {
                     if (!existingDates.Contains(price.TimeStamp))
@@ -40,30 +41,35 @@ namespace PortfolioAce.EFCore.Services.PriceServices
                         {
                             price.Close = 1 / price.Close;
                         }
+                        if (security.Currency.Symbol == "GBP" && assetClass !="FX")
+                        {
+                            price.Close /= 100;
+                        }
                         SecurityPriceStore newPrice = new SecurityPriceStore { Date = price.TimeStamp, ClosePrice = price.Close, SecurityId = security.SecurityId, PriceSource = price.PriceSource };
                         context.SecurityPriceData.Add(newPrice);
+                        pricesSaved += 1;
                     }
                 }
                 await context.SaveChangesAsync();
 
-                return allPrices;
+                return pricesSaved;
             }
         }
 
 
-        public SecuritiesDIM GetSecurityInfo(string symbol)
+        public SecuritiesDIM GetSecurityInfo(string symbol, string assetClass)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.Securities.AsNoTracking().Where(s => s.Symbol == symbol).Include(s => s.Currency).Include(s => s.AssetClass).FirstOrDefault();
+                return context.Securities.AsNoTracking().Where(s => s.Symbol == symbol && s.AssetClass.Name== assetClass).Include(s => s.Currency).Include(s => s.AssetClass).FirstOrDefault();
             }
         }
 
-        public List<SecurityPriceStore> GetSecurityPrices(string symbol)
+        public List<SecurityPriceStore> GetSecurityPrices(string symbol, string assetClass)
         {
             using (PortfolioAceDbContext context = _contextFactory.CreateDbContext())
             {
-                return context.SecurityPriceData.Where(spd => spd.Security.Symbol == symbol).OrderBy(spd => spd.Date).ToList();
+                return context.SecurityPriceData.Where(spd => spd.Security.Symbol == symbol).Include(spd=>spd.Security.AssetClass).OrderBy(spd => spd.Date).ToList();
             }
         }
 
