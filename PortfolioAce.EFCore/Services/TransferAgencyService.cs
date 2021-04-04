@@ -166,8 +166,8 @@ namespace PortfolioAce.EFCore.Services
                 int fundId = navValuations.fund.FundId;
                 AccountingPeriodsDIM period = context.Periods.Where(p => p.FundId == fundId && p.AccountingDate == asOfDate).FirstOrDefault();
                 period.isLocked = true;
+                context.Entry(period).CurrentValues.SetValues(period);
 
-                context.Periods.Update(period);
                 List<TransactionsBO> allTransactions;
                 if (navValuations.fund.NAVFrequency == "Daily")
                 {
@@ -264,7 +264,7 @@ namespace PortfolioAce.EFCore.Services
                     int secId = security.SecurityId;
                     int currId = security.CurrencyId;
                     TransactionTypeDIM tradeType;
-                    int custodianId = context.Custodians.Where(c => c.Name == "Default").First().CustodianId; // FOR NOW TODO
+                    int custodianId = context.Custodians.AsNoTracking().Where(c => c.Name == "Default").First().CustodianId; // FOR NOW TODO
 
                     if (pendingTA.IssueType == "Subscription")
                     {
