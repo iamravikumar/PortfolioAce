@@ -115,7 +115,7 @@ namespace PortfolioAce.ViewModels.Modals
                 }
             }
 
-            IEnumerable<PositionFactPerformance> positionPerformancesTopFivePercent = positionPerformances.OrderByDescending(pp => pp.GainPercent).Take(5);
+            IEnumerable<PositionFactPerformance> positionPerformancesTopFivePercent = positionPerformances.OrderBy(pp => pp.GainPercent).Take(5);
 
             ChartValues<decimal> rowChartValues = new ChartValues<decimal>(positionPerformancesTopFivePercent.Select(pp => pp.GainPercent));
             RowChartDataLabel = positionPerformancesTopFivePercent.Select(pp => pp.Position.Security.SecurityName).ToArray();

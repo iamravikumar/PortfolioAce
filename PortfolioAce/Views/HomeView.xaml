@@ -28,7 +28,7 @@
             <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="Welcome To PortfolioAce" Style="{DynamicResource MaterialDesignHeadline3TextBlock}" Foreground="#636363"/>
             <TextBlock DockPanel.Dock="Top" Text="{Binding AssemblyVersion, StringFormat=Version: {0}}" HorizontalAlignment="Center" Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Foreground="#9c9c9c"/>
         </DockPanel>
-        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White" BorderBrush="DarkGray" 
+        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="White" BorderBrush="DarkGray"
                   BorderThickness="1" Margin="10" ItemsSource="{Binding dgLatestNavPrices}" SelectedItem="{Binding selectedPrice,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Fund Name" Binding="{Binding Fund.FundName}" Width="SizeToCells"/>
@@ -69,7 +69,6 @@
         </DataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="2">
             <materialDesign:Card Padding="10" Margin="20" Name="IntroductionCard">
-                
                 <materialDesign:Card.Style>
                     <Style TargetType="materialDesign:Card">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -281,7 +280,7 @@
         </StackPanel>
         <lvc:CartesianChart Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Hoverable="True">
             <lvc:CartesianChart.Series>
-                <lvc:LineSeries Title="{Binding selectedPrice.Fund.Symbol, StringFormat={}{0} Nav Per Share}" Values="{Binding NavPriceLineChartYAxis}" Fill="DarkGray" Stroke="Black" />
+                <lvc:LineSeries Title="{Binding selectedPrice.Fund.Symbol, StringFormat={}{0} Nav Per Share}" Values="{Binding NavPriceLineChartYAxis}" Fill="#a3bad2" Stroke="#2b2b2b" />
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="Date" Labels="{Binding NavPriceLineChartXAxis}" FontSize="12" Foreground="Black"/>
